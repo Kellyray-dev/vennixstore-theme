@@ -2,17 +2,17 @@
   "current": "Dawn",
   "presets": {
     "Dawn": {
-      "logo_width": 90,
+      "logo_width": 150,
       "color_schemes": {
         "scheme-1": {
           "settings": {
-            "background": "#FFFFFF",
+            "background": "#F9F7F4",
             "background_gradient": "",
-            "text": "#121212",
-            "button": "#121212",
+            "text": "#333333",
+            "button": "#1A1A1A",
             "button_label": "#FFFFFF",
-            "secondary_button_label": "#121212",
-            "shadow": "#121212"
+            "secondary_button_label": "#1A1A1A",
+            "shadow": "#1A1A1A"
           }
         },
         "scheme-2": {
@@ -60,11 +60,11 @@
           }
         }
       },
-      "type_header_font": "assistant_n4",
+      "type_header_font": "playfair_display_n4",
       "heading_scale": 100,
-      "type_body_font": "assistant_n4",
+      "type_body_font": "inter_n4",
       "body_scale": 100,
-      "page_width": 1200,
+      "page_width": 1400,
       "spacing_sections": 0,
       "spacing_grid_horizontal": 8,
       "spacing_grid_vertical": 8,
