@@ -1,0 +1,309 @@
+<style>
+  #VennixBrandStory-{{ section.id }} {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+  #VennixBrandStory-{{ section.id }} .vennix-brand-story__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+  #VennixBrandStory-{{ section.id }} .vennix-brand-story__media {
+    position: relative;
+    overflow: hidden;
+    border-radius: {{ section.settings.image_radius }}px;
+    {% if section.settings.reverse_layout %}order: 2;{% endif %}
+  }
+  #VennixBrandStory-{{ section.id }} .vennix-brand-story__media img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  #VennixBrandStory-{{ section.id }} .vennix-brand-story__placeholder {
+    background: #ECE7DE;
+    aspect-ratio: 4 / 5;
+  }
+  #VennixBrandStory-{{ section.id }} .vennix-brand-story__placeholder svg {
+    width: 100%;
+    height: 100%;
+  }
+  #VennixBrandStory-{{ section.id }} .vennix-brand-story__eyebrow {
+    display: inline-block;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #C9A96E;
+    margin: 0 0 1rem;
+  }
+  #VennixBrandStory-{{ section.id }} .vennix-brand-story__heading {
+    margin: 0 0 1.25rem;
+    line-height: 1.15;
+  }
+  #VennixBrandStory-{{ section.id }} .vennix-brand-story__body {
+    margin: 0 0 2rem;
+    line-height: 1.8;
+    opacity: 0.85;
+  }
+  #VennixBrandStory-{{ section.id }} .vennix-brand-story__stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2.5rem;
+    margin: 0 0 2.25rem;
+    padding: 0;
+    list-style: none;
+  }
+  #VennixBrandStory-{{ section.id }} .vennix-brand-story__stat-value {
+    display: block;
+    font-size: 2.25rem;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 0.4rem;
+  }
+  #VennixBrandStory-{{ section.id }} .vennix-brand-story__stat-label {
+    display: block;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    opacity: 0.7;
+  }
+  @media screen and (max-width: 749px) {
+    #VennixBrandStory-{{ section.id }} .vennix-brand-story__grid {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+    #VennixBrandStory-{{ section.id }} .vennix-brand-story__media {
+      order: 0;
+    }
+    #VennixBrandStory-{{ section.id }} .vennix-brand-story__stats {
+      gap: 1.5rem;
+    }
+  }
+</style>
+
+<div
+  id="VennixBrandStory-{{ section.id }}"
+  class="vennix-brand-story color-{{ section.settings.color_scheme }} gradient isolate{% if section.settings.animate %} scroll-trigger animate--slide-in{% endif %}"
+>
+  <div class="page-width">
+    <div class="vennix-brand-story__grid">
+      <div class="vennix-brand-story__media">
+        {%- if section.settings.image != blank -%}
+          {{
+            section.settings.image
+            | image_url: width: 1200
+            | image_tag:
+              loading: 'lazy',
+              widths: '400, 600, 800, 1000, 1200',
+              sizes: '(min-width: 750px) 50vw, 100vw'
+          }}
+        {%- else -%}
+          <div class="vennix-brand-story__placeholder">
+            {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+          </div>
+        {%- endif -%}
+      </div>
+
+      <div class="vennix-brand-story__content">
+        {%- if section.settings.eyebrow != blank -%}
+          <span class="vennix-brand-story__eyebrow">{{ section.settings.eyebrow }}</span>
+        {%- endif -%}
+
+        {%- if section.settings.heading != blank -%}
+          <h2 class="vennix-brand-story__heading {{ section.settings.heading_size }}">
+            {{ section.settings.heading }}
+          </h2>
+        {%- endif -%}
+
+        {%- if section.settings.body != blank -%}
+          <div class="vennix-brand-story__body rte">{{ section.settings.body }}</div>
+        {%- endif -%}
+
+        {%- if section.blocks.size > 0 -%}
+          <ul class="vennix-brand-story__stats" role="list">
+            {%- for block in section.blocks -%}
+              {%- if block.type == 'stat' -%}
+                <li class="vennix-brand-story__stat" {{ block.shopify_attributes }}>
+                  <span class="vennix-brand-story__stat-value">{{ block.settings.value }}</span>
+                  <span class="vennix-brand-story__stat-label">{{ block.settings.label }}</span>
+                </li>
+              {%- endif -%}
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
+
+        {%- if section.settings.button_label != blank -%}
+          <a
+            href="{{ section.settings.button_link | default: '#' }}"
+            class="button{% if section.settings.button_style_secondary %} button--secondary{% else %} button--primary{% endif %}"
+          >
+            {{ section.settings.button_label }}
+          </a>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Vennix Brand Story",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "checkbox",
+      "id": "reverse_layout",
+      "default": false,
+      "label": "Reverse layout (image on right)"
+    },
+    {
+      "type": "range",
+      "id": "image_radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Image corner radius",
+      "default": 8
+    },
+    {
+      "type": "header",
+      "content": "Text content"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow text",
+      "default": "Our Story"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Crafted for those who demand more"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "options": [
+        { "value": "h1", "label": "Large" },
+        { "value": "h2", "label": "Medium" },
+        { "value": "h0", "label": "Extra large" }
+      ],
+      "default": "h1",
+      "label": "Heading size"
+    },
+    {
+      "type": "richtext",
+      "id": "body",
+      "label": "Body text",
+      "default": "<p>VennixStore was built on a simple belief: premium design should be accessible. Every product in our collection is hand-selected for quality, style, and the confidence it brings.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Button"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Learn More"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "checkbox",
+      "id": "button_style_secondary",
+      "default": false,
+      "label": "Use outline button style"
+    },
+    {
+      "type": "header",
+      "content": "Section"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "checkbox",
+      "id": "animate",
+      "default": true,
+      "label": "Animate on scroll"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 60
+    }
+  ],
+  "blocks": [
+    {
+      "type": "stat",
+      "name": "Stat item",
+      "limit": 3,
+      "settings": [
+        {
+          "type": "text",
+          "id": "value",
+          "label": "Value",
+          "default": "10k+"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Happy customers"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Vennix Brand Story",
+      "blocks": [
+        {
+          "type": "stat",
+          "settings": { "value": "10k+", "label": "Happy customers" }
+        },
+        {
+          "type": "stat",
+          "settings": { "value": "500+", "label": "Products curated" }
+        },
+        {
+          "type": "stat",
+          "settings": { "value": "4.9★", "label": "Average rating" }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
