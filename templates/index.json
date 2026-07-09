@@ -1,35 +1,67 @@
 {
   "sections": {
+    "announcement_bar": {
+      "type": "announcement-bar",
+      "blocks": {
+        "announcement": {
+          "type": "announcement",
+          "settings": {
+            "text": "Free shipping on orders over $75 | New arrivals every week",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "announcement"
+      ],
+      "settings": {
+        "auto_rotate": false,
+        "change_slides_speed": 5,
+        "color_scheme": "scheme-3",
+        "show_line_separator": true,
+        "show_social": false,
+        "enable_country_selector": false,
+        "enable_language_selector": false
+      }
+    },
     "image_banner": {
       "type": "image-banner",
       "blocks": {
         "heading": {
           "type": "heading",
           "settings": {
-            "heading": "Browse our latest products",
+            "heading": "Style That Speaks For You",
             "heading_size": "h0"
+          }
+        },
+        "text": {
+          "type": "text",
+          "settings": {
+            "text": "Shop the latest arrivals and curated collections",
+            "text_style": "subtitle"
           }
         },
         "button": {
           "type": "buttons",
           "settings": {
-            "button_label_1": "Shop all",
+            "button_label_1": "Shop Now",
             "button_link_1": "shopify://collections/all",
-            "button_style_secondary_1": true,
-            "button_label_2": "",
-            "button_link_2": "",
-            "button_style_secondary_2": false
+            "button_style_secondary_1": false,
+            "button_label_2": "View Collections",
+            "button_link_2": "shopify://collections",
+            "button_style_secondary_2": true
           }
         }
       },
       "block_order": [
         "heading",
+        "text",
         "button"
       ],
       "settings": {
-        "image_overlay_opacity": 40,
+        "image_overlay_opacity": 50,
         "image_height": "large",
-        "desktop_content_position": "bottom-center",
+        "desktop_content_position": "middle-center",
         "show_text_box": false,
         "image_behavior": "none",
         "desktop_content_alignment": "center",
@@ -42,13 +74,13 @@
     "featured_collection": {
       "type": "featured-collection",
       "settings": {
-        "title": "Featured products",
+        "title": "New Arrivals",
         "heading_size": "h2",
         "description": "",
         "show_description": false,
         "description_style": "body",
         "collection": "all",
-        "products_to_show": 8,
+        "products_to_show": 4,
         "columns_desktop": 4,
         "color_scheme": "scheme-1",
         "full_width": false,
@@ -56,7 +88,7 @@
         "view_all_style": "solid",
         "enable_desktop_slider": false,
         "swipe_on_mobile": false,
-        "image_ratio": "adapt",
+        "image_ratio": "portrait",
         "image_shape": "default",
         "show_secondary_image": true,
         "show_vendor": false,
@@ -66,10 +98,126 @@
         "padding_top": 44,
         "padding_bottom": 36
       }
+    },
+    "vennix_brand_story": {
+      "type": "vennix-brand-story",
+      "blocks": {
+        "stat_1": {
+          "type": "stat",
+          "settings": {
+            "value": "10k+",
+            "label": "Happy customers"
+          }
+        },
+        "stat_2": {
+          "type": "stat",
+          "settings": {
+            "value": "500+",
+            "label": "Products curated"
+          }
+        },
+        "stat_3": {
+          "type": "stat",
+          "settings": {
+            "value": "4.9★",
+            "label": "Average rating"
+          }
+        }
+      },
+      "block_order": [
+        "stat_1",
+        "stat_2",
+        "stat_3"
+      ],
+      "settings": {
+        "eyebrow": "Our Story",
+        "heading": "Crafted for those who demand more",
+        "heading_size": "h1",
+        "body": "<p>VennixStore was built on a simple belief: premium design should be accessible. Every product in our collection is hand-selected for quality, style, and the confidence it brings.</p>",
+        "button_label": "Learn More",
+        "button_link": "",
+        "button_style_secondary": false,
+        "color_scheme": "scheme-1",
+        "animate": true,
+        "image_radius": 8,
+        "reverse_layout": false,
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "featured_collection_2": {
+      "type": "featured-collection",
+      "settings": {
+        "title": "Best Sellers",
+        "heading_size": "h2",
+        "description": "",
+        "show_description": false,
+        "description_style": "body",
+        "collection": "all",
+        "products_to_show": 4,
+        "columns_desktop": 4,
+        "color_scheme": "scheme-2",
+        "full_width": false,
+        "show_view_all": true,
+        "view_all_style": "solid",
+        "enable_desktop_slider": false,
+        "swipe_on_mobile": false,
+        "image_ratio": "portrait",
+        "image_shape": "default",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_rating": false,
+        "quick_add": "none",
+        "columns_mobile": "2",
+        "padding_top": 44,
+        "padding_bottom": 36
+      }
+    },
+    "email_signup": {
+      "type": "email-signup-banner",
+      "blocks": {
+        "heading": {
+          "type": "heading",
+          "settings": {
+            "heading": "Join the VennixStore Family",
+            "heading_size": "h1"
+          }
+        },
+        "paragraph": {
+          "type": "paragraph",
+          "settings": {
+            "text": "<p>Subscribe for early access to new arrivals and exclusive deals.</p>",
+            "text_style": "body"
+          }
+        },
+        "email_form": {
+          "type": "email_form",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "heading",
+        "paragraph",
+        "email_form"
+      ],
+      "settings": {
+        "image_overlay_opacity": 40,
+        "image_height": "medium",
+        "desktop_content_position": "middle-center",
+        "desktop_content_alignment": "center",
+        "show_text_box": true,
+        "color_scheme": "scheme-1",
+        "mobile_content_alignment": "center",
+        "show_text_below": true
+      }
     }
   },
   "order": [
+    "announcement_bar",
     "image_banner",
-    "featured_collection"
+    "featured_collection",
+    "vennix_brand_story",
+    "featured_collection_2",
+    "email_signup"
   ]
 }
