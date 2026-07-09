@@ -3,6 +3,12 @@
    Layers on top of Shopify Dawn 15.x base.css
    ============================================= */
 
+/* --- Body background gradient --- */
+body {
+  background: linear-gradient(180deg, #F9F7F4 0%, #F0EDE8 100%);
+  background-attachment: fixed;
+}
+
 /* --- Enhanced button styles --- */
 .button, .button--primary {
   letter-spacing: 0.08em;

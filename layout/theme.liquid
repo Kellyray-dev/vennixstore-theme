@@ -319,6 +319,8 @@
         document.documentElement.classList.add('shopify-design-mode');
       }
     </script>
+
+    {{ 'vennix-custom.css' | asset_url | stylesheet_tag }}
   </head>
 
   <body class="gradient{% if settings.animations_hover_elements != 'none' %} animate--hover-{{ settings.animations_hover_elements }}{% endif %}">
