@@ -6,18 +6,46 @@
     },
     "vennix-brand-story": {
       "type": "vennix-brand-story",
+      "blocks": {
+        "stat_1": {
+          "type": "stat",
+          "settings": {
+            "value": "10K+",
+            "label": "Happy Customers"
+          }
+        },
+        "stat_2": {
+          "type": "stat",
+          "settings": {
+            "value": "500+",
+            "label": "Products"
+          }
+        },
+        "stat_3": {
+          "type": "stat",
+          "settings": {
+            "value": "4.9★",
+            "label": "Avg Rating"
+          }
+        }
+      },
+      "block_order": [
+        "stat_1",
+        "stat_2",
+        "stat_3"
+      ],
       "settings": {
         "eyebrow": "Our Story",
         "heading": "Crafted With Purpose",
-        "body_text": "VennixStore was founded with one goal — to bring you thoughtfully curated lifestyle essentials that stand the test of time. Every product is selected for quality, style, and value.",
-        "stat_1_number": "10K+",
-        "stat_1_label": "Happy Customers",
-        "stat_2_number": "500+",
-        "stat_2_label": "Products",
-        "stat_3_number": "4.9★",
-        "stat_3_label": "Avg Rating",
-        "cta_label": "Shop Now",
-        "cta_link": "/collections/all"
+        "heading_size": "h1",
+        "body": "<p>VennixStore was founded with one goal — to bring you thoughtfully curated lifestyle essentials that stand the test of time. Every product is selected for quality, style, and value.</p>",
+        "button_label": "Shop Now",
+        "button_link": "/collections/all",
+        "button_style_secondary": false,
+        "color_scheme": "scheme-1",
+        "animate": true,
+        "padding_top": 60,
+        "padding_bottom": 60
       }
     }
   },

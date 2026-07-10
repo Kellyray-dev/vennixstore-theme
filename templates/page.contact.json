@@ -1,7 +1,7 @@
 {
   "sections": {
     "main-contact": {
-      "type": "main-contact-form",
+      "type": "main-contact",
       "settings": {}
     }
   },
