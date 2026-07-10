@@ -722,3 +722,50 @@ body {
   color: #666;
   line-height: 1.8;
 }
+
+/* =============================================
+   TASK 10 — Hero CSS fallback background & SVG Logo sizing
+   ============================================= */
+.vennix-hero-fallback {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(135deg,
+      #1a1a1a 0%,
+      #2d1f0e 40%,
+      #3d2a10 65%,
+      #1a1a1a 100%);
+  z-index: 0;
+}
+.vennix-hero-fallback::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(
+      ellipse at 20% 50%,
+      rgba(201,169,110,0.15) 0%,
+      transparent 60%),
+    radial-gradient(
+      ellipse at 80% 20%,
+      rgba(201,169,110,0.10) 0%,
+      transparent 50%);
+}
+.vennix-hero-fallback::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 40px,
+    rgba(201,169,110,0.03) 40px,
+    rgba(201,169,110,0.03) 41px
+  );
+}
+
+/* SVG Logo sizing in header */
+.header__heading-logo {
+  width: 160px;
+  height: auto;
+}

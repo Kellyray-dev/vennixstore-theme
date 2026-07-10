@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 60" width="280" height="60" aria-hidden="true">
+  <!-- Decorative diamond icon -->
+  <g transform="translate(15, 30)">
+    <path d="M0 -8 L8 0 L0 8 L-8 0 Z" fill="#C9A96E" />
+  </g>
+  <!-- VENNIX text -->
+  <text x="45" y="36" font-family="Georgia, 'Times New Roman', serif" font-size="28" font-weight="700" fill="#1A1A1A" letter-spacing="0.15em">VENNIX</text>
+  <!-- STORE text -->
+  <text x="45" y="50" font-family="Georgia, 'Times New Roman', serif" font-size="11" font-weight="400" fill="#C9A96E" letter-spacing="0.3em">STORE</text>
+</svg>
