@@ -1,0 +1,58 @@
+{% if template == 'product' %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": {{ product.title | json }},
+  "description": {{ product.description | strip_html | truncate: 200 | json }},
+  "url": {{ shop.url | append: product.url | json }},
+  "image": {{ product.featured_image | image_url: width: 800 | json }},
+  "brand": {
+    "@type": "Brand",
+    "name": {{ product.vendor | json }}
+  },
+  "offers": {
+    "@type": "AggregateOffer",
+    "priceCurrency": {{ cart.currency.iso_code | json }},
+    "lowPrice": {{ product.price_min | money_without_currency | json }},
+    "highPrice": {{ product.price_max | money_without_currency | json }},
+    "availability": "{% if product.available %}https://schema.org/InStock{% else %}https://schema.org/OutOfStock{% endif %}",
+    "seller": {
+      "@type": "Organization",
+      "name": {{ shop.name | json }}
+    }
+  }
+}
+</script>
+{% endif %}
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "VennixStore",
+  "url": {{ shop.url | json }},
+  "logo": {{ shop.url | append: '/path/to/logo.png' | json }},
+  "sameAs": [
+    "https://instagram.com/vennixstore",
+    "https://facebook.com/vennixstore"
+  ]
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "VennixStore",
+  "url": {{ shop.url | json }},
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": {
+      "@type": "EntryPoint",
+      "urlTemplate": "{{ shop.url }}/search?q={search_term_string}"
+    },
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>

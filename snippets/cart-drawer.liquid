@@ -74,6 +74,15 @@
           </span>
         </button>
       </div>
+
+      <div class="vennix-shipping-bar" data-shipping-threshold="7500">
+        <p class="vennix-shipping-bar__label" data-shipping-label>
+          You're $75.00 away from free shipping
+        </p>
+        <div class="vennix-shipping-bar__track">
+          <div class="vennix-shipping-bar__fill" data-shipping-fill style="width: 0%;"></div>
+        </div>
+      </div>
       <cart-drawer-items
         view-event-payload="{{ cart | standard_event_data: 'view', context: 'dialog' | escape }}"
         view-event-trigger="manual"

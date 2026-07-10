@@ -364,6 +364,275 @@ body {
   }
 }
 
+/* ==========================================================================
+   TASK 4 — Collection results count bar
+   ========================================================================== */
+.vennix-results-bar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 1rem 0 1.5rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+.vennix-results-bar__count {
+  font-size: 1.4rem;
+  letter-spacing: 0.05rem;
+  text-transform: uppercase;
+  color: rgba(var(--color-foreground), 0.7);
+  font-weight: 600;
+}
+
+/* Collection banner eyebrow */
+.collection-hero__eyebrow {
+  margin: 0 0 0.5rem;
+  font-size: 1.3rem;
+  letter-spacing: 0.2rem;
+  text-transform: uppercase;
+  color: #C9A96E;
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   TASK 5 — Cart drawer free shipping progress bar
+   ========================================================================== */
+.vennix-shipping-bar {
+  padding: 1.2rem 1.5rem 1.6rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+.vennix-shipping-bar__label {
+  margin: 0 0 0.8rem;
+  font-size: 1.3rem;
+  font-weight: 600;
+  letter-spacing: 0.03rem;
+  color: rgba(var(--color-foreground), 0.85);
+  text-align: center;
+}
+.vennix-shipping-bar__track {
+  position: relative;
+  width: 100%;
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+.vennix-shipping-bar__fill {
+  height: 100%;
+  width: 0%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #C9A96E, #E4C994);
+  transition: width 0.4s ease;
+}
+.vennix-shipping-bar--unlocked .vennix-shipping-bar__label {
+  color: #C9A96E;
+}
+.vennix-shipping-bar--unlocked .vennix-shipping-bar__fill {
+  background: linear-gradient(90deg, #B8965A, #C9A96E);
+}
+
+/* ==========================================================================
+   TASK 6 — Predictive search popular searches
+   ========================================================================== */
+.vennix-popular-searches {
+  padding: 1.5rem 2rem 2rem;
+}
+.vennix-popular-searches__label {
+  margin: 0 0 1.2rem;
+  font-size: 1.2rem;
+  letter-spacing: 0.15rem;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: rgba(var(--color-foreground), 0.65);
+}
+.vennix-popular-searches__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  margin: 0;
+  padding: 0;
+}
+.vennix-popular-searches__item {
+  margin: 0;
+}
+.vennix-suggestion-tag {
+  display: inline-block;
+  padding: 0.7rem 1.4rem;
+  border: 1px solid rgba(var(--color-foreground), 0.18);
+  border-radius: 999px;
+  font-size: 1.3rem;
+  line-height: 1;
+  text-decoration: none;
+  color: rgb(var(--color-foreground));
+  background: transparent;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+.vennix-suggestion-tag:hover,
+.vennix-suggestion-tag:focus {
+  background: #1A1A1A;
+  color: #ffffff;
+  border-color: #1A1A1A;
+}
+
+/* ==========================================================================
+   TASK 7 — Wishlist system
+   ========================================================================== */
+/* Heart button on product cards / product page */
+.vennix-wishlist-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.6rem;
+  height: 3.6rem;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.9);
+  color: #1A1A1A;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+}
+.vennix-wishlist-btn:hover {
+  transform: scale(1.08);
+}
+.vennix-wishlist-btn__icon {
+  display: block;
+  transition: fill 0.2s ease, stroke 0.2s ease;
+}
+.vennix-wishlist-btn.is-active {
+  background: #C9A96E;
+  color: #ffffff;
+}
+.vennix-wishlist-btn.is-active .vennix-wishlist-btn__icon {
+  fill: currentColor;
+}
+.card__media {
+  position: relative;
+}
+
+/* Header wishlist icon + count badge */
+.vennix-header-wishlist {
+  position: relative;
+}
+.vennix-wishlist-count-bubble {
+  position: absolute;
+  top: -0.4rem;
+  right: -0.6rem;
+  min-width: 1.7rem;
+  height: 1.7rem;
+  padding: 0 0.4rem;
+  border-radius: 999px;
+  background: #C9A96E;
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.7rem;
+  text-align: center;
+}
+
+/* Wishlist page */
+.vennix-wishlist-page__header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+.vennix-wishlist-page__title {
+  margin: 0;
+}
+.vennix-wishlist-empty {
+  text-align: center;
+  padding: 5rem 2rem;
+}
+.vennix-wishlist-empty__icon {
+  color: #C9A96E;
+  margin-bottom: 1.5rem;
+}
+.vennix-wishlist-empty__text {
+  font-size: 1.6rem;
+  color: rgba(var(--color-foreground), 0.7);
+  margin-bottom: 2rem;
+}
+.vennix-wishlist-card {
+  position: relative;
+}
+.vennix-wishlist-card__media {
+  display: block;
+  overflow: hidden;
+  border-radius: 4px;
+}
+.vennix-wishlist-card__media img {
+  width: 100%;
+  height: auto;
+  display: block;
+  aspect-ratio: 0.8;
+  object-fit: cover;
+}
+.vennix-wishlist-card__remove {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 3rem;
+  height: 3rem;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.9);
+  color: #1A1A1A;
+  font-size: 2rem;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+.vennix-wishlist-card__remove:hover {
+  background: #1A1A1A;
+  color: #ffffff;
+}
+.vennix-wishlist-card__info {
+  padding: 1rem 0;
+  text-align: center;
+}
+.vennix-wishlist-card__title {
+  display: block;
+  font-size: 1.4rem;
+  color: rgb(var(--color-foreground));
+  text-decoration: none;
+  margin-bottom: 0.4rem;
+}
+.vennix-wishlist-card__title:hover {
+  text-decoration: underline;
+}
+.vennix-wishlist-card__price {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #C9A96E;
+}
+
+/* Toast notification */
+.vennix-toast {
+  position: fixed;
+  left: 50%;
+  bottom: 3rem;
+  transform: translateX(-50%) translateY(2rem);
+  z-index: 1000;
+  max-width: calc(100vw - 4rem);
+  padding: 1.2rem 2.2rem;
+  border-radius: 999px;
+  background: #1A1A1A;
+  color: #ffffff;
+  font-size: 1.4rem;
+  font-weight: 500;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
+}
+.vennix-toast.is-visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
 /* =============================================
    TASK 6 — Search suggestion styles
    ============================================= */

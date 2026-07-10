@@ -277,16 +277,34 @@
         endif
       %}
     </span>
+  {%- else -%}
+    {%- assign popular_links = section.settings.popular_links -%}
+    {%- if popular_links != blank and popular_links.links.size > 0 -%}
+      <div class="vennix-popular-searches" data-vennix-popular-searches>
+        <h2 class="vennix-popular-searches__label">Popular searches</h2>
+        <ul class="vennix-popular-searches__list list-unstyled" role="list">
+          {%- for link in popular_links.links -%}
+            <li class="vennix-popular-searches__item">
+              <a href="{{ link.url }}" class="vennix-suggestion-tag">{{ link.title | escape }}</a>
+            </li>
+          {%- endfor -%}
+        </ul>
+      </div>
+    {%- endif -%}
   {%- endif -%}
 </div>
 
 {% schema %}
 {
+  "name": "Predictive search",
   "name": "Predictive Search",
   "settings": [
     {
       "type": "link_list",
       "id": "popular_links",
+      "default": "main-menu",
+      "label": "Popular searches menu",
+      "info": "Suggestion tags shown when the search field is empty are pulled from this navigation menu."
       "label": "Popular searches menu",
       "default": "main-menu"
     }

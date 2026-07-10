@@ -1,3 +1,118 @@
+{% unless template == 'index' %}
+<nav aria-label="Breadcrumb" class="vennix-breadcrumbs">
+  <ol>
+    <li><a href="/">Home</a></li>
+
+    {% case template.name %}
+      {% when 'product' %}
+        {% if collection %}
+          <li><a href="{{ collection.url }}">{{ collection.title }}</a></li>
+        {% elsif product.collections.size > 0 %}
+          {% assign primary_collection = product.collections.first %}
+          <li><a href="{{ primary_collection.url }}">{{ primary_collection.title }}</a></li>
+        {% endif %}
+        <li><span aria-current="page">{{ product.title }}</span></li>
+
+      {% when 'collection' %}
+        <li><span aria-current="page">{{ collection.title }}</span></li>
+
+      {% when 'page' %}
+        <li><span aria-current="page">{{ page.title }}</span></li>
+
+      {% when 'blog' %}
+        <li><span aria-current="page">{{ blog.title }}</span></li>
+
+      {% when 'article' %}
+        <li><a href="{{ blog.url }}">{{ blog.title }}</a></li>
+        <li><span aria-current="page">{{ article.title }}</span></li>
+    {% endcase %}
+  </ol>
+</nav>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": {{ shop.url | json }}
+    }
+    {% case template.name %}
+      {% when 'product' %}
+        {% if collection %}
+          ,{
+            "@type": "ListItem",
+            "position": 2,
+            "name": {{ collection.title | json }},
+            "item": {{ shop.url | append: collection.url | json }}
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": {{ product.title | json }}
+          }
+        {% elsif product.collections.size > 0 %}
+          {% assign primary_collection = product.collections.first %}
+          ,{
+            "@type": "ListItem",
+            "position": 2,
+            "name": {{ primary_collection.title | json }},
+            "item": {{ shop.url | append: primary_collection.url | json }}
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": {{ product.title | json }}
+          }
+        {% else %}
+          ,{
+            "@type": "ListItem",
+            "position": 2,
+            "name": {{ product.title | json }}
+          }
+        {% endif %}
+
+      {% when 'collection' %}
+        ,{
+          "@type": "ListItem",
+          "position": 2,
+          "name": {{ collection.title | json }}
+        }
+
+      {% when 'page' %}
+        ,{
+          "@type": "ListItem",
+          "position": 2,
+          "name": {{ page.title | json }}
+        }
+
+      {% when 'blog' %}
+        ,{
+          "@type": "ListItem",
+          "position": 2,
+          "name": {{ blog.title | json }}
+        }
+
+      {% when 'article' %}
+        ,{
+          "@type": "ListItem",
+          "position": 2,
+          "name": {{ blog.title | json }},
+          "item": {{ shop.url | append: blog.url | json }}
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": {{ article.title | json }}
+        }
+    {% endcase %}
+  ]
+}
+</script>
+{% endunless %}
 <nav class="vennix-breadcrumbs page-width" aria-label="Breadcrumb" style="padding:12px 0 0;font-size:0.8rem;color:#888;">
   <a href="/" class="link" style="color:#888;">Home</a>
   {%- if template.name == 'collection' -%}
