@@ -107,6 +107,7 @@
                       </h2>
                     </a>
                   </div>
+                  {% render 'vennix-wishlist-btn', product: product %}
                 {%- when 'price' -%}
                   <div id="price-{{ section.id }}" role="status" {{ block.shopify_attributes }}>
                     {%- render 'price',
