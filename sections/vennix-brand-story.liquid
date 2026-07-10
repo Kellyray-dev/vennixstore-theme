@@ -90,18 +90,14 @@
   <div class="page-width">
     <div class="vennix-brand-story__grid">
       <div class="vennix-brand-story__media">
-        {%- if section.settings.image != blank -%}
-          {{
-            section.settings.image
-            | image_url: width: 1200
-            | image_tag:
-              loading: 'lazy',
-              widths: '400, 600, 800, 1000, 1200',
-              sizes: '(min-width: 750px) 50vw, 100vw'
-          }}
+        {%- if section.settings.image -%}
+          {{ section.settings.image | image_url:
+            width: 800 | image_tag:
+            class: 'vennix-brand-story__img',
+            loading: 'lazy' }}
         {%- else -%}
-          <div class="vennix-brand-story__placeholder">
-            {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+          <div class="vennix-brand-story__img-fallback">
+            <span class="vennix-brand-story__monogram">V</span>
           </div>
         {%- endif -%}
       </div>

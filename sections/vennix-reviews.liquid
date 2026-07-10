@@ -28,12 +28,17 @@
   {%- endif -%}
 
   <div style="text-align:center;margin-bottom:40px;">
-    <span class="vennix-stars" style="font-size:2rem;">
-      {%- for i in (1..5) -%}
-        {%- if i <= avg_rating -%}*{%- else -%}☆{%- endif -%}
-      {%- endfor -%}
-    </span>
-    <span style="display:block;font-size:0.9rem;color:#888;margin-top:4px;">{{ avg_rating | round: 1 }} out of 5 — {{ total_reviews }} review{{ total_reviews | pluralize }}</span>
+    {% assign rating = avg_rating | plus: 0 %}
+    <div class="vennix-stars" aria-label="{{ rating }} out of 5 stars" style="font-size:2rem;">
+      {% for i in (1..5) %}
+        {% if i <= rating %}
+          <span style="color:#f5c518;">★</span>
+        {% else %}
+          <span style="color:#e0e0e0;">★</span>
+        {% endif %}
+      {% endfor %}
+    </div>
+    <span style="display:block;font-size:0.9rem;color:#888;margin-top:4px;">{{ rating | round: 1 }} out of 5 — {{ total_reviews }} review{{ total_reviews | pluralize }}</span>
   </div>
 
   {%- comment -%} Reviews grid {%- endcomment -%}
@@ -41,10 +46,15 @@
     <div class="vennix-reviews__grid">
       {%- for block in review_blocks -%}
         <div class="vennix-review-card" {{ block.shopify_attributes }}>
-          <div class="vennix-stars">
-            {%- for i in (1..5) -%}
-              {%- if i <= block.settings.rating -%}*{%- else -%}☆{%- endif -%}
-            {%- endfor -%}
+          {% assign rating = block.settings.rating | plus: 0 %}
+          <div class="vennix-stars" aria-label="{{ rating }} out of 5 stars">
+            {% for i in (1..5) %}
+              {% if i <= rating %}
+                <span style="color:#f5c518;">★</span>
+              {% else %}
+                <span style="color:#e0e0e0;">★</span>
+              {% endif %}
+            {% endfor %}
           </div>
           <div class="vennix-review-card__name">{{ block.settings.reviewer_name }}</div>
           <div class="vennix-review-card__date">{{ block.settings.review_date }}</div>
