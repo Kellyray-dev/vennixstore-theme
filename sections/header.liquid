@@ -285,6 +285,32 @@
         {%- endcase -%}
       {%- endfor -%}
 
+      <a
+        href="/pages/wishlist"
+        class="header__icon header__icon--wishlist vennix-header-wishlist link focus-inset"
+        id="vennixHeaderWishlist"
+      >
+        <span class="svg-wrapper">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            width="20"
+            height="20"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+            focusable="false"
+          >
+            <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"></path>
+          </svg>
+        </span>
+        <span class="visually-hidden">Wishlist</span>
+        <div class="vennix-wishlist-count-bubble" id="vennixHeaderWishlistCount" hidden>0</div>
+      </a>
+
       <a href="{{ routes.cart_url }}" class="header__icon header__icon--cart link focus-inset" id="cart-icon-bubble">
         {% if cart == empty %}
           <span class="svg-wrapper">{{ 'icon-cart-empty.svg' | inline_asset_content }}</span>

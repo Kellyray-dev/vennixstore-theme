@@ -324,6 +324,7 @@
   </head>
 
   <body class="gradient{% if settings.animations_hover_elements != 'none' %} animate--hover-{{ settings.animations_hover_elements }}{% endif %}">
+    <div id="vennix-toast" class="vennix-toast"></div>
     <a class="skip-to-content-link button visually-hidden" href="#MainContent">
       {{ 'accessibility.skip_to_text' | t }}
     </a>
@@ -409,5 +410,6 @@
     {% endif %}
 
     <script src="{{ 'vennix-cart.js' | asset_url }}" defer></script>
+    <script src="{{ 'vennix-wishlist.js' | asset_url }}" defer></script>
   </body>
 </html>
