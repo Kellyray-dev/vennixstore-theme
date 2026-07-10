@@ -12,20 +12,16 @@
         {%- for block in section.blocks -%}
           <a href="{{ block.settings.link }}" class="vennix-category-row__item link link--text focus-inset">
             <div class="vennix-category-row__image-wrapper">
-              {%- if block.settings.image != blank -%}
-                {{
-                  block.settings.image
-                  | image_url: width: 240
-                  | image_tag:
-                    width: 120,
-                    height: 120,
-                    class: 'vennix-category-row__image',
-                    alt: block.settings.label,
-                    loading: 'lazy'
-                }}
+              {%- if block.settings.image -%}
+                {%- assign img_url = block.settings.image | image_url: width: 240 -%}
+                <img src="{{ img_url }}"
+                  alt="{{ block.settings.label | escape }}"
+                  width="120" height="120"
+                  class="vennix-category-row__image"
+                  loading="lazy">
               {%- else -%}
-                <div class="vennix-category-row__image placeholder">
-                  {{ 'icon-box.svg' | inline_asset_content }}
+                <div class="vennix-category-row__placeholder">
+                  <span>{{ block.settings.label | slice: 0 | upcase }}</span>
                 </div>
               {%- endif -%}
             </div>

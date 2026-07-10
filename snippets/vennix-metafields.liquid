@@ -18,8 +18,19 @@
         <dd>{{ product.metafields.custom.sizing_info }}</dd>
       {%- endif -%}
       {%- if product.metafields.custom.country_of_origin != blank -%}
-        <dt style="font-weight:600;">Origin</dt>
-        <dd>{{ product.metafields.custom.country_of_origin }}</dd>
+        {% assign skip_keys = 'Origin,origin,CN,Guangdong,China,Mainland' | split: ',' %}
+        {% assign should_skip = false %}
+        {% assign label = 'Origin' %}
+        {% assign value = product.metafields.custom.country_of_origin %}
+        {% for skip in skip_keys %}
+          {% if label contains skip or value contains skip %}
+            {% assign should_skip = true %}
+          {% endif %}
+        {% endfor %}
+        {% unless should_skip %}
+          <dt style="font-weight:600;">Origin</dt>
+          <dd>{{ product.metafields.custom.country_of_origin }}</dd>
+        {% endunless %}
       {%- endif -%}
     </dl>
   </div>
