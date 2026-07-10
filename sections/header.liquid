@@ -285,6 +285,15 @@
         {%- endcase -%}
       {%- endfor -%}
 
+      <a href="/pages/wishlist" class="header__icon header__icon--wishlist link focus-inset" aria-label="Wishlist">
+        <span class="svg-wrapper">
+          <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" fill="none" stroke-width="1.5">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+          </svg>
+        </span>
+        <span class="visually-hidden">Wishlist</span>
+        <span id="vennixHeaderWishlistCount" class="cart-count-bubble" style="display:none;">0</span>
+      </a>
       <a href="{{ routes.cart_url }}" class="header__icon header__icon--cart link focus-inset" id="cart-icon-bubble">
         {% if cart == empty %}
           <span class="svg-wrapper">{{ 'icon-cart-empty.svg' | inline_asset_content }}</span>

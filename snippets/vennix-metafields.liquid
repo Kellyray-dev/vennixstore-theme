@@ -1,0 +1,26 @@
+{%- if product.metafields.custom.materials != blank
+    or product.metafields.custom.care_instructions != blank
+    or product.metafields.custom.sizing_info != blank
+    or product.metafields.custom.country_of_origin != blank
+-%}
+  <div class="vennix-metafields" style="margin-top:16px;">
+    <dl style="display:grid;grid-template-columns:auto 1fr;gap:6px 16px;font-size:0.9rem;">
+      {%- if product.metafields.custom.materials != blank -%}
+        <dt style="font-weight:600;">Materials</dt>
+        <dd>{{ product.metafields.custom.materials }}</dd>
+      {%- endif -%}
+      {%- if product.metafields.custom.care_instructions != blank -%}
+        <dt style="font-weight:600;">Care</dt>
+        <dd>{{ product.metafields.custom.care_instructions }}</dd>
+      {%- endif -%}
+      {%- if product.metafields.custom.sizing_info != blank -%}
+        <dt style="font-weight:600;">Sizing</dt>
+        <dd>{{ product.metafields.custom.sizing_info }}</dd>
+      {%- endif -%}
+      {%- if product.metafields.custom.country_of_origin != blank -%}
+        <dt style="font-weight:600;">Origin</dt>
+        <dd>{{ product.metafields.custom.country_of_origin }}</dd>
+      {%- endif -%}
+    </dl>
+  </div>
+{%- endif -%}
