@@ -33,14 +33,31 @@
             assign picker_type = 'swatch'
           endif
         endif
+
+        assign is_size_option = false
+        assign downcase_option = option.name | downcase
+        if downcase_option == 'size'
+          assign is_size_option = true
+        endif
+
+        assign is_color_option = false
+        if downcase_option == 'color' or downcase_option == 'colour' or downcase_option == 'wash'
+          assign is_color_option = true
+        endif
       -%}
       {%- if picker_type == 'swatch' -%}
-        <fieldset class="js product-form__input product-form__input--swatch">
-          <legend class="form__label">
-            {{ option.name }}:
-            <span data-selected-value>
-              {{- option.selected_value -}}
-            </span>
+        <fieldset class="js product-form__input product-form__input--swatch{% if is_color_option %} vennix-color-fieldset{% endif %}">
+          <legend class="form__label vennix-variant-label">
+            {%- if is_color_option -%}
+              <span class="vennix-color-label" data-vennix-color-label>
+                {{ option.name }}: <span data-selected-value>{{ option.selected_value }}</span>
+              </span>
+            {%- else -%}
+              {{ option.name }}:
+              <span data-selected-value>
+                {{- option.selected_value -}}
+              </span>
+            {%- endif -%}
           </legend>
           {% render 'product-variant-options',
             product: product,
@@ -50,8 +67,22 @@
           %}
         </fieldset>
       {%- elsif picker_type == 'button' -%}
-        <fieldset class="js product-form__input product-form__input--pill">
-          <legend class="form__label">{{ option.name }}</legend>
+        <fieldset class="js product-form__input product-form__input--pill{% if is_size_option %} vennix-size-fieldset{% endif %}">
+          <legend class="form__label vennix-variant-label">
+            {%- if is_size_option -%}
+              Size |
+              <button
+                type="button"
+                class="vennix-size-guide-link"
+                data-vennix-size-guide-toggle
+                aria-haspopup="dialog"
+              >
+                View Size Guide
+              </button>
+            {%- else -%}
+              {{ option.name }}
+            {%- endif -%}
+          </legend>
           {% render 'product-variant-options',
             product: product,
             option: option,
@@ -99,3 +130,139 @@
     </script>
   </variant-selects>
 {%- endunless -%}
+
+<style>
+  /* Vennix variant picker — size pills */
+  .vennix-size-fieldset {
+    border: none;
+    padding: 0;
+    margin: 0 0 1.6rem;
+  }
+  .vennix-size-fieldset .form__label {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+  }
+  .vennix-size-guide-link {
+    background: none;
+    border: none;
+    padding: 0;
+    font-size: 1.2rem;
+    font-weight: 400;
+    color: rgba(0, 0, 0, 0.5);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    cursor: pointer;
+    transition: color 0.2s ease;
+  }
+  .vennix-size-guide-link:hover {
+    color: #1A1A1A;
+  }
+  .vennix-size-fieldset input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  .vennix-size-fieldset label {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 4.8rem;
+    height: 4.8rem;
+    padding: 0 1.2rem;
+    margin: 0 0.5rem 0.5rem 0;
+    border: 1.5px solid rgba(0, 0, 0, 0.15);
+    border-radius: 8px;
+    font-size: 1.3rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: border-color 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+  }
+  .vennix-size-fieldset label:hover {
+    border-color: rgba(0, 0, 0, 0.4);
+  }
+  .vennix-size-fieldset input[type="radio"]:checked + label {
+    border-color: #1A1A1A;
+    border-width: 2px;
+    font-weight: 700;
+    background: #1A1A1A;
+    color: #FFFFFF;
+  }
+  .vennix-size-fieldset input[type="radio"].disabled + label {
+    opacity: 0.35;
+    cursor: not-allowed;
+    text-decoration: line-through;
+  }
+
+  /* Vennix variant picker — color swatches */
+  .vennix-color-fieldset {
+    border: none;
+    padding: 0;
+    margin: 0 0 1.6rem;
+  }
+  .vennix-color-fieldset .form__label {
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+  }
+  .vennix-color-label span[data-selected-value] {
+    font-weight: 400;
+    color: rgba(0, 0, 0, 0.6);
+  }
+  .vennix-color-fieldset .product-form__input__label-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  .vennix-color-fieldset input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  .vennix-color-fieldset label.vennix-swatch-label {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+  }
+  .vennix-color-fieldset label.vennix-swatch-label::before {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    transition: border-color 0.2s ease;
+  }
+  .vennix-color-fieldset input[type="radio"]:checked + label.vennix-swatch-label::before {
+    border-color: #1A1A1A;
+  }
+  .vennix-color-fieldset label.vennix-swatch-label .vennix-swatch-circle {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  .vennix-color-fieldset label.vennix-swatch-label .vennix-swatch-circle img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .vennix-color-fieldset input[type="radio"].disabled + label.vennix-swatch-label {
+    opacity: 0.35;
+    cursor: not-allowed;
+  }
+</style>

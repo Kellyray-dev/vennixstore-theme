@@ -1,0 +1,250 @@
+{% comment %}
+  Renders the quick-add modal/drawer content.
+
+  Accepts:
+  - product: {Object} product object.
+  - section_id: {String} section id.
+
+  Usage:
+  {% render 'quick-add-modal', product: product, section_id: section.id %}
+{% endcomment %}
+
+<div class="vennix-quick-add">
+  <div class="vennix-quick-add__header">
+    <h2 class="vennix-quick-add__title">QUICK ADD</h2>
+    <button
+      type="button"
+      class="vennix-quick-add__close"
+      aria-label="{{ 'accessibility.close' | t }}"
+      data-quick-add-close
+    >
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M15 5L5 15M5 5L15 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+  </div>
+
+  <div class="vennix-quick-add__body">
+    <div class="vennix-quick-add__product-info">
+      <h3 class="vennix-quick-add__product-title">{{ product.title | escape }}</h3>
+
+      <div class="vennix-quick-add__pricing">
+        {%- liquid
+          assign current_variant = product.selected_or_first_available_variant
+          assign compare_at_price = current_variant.compare_at_price
+          assign price = current_variant.price
+          assign money_price = price | money
+          assign money_compare = compare_at_price | money
+          if settings.currency_code_enabled
+            assign money_price = price | money_with_currency
+            assign money_compare = compare_at_price | money_with_currency
+          endif
+        -%}
+
+        <div class="vennix-quick-add__price-row">
+          <span class="vennix-quick-add__current-price">{{ money_price }}</span>
+          {%- if compare_at_price > price -%}
+            <span class="vennix-quick-add__compare-price">
+              <s>{{ money_compare }}</s>
+            </span>
+            <span class="vennix-quick-add__price-info" title="Regular price">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="7" cy="7" r="6" stroke="currentColor" stroke-width="1.2"/>
+                <path d="M7 6V10M7 4.5V4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+              </svg>
+            </span>
+          {%- endif -%}
+        </div>
+
+        <div class="vennix-quick-add__promo">
+          Get 15% Off $125+ Orders! Use Code: <strong>SUMMER15</strong>
+        </div>
+      </div>
+    </div>
+
+    {%- unless product.has_only_default_variant -%}
+      <div class="vennix-quick-add__variants">
+        {% render 'product-variant-picker',
+          product: product,
+          block: block,
+          product_form_id: 'quick-add-form-' | append: section_id | append: product.id
+        %}
+      </div>
+    {%- endunless -%}
+
+    <product-form
+      class="product-form"
+      data-section-id="{{ section_id }}"
+    >
+      {%- form 'product',
+        product,
+        id: 'quick-add-form-' | append: section_id | append: product.id,
+        class: 'form',
+        novalidate: 'novalidate',
+        data-type: 'add-to-cart-form'
+      -%}
+        <input
+          type="hidden"
+          name="id"
+          value="{{ current_variant.id }}"
+          {% unless current_variant.available %}disabled{% endunless %}
+          class="product-variant-id"
+        >
+        <div class="vennix-quick-add__submit">
+          <button
+            type="submit"
+            name="add"
+            class="vennix-quick-add__button button button--full-width button--primary"
+            {% unless current_variant.available %}disabled{% endunless %}
+          >
+            <span>
+              {%- if current_variant.available -%}
+                {{ 'products.product.add_to_cart' | t }}
+              {%- else -%}
+                {{ 'products.product.sold_out' | t }}
+              {%- endif -%}
+            </span>
+            {%- render 'loading-spinner' -%}
+          </button>
+        </div>
+      {%- endform -%}
+    </product-form>
+
+    <a href="{{ product.url }}" class="vennix-quick-add__view-details">
+      View Full Details
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M2.5 6H9.5M9.5 6L6.5 3M9.5 6L6.5 9" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </a>
+  </div>
+</div>
+
+<style>
+  .vennix-quick-add {
+    padding: 0;
+  }
+  .vennix-quick-add__header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding: 2rem 2rem 1.6rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  }
+  .vennix-quick-add__title {
+    margin: 0;
+    font-size: 1.4rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-align: center;
+  }
+  .vennix-quick-add__close {
+    position: absolute;
+    right: 1.6rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3.2rem;
+    height: 3.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: rgba(0, 0, 0, 0.6);
+    transition: color 0.2s ease;
+  }
+  .vennix-quick-add__close:hover {
+    color: #000;
+  }
+  .vennix-quick-add__body {
+    padding: 2rem;
+  }
+  .vennix-quick-add__product-title {
+    margin: 0 0 1rem;
+    font-size: 1.6rem;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+  .vennix-quick-add__pricing {
+    margin-bottom: 1.6rem;
+  }
+  .vennix-quick-add__price-row {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 0.6rem;
+  }
+  .vennix-quick-add__current-price {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #D32F2F;
+  }
+  .vennix-quick-add__compare-price {
+    font-size: 1.4rem;
+    color: #999;
+  }
+  .vennix-quick-add__compare-price s {
+    text-decoration: line-through;
+  }
+  .vennix-quick-add__price-info {
+    display: inline-flex;
+    align-items: center;
+    color: #bbb;
+    cursor: help;
+  }
+  .vennix-quick-add__promo {
+    background: #FFF3E0;
+    color: #D32F2F;
+    padding: 0.8rem 1.2rem;
+    border-radius: 6px;
+    font-size: 1.2rem;
+    font-weight: 500;
+    text-align: center;
+    border: 1px solid rgba(211, 47, 47, 0.15);
+  }
+  .vennix-quick-add__promo strong {
+    font-weight: 700;
+  }
+  .vennix-quick-add__variants {
+    margin-bottom: 1.6rem;
+  }
+  .vennix-quick-add__submit {
+    margin-bottom: 1.2rem;
+  }
+  .vennix-quick-add__button {
+    width: 100%;
+    padding: 1.4rem 2rem;
+    font-size: 1.4rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border-radius: 999px;
+    background: #1A1A1A;
+    color: #FFFFFF;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  .vennix-quick-add__button:hover {
+    background: #333;
+  }
+  .vennix-quick-add__button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  .vennix-quick-add__view-details {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    font-size: 1.2rem;
+    color: rgba(0, 0, 0, 0.5);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+  .vennix-quick-add__view-details:hover {
+    color: #1A1A1A;
+  }
+</style>

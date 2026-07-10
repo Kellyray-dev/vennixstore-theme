@@ -65,19 +65,25 @@
               <span class="visually-hidden visually-hidden--inline">
                 {{- 'products.product.price.regular_price' | t -}}
               </span>
-              <span>
-                <s class="price-item price-item--regular variant-item__old-price">
+              <span class="vennix-price__compare-wrap">
+                <s class="price-item price-item--regular variant-item__old-price vennix-price__compare">
                   {% if settings.currency_code_enabled %}
                     {{ compare_at_price | money_with_currency }}
                   {% else %}
                     {{ compare_at_price | money }}
                   {% endif %}
                 </s>
+                <span class="vennix-price__info-icon" title="Regular price">
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="7" cy="7" r="6" stroke="currentColor" stroke-width="1.2"/>
+                    <path d="M7 6V10M7 4.5V4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+                  </svg>
+                </span>
               </span>
             {%- endunless -%}
           {%- endif -%}
           <span class="visually-hidden visually-hidden--inline">{{ 'products.product.price.regular_price' | t }}</span>
-          <span class="price-item price-item--regular">
+          <span class="price-item price-item--regular vennix-price__current">
             {{-
               'products.product.volume_pricing.price_range'
               | t: minimum: money_price_min, maximum: money_price_max
@@ -85,7 +91,7 @@
           </span>
         {%- else -%}
           <span class="visually-hidden visually-hidden--inline">{{ 'products.product.price.regular_price' | t }}</span>
-          <span class="price-item price-item--regular">
+          <span class="price-item price-item--regular vennix-price__current">
             {{ money_price }}
           </span>
         {%- endif -%}
@@ -93,18 +99,24 @@
       <div class="price__sale">
         {%- unless product.price_varies == false and product.compare_at_price_varies %}
           <span class="visually-hidden visually-hidden--inline">{{ 'products.product.price.regular_price' | t }}</span>
-          <span>
-            <s class="price-item price-item--regular">
+          <span class="vennix-price__compare-wrap">
+            <s class="price-item price-item--regular vennix-price__compare">
               {% if settings.currency_code_enabled %}
                 {{ compare_at_price | money_with_currency }}
               {% else %}
                 {{ compare_at_price | money }}
               {% endif %}
             </s>
+            <span class="vennix-price__info-icon" title="Regular price">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="7" cy="7" r="6" stroke="currentColor" stroke-width="1.2"/>
+                <path d="M7 6V10M7 4.5V4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+              </svg>
+            </span>
           </span>
         {%- endunless -%}
         <span class="visually-hidden visually-hidden--inline">{{ 'products.product.price.sale_price' | t }}</span>
-        <span class="price-item price-item--sale price-item--last">
+        <span class="price-item price-item--sale price-item--last vennix-price__current--sale">
           {{ money_price }}
         </span>
       </div>
@@ -123,3 +135,42 @@
     {%- endif -%}
   </div>
 {% endunless %}
+
+<style>
+  /* Vennix enhanced price styles */
+  .vennix-price__current {
+    font-weight: 700;
+  }
+  .vennix-price__current--sale {
+    color: #D32F2F;
+    font-weight: 700;
+    font-size: inherit;
+  }
+  .vennix-price__compare {
+    color: #999;
+    text-decoration: line-through;
+    font-weight: 400;
+  }
+  .vennix-price__compare-wrap {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .vennix-price__info-icon {
+    display: inline-flex;
+    align-items: center;
+    color: #bbb;
+    cursor: help;
+    transition: color 0.2s ease;
+  }
+  .vennix-price__info-icon:hover {
+    color: #888;
+  }
+  /* Price--large variant for product page */
+  .price--large .vennix-price__current {
+    font-size: 2.2rem;
+  }
+  .price--large .price-item--sale {
+    color: #D32F2F;
+  }
+</style>

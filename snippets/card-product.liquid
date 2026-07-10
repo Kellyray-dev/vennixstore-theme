@@ -329,15 +329,21 @@
                     class="quick-add-modal__content global-settings-popup"
                     tabindex="-1"
                   >
-                    <button
-                      id="ModalClose-{{ card_product.id }}"
-                      type="button"
-                      class="quick-add-modal__toggle"
-                      aria-label="{{ 'accessibility.close' | t }}"
-                    >
-                      {{- 'icon-close.svg' | inline_asset_content -}}
-                    </button>
+                    <div class="vennix-quick-add__header">
+                      <h2 class="vennix-quick-add__title">QUICK ADD</h2>
+                      <button
+                        id="ModalClose-{{ card_product.id }}"
+                        type="button"
+                        class="quick-add-modal__toggle vennix-quick-add__close"
+                        aria-label="{{ 'accessibility.close' | t }}"
+                      >
+                        {{- 'icon-close.svg' | inline_asset_content -}}
+                      </button>
+                    </div>
                     <div id="QuickAddInfo-{{ card_product.id }}" class="quick-add-modal__content-info"></div>
+                    <div class="vennix-quick-add__promo">
+                      Get 15% Off $125+ Orders! Use Code: <strong>SUMMER15</strong>
+                    </div>
                   </div>
                 </quick-add-modal>
               {%- else -%}

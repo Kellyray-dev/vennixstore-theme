@@ -809,3 +809,159 @@ body {
   color: #c9a96e;
   opacity: 0.4;
 }
+
+/* ==========================================================================
+   TASK 1 — Quick Add modal enhancements
+   ========================================================================== */
+.vennix-quick-add__header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding: 2rem 2rem 1.6rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+.vennix-quick-add__title {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-align: center;
+}
+.vennix-quick-add__close {
+  position: absolute;
+  right: 1.6rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3.2rem;
+  height: 3.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: rgba(0, 0, 0, 0.6);
+  transition: color 0.2s ease;
+}
+.vennix-quick-add__close:hover {
+  color: #000;
+}
+.vennix-quick-add__promo {
+  background: #FFF3E0;
+  color: #D32F2F;
+  padding: 0.8rem 1.2rem;
+  border-radius: 6px;
+  font-size: 1.2rem;
+  font-weight: 500;
+  text-align: center;
+  border: 1px solid rgba(211, 47, 47, 0.15);
+  margin: 1.2rem 2rem 0;
+}
+.vennix-quick-add__promo strong {
+  font-weight: 700;
+}
+
+/* ==========================================================================
+   TASK 3 — Product page CTA layout & accordion structure
+   ========================================================================== */
+.vennix-cta-wrapper {
+  margin-bottom: 1.6rem;
+}
+.vennix-cta-buttons {
+  display: flex;
+  align-items: stretch;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+.vennix-cta-form {
+  flex: 0 0 80%;
+}
+.vennix-add-to-bag {
+  width: 100%;
+  padding: 1.4rem 2rem;
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-radius: 999px;
+  background: #1A1A1A;
+  color: #FFFFFF;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+.vennix-add-to-bag:hover {
+  background: #333;
+}
+.vennix-add-to-bag:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.vennix-cta-wishlist {
+  flex: 0 0 20%;
+  position: static;
+}
+.vennix-cta-wishlist .vennix-wishlist-btn {
+  position: static;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 1.5px solid rgba(0, 0, 0, 0.15);
+  background: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+.vennix-cta-wishlist .vennix-wishlist-btn:hover {
+  border-color: #1A1A1A;
+  background: #f8f8f8;
+}
+.vennix-cta-wishlist .vennix-wishlist-btn.is-active {
+  background: #C9A96E;
+  border-color: #C9A96E;
+  color: #FFFFFF;
+}
+
+/* Accordion rows beneath CTA */
+.vennix-product-accordions {
+  margin-top: 2rem;
+}
+.vennix-product-accordions .product__accordion {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+.vennix-product-accordions .product__accordion summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.6rem 0;
+  cursor: pointer;
+  list-style: none;
+}
+.vennix-product-accordions .product__accordion summary::-webkit-details-marker {
+  display: none;
+}
+.vennix-product-accordions .summary__title {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.vennix-product-accordions .accordion__title {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+.vennix-product-accordions .accordion__content {
+  padding-bottom: 1.6rem;
+  color: rgba(0, 0, 0, 0.6);
+  line-height: 1.8;
+  font-size: 1.3rem;
+}
+.vennix-product-accordions details[open] summary .icon-caret {
+  transform: rotate(180deg);
+}
