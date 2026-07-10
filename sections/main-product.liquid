@@ -198,6 +198,71 @@
                       {{ product.description }}
                     </div>
                   {%- endif -%}
+                {%- when 'tabs' -%}
+                  {%- liquid
+                    assign tab_1_content = block.settings.tab_1_content
+                    if tab_1_content == blank
+                      assign tab_1_content = product.description
+                    endif
+                  -%}
+                  <div
+                    class="vennix-tabs quick-add-hidden"
+                    data-vennix-tabs
+                    {{ block.shopify_attributes }}
+                  >
+                    <div class="vennix-tabs__nav" role="tablist">
+                      {%- if tab_1_content != blank -%}
+                        <button
+                          type="button"
+                          class="vennix-tabs__tab is-active"
+                          data-tab-target="Tab-1-{{ block.id }}"
+                          role="tab"
+                          aria-selected="true"
+                        >
+                          {{ block.settings.tab_1_title | default: 'Description' | escape }}
+                        </button>
+                      {%- endif -%}
+                      {%- if block.settings.tab_2_content != blank -%}
+                        <button
+                          type="button"
+                          class="vennix-tabs__tab"
+                          data-tab-target="Tab-2-{{ block.id }}"
+                          role="tab"
+                          aria-selected="false"
+                        >
+                          {{ block.settings.tab_2_title | default: 'Details & Materials' | escape }}
+                        </button>
+                      {%- endif -%}
+                      {%- if block.settings.tab_3_content != blank -%}
+                        <button
+                          type="button"
+                          class="vennix-tabs__tab"
+                          data-tab-target="Tab-3-{{ block.id }}"
+                          role="tab"
+                          aria-selected="false"
+                        >
+                          {{ block.settings.tab_3_title | default: 'Shipping & Returns' | escape }}
+                        </button>
+                      {%- endif -%}
+                    </div>
+                    <div class="vennix-tabs__panels">
+                      {%- if tab_1_content != blank -%}
+                        <div id="Tab-1-{{ block.id }}" class="vennix-tabs__panel rte is-active" role="tabpanel">
+                          {{ tab_1_content }}
+                        </div>
+                      {%- endif -%}
+                      {%- if block.settings.tab_2_content != blank -%}
+                        <div id="Tab-2-{{ block.id }}" class="vennix-tabs__panel rte" role="tabpanel">
+                          {{ block.settings.tab_2_content }}
+                        </div>
+                      {%- endif -%}
+                      {%- if block.settings.tab_3_content != blank -%}
+                        <div id="Tab-3-{{ block.id }}" class="vennix-tabs__panel rte" role="tabpanel">
+                          {{ block.settings.tab_3_content }}
+                        </div>
+                      {%- endif -%}
+                    </div>
+                  </div>
                 {%- when 'sku' -%}
                   <p
                     class="product__sku{% if block.settings.text_style == 'uppercase' %} caption-with-letter-spacing{% elsif block.settings.text_style == 'subtitle' %} subtitle{% endif %}{% if product.selected_or_first_available_variant.sku.size == 0 %} visibility-hidden{% endif %}"
@@ -753,6 +818,37 @@
   </product-component>
 </product-info>
 
+<div
+  class="vennix-sticky-bar"
+  id="VennixStickyBar-{{ section.id }}"
+  data-vennix-sticky-bar
+  data-form-id="{{ product_form_id }}"
+>
+  <div class="vennix-sticky-bar__inner page-width">
+    <div class="vennix-sticky-bar__info">
+      <span class="vennix-sticky-bar__title">{{ product.title | escape }}</span>
+      <span class="vennix-sticky-bar__price" id="VennixStickyBarPrice-{{ section.id }}">
+        {{ product.selected_or_first_available_variant.price | money }}
+      </span>
+    </div>
+    <button
+      type="submit"
+      name="add"
+      form="{{ product_form_id }}"
+      class="button button--primary vennix-sticky-bar__button"
+      {% unless product.selected_or_first_available_variant.available %}
+        disabled
+      {% endunless %}
+    >
+      {%- if product.selected_or_first_available_variant.available -%}
+        {{ 'products.product.add_to_cart' | t }}
+      {%- else -%}
+        {{ 'products.product.sold_out' | t }}
+      {%- endif -%}
+    </button>
+  </div>
+</div>
+
 {% schema %}
 {
   "name": "t:sections.main-product.name",
@@ -947,6 +1043,47 @@
       "type": "description",
       "name": "t:sections.main-product.blocks.description.name",
       "limit": 1
+    },
+    {
+      "type": "tabs",
+      "name": "Tabs",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "tab_1_title",
+          "label": "Tab 1 title",
+          "default": "Description"
+        },
+        {
+          "type": "richtext",
+          "id": "tab_1_content",
+          "label": "Tab 1 content"
+        },
+        {
+          "type": "text",
+          "id": "tab_2_title",
+          "label": "Tab 2 title",
+          "default": "Details & Materials"
+        },
+        {
+          "type": "richtext",
+          "id": "tab_2_content",
+          "label": "Tab 2 content"
+        },
+        {
+          "type": "text",
+          "id": "tab_3_title",
+          "label": "Tab 3 title",
+          "default": "Shipping & Returns"
+        },
+        {
+          "type": "richtext",
+          "id": "tab_3_content",
+          "label": "Tab 3 content",
+          "default": "<p>Free standard shipping on orders over $75. Returns accepted within 30 days.</p>"
+        }
+      ]
     },
     {
       "type": "share",
