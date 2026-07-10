@@ -750,6 +750,18 @@ body {
       rgba(201,169,110,0.12) 0%,
       transparent 45%);
 }
+.vennix-hero-fallback::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 40px,
+    rgba(201,169,110,0.03) 40px,
+    rgba(201,169,110,0.03) 41px
+  );
+}
 
 /* SVG Logo sizing in header */
 .header__heading-logo {
