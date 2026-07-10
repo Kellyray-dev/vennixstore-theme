@@ -42,6 +42,31 @@
   </div>
 
   <div id="vennixWishlistGrid" class="vennix-wishlist-grid grid product-grid grid--2-col-tablet-down grid--4-col-desktop"></div>
+<div class="page-width page-width--narrow section-{{ section.id }}-padding">
+  {%- style -%}
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+      padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+    }
+    @media screen and (min-width: 750px) {
+      .section-{{ section.id }}-padding {
+        padding-top: {{ section.settings.padding_top }}px;
+        padding-bottom: {{ section.settings.padding_bottom }}px;
+      }
+    }
+  {%- endstyle -%}
+
+  <h1 class="title title--primary">{{ section.settings.heading | default: 'My Wishlist' }}</h1>
+
+  <div id="vennixWishlistEmpty" class="vennix-wishlist-empty" style="display:none;">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+    </svg>
+    <p>Your wishlist is empty</p>
+    <a href="/collections/all" class="button button--primary" style="margin-top:16px;">Start Shopping</a>
+  </div>
+
+  <div id="vennixWishlistGrid" class="grid grid--2-col grid--4-col-desktop" style="display:none;margin-top:32px;"></div>
 </div>
 
 {% schema %}
@@ -49,6 +74,7 @@
   "name": "Wishlist page",
   "tag": "section",
   "class": "section",
+  "name": "Wishlist Page",
   "settings": [
     {
       "type": "text",
@@ -87,6 +113,7 @@
       "unit": "px",
       "label": "t:sections.all.padding.padding_top",
       "default": 48
+      "default": 36
     },
     {
       "type": "range",
@@ -97,11 +124,13 @@
       "unit": "px",
       "label": "t:sections.all.padding.padding_bottom",
       "default": 48
+      "default": 36
     }
   ],
   "presets": [
     {
       "name": "Wishlist page"
+      "name": "Wishlist Page"
     }
   ]
 }

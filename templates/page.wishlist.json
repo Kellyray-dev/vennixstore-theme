@@ -14,5 +14,11 @@
   },
   "order": [
     "wishlist"
+    "main": {
+      "type": "vennix-wishlist-page"
+    }
+  },
+  "order": [
+    "main"
   ]
 }
