@@ -363,3 +363,69 @@ body {
     display: block;
   }
 }
+
+/* ==========================================================================
+   TASK 4 — Collection results count bar
+   ========================================================================== */
+.vennix-results-bar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 1rem 0 1.5rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+.vennix-results-bar__count {
+  font-size: 1.4rem;
+  letter-spacing: 0.05rem;
+  text-transform: uppercase;
+  color: rgba(var(--color-foreground), 0.7);
+  font-weight: 600;
+}
+
+/* Collection banner eyebrow */
+.collection-hero__eyebrow {
+  margin: 0 0 0.5rem;
+  font-size: 1.3rem;
+  letter-spacing: 0.2rem;
+  text-transform: uppercase;
+  color: #C9A96E;
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   TASK 5 — Cart drawer free shipping progress bar
+   ========================================================================== */
+.vennix-shipping-bar {
+  padding: 1.2rem 1.5rem 1.6rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+.vennix-shipping-bar__label {
+  margin: 0 0 0.8rem;
+  font-size: 1.3rem;
+  font-weight: 600;
+  letter-spacing: 0.03rem;
+  color: rgba(var(--color-foreground), 0.85);
+  text-align: center;
+}
+.vennix-shipping-bar__track {
+  position: relative;
+  width: 100%;
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+.vennix-shipping-bar__fill {
+  height: 100%;
+  width: 0%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #C9A96E, #E4C994);
+  transition: width 0.4s ease;
+}
+.vennix-shipping-bar--unlocked .vennix-shipping-bar__label {
+  color: #C9A96E;
+}
+.vennix-shipping-bar--unlocked .vennix-shipping-bar__fill {
+  background: linear-gradient(90deg, #B8965A, #C9A96E);
+}
