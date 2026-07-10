@@ -1,0 +1,143 @@
+{{ 'section-vennix-category-row.css' | asset_url | stylesheet_tag }}
+
+<div class="vennix-category-row color-{{ section.settings.color_scheme }} gradient{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
+  <div class="page-width">
+    <div class="vennix-category-row__wrapper">
+      {%- if section.settings.heading != blank -%}
+        <h2 class="vennix-category-row__heading {{ section.settings.heading_size }}">
+          {{ section.settings.heading | escape }}
+        </h2>
+      {%- endif -%}
+      <div class="vennix-category-row__grid">
+        {%- for block in section.blocks -%}
+          <a href="{{ block.settings.link }}" class="vennix-category-row__item link link--text focus-inset">
+            <div class="vennix-category-row__image-wrapper">
+              {%- if block.settings.image != blank -%}
+                {{
+                  block.settings.image
+                  | image_url: width: 240
+                  | image_tag:
+                    width: 120,
+                    height: 120,
+                    class: 'vennix-category-row__image',
+                    alt: block.settings.label | escape,
+                    loading: 'lazy'
+                }}
+              {%- else -%}
+                <div class="vennix-category-row__image placeholder">
+                  {{ 'icon-box.svg' | inline_asset_content }}
+                </div>
+              {%- endif -%}
+            </div>
+            <span class="vennix-category-row__label">{{ block.settings.label | escape }}</span>
+          </a>
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Shop by Category",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "default": "Shop by Category",
+      "label": "Heading"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "options": [
+        {
+          "value": "h2",
+          "label": "H2"
+        },
+        {
+          "value": "h1",
+          "label": "H1"
+        },
+        {
+          "value": "h0",
+          "label": "H0"
+        }
+      ],
+      "default": "h2",
+      "label": "Heading size"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Categories"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "category",
+      "name": "Category",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "default": "Category",
+          "label": "Label"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link",
+          "info": "Leave blank to link to all products"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Shop by Category",
+      "blocks": [
+        {
+          "type": "category",
+          "settings": {
+            "label": "Home"
+          }
+        },
+        {
+          "type": "category",
+          "settings": {
+            "label": "Tech"
+          }
+        },
+        {
+          "type": "category",
+          "settings": {
+            "label": "Fashion"
+          }
+        },
+        {
+          "type": "category",
+          "settings": {
+            "label": "Lifestyle"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

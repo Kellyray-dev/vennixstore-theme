@@ -1,0 +1,25 @@
+{
+  "sections": {
+    "main-page": {
+      "type": "main-page",
+      "settings": {}
+    },
+    "vennix-brand-story": {
+      "type": "vennix-brand-story",
+      "settings": {
+        "eyebrow": "Our Story",
+        "heading": "Crafted With Purpose",
+        "body_text": "VennixStore was founded with one goal — to bring you thoughtfully curated lifestyle essentials that stand the test of time. Every product is selected for quality, style, and value.",
+        "stat_1_number": "10K+",
+        "stat_1_label": "Happy Customers",
+        "stat_2_number": "500+",
+        "stat_2_label": "Products",
+        "stat_3_number": "4.9★",
+        "stat_3_label": "Avg Rating",
+        "cta_label": "Shop Now",
+        "cta_link": "/collections/all"
+      }
+    }
+  },
+  "order": ["main-page", "vennix-brand-story"]
+}
