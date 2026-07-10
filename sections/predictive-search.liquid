@@ -1,5 +1,18 @@
 {% comment %}theme-check-disable ImgLazyLoading{% endcomment %}
 <div id="predictive-search-results" role="listbox">
+  {%- unless predictive_search.performed -%}
+    {%- if section.settings.popular_links != blank -%}
+      <div class="vennix-popular-searches" style="padding:16px 16px 0;">
+        <span class="vennix-popular-searches__label">Popular searches</span>
+        <div class="vennix-popular-searches__tags">
+          {%- assign popular_menu = linklists[section.settings.popular_links] -%}
+          {%- for link in popular_menu.links -%}
+            <a href="{{ link.url }}" class="vennix-popular-searches__tag">{{ link.title | escape }}</a>
+          {%- endfor -%}
+        </div>
+      </div>
+    {%- endif -%}
+  {%- endunless -%}
   {%- if predictive_search.performed -%}
     {% assign first_column_results_size = predictive_search.resources.queries.size
       | plus: predictive_search.resources.collections.size
@@ -266,3 +279,17 @@
     </span>
   {%- endif -%}
 </div>
+
+{% schema %}
+{
+  "name": "Predictive Search",
+  "settings": [
+    {
+      "type": "link_list",
+      "id": "popular_links",
+      "label": "Popular searches menu",
+      "default": "main-menu"
+    }
+  ]
+}
+{% endschema %}

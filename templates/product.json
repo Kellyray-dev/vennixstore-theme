@@ -69,6 +69,43 @@
         "padding_bottom": 12
       }
     },
+    "vennix-reviews": {
+      "type": "vennix-reviews",
+      "settings": {},
+      "blocks": {
+        "review_1": {
+          "type": "review",
+          "settings": {
+            "reviewer_name": "Sarah M.",
+            "rating": 5,
+            "review_date": "Jun 2026",
+            "review_title": "Obsessed with this piece",
+            "review_body": "The craftsmanship is incredible. It fits perfectly and the fabric feels so premium. Already planning my next order!"
+          }
+        },
+        "review_2": {
+          "type": "review",
+          "settings": {
+            "reviewer_name": "James L.",
+            "rating": 4,
+            "review_date": "May 2026",
+            "review_title": "Great quality, fast shipping",
+            "review_body": "Really happy with this purchase. Shipping was fast and the product exceeded my expectations. Would definitely recommend."
+          }
+        },
+        "review_3": {
+          "type": "review",
+          "settings": {
+            "reviewer_name": "Priya K.",
+            "rating": 5,
+            "review_date": "Apr 2026",
+            "review_title": "Perfect gift",
+            "review_body": "Bought this as a gift and it was a huge hit! Beautiful packaging and excellent customer service."
+          }
+        }
+      },
+      "block_order": ["review_1", "review_2", "review_3"]
+    },
     "disclosures": {
       "type": "disclosures",
       "settings": {
@@ -97,6 +134,7 @@
   },
   "order": [
     "main",
+    "vennix-reviews",
     "disclosures",
     "related-products"
   ]
