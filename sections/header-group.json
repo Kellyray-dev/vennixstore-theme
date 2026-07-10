@@ -1,47 +1,65 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "name": "t:sections.header.name",
   "type": "header",
   "sections": {
     "announcement-bar": {
       "type": "announcement-bar",
-      "settings": {
-        "color_scheme": "scheme-1",
-        "show_line_separator": true,
-        "show_social": false,
-        "auto_rotate": false,
-        "change_slides_speed": 5,
-        "enable_country_selector": false,
-        "enable_language_selector": false
-      },
       "blocks": {
         "announcement-bar-0": {
           "type": "announcement",
           "settings": {
             "text": "Welcome to our store",
-            "text_alignment": "center",
-            "color_scheme": "scheme-1",
             "link": ""
           }
         }
       },
       "block_order": [
         "announcement-bar-0"
-      ]
+      ],
+      "settings": {
+        "auto_rotate": false,
+        "change_slides_speed": 5,
+        "color_scheme": "scheme-1",
+        "show_line_separator": true,
+        "show_social": false,
+        "enable_country_selector": false,
+        "enable_language_selector": false
+      }
+    },
+    "custom_liquid_EGBEjU": {
+      "type": "custom-liquid",
+      "custom_css": [],
+      "name": "t:sections.custom-liquid.presets.name",
+      "settings": {
+        "custom_liquid": "<div style=\"background-color:#171716; padding:12px 16px; text-align:center; font-family:'Segoe UI', sans-serif; position:sticky; top:0; z-index:1050; display:block;\">\n  <button type=\"button\" style=\"position:absolute; top:8px; right:10px; background: none; border: none; font-size: 16px; color: #dfd8d8; cursor: pointer;\" onclick=\"this.parentElement.style.display='none';\">&times;</button>\n  <span style=\"color:#dfd8d8; font-weight:400; font-size:15px; margin-right: 12px;\">Complimentary Shipping on Orders Over $50 — Discover Our New Arrivals</span>\n  <a href=\"https://vennixstore.myshopify.com/collections/all\" target=\"_blank\" style=\"display:inline-block; padding:6px 14px; background-color:#b7b93c; color:#120303; text-decoration:none; border-radius:4px; font-size:13px; font-weight:700;\">Shop now</a>\n</div>",
+        "color_scheme": "",
+        "padding_top": 4,
+        "padding_bottom": 12
+      }
     },
     "header": {
       "type": "header",
       "settings": {
-        "color_scheme": "scheme-1",
-        "menu_color_scheme": "scheme-1",
         "logo_position": "middle-left",
+        "mobile_logo_position": "center",
         "menu": "main-menu",
         "menu_type_desktop": "dropdown",
         "sticky_header_type": "on-scroll-up",
         "show_line_separator": true,
+        "color_scheme": "scheme-1",
+        "menu_color_scheme": "scheme-1",
         "enable_country_selector": true,
         "enable_language_selector": true,
         "enable_customer_avatar": true,
-        "mobile_logo_position": "center",
         "margin_bottom": 0,
         "padding_top": 20,
         "padding_bottom": 20
@@ -50,6 +68,7 @@
   },
   "order": [
     "announcement-bar",
+    "custom_liquid_EGBEjU",
     "header"
   ]
 }
