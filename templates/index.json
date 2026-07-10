@@ -99,6 +99,50 @@
         "padding_bottom": 36
       }
     },
+    "vennix_category_row": {
+      "type": "vennix-category-row",
+      "settings": {
+        "heading": "Shop by Category",
+        "heading_size": "h2",
+        "color_scheme": "scheme-1"
+      },
+      "blocks": {
+        "category_1": {
+          "type": "category",
+          "settings": {
+            "label": "Home",
+            "link": "shopify://collections/all"
+          }
+        },
+        "category_2": {
+          "type": "category",
+          "settings": {
+            "label": "Tech",
+            "link": "shopify://collections/tech"
+          }
+        },
+        "category_3": {
+          "type": "category",
+          "settings": {
+            "label": "Fashion",
+            "link": "shopify://collections/fashion"
+          }
+        },
+        "category_4": {
+          "type": "category",
+          "settings": {
+            "label": "Lifestyle",
+            "link": "shopify://collections/lifestyle"
+          }
+        }
+      },
+      "block_order": [
+        "category_1",
+        "category_2",
+        "category_3",
+        "category_4"
+      ]
+    },
     "vennix_brand_story": {
       "type": "vennix-brand-story",
       "blocks": {
@@ -215,6 +259,7 @@
   "order": [
     "announcement_bar",
     "image_banner",
+    "vennix_category_row",
     "featured_collection",
     "vennix_brand_story",
     "featured_collection_2",
