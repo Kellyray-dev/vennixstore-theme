@@ -964,3 +964,157 @@ body {
 .vennix-size-table tr:nth-child(even) td {
   background: #f9f7f4;
 }
+
+/* ================================================
+   UPGRADE 1 - Trust badges below Add to Cart
+   ================================================ */
+.vennix-trust-badges {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  padding: 20px 0;
+  border-top: 1px solid #e5e0d8;
+  border-bottom: 1px solid #e5e0d8;
+  margin: 20px 0;
+}
+.vennix-trust-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: #555;
+}
+.vennix-trust-badge svg {
+  flex-shrink: 0;
+  color: #c9a96e;
+}
+@media (max-width: 749px) {
+  .vennix-trust-badges {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ================================================
+   UPGRADE 3 - Back to top button
+   ================================================ */
+.vennix-back-to-top {
+  position: fixed;
+  bottom: 32px;
+  right: 24px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #1a1a1a;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(16px);
+  transition: all 0.3s ease;
+  z-index: 50;
+}
+.vennix-back-to-top.is-visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+.vennix-back-to-top:hover {
+  background: #c9a96e;
+}
+
+/* ================================================
+   UPGRADE 4 - Size guide popup
+   ================================================ */
+.vennix-size-guide {
+  margin: 16px 0;
+}
+.vennix-size-guide__trigger {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.2s ease;
+}
+.vennix-size-guide__trigger:hover {
+  color: #c9a96e;
+}
+.vennix-size-guide__overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+.vennix-size-guide__modal {
+  background: #fff;
+  border-radius: 12px;
+  max-width: 600px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+}
+.vennix-size-guide__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px;
+  border-bottom: 1px solid #e5e0d8;
+}
+.vennix-size-guide__header h2 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+.vennix-size-guide__close {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #555;
+  line-height: 1;
+  padding: 4px;
+  transition: color 0.2s ease;
+}
+.vennix-size-guide__close:hover {
+  color: #1a1a1a;
+}
+.vennix-size-guide__body {
+  padding: 24px;
+}
+.vennix-size-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+.vennix-size-table th {
+  background: #1a1a1a;
+  color: #fff;
+  padding: 10px 12px;
+  text-align: left;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.vennix-size-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid #e5e0d8;
+  color: #333;
+}
+.vennix-size-table tr:nth-child(even) td {
+  background: #f9f7f4;
+}
