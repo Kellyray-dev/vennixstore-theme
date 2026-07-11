@@ -560,6 +560,7 @@
                   %}
                   {% render 'vennix-metafields', product: product %}
                 {%- render 'vennix-size-guide' -%}
+                {%- render 'vennix-size-guide' -%}
                 {%- when 'buy_buttons' -%}
                   {%- render 'buy-buttons',
                     block: block,
@@ -568,6 +569,7 @@
                     section_id: section.id,
                     show_pickup_availability: true
                   -%}
+                {%- render 'vennix-trust-badges' -%}
                 {%- render 'vennix-trust-badges' -%}
                 {%- when 'rating' -%}
                   {%- if product.metafields.reviews.rating.value != blank -%}
@@ -853,6 +855,8 @@
     </button>
   </div>
 </div>
+
+{%- render 'vennix-recently-viewed' -%}
 
 {%- render 'vennix-recently-viewed' -%}
 
