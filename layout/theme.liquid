@@ -356,6 +356,18 @@
       <polyline points="18 15 12 9 6 15"/>
     </svg>
   </button>
+  <button class="vennix-back-to-top"
+    id="vennixBackToTop"
+    aria-label="Back to top">
+    <svg xmlns="http://www.w3.org/2000/svg"
+      width="20" height="20"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2">
+      <polyline points="18 15 12 9 6 15"/>
+    </svg>
+  </button>
     <div id="vennix-toast" class="vennix-toast"></div>
     {% render 'vennix-breadcrumbs' %}
     <a class="skip-to-content-link button visually-hidden" href="#MainContent">
@@ -447,7 +459,11 @@
     <script src="{{ 'vennix-wishlist.js' | asset_url }}" defer="defer"></script>    {%- if template == 'product' -%}
       <script src="{{ 'vennix-recently-viewed.js' | asset_url }}" defer></script>
     {%- endif -%}
+    <script src="{{ 'vennix-back-to-top.js' | asset_url }}" defer></script>    {%- if template == 'product' -%}
+      <script src="{{ 'vennix-recently-viewed.js' | asset_url }}" defer></script>
+    {%- endif -%}
     <script src="{{ 'vennix-back-to-top.js' | asset_url }}" defer></script>
+
 
   </body>
 </html>
