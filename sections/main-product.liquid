@@ -559,6 +559,7 @@
                     product_form_id: product_form_id
                   %}
                   {% render 'vennix-metafields', product: product %}
+                {%- render 'vennix-size-guide' -%}
                 {%- when 'buy_buttons' -%}
                   {%- render 'buy-buttons',
                     block: block,
@@ -567,6 +568,7 @@
                     section_id: section.id,
                     show_pickup_availability: true
                   -%}
+                {%- render 'vennix-trust-badges' -%}
                 {%- when 'rating' -%}
                   {%- if product.metafields.reviews.rating.value != blank -%}
                     <div class="rating-wrapper">
@@ -851,6 +853,8 @@
     </button>
   </div>
 </div>
+
+{%- render 'vennix-recently-viewed' -%}
 
 {% schema %}
 {
