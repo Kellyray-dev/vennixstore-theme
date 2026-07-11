@@ -1,0 +1,19 @@
+<div class="vennix-recently-viewed page-width"
+  id="vennixRecentlyViewed"
+  data-current-id="{{ product.id }}"
+  data-title="{{ product.title | escape }}"
+  data-price="{{ product.price | money }}"
+  data-image="{{ product.featured_image | image_url: width: 400 }}"
+  data-url="{{ product.url }}"
+  style="display:none; padding: 48px 0;">
+  <h2 class="center" style="margin-bottom:8px;">
+    Recently Viewed
+  </h2>
+  <span class="vennix-accent-line"></span>
+  <div id="vennixRecentlyViewedGrid"
+    style="display:grid;
+    grid-template-columns:repeat(auto-fill,
+    minmax(200px,1fr));
+    gap:24px;margin-top:32px;">
+  </div>
+</div>
