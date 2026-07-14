@@ -38,7 +38,7 @@
         {% endif %}
       {% endfor %}
     </div>
-    <span style="display:block;font-size:0.9rem;color:#888;margin-top:4px;">{{ rating | round: 1 }} out of 5 — {{ total_reviews }} review{{ total_reviews | pluralize }}</span>
+    <span style="display:block;font-size:0.9rem;color:#888;margin-top:4px;">{{ rating | round: 1 }} out of 5 — {{ total_reviews }} review{% if total_reviews != 1 %}s{% endif %}</span>
   </div>
 
   {%- comment -%} Reviews grid {%- endcomment -%}
