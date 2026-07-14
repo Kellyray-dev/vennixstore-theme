@@ -337,3 +337,291 @@ a.link:hover {
     transition: none !important;
   }
 }
+
+/* 16. Recently viewed — scannable, editorial grid */
+.vennix-recently-viewed {
+  padding: 64px 0;
+  border-top: 1px solid var(--v-line);
+}
+.vennix-recently-viewed h2 {
+  text-align: center;
+  font-family: var(--font-heading-family);
+  letter-spacing: -0.01em;
+  margin-bottom: 0.5rem;
+}
+.vennix-accent-line {
+  display: block;
+  width: 52px;
+  height: 2px;
+  background: var(--v-gold);
+  margin: 0 auto 2.5rem;
+}
+#vennixRecentlyViewedGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+@media (max-width: 989px) {
+  #vennixRecentlyViewedGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+@media (max-width: 749px) {
+  #vennixRecentlyViewedGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* 17. Empty states — warm, encouraging, action-oriented */
+.cart__warnings,
+.is-empty .cart__empty-text,
+.is-empty .cart__empty-button {
+  text-align: center;
+}
+.is-empty .cart__empty-text {
+  font-size: 1.6rem;
+  color: var(--v-ink-soft);
+  margin-bottom: 1.5rem;
+}
+.is-empty .cart__empty-button {
+  display: inline-flex;
+}
+.vennix-wishlist-empty {
+  text-align: center;
+  padding: 5rem 2rem;
+}
+.vennix-wishlist-empty__icon {
+  color: var(--v-gold);
+  margin-bottom: 1.5rem;
+}
+.vennix-wishlist-empty__text {
+  font-size: 1.6rem;
+  color: var(--v-ink-soft);
+  margin-bottom: 2rem;
+}
+.vennix-wishlist-empty__button {
+  display: inline-flex;
+}
+.collection-template__title {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+.collection-template__title .title {
+  font-family: var(--font-heading-family);
+  letter-spacing: -0.01em;
+}
+.facets__heading {
+  font-family: var(--font-heading-family);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-size: 1.3rem;
+}
+
+/* 18. Mobile navigation — larger touch targets, clearer spacing */
+.header__icon {
+  min-height: 44px;
+  min-width: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.header__menu-item {
+  padding: 0.5rem 0;
+}
+.header__icon--wishlist .cart-count-bubble,
+.vennix-wishlist-count-bubble {
+  font-size: 1rem;
+  font-weight: 600;
+  min-width: 1.7rem;
+  height: 1.7rem;
+  padding: 0 0.4rem;
+  border-radius: 999px;
+  background: var(--v-gold);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: -0.4rem;
+  right: -0.6rem;
+}
+
+/* 19. Product page — clearer hierarchy and pricing */
+.product__title {
+  font-family: var(--font-heading-family);
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+  margin-bottom: 0.5rem;
+}
+.product__price {
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: var(--v-ink);
+}
+.price--on-sale .price-item--regular {
+  color: var(--v-ink-soft);
+}
+.product-form__submit {
+  min-height: 52px;
+  font-size: 1.25rem;
+  letter-spacing: 0.12em;
+  border-radius: var(--v-radius-md);
+}
+.product-form__input {
+  margin-bottom: 1rem;
+}
+.product-info__caption {
+  color: var(--v-ink-soft);
+  font-size: 0.9rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+}
+
+/* 20. Sticky add-to-cart bar — cleaner on mobile */
+.vennix-sticky-bar {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: saturate(1.2);
+  border-top: 1px solid var(--v-line);
+  box-shadow: var(--v-shadow-sm);
+}
+.vennix-sticky-bar__price {
+  font-weight: 600;
+  color: var(--v-ink);
+}
+
+/* 21. Trust badges on product page — more prominent */
+.vennix-trust-badges {
+  margin: 24px 0;
+  padding: 20px 0;
+  border-top: 1px solid var(--v-line);
+  border-bottom: 1px solid var(--v-line);
+}
+.vennix-trust-badge {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--v-ink-soft);
+}
+.vennix-trust-badge svg {
+  color: var(--v-gold);
+  flex-shrink: 0;
+}
+
+/* 22. Size guide — clearer trigger */
+.vennix-size-guide__trigger {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--v-ink-soft);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: var(--v-line);
+  transition: color 0.2s ease, text-decoration-color 0.2s ease;
+}
+.vennix-size-guide__trigger:hover {
+  color: var(--v-gold);
+  text-decoration-color: var(--v-gold);
+}
+
+/* 23. Cart drawer — smoother open/close and item transitions */
+.cart-drawer__contents {
+  transition: opacity 0.3s ease;
+}
+.cart-drawer__item {
+  transition: background-color 0.2s ease;
+}
+.cart-drawer__item:hover {
+  background-color: var(--v-cream);
+}
+.cart-drawer__quantity {
+  min-width: 44px;
+  min-height: 44px;
+}
+
+/* 24. Pagination — clearer active/hover states */
+.pagination__item {
+  min-width: 44px;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--v-radius-md);
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+.pagination__item--current {
+  background: var(--v-ink);
+  color: #fff;
+}
+.pagination__item:hover:not(.pagination__item--current) {
+  background: var(--v-cream);
+}
+
+/* 25. Footer — clearer grouping and hover feedback */
+.footer-block__detailslist li {
+  margin-bottom: 0.75rem;
+}
+.footer-block__detailslist a {
+  transition: color 0.2s ease;
+}
+.footer-block__detailslist a:hover {
+  color: var(--v-gold-deep);
+}
+.list-social__link {
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+.list-social__link:hover {
+  color: var(--v-gold-deep);
+  transform: translateY(-2px);
+}
+
+/* 26. FAQ / accordion — smoother expand/collapse */
+.faq-accordion {
+  border-bottom: 1px solid var(--v-line);
+}
+.faq-accordion__button {
+  padding: 1.25rem 0;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  transition: color 0.2s ease;
+}
+.faq-accordion__button:hover {
+  color: var(--v-gold-deep);
+}
+.faq-accordion__content {
+  padding-bottom: 1.25rem;
+  color: var(--v-ink-soft);
+  line-height: 1.7;
+}
+
+/* 27. Search bar — more prominent, accessible */
+.search__input {
+  border-radius: var(--v-radius-md);
+  border: 2px solid var(--v-line);
+  padding: 0.9rem 1.2rem;
+  font-size: 1rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.search__input:focus {
+  border-color: var(--v-gold);
+  box-shadow: 0 0 0 3px rgba(201, 169, 110, 0.15);
+}
+.search__button {
+  min-height: 44px;
+  min-width: 44px;
+  border-radius: var(--v-radius-md);
+  transition: background-color 0.2s ease, transform 0.15s ease;
+}
+.search__button:hover {
+  transform: translateY(-1px);
+}
+
+/* 28. Global accessibility — reduced motion and focus */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

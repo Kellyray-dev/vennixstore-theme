@@ -589,6 +589,18 @@
     <script src="{{ 'vennix-cart.js' | asset_url }}" defer></script>
     {%- comment -%} vennix-wishlist loaded ONCE — duplicate removed {%- endcomment -%}
     <script src="{{ 'vennix-wishlist.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'vennix-back-to-top.js' | asset_url }}" defer="defer"></script>
+
+    <button
+      type="button"
+      class="vennix-back-to-top"
+      id="vennixBackToTop"
+      aria-label="Back to top"
+    >
+      <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="18 15 12 9 6 15"></polyline>
+      </svg>
+    </button>
 
   </body>
 </html>

@@ -79,7 +79,6 @@
         return String(item.id);
       });
 
-      // Heart buttons
       var buttons = document.querySelectorAll('[data-wishlist-btn]');
       buttons.forEach(function (btn) {
         var active = ids.indexOf(String(btn.getAttribute('data-product-id'))) !== -1;
@@ -87,7 +86,6 @@
         btn.setAttribute('aria-pressed', active ? 'true' : 'false');
       });
 
-      // Header count badge
       var badge = document.getElementById('vennixHeaderWishlistCount');
       if (badge) {
         badge.textContent = items.length;
@@ -121,16 +119,18 @@
 
       if (!items.length) {
         grid.innerHTML = '';
+        grid.setAttribute('hidden', '');
         if (empty) empty.removeAttribute('hidden');
         return;
       }
 
       if (empty) empty.setAttribute('hidden', '');
 
+      grid.removeAttribute('hidden');
       grid.innerHTML = items
         .map(function (item) {
           var img = item.image
-            ? '<img src="' + item.image + '" alt="' + escapeHtml(item.title) + '" loading="lazy">'
+            ? '<img src="' + escapeHtml(item.image) + '" alt="' + escapeHtml(item.title) + '" loading="lazy">'
             : '';
           return (
             '<div class="vennix-wishlist-card grid__item" data-wishlist-card="' +
@@ -164,7 +164,6 @@
     init: function () {
       var self = this;
 
-      // Heart button clicks (event delegation covers dynamically added cards).
       document.addEventListener('click', function (event) {
         var btn = event.target.closest('[data-wishlist-btn]');
         if (btn) {
@@ -185,7 +184,6 @@
           return;
         }
 
-        // Remove button on the wishlist page.
         var removeBtn = event.target.closest('[data-wishlist-remove]');
         if (removeBtn) {
           event.preventDefault();
@@ -196,7 +194,6 @@
         }
       });
 
-      // Keep multiple tabs in sync.
       window.addEventListener('storage', function (event) {
         if (event.key === STORAGE_KEY) {
           self.updateUI();
@@ -218,7 +215,6 @@
       .replace(/'/g, '&#39;');
   }
 
-  // Expose for debugging / external hooks.
   window.VennixWishlist = VennixWishlist;
 
   if (document.readyState === 'loading') {
