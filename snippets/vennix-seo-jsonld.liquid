@@ -32,7 +32,11 @@
   "@type": "Organization",
   "name": "VennixStore",
   "url": {{ shop.url | json }},
-  "logo": {{ shop.url | append: '/path/to/logo.png' | json }},
+  {%- if shop.brand.logo -%}
+    "logo": {{ shop.brand.logo | image_url: width: 400 | prepend: 'https:' | json }},
+  {%- elsif settings.logo -%}
+    "logo": {{ settings.logo | image_url: width: 400 | prepend: 'https:' | json }},
+  {%- endif -%}
   "sameAs": [
     "https://instagram.com/vennixstore",
     "https://facebook.com/vennixstore"

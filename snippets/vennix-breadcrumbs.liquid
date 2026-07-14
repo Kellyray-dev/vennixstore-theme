@@ -113,34 +113,3 @@
 }
 </script>
 {% endunless %}
-<nav class="vennix-breadcrumbs page-width" aria-label="Breadcrumb" style="padding:12px 0 0;font-size:0.8rem;color:#888;">
-  <a href="/" class="link" style="color:#888;">Home</a>
-  {%- if template.name == 'collection' -%}
-    <span style="margin:0 6px;">/</span>
-    <span aria-current="page" style="color:#555;">{{ collection.title }}</span>
-  {%- elsif template.name == 'product' -%}
-    {%- if collection -%}
-      <span style="margin:0 6px;">/</span>
-      <a href="{{ collection.url }}" class="link" style="color:#888;">{{ collection.title }}</a>
-    {%- endif -%}
-    <span style="margin:0 6px;">/</span>
-    <span aria-current="page" style="color:#555;">{{ product.title }}</span>
-  {%- elsif template.name == 'blog' -%}
-    <span style="margin:0 6px;">/</span>
-    <span aria-current="page" style="color:#555;">{{ blog.title }}</span>
-  {%- elsif template.name == 'article' -%}
-    <span style="margin:0 6px;">/</span>
-    <a href="{{ blog.url }}" class="link" style="color:#888;">{{ blog.title }}</a>
-    <span style="margin:0 6px;">/</span>
-    <span aria-current="page" style="color:#555;">{{ article.title }}</span>
-  {%- elsif template.name == 'page' -%}
-    <span style="margin:0 6px;">/</span>
-    <span aria-current="page" style="color:#555;">{{ page.title }}</span>
-  {%- elsif template.name == 'search' -%}
-    <span style="margin:0 6px;">/</span>
-    <span aria-current="page" style="color:#555;">Search</span>
-  {%- elsif template.name == 'cart' -%}
-    <span style="margin:0 6px;">/</span>
-    <span aria-current="page" style="color:#555;">Cart</span>
-  {%- endif -%}
-</nav>
