@@ -1,0 +1,339 @@
+/* =============================================================================
+   VENNIXSTORE — Professional Design Enhancements
+   Loaded AFTER base.css and vennix-custom.css so it refines the storefront
+   into one cohesive, premium editorial system (warm cream + charcoal + gold).
+   Purely additive — safe, non-destructive polish.
+   ============================================================================= */
+
+:root {
+  --v-ink: #1a1a1a;
+  --v-ink-soft: #4a4a48;
+  --v-gold: #c9a96e;
+  --v-gold-deep: #b8965a;
+  --v-cream: #f9f7f4;
+  --v-line: #e7e1d8;
+  --v-radius-lg: 14px;
+  --v-radius-md: 8px;
+  --v-shadow-sm: 0 2px 10px rgba(26, 22, 15, 0.06);
+  --v-shadow-md: 0 10px 30px rgba(26, 22, 15, 0.09);
+  --v-shadow-lg: 0 18px 50px rgba(26, 22, 15, 0.12);
+  --v-ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* -----------------------------------------------------------------------------
+   1. Typography refinement — quieter body, more confident headings
+----------------------------------------------------------------------------- */
+h1, h2, h3, .h0, .h1, .h2, .h3,
+.title,
+.section-header__heading {
+  font-family: var(--font-heading-family);
+  letter-spacing: -0.01em;
+  color: var(--v-ink);
+}
+
+h1, .h1, .title--primary {
+  line-height: 1.12;
+}
+
+p, li, .rte {
+  color: var(--v-ink-soft);
+}
+
+/* -----------------------------------------------------------------------------
+   2. Trust bar — harmonize with the premium palette (charcoal + gold)
+      Overrides the navy/blue version defined inline in theme.liquid.
+----------------------------------------------------------------------------- */
+.vennix-trust-bar {
+  background: linear-gradient(180deg, #1f1c17 0%, #17140f 100%);
+  border-bottom: 1px solid rgba(201, 169, 110, 0.28);
+  padding: 10px 16px;
+}
+.vennix-trust-bar__item {
+  color: #efe9df;
+  font-size: 1.15rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.vennix-trust-bar__item svg {
+  color: var(--v-gold);
+  width: 16px;
+  height: 16px;
+}
+.vennix-trust-bar__divider {
+  background: rgba(201, 169, 110, 0.3);
+}
+
+/* -----------------------------------------------------------------------------
+   3. Header — cleaner, calmer, subtle depth on scroll
+----------------------------------------------------------------------------- */
+.header {
+  border-bottom: 1px solid var(--v-line);
+  transition: box-shadow 0.3s var(--v-ease);
+}
+.shopify-section-header-sticky .header,
+.header-wrapper--sticky .header {
+  box-shadow: var(--v-shadow-sm);
+}
+.header__menu-item {
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-size: 1.25rem;
+}
+.header__menu-item a::after {
+  background: var(--v-gold);
+}
+
+/* -----------------------------------------------------------------------------
+   4. Announcement bar — refined tracking
+----------------------------------------------------------------------------- */
+.announcement-bar {
+  font-size: 1.2rem;
+}
+.announcement-bar__message {
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+/* -----------------------------------------------------------------------------
+   5. Section headers — editorial eyebrow + centered accent rule
+----------------------------------------------------------------------------- */
+.section-header,
+.title-wrapper--no-top-margin {
+  text-align: center;
+}
+.collection__title.title-wrapper,
+.title-wrapper-with-link {
+  align-items: baseline;
+}
+.section-header__heading,
+.collection .title,
+.featured-collection .title,
+.multicolumn .title,
+.vennix-category-row__heading {
+  position: relative;
+  padding-bottom: 1.6rem;
+}
+.section-header__heading::after,
+.collection__title.center .title::after,
+.vennix-category-row__heading::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  width: 52px;
+  height: 2px;
+  background: var(--v-gold);
+}
+
+/* -----------------------------------------------------------------------------
+   6. Product cards — refined media, elegant lift, premium price
+----------------------------------------------------------------------------- */
+.card-wrapper .card__inner {
+  border-radius: var(--v-radius-md);
+  overflow: hidden;
+}
+.card--standard .card__media,
+.card__media .media {
+  border-radius: var(--v-radius-md);
+}
+.card-wrapper {
+  transition: transform 0.4s var(--v-ease), box-shadow 0.4s var(--v-ease);
+}
+.card-wrapper:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--v-shadow-md);
+}
+.card__media img {
+  transition: transform 0.6s var(--v-ease);
+}
+.card-wrapper:hover .card__media img {
+  transform: scale(1.05);
+}
+.card__heading a {
+  letter-spacing: 0.01em;
+}
+.card-information .caption-large,
+.card__information .price {
+  font-weight: 600;
+}
+.price__container .price-item {
+  color: var(--v-ink);
+}
+.card--standard > .card__content {
+  padding-top: 1.2rem;
+}
+/* Vendor label as quiet uppercase eyebrow */
+.caption-with-letter-spacing,
+.card__information .caption {
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 1.05rem;
+  color: var(--v-gold-deep);
+}
+
+/* -----------------------------------------------------------------------------
+   7. Badges — premium pill treatment
+----------------------------------------------------------------------------- */
+.badge {
+  border-radius: 999px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 0.5rem 1.1rem;
+  backdrop-filter: saturate(1.1);
+}
+.badge.price__badge-sale {
+  background: var(--v-gold);
+  color: #fff;
+  border-color: var(--v-gold);
+}
+.badge.price__badge-sold-out {
+  background: var(--v-ink);
+  color: #fff;
+  border-color: var(--v-ink);
+}
+
+/* -----------------------------------------------------------------------------
+   8. Buttons — quietly luxurious
+----------------------------------------------------------------------------- */
+.button,
+.shopify-challenge__button,
+.customer button {
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 600;
+  font-size: 1.25rem;
+  transition: background-color 0.3s var(--v-ease), color 0.3s var(--v-ease),
+    border-color 0.3s var(--v-ease), transform 0.15s var(--v-ease),
+    box-shadow 0.3s var(--v-ease);
+}
+.button:not([disabled]):hover {
+  transform: translateY(-1px);
+  box-shadow: var(--v-shadow-sm);
+}
+.button--primary:not([disabled]):hover,
+.product-form__submit:not([disabled]):hover {
+  background: var(--v-gold);
+  border-color: var(--v-gold);
+  color: #fff;
+}
+/* Full-bleed add-to-cart on product pages */
+.product-form__submit {
+  letter-spacing: 0.12em;
+}
+
+/* -----------------------------------------------------------------------------
+   9. Inputs & forms — softer, more considered
+----------------------------------------------------------------------------- */
+.field__input,
+.select__select,
+.customer input,
+textarea {
+  transition: border-color 0.25s var(--v-ease), box-shadow 0.25s var(--v-ease);
+}
+.field__input:focus,
+.select__select:focus,
+textarea:focus {
+  box-shadow: 0 0 0 2px rgba(201, 169, 110, 0.25);
+}
+
+/* -----------------------------------------------------------------------------
+   10. Links & focus — brand-consistent
+----------------------------------------------------------------------------- */
+a:not(.button):not(.card__heading a) {
+  text-underline-offset: 3px;
+}
+.link:hover,
+a.link:hover {
+  color: var(--v-gold-deep);
+}
+:focus-visible {
+  outline: 2px solid var(--v-gold);
+  outline-offset: 3px;
+}
+
+/* -----------------------------------------------------------------------------
+   11. Footer — refined spacing and gold hover
+----------------------------------------------------------------------------- */
+.footer {
+  border-top: 1px solid var(--v-line);
+}
+.footer__content-top {
+  padding-bottom: 3rem;
+}
+.footer-block__heading {
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-size: 1.3rem;
+}
+.footer a:hover,
+.footer__list-social .list-social__link:hover {
+  color: var(--v-gold-deep);
+}
+.footer__content-bottom {
+  border-top: 1px solid var(--v-line);
+}
+
+/* -----------------------------------------------------------------------------
+   12. Category row & brand story — cohesion touches
+----------------------------------------------------------------------------- */
+.vennix-category-row__item {
+  transition: transform 0.3s var(--v-ease);
+}
+.vennix-category-row__item:hover {
+  transform: translateY(-4px);
+}
+.vennix-category-row__label {
+  letter-spacing: 0.04em;
+}
+.vennix-brand-story__eyebrow {
+  color: var(--v-gold-deep) !important;
+}
+
+/* -----------------------------------------------------------------------------
+   13. Newsletter / email signup — centered, elegant
+----------------------------------------------------------------------------- */
+.newsletter__subheading,
+.email-signup-banner__subtitle {
+  color: var(--v-ink-soft);
+}
+
+/* -----------------------------------------------------------------------------
+   14. Pagination & breadcrumbs polish
+----------------------------------------------------------------------------- */
+.pagination__list li a:hover,
+.pagination__list li span.pagination__item--current {
+  color: var(--v-gold-deep);
+}
+.vennix-breadcrumbs {
+  letter-spacing: 0.02em;
+}
+.vennix-breadcrumbs a {
+  color: var(--v-gold-deep);
+}
+
+/* -----------------------------------------------------------------------------
+   15. Scroll-reveal entrance (respects reduced motion)
+----------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: no-preference) {
+  .scroll-trigger.animate--fade-in {
+    transition-timing-function: var(--v-ease);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .card-wrapper,
+  .card__media img,
+  .vennix-category-row__item {
+    transition: none !important;
+  }
+}
