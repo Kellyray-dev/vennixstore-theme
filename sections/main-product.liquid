@@ -1,29 +1,25 @@
 {% comment %}
   Main Product Section — Elite CRO & OS 2.0 Implementation for VennixStore
-  Includes sticky ATC bar on mobile (Step 3)
+  Includes: Block system, Sticky ATC, Trust Badges, Size Guide
 {% endcomment %}
 
 {%- liquid
   assign product_form_id = 'product-form-' | append: section.id
-  assign enable_zoom = section.settings.image_zoom != 'none'
-  assign sticky_class = section.settings.enable_sticky_info ? 'product__info--sticky' : ''
-  assign media_position_class = section.settings.media_position == 'right' ? 'grid--reverse' : ''
 -%}
 
 <div class="product__wrapper section-{{ section.id }}" data-section-id="{{ section.id }}">
-  <div class="product__grid grid grid--2-col-tablet {{ media_position_class }}">
+  <div class="product__grid grid grid--2-col-tablet">
     
     <!-- Media Gallery -->
     <div class="product__media-wrapper">
       {%- render 'product-media', 
         product: product, 
-        enable_zoom: enable_zoom,
         section_id: section.id 
       -%}
     </div>
 
     <!-- Product Information -->
-    <div class="product__info-wrapper {{ sticky_class }}">
+    <div class="product__info-wrapper">
       
       {%- for block in section.blocks -%}
         <div {{ block.shopify_attributes }}>
@@ -84,65 +80,86 @@
   <!-- Additional Details -->
   {%- render 'product-disclosures' -%}
   {%- render 'vennix-size-guide' -%}
-</div>
 
-{% comment %} =============================================
-   STICKY ATC BAR - MOBILE (CRO)
-   Appears when native ATC button scrolls out of view
-============================================= {% endcomment %}
-{%- if section.settings.enable_sticky_atc_mobile -%}
-  <div id="sticky-atc-{{ section.id }}" class="sticky-atc" style="display: none; position: fixed; bottom: 0; left: 0; right: 0; z-index: 50; background: #fff; border-top: 1px solid #e5e5e5; padding: 12px 16px; box-shadow: 0 -2px 10px rgba(0,0,0,0.08);">
-    <div style="display: flex; align-items: center; justify-content: space-between; max-width: 600px; margin: 0 auto;">
-      <div>
-        <p style="font-weight: 600; font-size: 14px; margin: 0; color: #111;">{{ product.title | truncate: 40 }}</p>
-        <p style="font-size: 13px; color: #666; margin: 0;">
-          {{ product.selected_or_first_available_variant.price | money }}
-        </p>
+  <!-- Sticky ATC Bar (Mobile) -->
+  {%- if section.settings.enable_sticky_atc_mobile -%}
+    <div id="sticky-atc-{{ section.id }}" class="sticky-atc" style="display: none; position: fixed; bottom: 0; left: 0; right: 0; z-index: 50; background: #fff; border-top: 1px solid #e5e5e5; padding: 12px 16px; box-shadow: 0 -2px 10px rgba(0,0,0,0.08);">
+      <div style="display: flex; align-items: center; justify-content: space-between; max-width: 600px; margin: 0 auto;">
+        <div>
+          <p style="font-weight: 600; font-size: 14px; margin: 0; color: #111;">{{ product.title | truncate: 40 }}</p>
+          <p style="font-size: 13px; color: #666; margin: 0;">
+            {{ product.selected_or_first_available_variant.price | money }}
+          </p>
+        </div>
+
+        {%- form 'product', product, id: product_form_id, class: 'form', data-type: 'add-to-cart-form' -%}
+          <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+          <button type="submit" class="button button--primary" style="padding: 10px 24px; border-radius: 9999px; font-size: 14px; font-weight: 500; min-width: 140px;"
+            {% if product.selected_or_first_available_variant.available == false %}disabled{% endif %}>
+            {{ 'products.product.add_to_cart' | t }}
+          </button>
+        {%- endform -%}
       </div>
-
-      {%- form 'product', product, id: product_form_id, class: 'form', data-type: 'add-to-cart-form' -%}
-        <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
-        <button type="submit"
-          class="button button--primary"
-          style="padding: 10px 24px; border-radius: 9999px; font-size: 14px; font-weight: 500; min-width: 140px;"
-          {% if product.selected_or_first_available_variant.available == false %}disabled{% endif %}>
-          {{ 'products.product.add_to_cart' | t }}
-        </button>
-      {%- endform -%}
     </div>
-  </div>
 
-  <script>
-    (function() {
-      const stickyAtc = document.getElementById('sticky-atc-{{ section.id }}');
-      const nativeAtc = document.querySelector('[data-type="add-to-cart-form"] button[type="submit"]');
+    <script>
+      (function() {
+        const stickyAtc = document.getElementById('sticky-atc-{{ section.id }}');
+        const nativeAtc = document.querySelector('[data-type="add-to-cart-form"] button[type="submit"]');
+        if (!stickyAtc || !nativeAtc) return;
 
-      if (!stickyAtc || !nativeAtc) return;
+        const observer = new IntersectionObserver(([entry]) => {
+          if (window.innerWidth < 768) {
+            stickyAtc.style.display = entry.isIntersecting ? 'none' : 'block';
+          }
+        }, { threshold: 0 });
+        observer.observe(nativeAtc);
 
-      const observer = new IntersectionObserver(([entry]) => {
-        if (window.innerWidth < 768) { // Mobile only
-          stickyAtc.style.display = entry.isIntersecting ? 'none' : 'block';
-        } else {
-          stickyAtc.style.display = 'none';
-        }
-      }, { threshold: 0 });
+        window.addEventListener('resize', () => {
+          if (window.innerWidth >= 768) stickyAtc.style.display = 'none';
+        });
+      })();
+    </script>
+  {%- endif -%}
 
-      observer.observe(nativeAtc);
-
-      // Hide on desktop resize
-      window.addEventListener('resize', () => {
-        if (window.innerWidth >= 768) stickyAtc.style.display = 'none';
-      });
-    })();
-  </script>
-{%- endif -%}
+</div>
 
 {% schema %}
 {
   "name": "Product information",
   "tag": "section",
   "class": "section",
-  "blocks": [ /* ... same blocks as before ... */ ],
+  "blocks": [
+    { "type": "text", "name": "Text", "settings": [ { "type": "text", "id": "text", "label": "Text", "default": "{{ product.vendor }}" } ] },
+    { "type": "title", "name": "Title", "limit": 1 },
+    { "type": "price", "name": "Price", "limit": 1 },
+    {
+      "type": "variant_picker",
+      "name": "Variant picker",
+      "limit": 1,
+      "settings": [
+        { "type": "select", "id": "picker_type", "label": "Picker type", "options": [ { "value": "button", "label": "Button" }, { "value": "dropdown", "label": "Dropdown" } ], "default": "button" },
+        { "type": "select", "id": "swatch_shape", "label": "Swatch shape", "options": [ { "value": "circle", "label": "Circle" }, { "value": "square", "label": "Square" } ], "default": "circle" }
+      ]
+    },
+    { "type": "quantity_selector", "name": "Quantity selector", "limit": 1 },
+    {
+      "type": "buy_buttons",
+      "name": "Buy buttons",
+      "limit": 1,
+      "settings": [
+        { "type": "checkbox", "id": "show_dynamic_checkout", "label": "Show dynamic checkout buttons", "default": true },
+        { "type": "checkbox", "id": "show_gift_card_recipient", "label": "Show gift card recipient form", "default": true }
+      ]
+    },
+    { "type": "description", "name": "Description", "limit": 1 },
+    {
+      "type": "share",
+      "name": "Share",
+      "limit": 1,
+      "settings": [ { "type": "text", "id": "share_label", "label": "Share label", "default": "Share" } ]
+    }
+  ],
   "settings": [
     {
       "type": "checkbox",
@@ -150,19 +167,15 @@
       "label": "Enable sticky Add to Cart on mobile",
       "default": true
     },
-    /* ... all previous settings remain unchanged ... */
     {
       "type": "checkbox",
       "id": "enable_sticky_info",
       "label": "Enable sticky product information on desktop",
       "default": true
     }
-    /* ... rest of settings ... */
   ],
   "presets": [
-    {
-      "name": "Product page"
-    }
+    { "name": "Product page" }
   ]
 }
 {% endschema %}
