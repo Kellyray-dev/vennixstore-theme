@@ -51,6 +51,12 @@
     assign fetch_priority = 'high'
   endif
 
+  # LCP loading attribute
+  assign loading = 'lazy'
+  if section.index == 1
+    assign loading = 'eager'
+  endif
+
   assign animation_class = ''
   if settings.animations_reveal_on_scroll
     case section.settings.animation_style
@@ -99,7 +105,7 @@
           sizes: sizes,
           widths: widths,
           fetchpriority: fetch_priority,
-          loading: section.index == 1 ? 'eager' : 'lazy'
+          loading: loading
       }}
     </div>
   {%- elsif section.settings.image_2 == blank -%}
@@ -133,7 +139,7 @@
           sizes: sizes,
           widths: widths,
           fetchpriority: fetch_priority,
-          loading: section.index == 1 ? 'eager' : 'lazy'
+          loading: loading
       }}
     </div>
   {%- endif -%}
@@ -176,16 +182,8 @@
   "class": "section",
   "disabled_on": { "groups": ["header", "footer"] },
   "settings": [
-    {
-      "type": "image_picker",
-      "id": "image",
-      "label": "Image"
-    },
-    {
-      "type": "image_picker",
-      "id": "image_2",
-      "label": "Second image"
-    },
+    { "type": "image_picker", "id": "image", "label": "Image" },
+    { "type": "image_picker", "id": "image_2", "label": "Second image" },
     {
       "type": "range",
       "id": "image_overlay_opacity",
@@ -231,10 +229,7 @@
       ],
       "default": "fade"
     },
-    {
-      "type": "header",
-      "content": "Content"
-    },
+    { "type": "header", "content": "Content" },
     {
       "type": "select",
       "id": "desktop_content_position",
@@ -263,28 +258,10 @@
       ],
       "default": "center"
     },
-    {
-      "type": "checkbox",
-      "id": "show_text_box",
-      "label": "Show text box",
-      "default": true
-    },
-    {
-      "type": "color_scheme",
-      "id": "color_scheme",
-      "label": "Color scheme",
-      "default": "scheme-1"
-    },
-    {
-      "type": "header",
-      "content": "Mobile"
-    },
-    {
-      "type": "checkbox",
-      "id": "stack_images_on_mobile",
-      "label": "Stack images on mobile",
-      "default": true
-    },
+    { "type": "checkbox", "id": "show_text_box", "label": "Show text box", "default": true },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+    { "type": "header", "content": "Mobile" },
+    { "type": "checkbox", "id": "stack_images_on_mobile", "label": "Stack images on mobile", "default": true },
     {
       "type": "select",
       "id": "mobile_content_alignment",
@@ -296,12 +273,7 @@
       ],
       "default": "center"
     },
-    {
-      "type": "checkbox",
-      "id": "show_text_below",
-      "label": "Show text below image on mobile",
-      "default": true
-    }
+    { "type": "checkbox", "id": "show_text_below", "label": "Show text below image on mobile", "default": true }
   ],
   "blocks": [
     {
@@ -309,12 +281,7 @@
       "name": "Heading",
       "limit": 1,
       "settings": [
-        {
-          "type": "inline_richtext",
-          "id": "heading",
-          "label": "Heading",
-          "default": "Image banner"
-        },
+        { "type": "inline_richtext", "id": "heading", "label": "Heading", "default": "Image banner" },
         {
           "type": "select",
           "id": "heading_size",
@@ -335,12 +302,7 @@
       "name": "Text",
       "limit": 1,
       "settings": [
-        {
-          "type": "inline_richtext",
-          "id": "text",
-          "label": "Text",
-          "default": "Pair large text with an image to tell a story."
-        },
+        { "type": "inline_richtext", "id": "text", "label": "Text", "default": "Pair large text with an image to tell a story." },
         {
           "type": "select",
           "id": "text_style",
@@ -359,39 +321,12 @@
       "name": "Buttons",
       "limit": 1,
       "settings": [
-        {
-          "type": "text",
-          "id": "button_label_1",
-          "label": "First button label",
-          "default": "Shop now"
-        },
-        {
-          "type": "url",
-          "id": "button_link_1",
-          "label": "First button link"
-        },
-        {
-          "type": "checkbox",
-          "id": "button_style_secondary_1",
-          "label": "Secondary style",
-          "default": false
-        },
-        {
-          "type": "text",
-          "id": "button_label_2",
-          "label": "Second button label"
-        },
-        {
-          "type": "url",
-          "id": "button_link_2",
-          "label": "Second button link"
-        },
-        {
-          "type": "checkbox",
-          "id": "button_style_secondary_2",
-          "label": "Secondary style",
-          "default": false
-        }
+        { "type": "text", "id": "button_label_1", "label": "First button label", "default": "Shop now" },
+        { "type": "url", "id": "button_link_1", "label": "First button link" },
+        { "type": "checkbox", "id": "button_style_secondary_1", "label": "Secondary style", "default": false },
+        { "type": "text", "id": "button_label_2", "label": "Second button label" },
+        { "type": "url", "id": "button_link_2", "label": "Second button link" },
+        { "type": "checkbox", "id": "button_style_secondary_2", "label": "Secondary style", "default": false }
       ]
     }
   ],
