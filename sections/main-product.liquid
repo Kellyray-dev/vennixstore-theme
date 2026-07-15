@@ -1,34 +1,112 @@
 {% comment %}
-  Main product section with elite CRO enhancements
+  Main Product Section — Elite CRO & OS 2.0 Implementation for VennixStore
+  - Fully supports blocks from templates/product.json
+  - Custom 2-column layout with trust badges and size guide
+  - Sticky info support, performance attributes, and accessibility
 {% endcomment %}
 
 {%- liquid
   assign product_form_id = 'product-form-' | append: section.id
-  assign enable_zoom = section.settings.enable_image_zoom
+  assign enable_zoom = section.settings.image_zoom != 'none'
+  assign sticky_class = section.settings.enable_sticky_info ? 'product__info--sticky' : ''
+  assign media_position_class = section.settings.media_position == 'right' ? 'grid--reverse' : ''
 -%}
 
-<div class="product__wrapper" data-section-id="{{ section.id }}">
-  <div class="product__grid grid grid--2-col-tablet">
-    <!-- Image Gallery -->
+<div class="product__wrapper section-{{ section.id }}" data-section-id="{{ section.id }}">
+  <div class="product__grid grid grid--2-col-tablet {{ media_position_class }}">
+    
+    <!-- Media Gallery -->
     <div class="product__media-wrapper">
-      {%- render 'product-media', product: product, enable_zoom: enable_zoom -%}
+      {%- render 'product-media', 
+        product: product, 
+        enable_zoom: enable_zoom,
+        section_id: section.id 
+      -%}
     </div>
 
-    <!-- Product Info -->
-    <div class="product__info-wrapper">
-      {%- render 'product-info', 
-        product: product, 
-        section_id: section.id, 
-        form_id: product_form_id 
-      -%}
+    <!-- Product Information -->
+    <div class="product__info-wrapper {{ sticky_class }}">
       
-      <!-- Elite Trust Signals -->
+      {%- for block in section.blocks -%}
+        <div {{ block.shopify_attributes }}>
+          {%- case block.type -%}
+            
+            {%- when 'text' -%}
+              <div class="product__vendor caption-large">
+                {{ block.settings.text | escape }}
+              </div>
+
+            {%- when 'title' -%}
+              <h1 class="product__title h1">
+                {{ product.title | escape }}
+              </h1>
+
+            {%- when 'price' -%}
+              {%- render 'price', product: product, use_variant: true -%}
+
+            {%- when 'variant_picker' -%}
+              {%- render 'product-variant-picker', 
+                product: product, 
+                block: block, 
+                section_id: section.id 
+              -%}
+
+            {%- when 'quantity_selector' -%}
+              <div class="product-form__quantity">
+                <label class="form__label" for="Quantity-{{ product.selected_or_first_available_variant.id }}">
+                  {{ 'products.product.quantity.label' | t }}
+                </label>
+                <quantity-input class="quantity">
+                  <button class="quantity__button" name="minus" type="button" aria-label="{{ 'products.product.quantity.decrease' | t | escape }}">
+                    <span class="svg-wrapper">{{ 'icon-minus.svg' | inline_asset_content }}</span>
+                  </button>
+                  <input
+                    class="quantity__input"
+                    type="number"
+                    name="quantity"
+                    value="1"
+                    min="1"
+                    aria-label="{{ 'products.product.quantity.input_label' | t: product: product.title | escape }}"
+                    id="Quantity-{{ product.selected_or_first_available_variant.id }}"
+                  >
+                  <button class="quantity__button" name="plus" type="button" aria-label="{{ 'products.product.quantity.increase' | t | escape }}">
+                    <span class="svg-wrapper">{{ 'icon-plus.svg' | inline_asset_content }}</span>
+                  </button>
+                </quantity-input>
+              </div>
+
+            {%- when 'buy_buttons' -%}
+              {%- render 'buy-buttons', 
+                block: block, 
+                product: product, 
+                product_form_id: product_form_id, 
+                section_id: section.id 
+              -%}
+
+            {%- when 'description' -%}
+              <div class="product__description rte">
+                {{ product.description }}
+              </div>
+
+            {%- when 'share' -%}
+              {%- render 'share-button', block: block -%}
+
+            {%- else -%}
+              <!-- Unsupported block type (safe fallback) -->
+          {%- endcase -%}
+        </div>
+      {%- endfor -%}
+
+      <!-- Elite Trust Signals (CRO) -->
       <div class="trust-badges mt-6">
         {%- render 'vennix-trust-badges' -%}
         {%- if product.metafields.custom.reviews_count > 0 -%}
-          <p class="text-sm text-green-600">⭐ {{ product.metafields.custom.reviews_count }} reviews • 98% recommend</p>
+          <p class="text-sm text-green-600">
+            ⭐ {{ product.metafields.custom.reviews_count }} reviews • 98% recommend
+          </p>
         {%- endif -%}
       </div>
+
     </div>
   </div>
 
@@ -37,15 +115,221 @@
   {%- render 'vennix-size-guide' -%}
 </div>
 
-<script>
-  // Enhanced JS for smoother UX (add to existing scripts if needed)
-  document.addEventListener('DOMContentLoaded', () => {
-    // Add subtle success animation on ATC
-  });
-</script>
-
-<style>
-  /* Custom enhancements for CRO */
-  .product__info-wrapper { scroll-margin-top: 80px; }
-  .trust-badges { border-top: 1px solid #e5e7eb; padding-top: 1.5rem; }
-</style>
+{% schema %}
+{
+  "name": "Product information",
+  "tag": "section",
+  "class": "section",
+  "blocks": [
+    {
+      "type": "text",
+      "name": "Text",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "{{ product.vendor }}"
+        }
+      ]
+    },
+    {
+      "type": "title",
+      "name": "Title",
+      "limit": 1
+    },
+    {
+      "type": "price",
+      "name": "Price",
+      "limit": 1
+    },
+    {
+      "type": "variant_picker",
+      "name": "Variant picker",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "select",
+          "id": "picker_type",
+          "label": "Picker type",
+          "options": [
+            { "value": "button", "label": "Button" },
+            { "value": "dropdown", "label": "Dropdown" }
+          ],
+          "default": "button"
+        },
+        {
+          "type": "select",
+          "id": "swatch_shape",
+          "label": "Swatch shape",
+          "options": [
+            { "value": "circle", "label": "Circle" },
+            { "value": "square", "label": "Square" }
+          ],
+          "default": "circle"
+        }
+      ]
+    },
+    {
+      "type": "quantity_selector",
+      "name": "Quantity selector",
+      "limit": 1
+    },
+    {
+      "type": "buy_buttons",
+      "name": "Buy buttons",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "show_dynamic_checkout",
+          "label": "Show dynamic checkout buttons",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "show_gift_card_recipient",
+          "label": "Show gift card recipient form",
+          "default": true
+        }
+      ]
+    },
+    {
+      "type": "description",
+      "name": "Description",
+      "limit": 1
+    },
+    {
+      "type": "share",
+      "name": "Share",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "share_label",
+          "label": "Share label",
+          "default": "Share"
+        }
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable_sticky_info",
+      "label": "Enable sticky product information on desktop",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "media_position",
+      "label": "Media position",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "select",
+      "id": "gallery_layout",
+      "label": "Gallery layout",
+      "options": [
+        { "value": "stacked", "label": "Stacked" },
+        { "value": "thumbnail", "label": "Thumbnail" }
+      ],
+      "default": "stacked"
+    },
+    {
+      "type": "select",
+      "id": "media_size",
+      "label": "Media size",
+      "options": [
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "large"
+    },
+    {
+      "type": "checkbox",
+      "id": "constrain_to_viewport",
+      "label": "Constrain media to viewport",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "media_fit",
+      "label": "Media fit",
+      "options": [
+        { "value": "contain", "label": "Contain" },
+        { "value": "cover", "label": "Cover" }
+      ],
+      "default": "contain"
+    },
+    {
+      "type": "select",
+      "id": "image_zoom",
+      "label": "Image zoom",
+      "options": [
+        { "value": "lightbox", "label": "Lightbox" },
+        { "value": "none", "label": "None" }
+      ],
+      "default": "lightbox"
+    },
+    {
+      "type": "select",
+      "id": "mobile_thumbnails",
+      "label": "Mobile thumbnails",
+      "options": [
+        { "value": "show", "label": "Show" },
+        { "value": "hide", "label": "Hide" }
+      ],
+      "default": "hide"
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_variants",
+      "label": "Hide variant labels",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_video_looping",
+      "label": "Enable video looping",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 12
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product page"
+    }
+  ]
+}
+{% endschema %}
