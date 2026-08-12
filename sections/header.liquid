@@ -149,7 +149,7 @@
 
     {%- if section.settings.logo_position != 'middle-center' -%}
       {%- if request.page_type == 'index' -%}
-        <h1 class="header__heading">
+        <div class="header__heading">
       {%- endif -%}
       <a href="{{ routes.root_url }}" class="header__heading-link link link--text focus-inset">
         {%- if settings.logo != blank -%}
@@ -172,11 +172,11 @@
             }}
           </div>
         {%- else -%}
-          <img src="{{ 'vennix-logo.svg' | asset_url }}" alt="VennixStore" width="160" height="60" class="header__heading-logo">
+          <img src="{{ 'vennix-logo.svg' | asset_url }}" alt="VennixStore — curated goods" width="184" height="39" class="header__heading-logo">
         {%- endif -%}
       </a>
       {%- if request.page_type == 'index' -%}
-        </h1>
+        </div>
       {%- endif -%}
     {%- endif -%}
 
@@ -192,7 +192,7 @@
 
     {%- if section.settings.logo_position == 'middle-center' -%}
       {%- if request.page_type == 'index' -%}
-        <h1 class="header__heading">
+        <div class="header__heading">
       {%- endif -%}
       <a href="{{ routes.root_url }}" class="header__heading-link link link--text focus-inset">
         {%- if settings.logo != blank -%}
@@ -215,11 +215,11 @@
             }}
           </div>
         {%- else -%}
-          <img src="{{ 'vennix-logo.svg' | asset_url }}" alt="VennixStore" width="160" height="60" class="header__heading-logo">
+          <img src="{{ 'vennix-logo.svg' | asset_url }}" alt="VennixStore — curated goods" width="184" height="39" class="header__heading-logo">
         {%- endif -%}
       </a>
       {%- if request.page_type == 'index' -%}
-        </h1>
+        </div>
       {%- endif -%}
     {%- endif -%}
 
@@ -292,7 +292,7 @@
           </svg>
         </span>
         <span class="visually-hidden">Wishlist</span>
-        <span id="vennixHeaderWishlistCount" class="cart-count-bubble" style="display:none;">0</span>
+        <span id="vennixHeaderWishlistCount" class="cart-count-bubble" hidden>0</span>
       </a>
       <a href="{{ routes.cart_url }}" class="header__icon header__icon--cart link focus-inset" id="cart-icon-bubble">
         {% if cart == empty %}

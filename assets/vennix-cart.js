@@ -6,7 +6,7 @@
 (function () {
   'use strict';
 
-  var THRESHOLD = 7500; // $75.00 in cents
+  var THRESHOLD = 5000; // $50.00 in cents
 
   function formatMoney(cents) {
     return '$' + (cents / 100).toFixed(2);

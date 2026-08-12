@@ -9,53 +9,6 @@
  */
 {
   "sections": {
-    "image_banner": {
-      "type": "image-banner",
-      "blocks": {
-        "heading": {
-          "type": "heading",
-          "settings": {
-            "heading": "Style That Speaks For You",
-            "heading_size": "h0"
-          }
-        },
-        "text": {
-          "type": "text",
-          "settings": {
-            "text": "Shop the latest arrivals and curated collections",
-            "text_style": "subtitle"
-          }
-        },
-        "button": {
-          "type": "buttons",
-          "settings": {
-            "button_label_1": "Shop Now",
-            "button_link_1": "shopify://collections/all",
-            "button_style_secondary_1": false,
-            "button_label_2": "View Collections",
-            "button_link_2": "shopify://collections",
-            "button_style_secondary_2": true
-          }
-        }
-      },
-      "block_order": [
-        "heading",
-        "text",
-        "button"
-      ],
-      "settings": {
-        "image_overlay_opacity": 50,
-        "image_height": "large",
-        "desktop_content_position": "middle-center",
-        "show_text_box": false,
-        "image_behavior": "none",
-        "desktop_content_alignment": "center",
-        "color_scheme": "scheme-3",
-        "mobile_content_alignment": "center",
-        "stack_images_on_mobile": false,
-        "show_text_below": false
-      }
-    },
     "featured_collection": {
       "type": "featured-collection",
       "settings": {
@@ -173,10 +126,58 @@
         "padding_top": 44,
         "padding_bottom": 36
       }
+    },
+    "vennix_hero": {
+      "type": "vennix-hero",
+      "blocks": {
+        "shipping": {
+          "type": "assurance",
+          "settings": {
+            "icon": "delivery",
+            "heading": "Free shipping over $50",
+            "text": "On eligible orders"
+          }
+        },
+        "returns": {
+          "type": "assurance",
+          "settings": {
+            "icon": "returns",
+            "heading": "30-day returns",
+            "text": "Simple and straightforward"
+          }
+        },
+        "checkout": {
+          "type": "assurance",
+          "settings": {
+            "icon": "secure",
+            "heading": "Secure checkout",
+            "text": "Protected payments"
+          }
+        }
+      },
+      "block_order": [
+        "shipping",
+        "returns",
+        "checkout"
+      ],
+      "settings": {
+        "image_focus": "right",
+        "desktop_height": 720,
+        "overlay_opacity": 5,
+        "enable_motion": true,
+        "show_scroll_cue": true,
+        "eyebrow": "The Vennix edit",
+        "heading": "Better finds, <em>beautifully chosen.</em>",
+        "text": "<p>A considered mix of style, home, tech and everyday essentials—selected to make the good stuff easier to find.</p>",
+        "primary_label": "Shop the latest edit",
+        "primary_link": "shopify://collections/all",
+        "secondary_label": "Explore collections",
+        "secondary_link": "shopify://collections"
+      }
     }
   },
   "order": [
-    "image_banner",
+    "vennix_hero",
     "vennix_category_row",
     "featured_collection",
     "vennix_brand_story",
