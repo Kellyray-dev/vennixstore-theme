@@ -69,38 +69,3 @@
 }
 </script>
 {%- endif -%}
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  "name": "VennixStore",
-  "url": {{ shop.url | json }},
-  {%- if shop.brand.logo -%}
-    "logo": {{ shop.brand.logo | image_url: width: 400 | prepend: 'https:' | json }},
-  {%- elsif settings.logo -%}
-    "logo": {{ settings.logo | image_url: width: 400 | prepend: 'https:' | json }},
-  {%- endif -%}
-  "sameAs": [
-    "https://instagram.com/vennixstore",
-    "https://facebook.com/vennixstore"
-  ]
-}
-</script>
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  "name": "VennixStore",
-  "url": {{ shop.url | json }},
-  "potentialAction": {
-    "@type": "SearchAction",
-    "target": {
-      "@type": "EntryPoint",
-      "urlTemplate": "{{ shop.url }}/search?q={search_term_string}"
-    },
-    "query-input": "required name=search_term_string"
-  }
-}
-</script>

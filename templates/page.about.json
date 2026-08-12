@@ -6,34 +6,6 @@
     },
     "vennix-brand-story": {
       "type": "vennix-brand-story",
-      "blocks": {
-        "stat_1": {
-          "type": "stat",
-          "settings": {
-            "value": "10K+",
-            "label": "Happy Customers"
-          }
-        },
-        "stat_2": {
-          "type": "stat",
-          "settings": {
-            "value": "500+",
-            "label": "Products"
-          }
-        },
-        "stat_3": {
-          "type": "stat",
-          "settings": {
-            "value": "4.9★",
-            "label": "Avg Rating"
-          }
-        }
-      },
-      "block_order": [
-        "stat_1",
-        "stat_2",
-        "stat_3"
-      ],
       "settings": {
         "eyebrow": "Our Story",
         "heading": "Crafted With Purpose",
@@ -49,5 +21,8 @@
       }
     }
   },
-  "order": ["main-page", "vennix-brand-story"]
+  "order": [
+    "main-page",
+    "vennix-brand-story"
+  ]
 }

@@ -70,7 +70,7 @@
       <div class="trust-badges mt-6">
         {%- render 'vennix-trust-badges' -%}
         {%- if product.metafields.custom.reviews_count > 0 -%}
-          <p class="text-sm text-green-600">⭐ {{ product.metafields.custom.reviews_count }} reviews • 98% recommend</p>
+          <p class="product__review-count">{{ product.metafields.custom.reviews_count }} customer reviews</p>
         {%- endif -%}
       </div>
 

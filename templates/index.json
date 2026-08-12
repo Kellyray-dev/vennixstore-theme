@@ -130,34 +130,6 @@
     },
     "vennix_brand_story": {
       "type": "vennix-brand-story",
-      "blocks": {
-        "stat_1": {
-          "type": "stat",
-          "settings": {
-            "value": "10k+",
-            "label": "Happy customers"
-          }
-        },
-        "stat_2": {
-          "type": "stat",
-          "settings": {
-            "value": "500+",
-            "label": "Products curated"
-          }
-        },
-        "stat_3": {
-          "type": "stat",
-          "settings": {
-            "value": "4.9★",
-            "label": "Average rating"
-          }
-        }
-      },
-      "block_order": [
-        "stat_1",
-        "stat_2",
-        "stat_3"
-      ],
       "settings": {
         "eyebrow": "Our Story",
         "heading": "Crafted for those who demand more",
