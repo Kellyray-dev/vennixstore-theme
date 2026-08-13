@@ -71,18 +71,52 @@
             "pb": 0,
             "cc": ""
           }
+        },
+        "rating": {
+          "type": "rating",
+          "settings": {}
+        },
+        "inventory": {
+          "type": "inventory",
+          "settings": {
+            "text_style": "uppercase",
+            "inventory_threshold": 8,
+            "show_inventory_quantity": false
+          }
+        },
+        "shipping": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "Shipping",
+            "icon": "truck",
+            "content": "<p>Free shipping is available on orders over $50. Other available shipping options are shown at checkout.</p>",
+            "page": ""
+          }
+        },
+        "returns": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "Returns",
+            "icon": "return",
+            "content": "<p>Eligible items can be returned within 30 days. Review our refund policy for conditions and return instructions.</p>",
+            "page": ""
+          }
         }
       },
       "block_order": [
         "vendor",
         "title",
+        "rating",
         "price",
+        "inventory",
         "variant_picker",
         "quantity_selector",
         "buy_buttons",
         "description",
-        "share",
-        "metafields_guru_text_7kprja"
+        "metafields_guru_text_7kprja",
+        "shipping",
+        "returns",
+        "share"
       ],
       "settings": {
         "enable_sticky_info": true,
@@ -90,14 +124,14 @@
         "media_size": "large",
         "constrain_to_viewport": true,
         "media_fit": "contain",
-        "gallery_layout": "stacked",
-        "mobile_thumbnails": "hide",
+        "gallery_layout": "thumbnail_slider",
+        "mobile_thumbnails": "show",
         "media_position": "left",
         "image_zoom": "lightbox",
         "hide_variants": true,
         "enable_video_looping": false,
-        "padding_top": 36,
-        "padding_bottom": 12
+        "padding_top": 52,
+        "padding_bottom": 40
       }
     },
     "disclosures": {

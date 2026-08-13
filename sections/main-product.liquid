@@ -106,6 +106,11 @@
                       </h2>
                     </a>
                   </div>
+                  {%- if product.metafields.custom.short_description != blank -%}
+                    <div class="product__short-description rte">
+                      {{ product.metafields.custom.short_description | metafield_tag }}
+                    </div>
+                  {%- endif -%}
                 {%- when 'price' -%}
                   <div id="price-{{ section.id }}" role="status" {{ block.shopify_attributes }}>
                     {%- render 'price',
@@ -198,6 +203,7 @@
                       {{ product.description }}
                     </div>
                   {%- endif -%}
+                  {%- render 'vennix-product-metafields', product: product, section: section -%}
                 {%- when 'sku' -%}
                   <p
                     class="product__sku{% if block.settings.text_style == 'uppercase' %} caption-with-letter-spacing{% elsif block.settings.text_style == 'subtitle' %} subtitle{% endif %}{% if product.selected_or_first_available_variant.sku.size == 0 %} visibility-hidden{% endif %}"
@@ -499,6 +505,7 @@
                     section_id: section.id,
                     show_pickup_availability: true
                   -%}
+                  {%- render 'vennix-product-assurances' -%}
                 {%- when 'rating' -%}
                   {%- if product.metafields.reviews.rating.value != blank -%}
                     <div class="rating-wrapper">
