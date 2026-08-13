@@ -48,7 +48,7 @@ Read `catalog/CATALOG_CLEANUP_REPORT.md` before importing. Four products were ch
 5. Review Shopify's import preview and error report before confirming.
 6. Confirm that obsolete warehouse-source variants were removed. If Shopify retained them, delete those variants manually before activating the affected products.
 
-The cleaned file preserves handles, selected SKUs, fulfillment service, inventory policy, weights, images, variant images, and valid selling prices.
+The cleaned file preserves handles, selected SKUs, fulfillment service, inventory policy, weights, images, variant images, and valid selling prices. The merchant-private **Cost per item** column is intentionally omitted, so the import will not expose or update product costs.
 
 ## 5. Review all draft products
 
