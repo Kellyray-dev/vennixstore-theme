@@ -1,142 +1,185 @@
 {
   "sections": {
-    "vennix_hero_jYmGjt": {
+    "vennix_hero": {
       "type": "vennix-hero",
-      "name": "Vennix Hero",
+      "blocks": {
+        "shipping": {
+          "type": "assurance",
+          "settings": {
+            "icon": "delivery",
+            "heading": "Free shipping over $50",
+            "text": "On eligible orders"
+          }
+        },
+        "returns": {
+          "type": "assurance",
+          "settings": {
+            "icon": "returns",
+            "heading": "30-day returns",
+            "text": "Simple and straightforward"
+          }
+        },
+        "checkout": {
+          "type": "assurance",
+          "settings": {
+            "icon": "secure",
+            "heading": "Secure checkout",
+            "text": "Protected payments"
+          }
+        }
+      },
+      "block_order": [
+        "shipping",
+        "returns",
+        "checkout"
+      ],
       "settings": {
-        "bg_color": "#93939E",
-        "eyebrow": "LIFESTYLE ESSENTIALS",
-        "heading": "Elevate Your Everyday Life",
-        "subtext": "Discover premium home, tech, and fashion essentials curated for modern living.",
-        "btn1_label": "Shop Now",
-        "btn1_link": "shopify://collections/all",
-        "btn2_label": "View Catalog",
-        "btn2_link": "shopify://collections/all",
-        "padding_top": 80,
-        "padding_bottom": 96
+        "image_focus": "right",
+        "desktop_height": 720,
+        "overlay_opacity": 5,
+        "enable_motion": true,
+        "show_scroll_cue": true,
+        "eyebrow": "The Vennix edit",
+        "heading": "Better finds, <em>beautifully chosen.</em>",
+        "text": "<p>A considered mix of style, home, tech and everyday essentials—selected to make the good stuff easier to find.</p>",
+        "primary_label": "Shop the latest edit",
+        "primary_link": "shopify://collections/all",
+        "secondary_label": "Explore collections",
+        "secondary_link": "shopify://collections"
       }
     },
-    "vennix_trust_bar_rMcjCw": {
+    "vennix_trust": {
       "type": "vennix-trust-bar",
       "blocks": {
-        "badge_wcDjAm": {
+        "shipping": {
           "type": "badge",
           "settings": {
-            "icon": "🚚",
+            "icon": "delivery",
             "title": "Free shipping",
             "description": "On orders over $50"
           }
         },
-        "badge_6dpQDC": {
+        "returns": {
           "type": "badge",
           "settings": {
-            "icon": "🔒",
-            "title": "Secure checkout",
-            "description": "Protected payments"
-          }
-        },
-        "badge_BK8g8F": {
-          "type": "badge",
-          "settings": {
-            "icon": "↩",
+            "icon": "returns",
             "title": "30-day returns",
             "description": "Clear return window"
           }
         },
-        "badge_6adyHb": {
+        "secure": {
           "type": "badge",
           "settings": {
-            "icon": "○",
+            "icon": "secure",
+            "title": "Secure checkout",
+            "description": "Protected payments"
+          }
+        },
+        "support": {
+          "type": "badge",
+          "settings": {
+            "icon": "support",
             "title": "Customer support",
             "description": "Questions? We are here to help"
           }
         }
       },
       "block_order": [
-        "badge_wcDjAm",
-        "badge_6dpQDC",
-        "badge_BK8g8F",
-        "badge_6adyHb"
+        "shipping",
+        "returns",
+        "secure",
+        "support"
       ],
-      "name": "Vennix Trust Bar",
       "settings": {
-        "bg_color": "#f7f5f1"
+        "color_scheme": "scheme-2"
       }
     },
-    "vennix_featured_products_qbXcDF": {
-      "type": "vennix-featured-products",
-      "name": "Vennix Featured Products",
+    "featured_collection": {
+      "type": "featured-collection",
       "settings": {
-        "bg_color": "#ffffff",
-        "eyebrow": "THE LATEST EDIT",
-        "heading": "Fresh finds for everyday life",
-        "subtext": "A considered mix of practical, well-designed essentials",
+        "title": "The latest edit",
+        "heading_size": "h1",
+        "description": "Useful, design-conscious finds selected for everyday life.",
+        "show_description": true,
+        "description_style": "body",
         "collection": "all",
-        "product_limit": 8,
-        "btn_label": "View All Products",
-        "btn_link": "shopify://collections/all"
+        "products_to_show": 8,
+        "columns_desktop": 4,
+        "color_scheme": "scheme-1",
+        "full_width": false,
+        "show_view_all": true,
+        "view_all_style": "solid",
+        "enable_desktop_slider": false,
+        "swipe_on_mobile": true,
+        "image_ratio": "square",
+        "image_shape": "default",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_rating": true,
+        "quick_add": "standard",
+        "columns_mobile": "2",
+        "padding_top": 88,
+        "padding_bottom": 96
       }
     },
-    "vennix_why_us_WQ3eU3": {
+    "vennix_values": {
       "type": "vennix-why-us",
       "blocks": {
-        "reason_GUdkqJ": {
+        "useful": {
           "type": "reason",
           "settings": {
-            "icon": "◇",
             "title": "Useful by design",
             "description": "Everyday products selected for practical features and considered design."
           }
         },
-        "reason_JCYkyK": {
+        "clear": {
           "type": "reason",
           "settings": {
-            "icon": "✓",
             "title": "Clear product details",
-            "description": "Straightforward information helps you choose the right product with confidence."
+            "description": "Straightforward information helps you choose with greater confidence."
           }
         },
-        "reason_QVQErc": {
+        "support": {
           "type": "reason",
           "settings": {
-            "icon": "○",
             "title": "Support when needed",
-            "description": "Have a question about an order or product? Contact our support team."
+            "description": "Questions about an order or product? Our support team is ready to help."
           }
         }
       },
       "block_order": [
-        "reason_GUdkqJ",
-        "reason_JCYkyK",
-        "reason_QVQErc"
+        "useful",
+        "clear",
+        "support"
       ],
-      "name": "Vennix Why Us",
       "settings": {
-        "bg_color": "#efebe4",
-        "eyebrow": "THE VENNIX APPROACH",
-        "heading": "A simpler way to discover what works"
+        "eyebrow": "The Vennix approach",
+        "heading": "A simpler way to discover what works",
+        "text": "<p>We bring useful finds across home, technology, style and everyday living into one considered edit.</p>",
+        "link_label": "Explore all products",
+        "link": "shopify://collections/all",
+        "color_scheme": "scheme-2"
       }
     },
-    "vennix_newsletter_fbKbHR": {
+    "vennix_newsletter": {
       "type": "vennix-newsletter",
-      "name": "Vennix Newsletter",
       "settings": {
-        "bg_color": "#20201e",
-        "eyebrow": "THE VENNIX LIST",
+        "eyebrow": "The Vennix list",
         "heading": "New finds, considered updates",
         "subtext": "Be first to hear about new arrivals, useful guides, and occasional offers.",
-        "placeholder": "Enter your email address",
-        "btn_label": "Subscribe",
-        "success_msg": "You're in! Welcome to the Vennix family.",
-        "disclaimer": "Unsubscribe at any time."
+        "placeholder": "Your email address",
+        "btn_label": "Join the list",
+        "success_msg": "Thanks for joining the Vennix list.",
+        "disclaimer": "Unsubscribe at any time.",
+        "color_scheme": "scheme-3"
       }
     }
   },
   "order": [
-    "vennix_hero_jYmGjt",
-    "vennix_trust_bar_rMcjCw",
-    "vennix_featured_products_qbXcDF",
-    "vennix_why_us_WQ3eU3",
-    "vennix_newsletter_fbKbHR"
+    "vennix_hero",
+    "vennix_trust",
+    "featured_collection",
+    "vennix_values",
+    "vennix_newsletter"
   ]
 }

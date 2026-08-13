@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 60" width="280" height="60">
+  <g fill="none" fill-rule="evenodd">
+    <g transform="translate(2 5)">
+      <rect width="50" height="50" rx="25" fill="#EDE8E0"/>
+      <path d="M13.5 15.5 25 39l11.5-23.5" stroke="#20201E" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="m18.5 15.5 6.5 13 6.5-13" stroke="#8A7663" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+    <text x="67" y="31" fill="#20201E" font-family="Helvetica Neue, Arial, sans-serif" font-size="25" font-weight="600" letter-spacing="4.2">VENNIX</text>
+    <text x="69" y="46" fill="#746A5F" font-family="Helvetica Neue, Arial, sans-serif" font-size="7.5" font-weight="600" letter-spacing="3.15">CURATED GOODS</text>
+  </g>
+</svg>

@@ -134,7 +134,7 @@
 
     if localization.available_countries.size > 1 and section.settings.enable_country_selector or section.settings.enable_language_selector and localization.available_languages.size > 1
       assign localization_forms = true
-    endif l
+    endif
   -%}
   <header class="header header--{{ section.settings.logo_position }} header--mobile-{{ section.settings.mobile_logo_position }} page-width{% if section.settings.menu_type_desktop == 'drawer' %} drawer-menu{% endif %}{% if section.settings.menu != blank %} header--has-menu{% endif %}{% if has_app_block %} header--has-app{% endif %}{% if social_links %} header--has-social{% endif %}{% if shop.customer_accounts_enabled %} header--has-account{% endif %}{% if localization_forms %} header--has-localizations{% endif %}">
     {%- liquid
@@ -149,7 +149,7 @@
 
     {%- if section.settings.logo_position != 'middle-center' -%}
       {%- if request.page_type == 'index' -%}
-        <h1 class="header__heading">
+        <div class="header__heading">
       {%- endif -%}
       <a href="{{ routes.root_url }}" class="header__heading-link link link--text focus-inset">
         {%- if settings.logo != blank -%}
@@ -172,11 +172,11 @@
             }}
           </div>
         {%- else -%}
-          <span class="h2">{{ shop.name }}</span>
+          <img src="{{ 'vennix-logo.svg' | asset_url }}" alt="VennixStore — curated goods" width="184" height="39" class="header__heading-logo">
         {%- endif -%}
       </a>
       {%- if request.page_type == 'index' -%}
-        </h1>
+        </div>
       {%- endif -%}
     {%- endif -%}
 
@@ -192,7 +192,7 @@
 
     {%- if section.settings.logo_position == 'middle-center' -%}
       {%- if request.page_type == 'index' -%}
-        <h1 class="header__heading">
+        <div class="header__heading">
       {%- endif -%}
       <a href="{{ routes.root_url }}" class="header__heading-link link link--text focus-inset">
         {%- if settings.logo != blank -%}
@@ -215,11 +215,11 @@
             }}
           </div>
         {%- else -%}
-          <span class="h2">{{ shop.name }}</span>
+          <img src="{{ 'vennix-logo.svg' | asset_url }}" alt="VennixStore — curated goods" width="184" height="39" class="header__heading-logo">
         {%- endif -%}
       </a>
       {%- if request.page_type == 'index' -%}
-        </h1>
+        </div>
       {%- endif -%}
     {%- endif -%}
 
@@ -656,74 +656,3 @@
   ]
 }
 {% endschema %}
-{{ 'vennix-brand.css' | asset_url | stylesheet_tag }}
-
-<style>
-  .header-wrapper,
-  .header {
-    background-color: #0F172A !important;
-    border-bottom: none !important;
-  }
-  .header__heading-link,
-  .header__menu-item,
-  .header__menu-item span,
-  .header__icon,
-  .header__icon svg {
-    color: #FFFFFF !important;
-    fill: #FFFFFF !important;
-  }
-  .header__heading-link:hover,
-  .header__menu-item:hover span {
-    color: #60A5FA !important;
-  }
-  .header__search .field__input,
-  .header__search .field__button {
-    background: #1E293B;
-    color: #FFFFFF;
-    border-color: #374151;
-  }
-  .menu-drawer__navigation,
-  .menu-drawer {
-    background: #0F172A;
-    color: #FFFFFF;
-  }
-  .menu-drawer__menu-item {
-    color: #FFFFFF !important;
-    border-color: #1E293B !important;
-  }
-</style>{{ 'vennix-brand.css' | asset_url | stylesheet_tag }}
-
-<style>
-  .header-wrapper,
-  .header {
-    background-color: #0F172A !important;
-    border-bottom: none !important;
-  }
-  .header__heading-link,
-  .header__menu-item,
-  .header__menu-item span,
-  .header__icon,
-  .header__icon svg {
-    color: #FFFFFF !important;
-    fill: #FFFFFF !important;
-  }
-  .header__heading-link:hover,
-  .header__menu-item:hover span {
-    color: #60A5FA !important;
-  }
-  .header__search .field__input,
-  .header__search .field__button {
-    background: #1E293B;
-    color: #FFFFFF;
-    border-color: #374151;
-  }
-  .menu-drawer__navigation,
-  .menu-drawer {
-    background: #0F172A;
-    color: #FFFFFF;
-  }
-  .menu-drawer__menu-item {
-    color: #FFFFFF !important;
-    border-color: #1E293B !important;
-  }
-</style>

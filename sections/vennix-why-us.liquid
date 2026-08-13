@@ -1,62 +1,60 @@
-{{ 'vennix-brand.css' | asset_url | stylesheet_tag }}
+<section class="vx-values color-{{ section.settings.color_scheme }} gradient">
+  <div class="vx-values__inner page-width">
+    <header class="vx-values__header">
+      <div>
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="vx-section-eyebrow">{{ section.settings.eyebrow | escape }}</p>
+        {%- endif -%}
+        {%- if section.settings.heading != blank -%}
+          <h2 class="vx-values__heading">{{ section.settings.heading | escape }}</h2>
+        {%- endif -%}
+      </div>
+      {%- if section.settings.text != blank -%}
+        <div class="vx-values__intro rte">{{ section.settings.text }}</div>
+      {%- endif -%}
+    </header>
 
-<section style="padding:80px 20px;background:{{ section.settings.bg_color }};">
-  <div style="max-width:1280px;margin:0 auto;">
-    <div style="text-align:center;margin-bottom:48px;">
-      <span class="vx-eyebrow">{{ section.settings.eyebrow }}</span>
-      <h2 class="vx-heading" style="font-size:clamp(28px,4vw,40px);margin-top:8px;">{{ section.settings.heading }}</h2>
-    </div>
-    <div class="vx-why-grid">
-      {% for block in section.blocks %}
-        <div class="vx-why-card" {{ block.shopify_attributes }}>
-          <div class="vx-why-icon">{{ block.settings.icon }}</div>
-          <h3 style="font-family:'Inter',sans-serif;font-weight:700;font-size:18px;color:#0F172A;margin:16px 0 8px;">{{ block.settings.title }}</h3>
-          <p style="font-family:'Inter',sans-serif;font-size:14px;color:#9CA3AF;line-height:1.7;margin:0;">{{ block.settings.description }}</p>
-        </div>
-      {% endfor %}
-    </div>
+    <ol class="vx-values__grid" role="list">
+      {%- for block in section.blocks -%}
+        <li class="vx-values__card" {{ block.shopify_attributes }}>
+          <span class="vx-values__number" aria-hidden="true">0{{ forloop.index }}</span>
+          <div>
+            <h3>{{ block.settings.title | escape }}</h3>
+            <p>{{ block.settings.description | escape }}</p>
+          </div>
+        </li>
+      {%- endfor -%}
+    </ol>
+
+    {%- if section.settings.link_label != blank -%}
+      <a class="vx-values__link link" href="{{ section.settings.link | default: routes.all_products_collection_url }}">
+        {{ section.settings.link_label | escape }}
+        <span aria-hidden="true">→</span>
+      </a>
+    {%- endif -%}
   </div>
 </section>
 
-<style>
-  .vx-why-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
-  }
-  .vx-why-card {
-    background: #fff;
-    border: 1px solid #F3F4F6;
-    border-radius: 16px;
-    padding: 32px 24px;
-    text-align: center;
-    transition: box-shadow 0.2s ease, transform 0.2s ease;
-  }
-  .vx-why-card:hover {
-    box-shadow: 0 12px 24px -8px rgba(15,23,42,0.1);
-    transform: translateY(-2px);
-  }
-  .vx-why-icon {
-    font-size: 36px;
-    margin-bottom: 4px;
-  }
-  @media (max-width: 749px) { .vx-why-grid { grid-template-columns: 1fr; } }
-</style>
-
 {% schema %}
 {
-  "name": "Vennix Why Us",
+  "name": "Vennix values",
+  "tag": "section",
+  "class": "section section--vennix-values",
+  "disabled_on": { "groups": ["header", "footer"] },
   "settings": [
-    { "type": "color", "id": "bg_color", "label": "Background", "default": "#F8FAFC" },
-    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "WHY VENNIX" },
-    { "type": "text", "id": "heading", "label": "Heading", "default": "Why Choose Us" }
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "The Vennix approach" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "A simpler way to discover what works" },
+    { "type": "richtext", "id": "text", "label": "Introduction", "default": "<p>We bring useful finds across home, technology, style and everyday living into one considered edit.</p>" },
+    { "type": "text", "id": "link_label", "label": "Link label", "default": "Explore all products" },
+    { "type": "url", "id": "link", "label": "Link" },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-2" }
   ],
   "blocks": [
     {
       "type": "reason",
-      "name": "Reason",
+      "name": "Value",
+      "limit": 3,
       "settings": [
-        { "type": "text", "id": "icon", "label": "Emoji icon", "default": "🚀" },
         { "type": "text", "id": "title", "label": "Title", "default": "Useful by design" },
         { "type": "textarea", "id": "description", "label": "Description", "default": "Everyday products selected for practical features and considered design." }
       ]
@@ -64,11 +62,11 @@
   ],
   "presets": [
     {
-      "name": "Vennix Why Us",
+      "name": "Vennix values",
       "blocks": [
-        { "type": "reason", "settings": { "icon": "🚀", "title": "Useful by design", "description": "Everyday products selected for practical features and considered design." } },
-        { "type": "reason", "settings": { "icon": "💎", "title": "Clear product details", "description": "Straightforward information helps you choose the right product with confidence." } },
-        { "type": "reason", "settings": { "icon": "🔒", "title": "Support when needed", "description": "Have a question about an order or product? Contact our support team." } }
+        { "type": "reason", "settings": { "title": "Useful by design", "description": "Everyday products selected for practical features and considered design." } },
+        { "type": "reason", "settings": { "title": "Clear product details", "description": "Straightforward information helps you choose with greater confidence." } },
+        { "type": "reason", "settings": { "title": "Support when needed", "description": "Questions about an order or product? Our support team is ready to help." } }
       ]
     }
   ]
