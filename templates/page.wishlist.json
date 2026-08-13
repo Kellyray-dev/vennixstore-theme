@@ -1,9 +1,0 @@
-{
-  "sections": {
-    "main": {
-      "type": "vennix-wishlist-page",
-      "settings": {}
-    }
-  },
-  "order": ["main"]
-}

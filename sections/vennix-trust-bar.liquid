@@ -1,0 +1,85 @@
+{{ 'vennix-brand.css' | asset_url | stylesheet_tag }}
+
+<div class="vx-trust-bar" style="background:{{ section.settings.bg_color }};padding:40px 20px;">
+  <div class="vx-trust-inner">
+    {% for block in section.blocks %}
+      <div class="vx-trust-item" {{ block.shopify_attributes }}>
+        <div class="vx-icon-circle">
+          {{ block.settings.icon }}
+        </div>
+        <div>
+          <div class="vx-trust-title">{{ block.settings.title }}</div>
+          <div class="vx-trust-desc">{{ block.settings.description }}</div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+<style>
+  .vx-trust-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
+  .vx-trust-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 20px;
+    background: #fff;
+    border-radius: 12px;
+    border: 1px solid #F3F4F6;
+  }
+  .vx-trust-title {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    color: #0F172A;
+    margin-bottom: 2px;
+  }
+  .vx-trust-desc {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    color: #9CA3AF;
+  }
+  @media (max-width: 989px) {
+    .vx-trust-inner { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 479px) {
+    .vx-trust-inner { grid-template-columns: 1fr; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Vennix Trust Bar",
+  "settings": [
+    { "type": "color", "id": "bg_color", "label": "Background color", "default": "#F8FAFC" }
+  ],
+  "blocks": [
+    {
+      "type": "badge",
+      "name": "Trust Badge",
+      "settings": [
+        { "type": "text", "id": "icon", "label": "Emoji icon", "default": "🚚" },
+        { "type": "text", "id": "title", "label": "Title", "default": "Free shipping" },
+        { "type": "text", "id": "description", "label": "Description", "default": "On orders over $50" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Vennix Trust Bar",
+      "blocks": [
+        { "type": "badge", "settings": { "icon": "🚚", "title": "Free shipping", "description": "On orders over $50" } },
+        { "type": "badge", "settings": { "icon": "🔒", "title": "Secure checkout", "description": "Protected payments" } },
+        { "type": "badge", "settings": { "icon": "↩️", "title": "30-day returns", "description": "Clear return window" } },
+        { "type": "badge", "settings": { "icon": "🎧", "title": "Customer support", "description": "Questions? We are here to help" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

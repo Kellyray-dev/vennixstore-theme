@@ -1,6 +1,7 @@
 <!doctype html>
 <html class="js" lang="{{ request.locale.iso_code }}">
   <head>
+
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -27,7 +28,6 @@
     {% endif %}
 
     {% render 'meta-tags' %}
-    {% render 'vennix-seo-jsonld' %}
 
     <script type="module">
       import * as StandardEvents from 'https://cdn.shopify.com/storefront/standard-events.js';
@@ -281,8 +281,6 @@
     {% endstyle %}
 
     {{ 'base.css' | asset_url | stylesheet_tag }}
-    {{ 'vennix-custom.css' | asset_url | stylesheet_tag }}
-    {{ 'vennix-enhancements.css' | asset_url | stylesheet_tag }}
     {{ 'vennix-brand.css' | asset_url | stylesheet_tag }}
     <link rel="stylesheet" href="{{ 'component-cart-items.css' | asset_url }}" media="print" onload="this.media='all'">
 
@@ -326,7 +324,7 @@
     </script>
   </head>
 
-  <body class="gradient template-{{ template.name | handle }}{% if settings.animations_hover_elements != 'none' %} animate--hover-{{ settings.animations_hover_elements }}{% endif %}">
+  <body class="gradient{% if settings.animations_hover_elements != 'none' %} animate--hover-{{ settings.animations_hover_elements }}{% endif %}">
     <a class="skip-to-content-link button visually-hidden" href="#MainContent">
       {{ 'accessibility.skip_to_text' | t }}
     </a>
@@ -399,16 +397,12 @@
       };
     </script>
 
-    <div id="vennix-toast" class="vennix-toast" role="status" aria-live="polite" aria-atomic="true"></div>
-    <script src="{{ 'vennix-wishlist.js' | asset_url }}" defer="defer"></script>
-
     {%- if settings.predictive_search_enabled -%}
       <script src="{{ 'predictive-search.js' | asset_url }}" defer="defer"></script>
     {%- endif -%}
 
     {%- if settings.cart_type == 'drawer' -%}
       <script src="{{ 'cart-drawer.js' | asset_url }}" defer="defer"></script>
-      <script src="{{ 'vennix-cart.js' | asset_url }}" defer="defer"></script>
     {%- endif -%}
   </body>
 </html>

@@ -1,186 +1,142 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "sections": {
-    "featured_collection": {
-      "type": "featured-collection",
-      "settings": {
-        "title": "New Arrivals",
-        "heading_size": "h2",
-        "description": "",
-        "show_description": false,
-        "description_style": "body",
-        "collection": "all",
-        "products_to_show": 4,
-        "columns_desktop": 4,
-        "color_scheme": "scheme-1",
-        "full_width": false,
-        "show_view_all": true,
-        "view_all_style": "solid",
-        "enable_desktop_slider": false,
-        "swipe_on_mobile": false,
-        "image_ratio": "portrait",
-        "image_shape": "default",
-        "show_secondary_image": true,
-        "show_vendor": false,
-        "show_rating": false,
-        "quick_add": "none",
-        "columns_mobile": "2",
-        "padding_top": 44,
-        "padding_bottom": 36
-      }
-    },
-    "vennix_category_row": {
-      "type": "vennix-category-row",
-      "settings": {
-        "heading": "Shop by Category",
-        "heading_size": "h2",
-        "color_scheme": "scheme-1"
-      },
-      "blocks": {
-        "category_1": {
-          "type": "category",
-          "settings": {
-            "label": "Home",
-            "link": "shopify://collections/all"
-          }
-        },
-        "category_2": {
-          "type": "category",
-          "settings": {
-            "label": "Tech",
-            "link": "shopify://collections/tech"
-          }
-        },
-        "category_3": {
-          "type": "category",
-          "settings": {
-            "label": "Fashion",
-            "link": "shopify://collections/fashion"
-          }
-        },
-        "category_4": {
-          "type": "category",
-          "settings": {
-            "label": "Lifestyle",
-            "link": "shopify://collections/lifestyle"
-          }
-        }
-      },
-      "block_order": [
-        "category_1",
-        "category_2",
-        "category_3",
-        "category_4"
-      ]
-    },
-    "vennix_brand_story": {
-      "type": "vennix-brand-story",
-      "settings": {
-        "eyebrow": "Our Story",
-        "heading": "Crafted for those who demand more",
-        "heading_size": "h1",
-        "body": "<p>VennixStore was built on a simple belief: premium design should be accessible. Every product in our collection is hand-selected for quality, style, and the confidence it brings.</p>",
-        "button_label": "Learn More",
-        "button_link": "",
-        "button_style_secondary": false,
-        "color_scheme": "scheme-1",
-        "animate": true,
-        "image_radius": 8,
-        "reverse_layout": false,
-        "padding_top": 60,
-        "padding_bottom": 60
-      }
-    },
-    "featured_collection_2": {
-      "type": "featured-collection",
-      "settings": {
-        "title": "Best Sellers",
-        "heading_size": "h2",
-        "description": "",
-        "show_description": false,
-        "description_style": "body",
-        "collection": "all",
-        "products_to_show": 4,
-        "columns_desktop": 4,
-        "color_scheme": "scheme-2",
-        "full_width": false,
-        "show_view_all": true,
-        "view_all_style": "solid",
-        "enable_desktop_slider": false,
-        "swipe_on_mobile": false,
-        "image_ratio": "portrait",
-        "image_shape": "default",
-        "show_secondary_image": true,
-        "show_vendor": false,
-        "show_rating": false,
-        "quick_add": "none",
-        "columns_mobile": "2",
-        "padding_top": 44,
-        "padding_bottom": 36
-      }
-    },
-    "vennix_hero": {
+    "vennix_hero_jYmGjt": {
       "type": "vennix-hero",
+      "name": "Vennix Hero",
+      "settings": {
+        "bg_color": "#93939E",
+        "eyebrow": "LIFESTYLE ESSENTIALS",
+        "heading": "Elevate Your Everyday Life",
+        "subtext": "Discover premium home, tech, and fashion essentials curated for modern living.",
+        "btn1_label": "Shop Now",
+        "btn1_link": "shopify://collections/all",
+        "btn2_label": "View Catalog",
+        "btn2_link": "shopify://collections/all",
+        "padding_top": 80,
+        "padding_bottom": 96
+      }
+    },
+    "vennix_trust_bar_rMcjCw": {
+      "type": "vennix-trust-bar",
       "blocks": {
-        "shipping": {
-          "type": "assurance",
+        "badge_wcDjAm": {
+          "type": "badge",
           "settings": {
-            "icon": "delivery",
-            "heading": "Free shipping over $50",
-            "text": "On eligible orders"
+            "icon": "🚚",
+            "title": "Free shipping",
+            "description": "On orders over $50"
           }
         },
-        "returns": {
-          "type": "assurance",
+        "badge_6dpQDC": {
+          "type": "badge",
           "settings": {
-            "icon": "returns",
-            "heading": "30-day returns",
-            "text": "Simple and straightforward"
+            "icon": "🔒",
+            "title": "Secure checkout",
+            "description": "Protected payments"
           }
         },
-        "checkout": {
-          "type": "assurance",
+        "badge_BK8g8F": {
+          "type": "badge",
           "settings": {
-            "icon": "secure",
-            "heading": "Secure checkout",
-            "text": "Protected payments"
+            "icon": "↩",
+            "title": "30-day returns",
+            "description": "Clear return window"
+          }
+        },
+        "badge_6adyHb": {
+          "type": "badge",
+          "settings": {
+            "icon": "○",
+            "title": "Customer support",
+            "description": "Questions? We are here to help"
           }
         }
       },
       "block_order": [
-        "shipping",
-        "returns",
-        "checkout"
+        "badge_wcDjAm",
+        "badge_6dpQDC",
+        "badge_BK8g8F",
+        "badge_6adyHb"
       ],
+      "name": "Vennix Trust Bar",
       "settings": {
-        "image_focus": "right",
-        "desktop_height": 720,
-        "overlay_opacity": 5,
-        "enable_motion": true,
-        "show_scroll_cue": true,
-        "eyebrow": "The Vennix edit",
-        "heading": "Better finds, <em>beautifully chosen.</em>",
-        "text": "<p>A considered mix of style, home, tech and everyday essentials—selected to make the good stuff easier to find.</p>",
-        "primary_label": "Shop the latest edit",
-        "primary_link": "shopify://collections/all",
-        "secondary_label": "Explore collections",
-        "secondary_link": "shopify://collections"
+        "bg_color": "#f7f5f1"
+      }
+    },
+    "vennix_featured_products_qbXcDF": {
+      "type": "vennix-featured-products",
+      "name": "Vennix Featured Products",
+      "settings": {
+        "bg_color": "#ffffff",
+        "eyebrow": "THE LATEST EDIT",
+        "heading": "Fresh finds for everyday life",
+        "subtext": "A considered mix of practical, well-designed essentials",
+        "collection": "all",
+        "product_limit": 8,
+        "btn_label": "View All Products",
+        "btn_link": "shopify://collections/all"
+      }
+    },
+    "vennix_why_us_WQ3eU3": {
+      "type": "vennix-why-us",
+      "blocks": {
+        "reason_GUdkqJ": {
+          "type": "reason",
+          "settings": {
+            "icon": "◇",
+            "title": "Useful by design",
+            "description": "Everyday products selected for practical features and considered design."
+          }
+        },
+        "reason_JCYkyK": {
+          "type": "reason",
+          "settings": {
+            "icon": "✓",
+            "title": "Clear product details",
+            "description": "Straightforward information helps you choose the right product with confidence."
+          }
+        },
+        "reason_QVQErc": {
+          "type": "reason",
+          "settings": {
+            "icon": "○",
+            "title": "Support when needed",
+            "description": "Have a question about an order or product? Contact our support team."
+          }
+        }
+      },
+      "block_order": [
+        "reason_GUdkqJ",
+        "reason_JCYkyK",
+        "reason_QVQErc"
+      ],
+      "name": "Vennix Why Us",
+      "settings": {
+        "bg_color": "#efebe4",
+        "eyebrow": "THE VENNIX APPROACH",
+        "heading": "A simpler way to discover what works"
+      }
+    },
+    "vennix_newsletter_fbKbHR": {
+      "type": "vennix-newsletter",
+      "name": "Vennix Newsletter",
+      "settings": {
+        "bg_color": "#20201e",
+        "eyebrow": "THE VENNIX LIST",
+        "heading": "New finds, considered updates",
+        "subtext": "Be first to hear about new arrivals, useful guides, and occasional offers.",
+        "placeholder": "Enter your email address",
+        "btn_label": "Subscribe",
+        "success_msg": "You're in! Welcome to the Vennix family.",
+        "disclaimer": "Unsubscribe at any time."
       }
     }
   },
   "order": [
-    "vennix_hero",
-    "vennix_category_row",
-    "featured_collection",
-    "vennix_brand_story",
-    "featured_collection_2"
+    "vennix_hero_jYmGjt",
+    "vennix_trust_bar_rMcjCw",
+    "vennix_featured_products_qbXcDF",
+    "vennix_why_us_WQ3eU3",
+    "vennix_newsletter_fbKbHR"
   ]
 }

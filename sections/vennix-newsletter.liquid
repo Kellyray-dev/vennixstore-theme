@@ -1,0 +1,88 @@
+{{ 'vennix-brand.css' | asset_url | stylesheet_tag }}
+
+<section style="padding:80px 20px;background:{{ section.settings.bg_color }};">
+  <div class="vx-newsletter-inner">
+    <div style="text-align:center;max-width:560px;">
+      <span class="vx-eyebrow">{{ section.settings.eyebrow }}</span>
+      <h2 class="vx-heading" style="font-size:clamp(28px,4vw,40px);margin-top:8px;color:#fff;">{{ section.settings.heading }}</h2>
+      <p style="font-family:'Inter',sans-serif;font-size:15px;color:#94A3B8;margin-top:12px;line-height:1.7;">{{ section.settings.subtext }}</p>
+    </div>
+    <div class="vx-newsletter-form-wrap">
+      {% form 'customer' %}
+        <input type="hidden" name="contact[tags]" value="newsletter">
+        <div class="vx-newsletter-row">
+          <input
+            type="email"
+            name="contact[email]"
+            placeholder="{{ section.settings.placeholder }}"
+            class="vx-newsletter-input"
+            required
+          >
+          <button type="submit" class="vx-btn-primary" style="background:#3B82F6;padding:14px 28px;font-size:15px;white-space:nowrap;">
+            {{ section.settings.btn_label }}
+          </button>
+        </div>
+        {% if form.posted_successfully? %}
+          <p style="color:#10B981;font-family:'Inter',sans-serif;font-size:14px;margin-top:12px;text-align:center;">
+            🎉 {{ section.settings.success_msg }}
+          </p>
+        {% endif %}
+      {% endform %}
+      <p style="font-family:'Inter',sans-serif;font-size:12px;color:#475569;text-align:center;margin-top:12px;">{{ section.settings.disclaimer }}</p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .vx-newsletter-inner {
+    max-width: 720px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 36px;
+  }
+  .vx-newsletter-form-wrap { width: 100%; }
+  .vx-newsletter-row {
+    display: flex;
+    gap: 12px;
+    width: 100%;
+  }
+  .vx-newsletter-input {
+    flex: 1;
+    padding: 14px 18px;
+    border-radius: 8px;
+    border: 1px solid #1E293B;
+    background: #1E293B;
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .vx-newsletter-input::placeholder { color: #64748B; }
+  .vx-newsletter-input:focus { border-color: #3B82F6; }
+  @media (max-width: 479px) {
+    .vx-newsletter-row { flex-direction: column; }
+    .vx-newsletter-input { width: 100%; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Vennix Newsletter",
+  "settings": [
+    { "type": "color", "id": "bg_color", "label": "Background", "default": "#0F172A" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "STAY IN THE LOOP" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Get Exclusive Deals & New Arrivals" },
+    { "type": "textarea", "id": "subtext", "label": "Subtext", "default": "Be first to hear about new arrivals, useful guides, and occasional offers." },
+    { "type": "text", "id": "placeholder", "label": "Input placeholder", "default": "Enter your email address" },
+    { "type": "text", "id": "btn_label", "label": "Button label", "default": "Subscribe" },
+    { "type": "text", "id": "success_msg", "label": "Success message", "default": "You're in! Welcome to the Vennix family." },
+    { "type": "text", "id": "disclaimer", "label": "Disclaimer", "default": "Unsubscribe at any time." }
+  ],
+  "presets": [
+    { "name": "Vennix Newsletter" }
+  ]
+}
+{% endschema %}

@@ -1,257 +1,138 @@
-/* Vennix soft-minimal brand layer — loaded after the base enhancement files. */
+ /* ============================================
+   VENNIX STORE — Brand CSS
+   ============================================ */
+
 :root {
-  --v-ink: #20201e;
-  --v-ink-soft: #5f5b54;
-  --v-gold: #8a7663;
-  --v-gold-deep: #6f5c4c;
-  --v-cream: #faf9f6;
-  --v-line: #ded9d1;
-  --v-radius-lg: 20px;
-  --v-radius-md: 14px;
-  --v-shadow-sm: 0 4px 18px rgba(36, 32, 27, 0.06);
-  --v-shadow-md: 0 16px 45px rgba(36, 32, 27, 0.1);
-  --v-shadow-lg: 0 28px 80px rgba(36, 32, 27, 0.14);
+  --vx-navy: #0F172A;
+  --vx-navy-light: #1E293B;
+  --vx-blue: #3B82F6;
+  --vx-blue-light: #60A5FA;
+  --vx-blue-bg: rgba(59, 130, 246, 0.1);
+  --vx-gray-900: #111827;
+  --vx-gray-700: #374151;
+  --vx-gray-400: #9CA3AF;
+  --vx-gray-100: #F3F4F6;
+  --vx-white: #FFFFFF;
+  --vx-radius-sm: 8px;
+  --vx-radius-md: 12px;
+  --vx-radius-lg: 16px;
 }
 
-body {
-  -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
+
+
+.vx-font {
+  font-family: var(--font-body-family);
 }
 
-/* Announcement */
-.announcement-bar-section .utility-bar,
-.announcement-bar-section .announcement-bar {
-  background: #20201e;
-  color: #f8f5ef;
-}
-
-.announcement-bar-section .utility-bar {
-  min-height: 3.6rem;
-  border: 0;
-}
-
-.announcement-bar-section .announcement-bar__message {
-  min-height: 3.6rem;
-  padding: 0.8rem 1.5rem;
-  color: inherit;
-  font-size: 1rem;
+.vx-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--vx-navy);
+  color: var(--vx-white);
+  padding: 10px 20px;
+  border-radius: var(--vx-radius-sm);
   font-weight: 600;
-  letter-spacing: 0.16em;
-  line-height: 2;
-}
-
-.announcement-bar-section .announcement-bar__link:hover {
-  color: #fff;
-  background: rgba(255, 255, 255, 0.05);
-}
-
-/* Header */
-.section-header {
-  z-index: 12;
-}
-
-.header-wrapper {
-  border-color: rgba(32, 32, 30, 0.1);
-  background: rgba(250, 249, 246, 0.94);
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-.shopify-section-header-sticky .header-wrapper,
-.scrolled-past-header .header-wrapper {
-  background: rgba(250, 249, 246, 0.88);
-  -webkit-backdrop-filter: blur(18px) saturate(1.2);
-  backdrop-filter: blur(18px) saturate(1.2);
-  box-shadow: 0 8px 32px rgba(35, 31, 27, 0.07);
-}
-
-.header {
-  min-height: 7.6rem;
-  border-bottom: 0;
-}
-
-.header__heading-link {
-  padding-block: 0.4rem;
-}
-
-.header__heading-logo {
-  width: auto;
-  max-width: min(18.4rem, 34vw);
-  max-height: 4.6rem;
-  object-fit: contain;
-}
-
-.header__inline-menu {
-  margin-left: 2.2rem;
-}
-
-.header__menu-item {
-  padding-inline: 1.45rem;
-  color: #2c2b28;
-  font-size: 1.1rem;
-  font-weight: 650;
-  letter-spacing: 0.12em;
-}
-
-.header__menu-item span {
+  font-size: 14px;
+  font-family: var(--font-body-family);
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s ease;
   text-decoration: none;
 }
-
-.header__menu-item span::after {
-  content: '';
-  display: block;
-  width: 100%;
-  height: 1px;
-  margin-top: 0.35rem;
-  background: currentColor;
-  transform: scaleX(0);
-  transform-origin: right;
-  transition: transform 0.3s ease;
+.vx-btn-primary:hover {
+  background: var(--vx-navy-light);
+  color: var(--vx-white);
 }
 
-.header__menu-item:hover span::after,
-.header__active-menu-item::after {
-  transform: scaleX(1);
-  transform-origin: left;
+.vx-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  color: var(--vx-navy);
+  padding: 10px 20px;
+  border-radius: var(--vx-radius-sm);
+  font-weight: 600;
+  font-size: 14px;
+  font-family: var(--font-body-family);
+  border: 1.5px solid var(--vx-gray-100);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+.vx-btn-secondary:hover {
+  border-color: var(--vx-blue);
+  color: var(--vx-blue);
 }
 
-.header__icons {
-  gap: 0.2rem;
-}
-
-.header__icon {
-  width: 4.2rem;
-  height: 4.2rem;
-  border-radius: 50%;
-  transition: color 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
-}
-
-.header__icon:hover {
-  color: #20201e;
-  background: #efebe4;
-  transform: translateY(-1px);
-}
-
-.header__icon .svg-wrapper {
-  width: 2rem;
-  height: 2rem;
-}
-
-.vennix-header-wishlist .cart-count-bubble[hidden] {
-  display: none;
-}
-
-.vennix-header-wishlist .cart-count-bubble:not([hidden]) {
-  display: flex !important;
-}
-
-/* Shared controls */
-.button,
-.shopify-challenge__button,
-.customer button {
-  min-height: 5rem;
+.vx-badge {
+  display: inline-block;
+  padding: 4px 10px;
   border-radius: 999px;
-  font-size: 1.15rem;
-  letter-spacing: 0.11em;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--vx-white);
+  background: var(--vx-blue);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
 }
 
-.button::before,
-.button::after {
-  border-radius: inherit;
+.vx-icon-circle {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--vx-radius-md);
+  background: var(--vx-blue-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--vx-blue-light);
 }
 
-.button--primary:not([disabled]):hover,
-.product-form__submit:not([disabled]):hover {
-  background: #35332f;
-  border-color: #35332f;
+.vx-card {
+  background: var(--vx-white);
+  border-radius: var(--vx-radius-lg);
+  border: 1px solid var(--vx-gray-100);
+  overflow: hidden;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+.vx-card:hover {
+  box-shadow: 0 12px 24px -8px rgba(15, 23, 42, 0.12);
+  transform: translateY(-2px);
 }
 
-.field__input,
-.select__select,
-.customer input,
-textarea {
-  border-radius: 12px;
+.vx-eyebrow {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--vx-blue)
+}
+.vx-heading {
+  font-family: var(--font-body-family);
+  font-weight: 800;
+  color: var(--vx-navy);
+  letter-spacing: -0.02em;
 }
 
-/* Product and collection cards */
-.card-wrapper .card__inner,
-.card--standard .card__media,
-.card__media .media {
-  border-radius: 16px;
+.header-wrapper, .header {
+  background-color: #0F172A !important;
+  border-bottom: none !important;
 }
-
-.card-wrapper:hover {
-  transform: translateY(-4px);
-  box-shadow: none;
+.header__heading-link, .header__menu-item,
+.header__menu-item span, .header__icon svg {
+  color: #FFFFFF !important;
+  fill: #FFFFFF !important;
 }
-
-.card__heading {
-  line-height: 1.35;
-}
-
-.card__heading a::after {
-  border-radius: 16px;
-}
-
-.badge {
-  border-radius: 999px;
-  padding: 0.55rem 1.1rem;
-}
-
-.badge.price__badge-sale {
-  background: #8c4f3f;
-  border-color: #8c4f3f;
-}
-
-/* Section rhythm */
-.collection .title,
-.featured-collection .title,
-.multicolumn .title,
-.vennix-category-row__heading {
-  letter-spacing: -0.025em;
-}
-
-.section-header__heading::after,
-.collection__title.center .title::after,
-.vennix-category-row__heading::after {
-  background: #8a7663;
-}
-
-@media screen and (max-width: 989px) {
-  .header {
-    min-height: 6.8rem;
-  }
-
-  .header__heading-logo {
-    max-width: 15.6rem;
-    max-height: 4.1rem;
-  }
-}
-
-@media screen and (max-width: 749px) {
-  .announcement-bar-section .announcement-bar__message {
-    font-size: 0.9rem;
-    letter-spacing: 0.1em;
-  }
-
-  .header {
-    padding-inline: 1.6rem;
-  }
-
-  .header__icon {
-    width: 3.9rem;
-    height: 3.9rem;
-  }
-
-  .header__heading-logo {
-    max-width: 13.8rem;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .header-wrapper,
-  .header__icon,
-  .header__menu-item span::after,
-  .button {
-    transition: none;
-  }
-}
+.header__menu-item:hover span { color: #60A5FA !important; }
+.menu-drawer { background: #0F172A; }
+.menu-drawer__menu-item { color: #FFFFFF !important; }
+.footer { background-color: #0F172A !important; color: #9CA3AF !important; }
+.footer__content-top, .footer__content-bottom { border-color: #1E293B !important; }
+.footer__heading { color: #FFFFFF !important; font-weight: 700; text-transform: uppercase; font-size: 13px; }
+.footer a { color: #9CA3AF !important; }
+.footer a:hover { color: #60A5FA !important; }
+.footer__copyright { color: #4B5563 !important; font-size: 12px; }
+.footer__social-link svg { fill: #9CA3AF !important; }
+.footer__social-link:hover svg { fill: #60A5FA !important; }

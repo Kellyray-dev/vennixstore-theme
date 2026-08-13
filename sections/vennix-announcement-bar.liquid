@@ -1,0 +1,52 @@
+{% schema %}
+{
+  "name": "Vennix Announcement Bar",
+  "settings": [
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background color",
+      "default": "#0F172A"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "range",
+      "id": "rotate_speed",
+      "label": "Rotate every (seconds)",
+      "min": 2,
+      "max": 10,
+      "step": 1,
+      "default": 4
+    }
+  ],
+  "blocks": [
+    {
+      "type": "message",
+      "name": "Message",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "Free shipping on orders over $50"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Vennix Announcement Bar",
+      "blocks": [
+        { "type": "message", "settings": { "text": "🚚 Free shipping on orders over $50" } },
+        { "type": "message", "settings": { "text": "30-day returns" } },
+        { "type": "message", "settings": { "text": "Secure checkout" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

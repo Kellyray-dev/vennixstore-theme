@@ -1,62 +1,63 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "name": "t:sections.header.name",
   "type": "header",
   "sections": {
-    "announcement-bar": {
-      "type": "announcement-bar",
+    "vennix_announcement_bar_wb9ayn": {
+      "type": "vennix-announcement-bar",
       "blocks": {
-        "announcement-bar-0": {
-          "type": "announcement",
+        "message_rLkwnm": {
+          "type": "message",
           "settings": {
-            "text": "Free shipping over $50 · 30-day returns",
-            "link": ""
+            "text": "Free shipping on orders over $50"
+          }
+        },
+        "message_Va47ry": {
+          "type": "message",
+          "settings": {
+            "text": "30-day returns"
+          }
+        },
+        "message_V488jG": {
+          "type": "message",
+          "settings": {
+            "text": "Secure checkout"
           }
         }
       },
       "block_order": [
-        "announcement-bar-0"
+        "message_rLkwnm",
+        "message_Va47ry",
+        "message_V488jG"
       ],
+      "name": "Vennix Announcement Bar",
       "settings": {
-        "auto_rotate": false,
-        "change_slides_speed": 5,
-        "color_scheme": "scheme-1",
-        "show_line_separator": true,
-        "show_social": false,
-        "enable_country_selector": false,
-        "enable_language_selector": false
+        "bg_color": "#20201e",
+        "text_color": "#ffffff",
+        "rotate_speed": 5
       }
     },
     "header": {
       "type": "header",
       "settings": {
-        "logo_position": "middle-left",
-        "mobile_logo_position": "center",
+        "logo_position": "top-left",
+        "mobile_logo_position": "left",
         "menu": "main-menu",
         "menu_type_desktop": "dropdown",
         "sticky_header_type": "on-scroll-up",
-        "show_line_separator": false,
-        "color_scheme": "scheme-1",
+        "show_line_separator": true,
+        "color_scheme": "scheme-4",
         "menu_color_scheme": "scheme-1",
         "enable_country_selector": true,
         "enable_language_selector": true,
         "enable_customer_avatar": true,
         "margin_bottom": 0,
-        "padding_top": 12,
-        "padding_bottom": 12
+        "padding_top": 20,
+        "padding_bottom": 20
       }
     }
   },
   "order": [
-    "announcement-bar",
+    "vennix_announcement_bar_wb9ayn",
     "header"
   ]
 }
