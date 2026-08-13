@@ -99,7 +99,7 @@
       "settings": {
         "title": "The latest edit",
         "heading_size": "h1",
-        "description": "Useful, design-conscious finds selected for everyday life.",
+        "description": "<p>Useful, design-conscious finds selected for everyday life.</p>",
         "show_description": true,
         "description_style": "body",
         "collection": "all",
