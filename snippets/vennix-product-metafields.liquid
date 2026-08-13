@@ -8,12 +8,19 @@
   assign dimensions = product.metafields.custom.dimensions
   assign compatibility = product.metafields.custom.compatibility
   assign care = product.metafields.custom.care_instructions
+  assign sizing = product.metafields.custom.sizing_and_fit
+  if sizing == blank
+    assign sizing = product.metafields.custom.sizing_info
+  endif
   assign included = product.metafields.custom.whats_included
   assign warranty = product.metafields.custom.warranty
   assign origin = product.metafields.custom.country_of_origin
+  if origin == blank
+    assign origin = product.metafields.custom.made_in
+  endif
 
   assign has_details = false
-  if materials != blank or dimensions != blank or compatibility != blank or care != blank or included != blank or warranty != blank or origin != blank
+  if materials != blank or dimensions != blank or compatibility != blank or care != blank or sizing != blank or included != blank or warranty != blank or origin != blank
     assign has_details = true
   endif
 -%}
@@ -49,6 +56,9 @@
         {%- endif -%}
         {%- if care != blank -%}
           <div><dt>Care</dt><dd>{{ care | metafield_tag }}</dd></div>
+        {%- endif -%}
+        {%- if sizing != blank -%}
+          <div><dt>Sizing &amp; fit</dt><dd>{{ sizing | metafield_tag }}</dd></div>
         {%- endif -%}
         {%- if included != blank -%}
           <div><dt>What's included</dt><dd>{{ included | metafield_tag }}</dd></div>

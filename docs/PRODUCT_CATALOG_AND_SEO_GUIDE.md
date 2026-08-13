@@ -31,9 +31,10 @@ Create these definitions under **Shopify Admin → Settings → Custom data → 
 | Dimensions | `custom.dimensions` | Multi-line text | Product measurements and capacity. |
 | Compatibility | `custom.compatibility` | Multi-line text | Supported devices, models, sizes, or systems. |
 | Care instructions | `custom.care_instructions` | Multi-line text | Cleaning, washing, storage, or maintenance guidance. |
+| Sizing & fit | `custom.sizing_and_fit` | Multi-line text | Garment fit, sizing guidance, and measurement context. |
 | What's included | `custom.whats_included` | Multi-line text | Package contents. |
 | Warranty | `custom.warranty` | Single-line text | Only use when a real warranty exists. |
-| Country of origin | `custom.country_of_origin` | Single-line text | Accurate origin disclosure; do not hide or rewrite supplier-country data. |
+| Country of origin | `custom.country_of_origin` | Single-line text | Accurate origin disclosure; do not hide or rewrite supplier-country data. The theme also supports the existing `custom.made_in` field as a fallback. |
 
 The theme displays these fields only when values are present, so incomplete products do not show empty headings.
 

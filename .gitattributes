@@ -1,0 +1,2 @@
+# Generated Shopify imports are reviewed with the catalog audit/script instead of line diffs.
+catalog/*.csv -diff
