@@ -3,8 +3,8 @@
 }
 
 .vennix-hero {
-  --hero-ink: #20201e;
-  --hero-muted: #5f5b54;
+  --hero-ink: #0b0b0b;
+  --hero-muted: #53534f;
   --hero-surface: #f2ede5;
   --hero-line: rgba(32, 32, 30, 0.15);
   display: block;
