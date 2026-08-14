@@ -72,12 +72,12 @@ Follow `docs/PRODUCT_CATALOG_AND_SEO_GUIDE.md`. The theme supports materials, ca
 Test at least one simple product and one multi-variant product:
 
 1. Product selection and price updates.
-2. Add to cart and cart-drawer updates.
-3. Free-shipping messaging.
-4. Discount codes.
-5. Shipping calculation.
-6. Payment and checkout.
-7. Order confirmation email.
+2. Mobile sticky Add to Cart appears only after scrolling past the main button and uses the selected variant.
+3. Add to cart and cart-drawer updates.
+4. Cart free-shipping progress recalculates after add, removal, and quantity changes.
+5. Product story, specifications, care, shipping, and returns accordions.
+6. Discount codes and shipping calculation.
+7. Payment, checkout, and order confirmation email.
 8. Mobile navigation, filters, quick add, forms, and image galleries.
 9. Judge.me widgets, Shopify Inbox, SEO Lab, GPTLab, and Metafields Guru blocks.
 10. Google Search Console and analytics/pixel integrations.

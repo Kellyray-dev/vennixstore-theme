@@ -1146,3 +1146,173 @@ body {
     transition: none !important;
   }
 }
+
+/* --------------------------------------------------------------------------
+   Conversion utilities: product accordions, sticky purchase bar, cart progress
+---------------------------------------------------------------------------- */
+.vx-description-accordion .product__description,
+.vx-product-accordion .vx-product-details {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.vx-product-accordion .accordion__content {
+  padding-bottom: 2.2rem;
+}
+
+.vx-product-accordion .vx-product-details__features {
+  margin-bottom: 2.2rem;
+}
+
+.vx-product-accordion .vx-product-details__specs {
+  margin-top: 0;
+}
+
+.vx-shipping-progress {
+  margin: 0 1.5rem 1.6rem;
+  padding: 1.5rem;
+  border: 1px solid rgba(11, 11, 11, 0.1);
+  border-radius: 12px;
+  background: #f0eee9;
+}
+
+.vx-shipping-progress__message {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: #242420;
+  font-size: 1.2rem;
+  line-height: 1.45;
+}
+
+.vx-shipping-progress__message svg {
+  width: 2rem;
+  height: 2rem;
+  flex: 0 0 2rem;
+  color: #344b43;
+}
+
+.vx-shipping-progress__message strong {
+  color: #0b0b0b;
+}
+
+.vx-shipping-progress__track {
+  height: 0.5rem;
+  margin-top: 1.2rem;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(11, 11, 11, 0.12);
+}
+
+.vx-shipping-progress__fill {
+  height: 100%;
+  display: block;
+  border-radius: inherit;
+  background: #26332f;
+  transition: width 0.45s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.vx-shipping-progress.is-complete {
+  border-color: rgba(38, 51, 47, 0.25);
+  background: #e9efeb;
+}
+
+.vx-sticky-atc {
+  display: none;
+}
+
+@media screen and (max-width: 749px) {
+  .vx-sticky-atc {
+    position: fixed;
+    z-index: 29;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: block;
+    padding-bottom: env(safe-area-inset-bottom, 0);
+    border-top: 1px solid rgba(11, 11, 11, 0.12);
+    background: rgba(250, 250, 248, 0.96);
+    box-shadow: 0 -12px 32px rgba(0, 0, 0, 0.1);
+    -webkit-backdrop-filter: blur(16px) saturate(1.1);
+    backdrop-filter: blur(16px) saturate(1.1);
+    transform: translateY(calc(100% + 2rem));
+    visibility: hidden;
+    transition: transform 0.35s cubic-bezier(0.22, 0.61, 0.36, 1), visibility 0.35s;
+  }
+
+  .vx-sticky-atc.is-visible {
+    transform: translateY(0);
+    visibility: visible;
+  }
+
+  body.overflow-hidden .vx-sticky-atc {
+    transform: translateY(calc(100% + 2rem));
+    visibility: hidden;
+  }
+
+  .vx-sticky-atc__inner {
+    min-height: 7.4rem;
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+
+  .vx-sticky-atc__media {
+    width: 5.2rem;
+    height: 5.2rem;
+    flex: 0 0 5.2rem;
+    overflow: hidden;
+    border-radius: 8px;
+    background: #efefeb;
+  }
+
+  .vx-sticky-atc__media img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+  }
+
+  .vx-sticky-atc__details {
+    min-width: 0;
+    flex: 1 1 auto;
+  }
+
+  .vx-sticky-atc__details strong,
+  .vx-sticky-atc__details span {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .vx-sticky-atc__details strong {
+    color: #0b0b0b;
+    font-size: 1.15rem;
+    line-height: 1.35;
+  }
+
+  .vx-sticky-atc__details span {
+    margin-top: 0.25rem;
+    color: #53534f;
+    font-size: 1.1rem;
+  }
+
+  .vx-sticky-atc__button {
+    min-width: 13.5rem;
+    min-height: 4.8rem;
+    flex: 0 0 auto;
+    margin: 0;
+    padding-inline: 1.7rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vx-shipping-progress__fill,
+  .vx-sticky-atc {
+    transition: none;
+  }
+}

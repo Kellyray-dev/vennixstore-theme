@@ -232,7 +232,9 @@
           "shadow": "#050912"
         }
       }
-    }
+    },
+    "free_shipping_progress_enabled": true,
+    "free_shipping_threshold": 50
   },
   "presets": {
     "Dawn": {

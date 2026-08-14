@@ -74,6 +74,9 @@
           </span>
         </button>
       </div>
+      {%- unless cart == empty -%}
+        {%- render 'vennix-shipping-progress' -%}
+      {%- endunless -%}
       <cart-drawer-items
         view-event-payload="{{ cart | standard_event_data: 'view', context: 'dialog' | escape }}"
         view-event-trigger="manual"

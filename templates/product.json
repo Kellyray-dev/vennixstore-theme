@@ -131,7 +131,8 @@
         "hide_variants": true,
         "enable_video_looping": false,
         "padding_top": 52,
-        "padding_bottom": 40
+        "padding_bottom": 40,
+        "enable_sticky_atc": true
       }
     },
     "disclosures": {

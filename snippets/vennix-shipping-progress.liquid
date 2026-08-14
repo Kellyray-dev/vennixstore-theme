@@ -1,0 +1,36 @@
+{%- liquid
+  assign threshold_cents = settings.free_shipping_threshold | times: 100
+  assign remaining_cents = threshold_cents | minus: cart.total_price | at_least: 0
+  assign progress_percent = cart.total_price | times: 100.0 | divided_by: threshold_cents | at_most: 100
+  assign currency_matches_store = false
+  if cart.currency.iso_code == shop.currency
+    assign currency_matches_store = true
+  endif
+-%}
+
+{%- if settings.free_shipping_progress_enabled and threshold_cents > 0 and currency_matches_store -%}
+  <div class="vx-shipping-progress{% if remaining_cents == 0 %} is-complete{% endif %}" role="status" aria-live="polite">
+    <div class="vx-shipping-progress__message">
+      <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+        <path d="M3 6h11v11H3zM14 10h4l3 3v4h-7zM7 20a2 2 0 1 0 0-4 2 2 0 0 0 0 4ZM18 20a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+      </svg>
+      <span>
+        {%- if remaining_cents == 0 -%}
+          You've reached the free-shipping threshold.
+        {%- else -%}
+          Add <strong>{{ remaining_cents | money_with_currency }}</strong> to reach free shipping.
+        {%- endif -%}
+      </span>
+    </div>
+    <div
+      class="vx-shipping-progress__track"
+      role="progressbar"
+      aria-label="Progress toward free shipping"
+      aria-valuemin="0"
+      aria-valuemax="100"
+      aria-valuenow="{{ progress_percent | round }}"
+    >
+      <span class="vx-shipping-progress__fill" style="width: {{ progress_percent }}%;"></span>
+    </div>
+  </div>
+{%- endif -%}

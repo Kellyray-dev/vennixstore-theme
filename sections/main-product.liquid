@@ -199,8 +199,19 @@
                   </p>
                 {%- when 'description' -%}
                   {%- if product.description != blank -%}
-                    <div class="product__description rte quick-add-hidden" {{ block.shopify_attributes }}>
-                      {{ product.description }}
+                    <div class="product__accordion accordion quick-add-hidden vx-description-accordion" {{ block.shopify_attributes }}>
+                      <details id="VennixProductDescription-{{ section.id }}">
+                        <summary>
+                          <div class="summary__title">
+                            {% render 'icon-accordion', icon: 'clipboard' %}
+                            <h2 class="h4 accordion__title">Product story</h2>
+                          </div>
+                          {{- 'icon-caret.svg' | inline_asset_content -}}
+                        </summary>
+                        <div class="accordion__content product__description rte" id="VennixProductDescriptionContent-{{ section.id }}">
+                          {{ product.description }}
+                        </div>
+                      </details>
                     </div>
                   {%- endif -%}
                   {%- render 'vennix-product-metafields', product: product, section: section -%}
@@ -704,6 +715,15 @@
           </section>
         </div>
       </div>
+
+      {%- if section.settings.enable_sticky_atc -%}
+        {%- render 'vennix-sticky-atc',
+          product: product,
+          product_form_id: product_form_id,
+          section_id: section.id
+        -%}
+        <script src="{{ 'vennix-product-actions.js' | asset_url }}" defer="defer"></script>
+      {%- endif -%}
 
       {% render 'product-media-modal', variant_images: variant_images %}
 
@@ -2159,6 +2179,12 @@
       "id": "enable_sticky_info",
       "default": true,
       "label": "t:sections.main-product.settings.enable_sticky_info.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_sticky_atc",
+      "default": true,
+      "label": "Enable sticky Add to Cart on mobile"
     },
     {
       "type": "color_scheme",
