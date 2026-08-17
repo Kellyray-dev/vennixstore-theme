@@ -258,8 +258,15 @@
         "comment": "Comment",
         "send": "Send",
         "post_success": "Thanks for contacting us. We'll get back to you as soon as possible.",
-        "error_heading": "Please adjust the following:"
-      }
+        "error_heading": "Please adjust the following:",
+        "response_note": "We aim to respond within 1-2 business days. For order-related questions, please include your order number if you have one.",
+        "optional": "optional"
+      },
+      "info_label": "Contact and support information",
+      "info_heading": "Need help?",
+      "info_text": "Reach out to us any time. We are happy to help with orders, returns, and product questions.",
+      "email_label": "Email",
+      "phone_label": "Phone"
     },
     "404": {
       "title": "Page not found",
@@ -318,7 +325,11 @@
       }
     },
     "footer": {
-      "payment": "Payment methods"
+      "payment": "Payment methods",
+      "contact_info": "Contact us",
+      "email": "Email",
+      "phone": "Phone",
+      "address": "Address"
     },
     "featured_blog": {
       "view_all": "View all",
@@ -392,7 +403,8 @@
       "title": "Account",
       "details": "Account details",
       "view_addresses": "View addresses",
-      "return": "Return to Account details"
+      "return": "Return to Account details",
+      "contact_support": "Need help? Contact support"
     },
     "account_fallback": "Account",
     "activate_account": {

@@ -1,3 +1,12 @@
+{%- comment -%}
+  VennixStore Trust Signals — shown below the Add to Cart button.
+  The "Easy Returns" badge links to the store's Refund/Returns policy when one
+  is configured in Shopify Admin (Settings > Policies). If no refund policy
+  exists, the badge renders without a link so no unverified terms are promised.
+{%- endcomment -%}
+
+{%- assign refund_policy = shop.policies | where: 'handle', 'refund-policy' | first -%}
+
 <div class="vennix-trust-badges">
   <div class="vennix-trust-badge">
     <svg xmlns="http://www.w3.org/2000/svg"
@@ -17,16 +26,29 @@
     </svg>
     <span>Free Shipping Over $75</span>
   </div>
-  <div class="vennix-trust-badge">
-    <svg xmlns="http://www.w3.org/2000/svg"
-      width="20" height="20" viewBox="0 0 24 24"
-      fill="none" stroke="currentColor"
-      stroke-width="1.5">
-      <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-      <polyline points="9 22 9 12 15 12 15 22"/>
-    </svg>
-    <span>30-Day Easy Returns</span>
-  </div>
+  {%- if refund_policy -%}
+    <a href="{{ refund_policy.url }}" class="vennix-trust-badge vennix-trust-badge--link" aria-label="{{ refund_policy.title | escape }}">
+      <svg xmlns="http://www.w3.org/2000/svg"
+        width="20" height="20" viewBox="0 0 24 24"
+        fill="none" stroke="currentColor"
+        stroke-width="1.5">
+        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+        <polyline points="9 22 9 12 15 12 15 22"/>
+      </svg>
+      <span>30-Day Easy Returns</span>
+    </a>
+  {%- else -%}
+    <div class="vennix-trust-badge">
+      <svg xmlns="http://www.w3.org/2000/svg"
+        width="20" height="20" viewBox="0 0 24 24"
+        fill="none" stroke="currentColor"
+        stroke-width="1.5">
+        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+        <polyline points="9 22 9 12 15 12 15 22"/>
+      </svg>
+      <span>Easy Returns</span>
+    </div>
+  {%- endif -%}
   <div class="vennix-trust-badge">
     <svg xmlns="http://www.w3.org/2000/svg"
       width="20" height="20" viewBox="0 0 24 24"

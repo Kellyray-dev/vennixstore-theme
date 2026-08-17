@@ -25,6 +25,39 @@
       padding-bottom: {{ section.settings.padding_bottom }}px;
     }
   }
+
+  .footer__contact-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem 2.4rem;
+    justify-content: center;
+    margin: 0;
+    padding: 0 0 2rem;
+  }
+
+  .footer__contact-item {
+    font-size: 1.4rem;
+    line-height: 1.4;
+  }
+
+  .footer__contact-item address {
+    font-style: normal;
+  }
+
+  .footer__contact-item a {
+    text-decoration: none;
+  }
+
+  .footer__contact-item a:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.3rem;
+  }
+
+  @media screen and (min-width: 750px) {
+    .footer__contact-list {
+      justify-content: flex-start;
+    }
+  }
 {%- endstyle -%}
 
 <footer class="footer color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-padding">
@@ -298,6 +331,41 @@
       </div>
     </div>
     <div class="footer__content-bottom-wrapper page-width{% if section.settings.enable_country_selector == false and section.settings.enable_language_selector == false %} footer__content-bottom-wrapper--center{% endif %}">
+      {%- if section.settings.show_contact_info -%}
+        <div class="footer__contact-info rte">
+          <h3 class="footer__contact-heading visually-hidden">{{ 'sections.footer.contact_info' | t }}</h3>
+          <ul class="footer__contact-list list-unstyled" role="list">
+            {%- if shop.email != blank -%}
+              <li class="footer__contact-item">
+                <span class="visually-hidden">{{ 'sections.footer.email' | t }}</span>
+                <a href="mailto:{{ shop.email }}" class="link link--text">{{ shop.email }}</a>
+              </li>
+            {%- endif -%}
+            {%- if shop.phone != blank -%}
+              <li class="footer__contact-item">
+                <span class="visually-hidden">{{ 'sections.footer.phone' | t }}</span>
+                <a href="tel:{{ shop.phone | strip_html }}" class="link link--text">{{ shop.phone }}</a>
+              </li>
+            {%- endif -%}
+            {%- if shop.addresses.first != blank -%}
+              <li class="footer__contact-item footer__contact-address">
+                <span class="visually-hidden">{{ 'sections.footer.address' | t }}</span>
+                <address>
+                  {%- if shop.addresses.first.address1 != blank -%}
+                    {{ shop.addresses.first.address1 }}{% if shop.addresses.first.address2 != blank %}<br>{{ shop.addresses.first.address2 }}{% endif %}<br>
+                  {%- endif -%}
+                  {%- if shop.addresses.first.city != blank -%}
+                    {{ shop.addresses.first.city }}{% if shop.addresses.first.province != blank %}, {{ shop.addresses.first.province }}{% endif %}<br>
+                  {%- endif -%}
+                  {%- if shop.addresses.first.zip != blank -%}
+                    {{ shop.addresses.first.zip }}{% if shop.addresses.first.country != blank %} {{ shop.addresses.first.country }}{% endif %}
+                  {%- endif -%}
+                </address>
+              </li>
+            {%- endif -%}
+          </ul>
+        </div>
+      {%- endif -%}
       <div class="footer__copyright caption">
         <small class="copyright__content"
           >&copy; {{ 'now' | date: '%Y' }}, {{ shop.name | link_to: routes.root_url -}}
@@ -491,6 +559,13 @@
       "default": true,
       "label": "t:sections.footer.settings.show_policy.label",
       "info": "t:sections.footer.settings.show_policy.info"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_contact_info",
+      "default": true,
+      "label": "t:sections.footer.settings.show_contact_info.label",
+      "info": "t:sections.footer.settings.show_contact_info.info"
     },
     {
       "type": "header",

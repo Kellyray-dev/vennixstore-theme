@@ -506,6 +506,18 @@ a.link:hover {
   color: var(--v-gold);
   flex-shrink: 0;
 }
+.vennix-trust-badge--link {
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+.vennix-trust-badge--link:hover {
+  color: var(--v-gold-deep);
+}
+.vennix-trust-badge--link:focus-visible {
+  outline: 2px solid var(--v-gold);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
 
 /* 22. Size guide — clearer trigger */
 .vennix-size-guide__trigger {
