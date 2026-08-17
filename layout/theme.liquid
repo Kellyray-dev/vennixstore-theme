@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#1a1a2e">
+  <meta name="theme-color" content="#1a1a1a">
 
   <!-- Preload critical resources -->
   <link rel="preload" href="{{ 'base.css' | asset_url }}" as="style">
@@ -18,6 +18,15 @@
   <!-- Critical CSS -->
   <link rel="stylesheet" href="{{ 'base.css' | asset_url }}" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="{{ 'base.css' | asset_url }}"></noscript>
+
+  <!-- VennixStore custom design enhancements (loaded after base.css) -->
+  <link rel="preload" href="{{ 'vennix-custom.css' | asset_url }}" as="style">
+  <link rel="stylesheet" href="{{ 'vennix-custom.css' | asset_url }}" media="print" onload="this.media='all'">
+  <link rel="stylesheet" href="{{ 'vennix-enhancements.css' | asset_url }}" media="print" onload="this.media='all'">
+  <noscript>
+    <link rel="stylesheet" href="{{ 'vennix-custom.css' | asset_url }}">
+    <link rel="stylesheet" href="{{ 'vennix-enhancements.css' | asset_url }}">
+  </noscript>
 
   {%- render 'vennix-seo-jsonld' -%}
 </head>

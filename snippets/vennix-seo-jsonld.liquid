@@ -74,7 +74,7 @@
 {
   "@context": "https://schema.org",
   "@type": "Organization",
-  "name": "VennixStore",
+  "name": {{ shop.name | json }},
   "url": {{ shop.url | json }},
   {%- if shop.brand.logo -%}
     "logo": {{ shop.brand.logo | image_url: width: 400 | prepend: 'https:' | json }},
@@ -82,8 +82,52 @@
     "logo": {{ settings.logo | image_url: width: 400 | prepend: 'https:' | json }},
   {%- endif -%}
   "sameAs": [
-    "https://instagram.com/vennixstore",
-    "https://facebook.com/vennixstore"
+    {%- assign _first_social = true -%}
+    {%- if settings.social_facebook_link != blank -%}
+      {%- unless _first_social -%},{%- endunless -%}
+      {{ settings.social_facebook_link | json }}
+      {%- assign _first_social = false -%}
+    {%- endif -%}
+    {%- if settings.social_instagram_link != blank -%}
+      {%- unless _first_social -%},{%- endunless -%}
+      {{ settings.social_instagram_link | json }}
+      {%- assign _first_social = false -%}
+    {%- endif -%}
+    {%- if settings.social_twitter_link != blank -%}
+      {%- unless _first_social -%},{%- endunless -%}
+      {{ settings.social_twitter_link | json }}
+      {%- assign _first_social = false -%}
+    {%- endif -%}
+    {%- if settings.social_tiktok_link != blank -%}
+      {%- unless _first_social -%},{%- endunless -%}
+      {{ settings.social_tiktok_link | json }}
+      {%- assign _first_social = false -%}
+    {%- endif -%}
+    {%- if settings.social_youtube_link != blank -%}
+      {%- unless _first_social -%},{%- endunless -%}
+      {{ settings.social_youtube_link | json }}
+      {%- assign _first_social = false -%}
+    {%- endif -%}
+    {%- if settings.social_pinterest_link != blank -%}
+      {%- unless _first_social -%},{%- endunless -%}
+      {{ settings.social_pinterest_link | json }}
+      {%- assign _first_social = false -%}
+    {%- endif -%}
+    {%- if settings.social_snapchat_link != blank -%}
+      {%- unless _first_social -%},{%- endunless -%}
+      {{ settings.social_snapchat_link | json }}
+      {%- assign _first_social = false -%}
+    {%- endif -%}
+    {%- if settings.social_tumblr_link != blank -%}
+      {%- unless _first_social -%},{%- endunless -%}
+      {{ settings.social_tumblr_link | json }}
+      {%- assign _first_social = false -%}
+    {%- endif -%}
+    {%- if settings.social_vimeo_link != blank -%}
+      {%- unless _first_social -%},{%- endunless -%}
+      {{ settings.social_vimeo_link | json }}
+      {%- assign _first_social = false -%}
+    {%- endif -%}
   ]
 }
 </script>
@@ -92,7 +136,7 @@
 {
   "@context": "https://schema.org",
   "@type": "WebSite",
-  "name": "VennixStore",
+  "name": {{ shop.name | json }},
   "url": {{ shop.url | json }},
   "potentialAction": {
     "@type": "SearchAction",
