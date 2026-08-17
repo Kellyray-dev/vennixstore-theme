@@ -35,7 +35,29 @@
                   role="list"
                 >
                   {%- for childlink in link.links -%}
-                    <li>
+                    <li class="vx-mega-menu__column">
+                      {%- liquid
+                        assign mega_menu_image = blank
+                        if childlink.type == 'collection_link'
+                          assign mega_menu_image = childlink.object.image
+                          if mega_menu_image == blank
+                            assign mega_menu_image = childlink.object.products.first.featured_media.preview_image
+                          endif
+                        endif
+                      -%}
+                      {%- if mega_menu_image != blank -%}
+                        <a class="vx-mega-menu__media" href="{{ childlink.url }}" tabindex="-1" aria-hidden="true">
+                          {{
+                            mega_menu_image
+                            | image_url: width: 560
+                            | image_tag:
+                              loading: 'lazy',
+                              widths: '240, 360, 480, 560',
+                              sizes: '(min-width: 990px) 220px, 0px',
+                              alt: ''
+                          }}
+                        </a>
+                      {%- endif -%}
                       <a
                         id="HeaderMenu-{{ link.handle }}-{{ childlink.handle }}"
                         href="{{ childlink.url }}"

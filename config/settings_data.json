@@ -1,15 +1,7 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "current": {
-    "logo_width": 150,
+    "logo": "{{ shop.brand.logo }}",
+    "logo_width": 180,
     "type_header_font": "playfair_display_n4",
     "heading_scale": 100,
     "type_body_font": "inter_n4",
@@ -19,10 +11,10 @@
     "spacing_grid_horizontal": 8,
     "spacing_grid_vertical": 8,
     "animations_reveal_on_scroll": true,
-    "animations_hover_elements": "none",
+    "animations_hover_elements": "vertical-lift",
     "buttons_border_thickness": 1,
     "buttons_border_opacity": 100,
-    "buttons_radius": 0,
+    "buttons_radius": 40,
     "buttons_shadow_opacity": 0,
     "buttons_shadow_horizontal_offset": 0,
     "buttons_shadow_vertical_offset": 4,
@@ -36,10 +28,10 @@
     "variant_pills_shadow_blur": 5,
     "inputs_border_thickness": 1,
     "inputs_border_opacity": 55,
-    "inputs_radius": 0,
+    "inputs_radius": 10,
     "inputs_shadow_opacity": 0,
     "inputs_shadow_horizontal_offset": 0,
-    "inputs_shadow_vertical_offset": 4,
+    "inputs_shadow_vertical_offset": -2,
     "inputs_shadow_blur": 5,
     "card_style": "standard",
     "card_image_padding": 0,
@@ -47,7 +39,7 @@
     "card_color_scheme": "scheme-2",
     "card_border_thickness": 0,
     "card_border_opacity": 10,
-    "card_corner_radius": 0,
+    "card_corner_radius": 12,
     "card_shadow_opacity": 0,
     "card_shadow_horizontal_offset": 0,
     "card_shadow_vertical_offset": 4,
@@ -58,7 +50,7 @@
     "collection_card_color_scheme": "scheme-2",
     "collection_card_border_thickness": 0,
     "collection_card_border_opacity": 10,
-    "collection_card_corner_radius": 0,
+    "collection_card_corner_radius": 12,
     "collection_card_shadow_opacity": 0,
     "collection_card_shadow_horizontal_offset": 0,
     "collection_card_shadow_vertical_offset": 4,
@@ -69,7 +61,7 @@
     "blog_card_color_scheme": "scheme-2",
     "blog_card_border_thickness": 0,
     "blog_card_border_opacity": 10,
-    "blog_card_corner_radius": 0,
+    "blog_card_corner_radius": 12,
     "blog_card_shadow_opacity": 0,
     "blog_card_shadow_horizontal_offset": 0,
     "blog_card_shadow_vertical_offset": 4,
@@ -83,7 +75,7 @@
     "text_boxes_shadow_blur": 5,
     "media_border_thickness": 1,
     "media_border_opacity": 5,
-    "media_radius": 0,
+    "media_radius": 12,
     "media_shadow_opacity": 0,
     "media_shadow_horizontal_offset": 0,
     "media_shadow_vertical_offset": 4,
@@ -121,7 +113,7 @@
     "predictive_search_show_vendor": false,
     "predictive_search_show_price": false,
     "currency_code_enabled": true,
-    "cart_type": "notification",
+    "cart_type": "drawer",
     "show_vendor": false,
     "show_cart_note": false,
     "cart_drawer_collection": "",
@@ -142,13 +134,26 @@
     },
     "content_for_index": [],
     "blocks": {
+      "14060646107696862457": {
+        "type": "shopify://apps/judge-me-reviews/blocks/judgeme_core/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+        "disabled": false,
+        "settings": {}
+      },
+      "8419966592507824873": {
+        "type": "shopify://apps/seolab-seo-optimizer/blocks/app_embed/faf700f6-3b71-45c3-86d4-83ea9f7d9216",
+        "disabled": false,
+        "settings": {}
+      },
+      "1010346387011022953": {
+        "type": "shopify://apps/gptlab-get-found-by-ai/blocks/app_embed/019e923e-9c84-76cd-a285-13b157fc1dcd",
+        "disabled": false,
+        "settings": {}
+      },
       "15683396631634586217": {
         "type": "shopify://apps/inbox/blocks/chat/841fc607-4181-4ad1-842d-e24d7f8bad6b",
         "disabled": false,
         "settings": {
           "greeting_message": "",
-          "show_featured_products": true,
-          "featured_products": [],
           "background_color": "#FFFFFF",
           "font_color": "#000000",
           "button_color": "#000000",
@@ -163,11 +168,6 @@
           "agent_border_radius": 16
         }
       },
-      "14060646107696862457": {
-        "type": "shopify://apps/judge-me-reviews/blocks/judgeme_core/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
-        "disabled": false,
-        "settings": {}
-      },
       "13047258039897440615": {
         "type": "shopify://apps/judge-me-reviews/blocks/cart_drawer_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
         "disabled": false,
@@ -179,76 +179,76 @@
     "color_schemes": {
       "scheme-1": {
         "settings": {
-          "background": "#f9f7f4",
+          "background": "#fafaf8",
           "background_gradient": "",
-          "text": "#333333",
-          "button": "#1a1a1a",
+          "text": "#0b0b0b",
+          "button": "#000000",
           "button_label": "#ffffff",
-          "secondary_button_label": "#1a1a1a",
-          "shadow": "#1a1a1a"
+          "secondary_button_label": "#0b0b0b",
+          "shadow": "#000000"
         }
       },
       "scheme-2": {
         "settings": {
-          "background": "#f3f3f3",
+          "background": "#f0eee9",
           "background_gradient": "",
-          "text": "#121212",
-          "button": "#121212",
-          "button_label": "#f3f3f3",
-          "secondary_button_label": "#121212",
-          "shadow": "#121212"
+          "text": "#11110f",
+          "button": "#000000",
+          "button_label": "#ffffff",
+          "secondary_button_label": "#11110f",
+          "shadow": "#11110f"
         }
       },
       "scheme-3": {
         "settings": {
-          "background": "#242833",
+          "background": "#050505",
           "background_gradient": "",
-          "text": "#ffffff",
-          "button": "#ffffff",
-          "button_label": "#000000",
-          "secondary_button_label": "#ffffff",
-          "shadow": "#121212"
+          "text": "#fafafa",
+          "button": "#fafafa",
+          "button_label": "#050505",
+          "secondary_button_label": "#fafafa",
+          "shadow": "#000000"
         }
       },
       "scheme-4": {
         "settings": {
-          "background": "#121212",
+          "background": "#26332f",
           "background_gradient": "",
-          "text": "#ffffff",
-          "button": "#ffffff",
-          "button_label": "#121212",
-          "secondary_button_label": "#ffffff",
-          "shadow": "#121212"
+          "text": "#fafafa",
+          "button": "#fafafa",
+          "button_label": "#26332f",
+          "secondary_button_label": "#fafafa",
+          "shadow": "#0b100e"
         }
       },
       "scheme-5": {
         "settings": {
-          "background": "#334fb4",
+          "background": "#111927",
           "background_gradient": "",
-          "text": "#ffffff",
-          "button": "#ffffff",
-          "button_label": "#334fb4",
-          "secondary_button_label": "#ffffff",
-          "shadow": "#121212"
+          "text": "#fafafa",
+          "button": "#fafafa",
+          "button_label": "#111927",
+          "secondary_button_label": "#fafafa",
+          "shadow": "#050912"
         }
       }
-    }
+    },
+    "free_shipping_progress_enabled": true,
+    "free_shipping_threshold": 50
   },
   "presets": {
     "Dawn": {
-      "logo_width": 150,
+      "logo_width": 90,
       "color_schemes": {
         "scheme-1": {
           "settings": {
-            "background": "#F9F7F4",
+            "background": "#FFFFFF",
             "background_gradient": "",
-            "text": "#333333",
-            "accent_1": "#C9A96E",
-            "accent_2": "#1A1A1A",
-            "button": "#1A1A1A",
+            "text": "#121212",
+            "button": "#121212",
             "button_label": "#FFFFFF",
-            "secondary_button_label": "#1A1A1A",
-            "shadow": "#1A1A1A"
+            "secondary_button_label": "#121212",
+            "shadow": "#121212"
           }
         },
         "scheme-2": {
@@ -296,11 +296,11 @@
           }
         }
       },
-      "type_header_font": "playfair_display_n4",
+      "type_header_font": "assistant_n4",
       "heading_scale": 100,
-      "type_body_font": "inter_n4",
+      "type_body_font": "assistant_n4",
       "body_scale": 100,
-      "page_width": 1400,
+      "page_width": 1200,
       "spacing_sections": 0,
       "spacing_grid_horizontal": 8,
       "spacing_grid_vertical": 8,

@@ -147,11 +147,6 @@
               class="collection{% if section.settings.filter_type != 'vertical' %} page-width{% endif %}"
             >
               <div class="loading-overlay gradient"></div>
-              <div class="vennix-results-bar">
-                <span class="vennix-results-bar__count">
-                  {{ 'products.facets.product_count_simple' | t: count: collection.products_count }}
-                </span>
-              </div>
               <ul
                 id="product-grid"
                 data-id="{{ section.id }}"
@@ -217,7 +212,7 @@
       "min": 8,
       "max": 36,
       "step": 4,
-      "default": 24,
+      "default": 16,
       "label": "t:sections.main-collection-product-grid.settings.products_per_page.label"
     },
     {
@@ -226,7 +221,7 @@
       "min": 1,
       "max": 6,
       "step": 1,
-      "default": 3,
+      "default": 4,
       "label": "t:sections.main-collection-product-grid.settings.columns_desktop.label"
     },
     {
@@ -273,7 +268,7 @@
           "label": "t:sections.main-collection-product-grid.settings.image_ratio.options__3.label"
         }
       ],
-      "default": "portrait",
+      "default": "adapt",
       "label": "t:sections.main-collection-product-grid.settings.image_ratio.label"
     },
     {
@@ -319,7 +314,7 @@
     {
       "type": "checkbox",
       "id": "show_secondary_image",
-      "default": true,
+      "default": false,
       "label": "t:sections.main-collection-product-grid.settings.show_secondary_image.label"
     },
     {
@@ -383,7 +378,7 @@
           "label": "t:sections.main-collection-product-grid.settings.filter_type.options__3.label"
         }
       ],
-      "default": "vertical",
+      "default": "horizontal",
       "label": "t:sections.main-collection-product-grid.settings.filter_type.label"
     },
     {

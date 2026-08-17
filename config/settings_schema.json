@@ -1424,6 +1424,23 @@
       },
       {
         "type": "checkbox",
+        "id": "free_shipping_progress_enabled",
+        "label": "Show free-shipping progress in cart drawer",
+        "default": true
+      },
+      {
+        "type": "range",
+        "id": "free_shipping_threshold",
+        "min": 10,
+        "max": 250,
+        "step": 5,
+        "unit": "$",
+        "label": "Free-shipping threshold",
+        "default": 50,
+        "info": "Must match the free-shipping rate configured for the store currency."
+      },
+      {
+        "type": "checkbox",
         "id": "show_vendor",
         "label": "t:settings_schema.cart.settings.show_vendor.label",
         "default": false

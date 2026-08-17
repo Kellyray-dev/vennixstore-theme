@@ -1,0 +1,75 @@
+<section class="vx-trust color-{{ section.settings.color_scheme }} gradient" aria-label="Shopping benefits">
+  <ul class="vx-trust__grid page-width" role="list">
+    {%- for block in section.blocks -%}
+      <li class="vx-trust__item" {{ block.shopify_attributes }}>
+        <span class="vx-trust__icon" aria-hidden="true">
+          {%- case block.settings.icon -%}
+            {%- when 'delivery' -%}
+              <svg viewBox="0 0 24 24" fill="none"><path d="M3 6h11v11H3zM14 10h4l3 3v4h-7zM7 20a2 2 0 1 0 0-4 2 2 0 0 0 0 4ZM18 20a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>
+            {%- when 'returns' -%}
+              <svg viewBox="0 0 24 24" fill="none"><path d="M8 7H4V3M4.5 7.5A8 8 0 1 1 4 16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            {%- when 'support' -%}
+              <svg viewBox="0 0 24 24" fill="none"><path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>
+            {%- else -%}
+              <svg viewBox="0 0 24 24" fill="none"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="currentColor" stroke-width="1.4"/><path d="m9 12 2 2 4-4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          {%- endcase -%}
+        </span>
+        <span class="vx-trust__copy">
+          <strong>{{ block.settings.title | escape }}</strong>
+          {%- if block.settings.description != blank -%}<small>{{ block.settings.description | escape }}</small>{%- endif -%}
+        </span>
+      </li>
+    {%- endfor -%}
+  </ul>
+</section>
+
+{% schema %}
+{
+  "name": "Vennix trust bar",
+  "tag": "section",
+  "class": "section section--vennix-trust",
+  "disabled_on": { "groups": ["header", "footer"] },
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-2"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "badge",
+      "name": "Shopping benefit",
+      "limit": 4,
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "delivery", "label": "Delivery" },
+            { "value": "returns", "label": "Returns" },
+            { "value": "secure", "label": "Secure checkout" },
+            { "value": "support", "label": "Support" }
+          ],
+          "default": "secure"
+        },
+        { "type": "text", "id": "title", "label": "Title", "default": "Secure checkout" },
+        { "type": "text", "id": "description", "label": "Description" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Vennix trust bar",
+      "blocks": [
+        { "type": "badge", "settings": { "icon": "delivery", "title": "Free shipping", "description": "On orders over $50" } },
+        { "type": "badge", "settings": { "icon": "returns", "title": "30-day returns", "description": "Clear return window" } },
+        { "type": "badge", "settings": { "icon": "secure", "title": "Secure checkout", "description": "Protected payments" } },
+        { "type": "badge", "settings": { "icon": "support", "title": "Customer support", "description": "Questions? We are here to help" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -39,6 +39,21 @@
     if ratio == 0 or ratio == null
       assign ratio = 1
     endif
+
+    assign card_on_sale = false
+    assign card_compare_limit = card_product.price | times: 3
+    if card_product.compare_at_price > card_product.price and card_product.compare_at_price <= card_compare_limit
+      assign card_on_sale = true
+    endif
+
+    assign prestige_badge = ''
+    if card_product.tags contains 'best-seller'
+      assign prestige_badge = 'Best seller'
+    elsif card_product.tags contains 'new-arrival' or card_product.tags contains 'new'
+      assign prestige_badge = 'New arrival'
+    elsif card_product.tags contains 'limited-edition'
+      assign prestige_badge = 'Limited edition'
+    endif
   -%}
 
   <product-component view-event-payload="{{ card_product | standard_event_data: 'view', context: product_view_context | escape }}">
@@ -61,7 +76,6 @@
         >
           {%- if card_product.featured_media -%}
             <div class="card__media{% if image_shape and image_shape != 'default' %} shape--{{ image_shape }} color-{{ settings.card_color_scheme }} gradient{% endif %}">
-              {% render 'vennix-wishlist-btn', product: card_product %}
               <div class="media media--transparent media--hover-effect">
                 {% comment %}theme-check-disable ImgLazyLoading{% endcomment %}
                 <img
@@ -107,7 +121,6 @@
                   >
                 {%- endif -%}
               </div>
-              {% render 'vennix-wishlist-btn', product: card_product %}
             </div>
           {%- endif -%}
           <div class="card__content">
@@ -122,13 +135,16 @@
                   href="{{ card_product.url }}"
                   id="StandardCardNoMediaLink-{{ section_id }}-{{ card_product.id }}"
                   class="full-unstyled-link"
-                  aria-labelledby="StandardCardNoMediaLink-{{ section_id }}-{{ card_product.id }}{% if card_product.available == false or card_product.compare_at_price > card_product.price %} NoMediaStandardBadge-{{ section_id }}-{{ card_product.id }}{% endif %}"
+                  aria-labelledby="StandardCardNoMediaLink-{{ section_id }}-{{ card_product.id }}{% if card_product.available == false or card_on_sale %} NoMediaStandardBadge-{{ section_id }}-{{ card_product.id }}{% endif %}"
                 >
-                  {{ card_product.title | escape | truncate: 60 }}
+                  {{ card_product.title | escape }}
                 </a>
               </h3>
             </div>
             <div class="card__badge {{ settings.badge_position }}">
+              {%- if prestige_badge != blank -%}
+                <span class="badge vx-product-badge">{{ prestige_badge | escape }}</span>
+              {%- endif -%}
               {%- if card_product.available == false -%}
                 <span
                   id="NoMediaStandardBadge-{{ section_id }}-{{ card_product.id }}"
@@ -136,7 +152,7 @@
                 >
                   {{- 'products.product.sold_out' | t -}}
                 </span>
-              {%- elsif card_product.compare_at_price > card_product.price and card_product.available -%}
+              {%- elsif card_on_sale and card_product.available -%}
                 <span
                   id="NoMediaStandardBadge-{{ section_id }}-{{ card_product.id }}"
                   class="badge badge--bottom-left color-{{ settings.sale_badge_color_scheme }}"
@@ -159,9 +175,9 @@
                 href="{{ card_product.url }}"
                 id="CardLink-{{ section_id }}-{{ card_product.id }}"
                 class="full-unstyled-link"
-                aria-labelledby="CardLink-{{ section_id }}-{{ card_product.id }}{% if card_product.available == false or card_product.compare_at_price > card_product.price %} Badge-{{ section_id }}-{{ card_product.id }}{% endif %}"
+                aria-labelledby="CardLink-{{ section_id }}-{{ card_product.id }}{% if card_product.available == false or card_on_sale %} Badge-{{ section_id }}-{{ card_product.id }}{% endif %}"
               >
-                {{ card_product.title | escape | truncate: 60 }}
+                {{ card_product.title | escape }}
               </a>
             </h3>
             <div class="card-information">
@@ -514,7 +530,7 @@
                         </div>
                         <div class="quick-add-modal__content-info--bulk-details large-up-hide">
                           <a href="{{ card_product.url }}" class="full-unstyled-link">
-                            <h3>{{ card_product.title | escape | truncate: 60 }}</h3>
+                            <h3>{{ card_product.title | escape }}</h3>
                           </a>
                           {% render 'price', product: card_product, price_class: '', show_compare_at_price: true %}
                           {%- if card_product.quantity_price_breaks_configured? -%}
@@ -528,7 +544,7 @@
                         <div class="quick-add-modal__content-info--bulk-details small-hide medium-hide">
                           <a href="{{ card_product.url }}" class="full-unstyled-link">
                             <h3 class="h2">
-                              {{ card_product.title | escape | truncate: 60 }}
+                              {{ card_product.title | escape }}
                             </h3>
                           </a>
                           {% render 'price', product: card_product, price_class: '', show_compare_at_price: true %}
@@ -553,6 +569,9 @@
             {% endif %}
           {% endif %}
           <div class="card__badge {{ settings.badge_position }}">
+            {%- if prestige_badge != blank -%}
+              <span class="badge vx-product-badge">{{ prestige_badge | escape }}</span>
+            {%- endif -%}
             {%- if card_product.available == false -%}
               <span
                 id="Badge-{{ section_id }}-{{ card_product.id }}"
@@ -560,7 +579,7 @@
               >
                 {{- 'products.product.sold_out' | t -}}
               </span>
-            {%- elsif card_product.compare_at_price > card_product.price and card_product.available -%}
+            {%- elsif card_on_sale and card_product.available -%}
               <span
                 id="Badge-{{ section_id }}-{{ card_product.id }}"
                 class="badge badge--bottom-left color-{{ settings.sale_badge_color_scheme }}"

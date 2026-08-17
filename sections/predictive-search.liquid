@@ -1,18 +1,5 @@
 {% comment %}theme-check-disable ImgLazyLoading{% endcomment %}
 <div id="predictive-search-results" role="listbox">
-  {%- unless predictive_search.performed -%}
-    {%- if section.settings.popular_links != blank -%}
-      <div class="vennix-popular-searches" style="padding:16px 16px 0;">
-        <span class="vennix-popular-searches__label">Popular searches</span>
-        <div class="vennix-popular-searches__tags">
-          {%- assign popular_menu = linklists[section.settings.popular_links] -%}
-          {%- for link in popular_menu.links -%}
-            <a href="{{ link.url }}" class="vennix-popular-searches__tag">{{ link.title | escape }}</a>
-          {%- endfor -%}
-        </div>
-      </div>
-    {%- endif -%}
-  {%- endunless -%}
   {%- if predictive_search.performed -%}
     {% assign first_column_results_size = predictive_search.resources.queries.size
       | plus: predictive_search.resources.collections.size
@@ -277,34 +264,5 @@
         endif
       %}
     </span>
-  {%- else -%}
-    {%- assign popular_links = section.settings.popular_links -%}
-    {%- if popular_links != blank and popular_links.links.size > 0 -%}
-      <div class="vennix-popular-searches" data-vennix-popular-searches>
-        <h2 class="vennix-popular-searches__label">Popular searches</h2>
-        <ul class="vennix-popular-searches__list list-unstyled" role="list">
-          {%- for link in popular_links.links -%}
-            <li class="vennix-popular-searches__item">
-              <a href="{{ link.url }}" class="vennix-suggestion-tag">{{ link.title | escape }}</a>
-            </li>
-          {%- endfor -%}
-        </ul>
-      </div>
-    {%- endif -%}
   {%- endif -%}
 </div>
-
-{% schema %}
-{
-  "name": "Predictive search",
-  "settings": [
-    {
-      "type": "link_list",
-      "id": "popular_links",
-      "default": "main-menu",
-      "label": "Popular searches menu",
-      "info": "Suggestion tags shown when the search field is empty are pulled from this navigation menu."
-    }
-  ]
-}
-{% endschema %}

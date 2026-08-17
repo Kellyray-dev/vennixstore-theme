@@ -1,0 +1,39 @@
+<vennix-sticky-atc
+  class="vx-sticky-atc"
+  data-section-id="{{ section_id }}"
+  aria-hidden="true"
+>
+  <div class="vx-sticky-atc__inner page-width">
+    {%- if product.featured_image != blank -%}
+      <div class="vx-sticky-atc__media small-hide">
+        {{
+          product.featured_image
+          | image_url: width: 120
+          | image_tag:
+            loading: 'lazy',
+            width: 60,
+            height: 60,
+            alt: ''
+        }}
+      </div>
+    {%- endif -%}
+    <div class="vx-sticky-atc__details">
+      <strong>{{ product.title | escape | truncate: 52 }}</strong>
+      <span data-sticky-atc-price>{{ product.selected_or_first_available_variant.price | money_with_currency }}</span>
+    </div>
+    <button
+      type="button"
+      class="button button--primary vx-sticky-atc__button"
+      data-sticky-atc-button
+      {% unless product.selected_or_first_available_variant.available %}disabled{% endunless %}
+    >
+      <span data-sticky-atc-label>
+        {%- if product.selected_or_first_available_variant.available -%}
+          {{ 'products.product.add_to_cart' | t }}
+        {%- else -%}
+          {{ 'products.product.sold_out' | t }}
+        {%- endif -%}
+      </span>
+    </button>
+  </div>
+</vennix-sticky-atc>

@@ -1,0 +1,52 @@
+<div
+  class="vx-announcement"
+  role="region"
+  aria-label="Store announcements"
+  style="--vx-announcement-bg: {{ section.settings.bg_color }}; --vx-announcement-text: {{ section.settings.text_color }};"
+>
+  <div class="vx-announcement__viewport">
+    <ul class="vx-announcement__track" role="list">
+      {%- for block in section.blocks -%}
+        <li {{ block.shopify_attributes }}>
+          <span class="vx-announcement__dot" aria-hidden="true"></span>
+          {{ block.settings.text | escape }}
+        </li>
+      {%- endfor -%}
+    </ul>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Vennix announcement bar",
+  "tag": "section",
+  "class": "announcement-bar-section",
+  "limit": 1,
+  "enabled_on": { "groups": ["header"] },
+  "settings": [
+    { "type": "color", "id": "bg_color", "label": "Background color", "default": "#20201E" },
+    { "type": "color", "id": "text_color", "label": "Text color", "default": "#FFFFFF" },
+    { "type": "range", "id": "rotate_speed", "label": "Animation speed", "min": 2, "max": 10, "step": 1, "default": 5, "info": "Reserved for rotating announcement layouts." }
+  ],
+  "blocks": [
+    {
+      "type": "message",
+      "name": "Message",
+      "limit": 3,
+      "settings": [
+        { "type": "text", "id": "text", "label": "Text", "default": "Free shipping on orders over $50" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Vennix announcement bar",
+      "blocks": [
+        { "type": "message", "settings": { "text": "Free shipping on orders over $50" } },
+        { "type": "message", "settings": { "text": "30-day returns" } },
+        { "type": "message", "settings": { "text": "Secure checkout" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -10,3 +10,7 @@ Thumbs.db
 .shopify
 node_modules
 *.zipopencode.json
+
+# Python generated files
+__pycache__/
+*.py[cod]

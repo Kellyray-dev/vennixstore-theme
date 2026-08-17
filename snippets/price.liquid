@@ -23,6 +23,14 @@
 
   assign compare_at_price = target.compare_at_price
   assign price = target.price | default: 1999
+
+  # Protect the storefront from malformed supplier compare-at prices.
+  # Discounts above 67% are hidden until the catalog record is reviewed.
+  assign compare_at_limit = price | times: 3
+  if compare_at_price > compare_at_limit
+    assign compare_at_price = nil
+  endif
+
   assign price_min = product.price_min
   assign price_max = product.price_max
   assign available = target.available | default: false
