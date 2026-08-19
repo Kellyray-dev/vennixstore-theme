@@ -7,7 +7,7 @@
 
   <!-- Preload critical resources -->
   <link rel="preload" href="{{ 'base.css' | asset_url }}" as="style">
-  <link rel="preload" href="{{ 'vennix-logo.svg' | asset_url }}" as="image">
+  <link rel="preload" href="{{ 'vennix-logo.svg' | asset_url }}" as="image" type="image/svg+xml">
 
   <title>{{ page_title | escape }}</title>
 
@@ -16,17 +16,9 @@
   {{ content_for_header }}
 
   <!-- Critical CSS -->
-  <link rel="stylesheet" href="{{ 'base.css' | asset_url }}" media="print" onload="this.media='all'">
-  <noscript><link rel="stylesheet" href="{{ 'base.css' | asset_url }}"></noscript>
-
-  <!-- VennixStore custom design enhancements (loaded after base.css) -->
-  <link rel="preload" href="{{ 'vennix-custom.css' | asset_url }}" as="style">
-  <link rel="stylesheet" href="{{ 'vennix-custom.css' | asset_url }}" media="print" onload="this.media='all'">
-  <link rel="stylesheet" href="{{ 'vennix-enhancements.css' | asset_url }}" media="print" onload="this.media='all'">
-  <noscript>
-    <link rel="stylesheet" href="{{ 'vennix-custom.css' | asset_url }}">
-    <link rel="stylesheet" href="{{ 'vennix-enhancements.css' | asset_url }}">
-  </noscript>
+  {{ 'base.css' | stylesheet_tag }}
+  {{ 'vennix-custom.css' | stylesheet_tag }}
+  {{ 'vennix-enhancements.css' | stylesheet_tag }}
 
   {%- render 'vennix-seo-jsonld' -%}
 </head>
@@ -44,6 +36,7 @@
 
   {%- section 'announcement-bar' -%}
   {%- section 'header' -%}
+  {%- render 'vennix-breadcrumbs' -%}
 
   <main id="MainContent" role="main">
     {{ content_for_layout }}

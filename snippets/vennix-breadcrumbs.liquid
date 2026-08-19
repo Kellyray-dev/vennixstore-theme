@@ -1,30 +1,30 @@
-{% unless template == 'index' %}
+{% if request.page_type == 'product' or request.page_type == 'collection' or request.page_type == 'page' or request.page_type == 'blog' or request.page_type == 'article' %}
 <nav aria-label="Breadcrumb" class="vennix-breadcrumbs">
   <ol>
-    <li><a href="/">Home</a></li>
+    <li><a href="{{ routes.root_url }}">Home</a></li>
 
-    {% case template.name %}
+    {% case request.page_type %}
       {% when 'product' %}
         {% if collection %}
-          <li><a href="{{ collection.url }}">{{ collection.title }}</a></li>
+          <li><a href="{{ collection.url }}">{{ collection.title | escape }}</a></li>
         {% elsif product.collections.size > 0 %}
           {% assign primary_collection = product.collections.first %}
-          <li><a href="{{ primary_collection.url }}">{{ primary_collection.title }}</a></li>
+          <li><a href="{{ primary_collection.url }}">{{ primary_collection.title | escape }}</a></li>
         {% endif %}
-        <li><span aria-current="page">{{ product.title }}</span></li>
+        <li><span aria-current="page">{{ product.title | escape }}</span></li>
 
       {% when 'collection' %}
-        <li><span aria-current="page">{{ collection.title }}</span></li>
+        <li><span aria-current="page">{{ collection.title | escape }}</span></li>
 
       {% when 'page' %}
-        <li><span aria-current="page">{{ page.title }}</span></li>
+        <li><span aria-current="page">{{ page.title | escape }}</span></li>
 
       {% when 'blog' %}
-        <li><span aria-current="page">{{ blog.title }}</span></li>
+        <li><span aria-current="page">{{ blog.title | escape }}</span></li>
 
       {% when 'article' %}
-        <li><a href="{{ blog.url }}">{{ blog.title }}</a></li>
-        <li><span aria-current="page">{{ article.title }}</span></li>
+        <li><a href="{{ blog.url }}">{{ blog.title | escape }}</a></li>
+        <li><span aria-current="page">{{ article.title | escape }}</span></li>
     {% endcase %}
   </ol>
 </nav>
@@ -40,7 +40,7 @@
       "name": "Home",
       "item": {{ shop.url | json }}
     }
-    {% case template.name %}
+    {% case request.page_type %}
       {% when 'product' %}
         {% if collection %}
           ,{

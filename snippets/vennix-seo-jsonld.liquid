@@ -5,14 +5,14 @@
   - Organization + WebSite (kept from original)
 {% endcomment %}
 
-{%- if template == 'product' -%}
+{%- if request.page_type == 'product' -%}
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "Product",
   "name": {{ product.title | json }},
   "description": {{ product.description | strip_html | truncate: 300 | json }},
-  "url": {{ shop.url | append: product.url | json }},
+  "url": {{ canonical_url | json }},
   "image": [
     {%- for image in product.images limit: 5 -%}
       {{ image | image_url: width: 1200 | prepend: 'https:' | json }}{% unless forloop.last %},{% endunless %}
@@ -28,43 +28,11 @@
       "@type": "Offer",
       "sku": {{ variant.sku | json }},
       "price": {{ variant.price | divided_by: 100.0 | json }},
-      "priceCurrency": {{ cart.currency.iso_code | json }},
+      "priceCurrency": {{ cart.currency.iso_code | default: shop.currency | json }},
       "availability": "{% if variant.available %}https://schema.org/InStock{% else %}https://schema.org/OutOfStock{% endif %}",
       "url": {{ shop.url | append: product.url | append: '?variant=' | append: variant.id | json }}
     }{% unless forloop.last %},{% endunless %}
     {%- endfor -%}
-  ]
-}
-</script>
-{%- endif -%}
-
-{%- if template == 'product' or template == 'collection' -%}
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position": 1,
-      "name": {{ shop.name | json }},
-      "item": {{ shop.url | json }}
-    }
-    {%- if template == 'product' -%}
-    ,{
-      "@type": "ListItem",
-      "position": 2,
-      "name": {{ product.title | json }},
-      "item": {{ shop.url | append: product.url | json }}
-    }
-    {%- elsif template == 'collection' and collection -%}
-    ,{
-      "@type": "ListItem",
-      "position": 2,
-      "name": {{ collection.title | json }},
-      "item": {{ shop.url | append: collection.url | json }}
-    }
-    {%- endif -%}
   ]
 }
 </script>
@@ -82,51 +50,51 @@
     "logo": {{ settings.logo | image_url: width: 400 | prepend: 'https:' | json }},
   {%- endif -%}
   "sameAs": [
-    {%- assign _first_social = true -%}
+    {%- assign firstSocial = true -%}
     {%- if settings.social_facebook_link != blank -%}
-      {%- unless _first_social -%},{%- endunless -%}
+      {%- unless firstSocial -%},{%- endunless -%}
       {{ settings.social_facebook_link | json }}
-      {%- assign _first_social = false -%}
+      {%- assign firstSocial = false -%}
     {%- endif -%}
     {%- if settings.social_instagram_link != blank -%}
-      {%- unless _first_social -%},{%- endunless -%}
+      {%- unless firstSocial -%},{%- endunless -%}
       {{ settings.social_instagram_link | json }}
-      {%- assign _first_social = false -%}
+      {%- assign firstSocial = false -%}
     {%- endif -%}
     {%- if settings.social_twitter_link != blank -%}
-      {%- unless _first_social -%},{%- endunless -%}
+      {%- unless firstSocial -%},{%- endunless -%}
       {{ settings.social_twitter_link | json }}
-      {%- assign _first_social = false -%}
+      {%- assign firstSocial = false -%}
     {%- endif -%}
     {%- if settings.social_tiktok_link != blank -%}
-      {%- unless _first_social -%},{%- endunless -%}
+      {%- unless firstSocial -%},{%- endunless -%}
       {{ settings.social_tiktok_link | json }}
-      {%- assign _first_social = false -%}
+      {%- assign firstSocial = false -%}
     {%- endif -%}
     {%- if settings.social_youtube_link != blank -%}
-      {%- unless _first_social -%},{%- endunless -%}
+      {%- unless firstSocial -%},{%- endunless -%}
       {{ settings.social_youtube_link | json }}
-      {%- assign _first_social = false -%}
+      {%- assign firstSocial = false -%}
     {%- endif -%}
     {%- if settings.social_pinterest_link != blank -%}
-      {%- unless _first_social -%},{%- endunless -%}
+      {%- unless firstSocial -%},{%- endunless -%}
       {{ settings.social_pinterest_link | json }}
-      {%- assign _first_social = false -%}
+      {%- assign firstSocial = false -%}
     {%- endif -%}
     {%- if settings.social_snapchat_link != blank -%}
-      {%- unless _first_social -%},{%- endunless -%}
+      {%- unless firstSocial -%},{%- endunless -%}
       {{ settings.social_snapchat_link | json }}
-      {%- assign _first_social = false -%}
+      {%- assign firstSocial = false -%}
     {%- endif -%}
     {%- if settings.social_tumblr_link != blank -%}
-      {%- unless _first_social -%},{%- endunless -%}
+      {%- unless firstSocial -%},{%- endunless -%}
       {{ settings.social_tumblr_link | json }}
-      {%- assign _first_social = false -%}
+      {%- assign firstSocial = false -%}
     {%- endif -%}
     {%- if settings.social_vimeo_link != blank -%}
-      {%- unless _first_social -%},{%- endunless -%}
+      {%- unless firstSocial -%},{%- endunless -%}
       {{ settings.social_vimeo_link | json }}
-      {%- assign _first_social = false -%}
+      {%- assign firstSocial = false -%}
     {%- endif -%}
   ]
 }
@@ -142,7 +110,7 @@
     "@type": "SearchAction",
     "target": {
       "@type": "EntryPoint",
-      "urlTemplate": "{{ shop.url }}/search?q={search_term_string}"
+    "urlTemplate": {{ shop.url | append: routes.search_url | append: '?q={search_term_string}' | json }}
     },
     "query-input": "required name=search_term_string"
   }
