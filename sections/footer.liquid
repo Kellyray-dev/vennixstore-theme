@@ -332,39 +332,49 @@
     </div>
     <div class="footer__content-bottom-wrapper page-width{% if section.settings.enable_country_selector == false and section.settings.enable_language_selector == false %} footer__content-bottom-wrapper--center{% endif %}">
       {%- if section.settings.show_contact_info -%}
-        <div class="footer__contact-info rte">
-          <h3 class="footer__contact-heading visually-hidden">{{ 'sections.footer.contact_info' | t }}</h3>
-          <ul class="footer__contact-list list-unstyled" role="list">
-            {%- if shop.email != blank -%}
-              <li class="footer__contact-item">
-                <span class="visually-hidden">{{ 'sections.footer.email' | t }}</span>
-                <a href="mailto:{{ shop.email }}" class="link link--text">{{ shop.email }}</a>
-              </li>
-            {%- endif -%}
-            {%- if shop.phone != blank -%}
-              <li class="footer__contact-item">
-                <span class="visually-hidden">{{ 'sections.footer.phone' | t }}</span>
-                <a href="tel:{{ shop.phone | strip_html }}" class="link link--text">{{ shop.phone }}</a>
-              </li>
-            {%- endif -%}
-            {%- if shop.address != blank -%}
-              <li class="footer__contact-item footer__contact-address">
-                <span class="visually-hidden">{{ 'sections.footer.address' | t }}</span>
-                <address>
-                  {%- if shop.address.address1 != blank -%}
-                    {{ shop.address.address1 }}{% if shop.address.address2 != blank %}<br>{{ shop.address.address2 }}{% endif %}<br>
-                  {%- endif -%}
-                  {%- if shop.address.city != blank -%}
-                    {{ shop.address.city }}{% if shop.address.province != blank %}, {{ shop.address.province }}{% endif %}<br>
-                  {%- endif -%}
-                  {%- if shop.address.zip != blank -%}
-                    {{ shop.address.zip }}{% if shop.address.country != blank %} {{ shop.address.country }}{% endif %}
-                  {%- endif -%}
-                </address>
-              </li>
-            {%- endif -%}
-          </ul>
-        </div>
+        {%- assign has_footer_address = false -%}
+        {%- if shop.address.address1 != blank or shop.address.city != blank or shop.address.zip != blank -%}
+          {%- assign has_footer_address = true -%}
+        {%- endif -%}
+        {%- assign has_footer_contact_info = false -%}
+        {%- if shop.email != blank or shop.phone != blank or has_footer_address -%}
+          {%- assign has_footer_contact_info = true -%}
+        {%- endif -%}
+        {%- if has_footer_contact_info -%}
+          <div class="footer__contact-info rte">
+            <h3 class="footer__contact-heading visually-hidden">{{ 'sections.footer.contact_info' | t }}</h3>
+            <ul class="footer__contact-list list-unstyled" role="list">
+              {%- if shop.email != blank -%}
+                <li class="footer__contact-item">
+                  <span class="visually-hidden">{{ 'sections.footer.email' | t }}</span>
+                  <a href="mailto:{{ shop.email }}" class="link link--text">{{ shop.email }}</a>
+                </li>
+              {%- endif -%}
+              {%- if shop.phone != blank -%}
+                <li class="footer__contact-item">
+                  <span class="visually-hidden">{{ 'sections.footer.phone' | t }}</span>
+                  <a href="tel:{{ shop.phone | strip_html }}" class="link link--text">{{ shop.phone }}</a>
+                </li>
+              {%- endif -%}
+              {%- if has_footer_address -%}
+                <li class="footer__contact-item footer__contact-address">
+                  <span class="visually-hidden">{{ 'sections.footer.address' | t }}</span>
+                  <address>
+                    {%- if shop.address.address1 != blank -%}
+                      {{ shop.address.address1 }}{% if shop.address.address2 != blank %}<br>{{ shop.address.address2 }}{% endif %}<br>
+                    {%- endif -%}
+                    {%- if shop.address.city != blank -%}
+                      {{ shop.address.city }}{% if shop.address.province != blank %}, {{ shop.address.province }}{% endif %}<br>
+                    {%- endif -%}
+                    {%- if shop.address.zip != blank -%}
+                      {{ shop.address.zip }}{% if shop.address.country != blank %} {{ shop.address.country }}{% endif %}
+                    {%- endif -%}
+                  </address>
+                </li>
+              {%- endif -%}
+            </ul>
+          </div>
+        {%- endif -%}
       {%- endif -%}
       <div class="footer__copyright caption">
         <small class="copyright__content"

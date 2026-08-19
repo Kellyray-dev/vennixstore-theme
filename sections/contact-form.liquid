@@ -150,24 +150,30 @@
           {%- endform -%}
         </div>
 
-        <aside class="contact__info-column" aria-label="{{ 'templates.contact.info_label' | t }}">
-          <h3 class="contact__info-heading">{{ 'templates.contact.info_heading' | t }}</h3>
-          <p class="contact__info-text">{{ 'templates.contact.info_text' | t }}</p>
-          <ul class="contact__info-list list-unstyled" role="list">
-            {%- if shop.email != blank -%}
-              <li class="contact__info-item">
-                <span class="contact__info-label">{{ 'templates.contact.email_label' | t }}</span>
-                <a href="mailto:{{ shop.email }}" class="link">{{ shop.email }}</a>
-              </li>
-            {%- endif -%}
-            {%- if shop.phone != blank -%}
-              <li class="contact__info-item">
-                <span class="contact__info-label">{{ 'templates.contact.phone_label' | t }}</span>
-                <a href="tel:{{ shop.phone | strip_html }}" class="link">{{ shop.phone }}</a>
-              </li>
-            {%- endif -%}
-          </ul>
-        </aside>
+        {%- assign has_contact_info = false -%}
+        {%- if shop.email != blank or shop.phone != blank -%}
+          {%- assign has_contact_info = true -%}
+        {%- endif -%}
+        {%- if has_contact_info -%}
+          <aside class="contact__info-column" aria-label="{{ 'templates.contact.info_label' | t }}">
+            <h3 class="contact__info-heading">{{ 'templates.contact.info_heading' | t }}</h3>
+            <p class="contact__info-text">{{ 'templates.contact.info_text' | t }}</p>
+            <ul class="contact__info-list list-unstyled" role="list">
+              {%- if shop.email != blank -%}
+                <li class="contact__info-item">
+                  <span class="contact__info-label">{{ 'templates.contact.email_label' | t }}</span>
+                  <a href="mailto:{{ shop.email }}" class="link">{{ shop.email }}</a>
+                </li>
+              {%- endif -%}
+              {%- if shop.phone != blank -%}
+                <li class="contact__info-item">
+                  <span class="contact__info-label">{{ 'templates.contact.phone_label' | t }}</span>
+                  <a href="tel:{{ shop.phone | strip_html }}" class="link">{{ shop.phone }}</a>
+                </li>
+              {%- endif -%}
+            </ul>
+          </aside>
+        {%- endif -%}
       </div>
     </div>
   </div>
