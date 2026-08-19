@@ -172,7 +172,7 @@
             }}
           </div>
         {%- else -%}
-          <img src="{{ 'vennix-logo.svg' | asset_url }}" alt="VennixStore — curated goods" width="184" height="39" class="header__heading-logo">
+          <img src="{{ 'vennix-logo.svg' | asset_url }}" alt="{{ shop.name | escape }}" width="184" height="39" class="header__heading-logo">
         {%- endif -%}
       </a>
       {%- if request.page_type == 'index' -%}
@@ -215,7 +215,7 @@
             }}
           </div>
         {%- else -%}
-          <img src="{{ 'vennix-logo.svg' | asset_url }}" alt="VennixStore — curated goods" width="184" height="39" class="header__heading-logo">
+          <img src="{{ 'vennix-logo.svg' | asset_url }}" alt="{{ shop.name | escape }}" width="184" height="39" class="header__heading-logo">
         {%- endif -%}
       </a>
       {%- if request.page_type == 'index' -%}
@@ -428,22 +428,59 @@
 
 <script type="application/ld+json">
   {
-    "@context": "http://schema.org",
+    "@context": "https://schema.org",
     "@type": "Organization",
     "name": {{ shop.name | json }},
     {% if settings.logo %}
       "logo": {{ settings.logo | image_url: width: 500 | prepend: "https:" | json }},
     {% endif %}
     "sameAs": [
-      {{ settings.social_twitter_link | json }},
-      {{ settings.social_facebook_link | json }},
-      {{ settings.social_pinterest_link | json }},
-      {{ settings.social_instagram_link | json }},
-      {{ settings.social_tiktok_link | json }},
-      {{ settings.social_tumblr_link | json }},
-      {{ settings.social_snapchat_link | json }},
-      {{ settings.social_youtube_link | json }},
-      {{ settings.social_vimeo_link | json }}
+      {%- assign first_social = true -%}
+      {%- if settings.social_twitter_link != blank -%}
+        {%- unless first_social -%},{%- endunless -%}
+        {{ settings.social_twitter_link | json }}
+        {%- assign first_social = false -%}
+      {%- endif -%}
+      {%- if settings.social_facebook_link != blank -%}
+        {%- unless first_social -%},{%- endunless -%}
+        {{ settings.social_facebook_link | json }}
+        {%- assign first_social = false -%}
+      {%- endif -%}
+      {%- if settings.social_pinterest_link != blank -%}
+        {%- unless first_social -%},{%- endunless -%}
+        {{ settings.social_pinterest_link | json }}
+        {%- assign first_social = false -%}
+      {%- endif -%}
+      {%- if settings.social_instagram_link != blank -%}
+        {%- unless first_social -%},{%- endunless -%}
+        {{ settings.social_instagram_link | json }}
+        {%- assign first_social = false -%}
+      {%- endif -%}
+      {%- if settings.social_tiktok_link != blank -%}
+        {%- unless first_social -%},{%- endunless -%}
+        {{ settings.social_tiktok_link | json }}
+        {%- assign first_social = false -%}
+      {%- endif -%}
+      {%- if settings.social_tumblr_link != blank -%}
+        {%- unless first_social -%},{%- endunless -%}
+        {{ settings.social_tumblr_link | json }}
+        {%- assign first_social = false -%}
+      {%- endif -%}
+      {%- if settings.social_snapchat_link != blank -%}
+        {%- unless first_social -%},{%- endunless -%}
+        {{ settings.social_snapchat_link | json }}
+        {%- assign first_social = false -%}
+      {%- endif -%}
+      {%- if settings.social_youtube_link != blank -%}
+        {%- unless first_social -%},{%- endunless -%}
+        {{ settings.social_youtube_link | json }}
+        {%- assign first_social = false -%}
+      {%- endif -%}
+      {%- if settings.social_vimeo_link != blank -%}
+        {%- unless first_social -%},{%- endunless -%}
+        {{ settings.social_vimeo_link | json }}
+        {%- assign first_social = false -%}
+      {%- endif -%}
     ],
     "url": {{ request.origin | append: page.url | json }}
   }
@@ -453,7 +490,7 @@
   {% assign potential_action_target = request.origin | append: routes.search_url | append: '?q={search_term_string}' %}
   <script type="application/ld+json">
     {
-      "@context": "http://schema.org",
+      "@context": "https://schema.org",
       "@type": "WebSite",
       "name": {{ shop.name | json }},
       "potentialAction": {
