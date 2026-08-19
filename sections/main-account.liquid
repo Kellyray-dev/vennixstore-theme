@@ -23,7 +23,7 @@
       </span>
       {{ 'customer.log_out' | t }}
     </a>
-    <a href="{{ routes.root_url }}pages/contact" class="customer__support-link">
+    <a href="{{ routes.root_url | append: '/pages/contact' | replace: '//', '/' }}" class="customer__support-link">
       {{ 'customer.account.contact_support' | t }}
     </a>
   </div>

@@ -5,7 +5,7 @@
   exists, the badge renders without a link so no unverified terms are promised.
 {%- endcomment -%}
 
-{%- assign refund_policy = shop.policies | where: 'handle', 'refund-policy' | first -%}
+{%- assign refund_policy = shop.refund_policy -%}
 
 <div class="vennix-trust-badges">
   <div class="vennix-trust-badge">
@@ -26,7 +26,7 @@
     </svg>
     <span>Free Shipping Over $75</span>
   </div>
-  {%- if refund_policy -%}
+  {%- if refund_policy != blank -%}
     <a href="{{ refund_policy.url }}" class="vennix-trust-badge vennix-trust-badge--link" aria-label="{{ refund_policy.title | escape }}">
       <svg xmlns="http://www.w3.org/2000/svg"
         width="20" height="20" viewBox="0 0 24 24"

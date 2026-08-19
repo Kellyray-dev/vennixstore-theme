@@ -347,18 +347,18 @@
                 <a href="tel:{{ shop.phone | strip_html }}" class="link link--text">{{ shop.phone }}</a>
               </li>
             {%- endif -%}
-            {%- if shop.addresses.first != blank -%}
+            {%- if shop.address != blank -%}
               <li class="footer__contact-item footer__contact-address">
                 <span class="visually-hidden">{{ 'sections.footer.address' | t }}</span>
                 <address>
-                  {%- if shop.addresses.first.address1 != blank -%}
-                    {{ shop.addresses.first.address1 }}{% if shop.addresses.first.address2 != blank %}<br>{{ shop.addresses.first.address2 }}{% endif %}<br>
+                  {%- if shop.address.address1 != blank -%}
+                    {{ shop.address.address1 }}{% if shop.address.address2 != blank %}<br>{{ shop.address.address2 }}{% endif %}<br>
                   {%- endif -%}
-                  {%- if shop.addresses.first.city != blank -%}
-                    {{ shop.addresses.first.city }}{% if shop.addresses.first.province != blank %}, {{ shop.addresses.first.province }}{% endif %}<br>
+                  {%- if shop.address.city != blank -%}
+                    {{ shop.address.city }}{% if shop.address.province != blank %}, {{ shop.address.province }}{% endif %}<br>
                   {%- endif -%}
-                  {%- if shop.addresses.first.zip != blank -%}
-                    {{ shop.addresses.first.zip }}{% if shop.addresses.first.country != blank %} {{ shop.addresses.first.country }}{% endif %}
+                  {%- if shop.address.zip != blank -%}
+                    {{ shop.address.zip }}{% if shop.address.country != blank %} {{ shop.address.country }}{% endif %}
                   {%- endif -%}
                 </address>
               </li>

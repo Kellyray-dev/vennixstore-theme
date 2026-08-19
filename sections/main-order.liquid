@@ -18,7 +18,7 @@
   <div>
     <h1 class="customer__title">{{ 'customer.account.title' | t }}</h1>
     <a href="{{ routes.account_url }}">{{ 'customer.account.return' | t }}</a>
-    <a href="{{ routes.root_url }}pages/contact" class="customer__support-link">
+    <a href="{{ routes.root_url | append: '/pages/contact' | replace: '//', '/' }}" class="customer__support-link">
       {{ 'customer.account.contact_support' | t }}
     </a>
   </div>
