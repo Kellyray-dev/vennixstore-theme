@@ -69,6 +69,10 @@
     grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
     gap: 5rem;
   }
+
+  .contact__layout--single {
+    grid-template-columns: 1fr;
+  }
 }
 
 .contact__form-column {

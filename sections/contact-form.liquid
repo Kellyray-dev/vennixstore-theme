@@ -35,7 +35,11 @@
         </p>
       </div>
 
-      <div class="contact__layout">
+      {%- assign has_contact_info = false -%}
+      {%- if shop.email != blank or shop.phone != blank -%}
+        {%- assign has_contact_info = true -%}
+      {%- endif -%}
+      <div class="contact__layout{% unless has_contact_info %} contact__layout--single{% endunless %}">
         <div class="contact__form-column">
           {%- liquid
             assign contact_form_class = 'isolate'
@@ -150,10 +154,6 @@
           {%- endform -%}
         </div>
 
-        {%- assign has_contact_info = false -%}
-        {%- if shop.email != blank or shop.phone != blank -%}
-          {%- assign has_contact_info = true -%}
-        {%- endif -%}
         {%- if has_contact_info -%}
           <aside class="contact__info-column" aria-label="{{ 'templates.contact.info_label' | t }}">
             <h3 class="contact__info-heading">{{ 'templates.contact.info_heading' | t }}</h3>
