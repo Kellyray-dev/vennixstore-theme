@@ -23,6 +23,11 @@
       </span>
       {{ 'customer.log_out' | t }}
     </a>
+    {%- if pages['contact'] != blank -%}
+      <a href="{{ pages['contact'].url }}" class="customer__support-link">
+        {{ 'customer.account.contact_support' | t }}
+      </a>
+    {%- endif -%}
   </div>
 
   <div>

@@ -3,10 +3,23 @@
     <svg aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="M3 6h11v11H3zM14 10h4l3 3v4h-7zM7 20a2 2 0 1 0 0-4 2 2 0 0 0 0 4ZM18 20a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>
     <span>Free shipping<br><small>On orders over $50</small></span>
   </li>
-  <li>
-    <svg aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="M8 7H4V3M4.5 7.5A8 8 0 1 1 4 16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    <span>30-day returns<br><small>Clear return window</small></span>
-  </li>
+  {%- if shop.refund_policy != blank -%}
+    <li>
+      <a
+        class="vx-product-assurances__link"
+        href="{{ shop.refund_policy.url }}"
+        aria-label="{{ shop.refund_policy.title | escape }}"
+      >
+        <svg aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="M8 7H4V3M4.5 7.5A8 8 0 1 1 4 16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>30-day returns<br><small>Clear return window</small></span>
+      </a>
+    </li>
+  {%- else -%}
+    <li>
+      <svg aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="M8 7H4V3M4.5 7.5A8 8 0 1 1 4 16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span>30-day returns<br><small>Clear return window</small></span>
+    </li>
+  {%- endif -%}
   <li>
     <svg aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="currentColor" stroke-width="1.4"/><path d="m9 12 2 2 4-4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
     <span>Secure checkout<br><small>Protected payments</small></span>
