@@ -752,3 +752,22 @@ li[data-address] > h2 {
 .addresses form > div:nth-of-type(7) + div[id] {
   margin-top: 1.5rem;
 }
+
+.customer__support-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 1rem;
+  text-decoration: underline;
+  text-underline-offset: 0.3rem;
+}
+
+.customer__support-link:hover {
+  text-decoration-thickness: 0.2rem;
+}
+
+.customer__support-link:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 0.4rem;
+  border-radius: 2px;
+}

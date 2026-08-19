@@ -18,6 +18,11 @@
   <div>
     <h1 class="customer__title">{{ 'customer.account.title' | t }}</h1>
     <a href="{{ routes.account_url }}">{{ 'customer.account.return' | t }}</a>
+    {%- if pages['contact'] != blank -%}
+      <a href="{{ pages['contact'].url }}" class="customer__support-link">
+        {{ 'customer.account.contact_support' | t }}
+      </a>
+    {%- endif -%}
   </div>
 
   <div>
