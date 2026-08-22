@@ -86,7 +86,24 @@
 }
 
 .vennix-hero__content {
+  position: relative;
   max-width: min(60rem, 49vw);
+}
+
+/* Dark semi-transparent overlay behind hero text for WCAG AA contrast */
+.vennix-hero__content-backdrop {
+  position: absolute;
+  z-index: -1;
+  inset: -2.4rem -3.2rem;
+  border-radius: 1.6rem;
+  background: rgba(15, 23, 42, 0.45);
+  -webkit-backdrop-filter: blur(6px) saturate(1.1);
+  backdrop-filter: blur(6px) saturate(1.1);
+}
+
+.vennix-hero__content-body {
+  position: relative;
+  z-index: 1;
 }
 
 .vennix-hero__content > * {
@@ -95,10 +112,38 @@
   animation: vennix-hero-reveal 0.85s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
 }
 
-.vennix-hero__content > :nth-child(1) { animation-delay: 0.1s; }
-.vennix-hero__content > :nth-child(2) { animation-delay: 0.2s; }
-.vennix-hero__content > :nth-child(3) { animation-delay: 0.32s; }
-.vennix-hero__content > :nth-child(4) { animation-delay: 0.44s; }
+/* Backdrop appears immediately; content-body animates in */
+.vennix-hero__content > .vennix-hero__content-backdrop {
+  opacity: 1;
+  transform: none;
+  animation: none;
+}
+
+.vennix-hero__content > .vennix-hero__content-body { animation-delay: 0.1s; }
+
+.vennix-hero__content-body .vennix-hero__eyebrow {
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.vennix-hero__content-body .vennix-hero__heading {
+  color: #ffffff;
+}
+
+.vennix-hero__content-body .vennix-hero__heading em {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.vennix-hero__content-body .vennix-hero__text {
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.vennix-hero__content-body .vennix-hero__text p {
+  color: inherit;
+}
+
+.vennix-hero__content-body .vennix-hero__text-link {
+  color: #ffffff;
+}
 
 .vennix-hero__eyebrow {
   display: flex;
@@ -330,6 +375,10 @@
     max-width: 58vw;
   }
 
+  .vennix-hero__content-backdrop {
+    inset: -2rem -2.4rem;
+  }
+
   .vennix-hero__assurance {
     padding-inline: 1.8rem;
   }
@@ -371,6 +420,11 @@
 
   .vennix-hero__content {
     max-width: 100%;
+  }
+
+  .vennix-hero__content-backdrop {
+    inset: -1.8rem -1.6rem;
+    border-radius: 1.2rem;
   }
 
   .vennix-hero__eyebrow {

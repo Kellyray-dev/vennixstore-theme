@@ -61,6 +61,8 @@
 
     <div class="vennix-hero__inner page-width">
       <div class="vennix-hero__content">
+        <div class="vennix-hero__content-backdrop" aria-hidden="true"></div>
+        <div class="vennix-hero__content-body">
         {%- if section.settings.eyebrow != blank -%}
           <p class="vennix-hero__eyebrow">
             <span class="vennix-hero__eyebrow-mark" aria-hidden="true"></span>
@@ -97,6 +99,7 @@
             {%- endif -%}
           </div>
         {%- endif -%}
+        </div>
       </div>
 
       {%- if section.settings.show_scroll_cue -%}

@@ -1238,6 +1238,14 @@ body {
   background: #e9efeb;
 }
 
+.vx-shipping-progress.is-complete .vx-shipping-progress__message svg {
+  color: #2d7a5a;
+}
+
+.vx-shipping-progress.is-complete .vx-shipping-progress__fill {
+  background: #2d7a5a;
+}
+
 .vx-sticky-atc {
   display: none;
 }
