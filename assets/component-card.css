@@ -296,6 +296,26 @@
   width: 100%;
 }
 
+/* Force all product card images to a consistent 4:5 aspect ratio */
+.product-card-wrapper .card__inner.ratio::before {
+  content: '';
+  display: block;
+  padding-bottom: 125%; /* 5/4 = 1.25 → 125% */
+}
+
+.product-card-wrapper .card__media .media {
+  position: absolute;
+  inset: 0;
+}
+
+.product-card-wrapper .card__media .media img {
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  object-position: center center;
+  width: 100%;
+  height: 100%;
+}
+
 .card__inner:not(.ratio) > .card__content {
   height: 100%;
 }

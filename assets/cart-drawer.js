@@ -80,6 +80,11 @@ class CartDrawer extends HTMLElement {
     this.querySelector('.drawer__inner').classList.contains('is-empty') &&
       this.querySelector('.drawer__inner').classList.remove('is-empty');
     this.productId = parsedState.id;
+
+    // Capture current progress bar width before re-render for smooth animation
+    const currentFill = this.querySelector('.vx-shipping-progress__fill');
+    const previousWidth = currentFill ? currentFill.style.width : '0%';
+
     this.getSectionsToRender().forEach((section) => {
       const sectionElement = section.selector
         ? document.querySelector(section.selector)
@@ -87,6 +92,20 @@ class CartDrawer extends HTMLElement {
 
       if (!sectionElement) return;
       sectionElement.innerHTML = this.getSectionInnerHTML(parsedState.sections[section.id], section.selector);
+    });
+
+    // Animate the shipping progress bar fill from the previous width
+    requestAnimationFrame(() => {
+      const newFill = this.querySelector('.vx-shipping-progress__fill');
+      if (newFill) {
+        const targetWidth = newFill.style.width;
+        newFill.style.width = previousWidth;
+        newFill.style.transition = 'none';
+        requestAnimationFrame(() => {
+          newFill.style.transition = '';
+          newFill.style.width = targetWidth;
+        });
+      }
     });
 
     setTimeout(() => {
