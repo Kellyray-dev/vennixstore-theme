@@ -1,6 +1,176 @@
+{% doc %}
+  @prompt
+    Create a "New Arrival" badge that automatically appears on product cards for products added to the store within the last 30 days. The badge should match the existing badge style in the theme (positioned at the top left of the product image, with rounded corners, radius 40). The badge label should say "New Arrival" and use a color that complements the existing sale and sold-out badge color schemes. The number of days should be configurable in theme settings.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% liquid
+  assign current_date = 'now' | date: '%s' | times: 1
+  assign product_created_date = product.created_at | date: '%s' | times: 1
+  assign days_threshold = block.settings.days_threshold | times: 86400
+  assign date_difference = current_date | minus: product_created_date
+  assign is_new_arrival = false
+
+  if date_difference <= days_threshold
+    assign is_new_arrival = true
+  endif
+%}
+
+{% if is_new_arrival %}
+  {% style %}
+    .ai-new-arrival-badge-{{ ai_gen_id }} {
+      position: absolute;
+      z-index: 1;
+      border-radius: {{ block.settings.badge_corner_radius }}px;
+      padding: {{ block.settings.badge_padding_vertical }}px {{ block.settings.badge_padding_horizontal }}px;
+      background-color: {{ block.settings.badge_background_color }};
+      color: {{ block.settings.badge_text_color }};
+      font-size: {{ block.settings.badge_font_size }}px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: block;
+      {% if block.settings.badge_position == 'top left' %}
+        top: {{ block.settings.badge_offset }}px;
+        left: {{ block.settings.badge_offset }}px;
+      {% elsif block.settings.badge_position == 'top right' %}
+        top: {{ block.settings.badge_offset }}px;
+        right: {{ block.settings.badge_offset }}px;
+      {% elsif block.settings.badge_position == 'bottom left' %}
+        bottom: {{ block.settings.badge_offset }}px;
+        left: {{ block.settings.badge_offset }}px;
+      {% else %}
+        bottom: {{ block.settings.badge_offset }}px;
+        right: {{ block.settings.badge_offset }}px;
+      {% endif %}
+    }
+  {% endstyle %}
+
+  <div class="ai-new-arrival-badge-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+    {{ block.settings.badge_label }}
+  </div>
+{% endif %}
+
 {% schema %}
- {
-   "name": "AI_Block",
-   "tag": "shopify-ai-generated-block"
- }
+{
+  "name": "New arrival badge",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Badge settings"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "badge_label",
+      "label": "Badge label",
+      "default": "New Arrival"
+    },
+    {
+      "type": "range",
+      "id": "days_threshold",
+      "label": "Days threshold",
+      "min": 1,
+      "max": 90,
+      "step": 1,
+      "unit": "d",
+      "default": 30,
+      "info": "Show badge for products added within this many days"
+    },
+    {
+      "type": "select",
+      "id": "badge_position",
+      "label": "Position",
+      "options": [
+        {
+          "value": "top left",
+          "label": "Top left"
+        },
+        {
+          "value": "top right",
+          "label": "Top right"
+        },
+        {
+          "value": "bottom left",
+          "label": "Bottom left"
+        },
+        {
+          "value": "bottom right",
+          "label": "Bottom right"
+        }
+      ],
+      "default": "top left"
+    },
+    {
+      "type": "range",
+      "id": "badge_offset",
+      "label": "Offset from edge",
+      "min": 0,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "default": 10
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "color",
+      "id": "badge_background_color",
+      "label": "Background color",
+      "default": "#26332f"
+    },
+    {
+      "type": "color",
+      "id": "badge_text_color",
+      "label": "Text color",
+      "default": "#fafafa"
+    },
+    {
+      "type": "range",
+      "id": "badge_corner_radius",
+      "label": "Corner radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "badge_font_size",
+      "label": "Font size",
+      "min": 8,
+      "max": 16,
+      "step": 1,
+      "unit": "px",
+      "default": 11
+    },
+    {
+      "type": "range",
+      "id": "badge_padding_horizontal",
+      "label": "Horizontal padding",
+      "min": 4,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "badge_padding_vertical",
+      "label": "Vertical padding",
+      "min": 2,
+      "max": 12,
+      "step": 1,
+      "unit": "px",
+      "default": 4
+    }
+  ],
+  "presets": [
+    {
+      "name": "New arrival badge"
+    }
+  ]
+}
 {% endschema %}
