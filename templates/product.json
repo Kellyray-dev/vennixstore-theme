@@ -89,7 +89,7 @@
           "settings": {
             "heading": "Shipping",
             "icon": "truck",
-            "content": "<p>Free shipping is available on orders over $50. Other available shipping options are shown at checkout.</p>",
+            "content": "<p>Free shipping is available on orders over [threshold]. Other available shipping options are shown at checkout.</p>",
             "page": ""
           }
         },

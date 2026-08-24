@@ -26,7 +26,7 @@ ZIP alternative:
 
 ## 2. Verify store settings before catalog import
 
-- Free-shipping rate is actually configured for eligible orders over $50.
+- Free-shipping rate is actually configured for the threshold set in Theme settings > Cart.
 - Refund policy matches the stated 30-day return window.
 - Payment providers and test mode are configured correctly.
 - Shipping profiles, fulfillment locations, package weights, and tax settings are correct.
