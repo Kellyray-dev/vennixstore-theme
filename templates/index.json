@@ -61,28 +61,28 @@
       "type": "featured-collection",
       "settings": {
         "collection": "all",
-        "products_to_show": 8,
-        "title": "New In",
+        "products_to_show": 13,
+        "title": "<strong>New In</strong>",
         "heading_size": "h1",
         "description": "<p>Useful, design-conscious finds selected for everyday life.</p>",
         "show_description": true,
         "description_style": "body",
         "columns_desktop": 4,
-        "enable_desktop_slider": false,
-        "full_width": false,
+        "enable_desktop_slider": true,
+        "full_width": true,
         "show_view_all": true,
         "view_all_style": "solid",
-        "color_scheme": "scheme-1",
-        "image_ratio": "square",
+        "color_scheme": "scheme-2",
+        "image_ratio": "adapt",
         "image_shape": "default",
         "show_secondary_image": true,
         "show_vendor": false,
         "show_rating": true,
         "quick_add": "standard",
         "columns_mobile": "2",
-        "swipe_on_mobile": true,
-        "padding_top": 88,
-        "padding_bottom": 96
+        "swipe_on_mobile": false,
+        "padding_top": 4,
+        "padding_bottom": 0
       }
     },
     "1787528713ec24d91e": {
@@ -90,6 +90,7 @@
       "blocks": {
         "ai_gen_block_d6093c4_kaaWmw": {
           "type": "ai_gen_block_d6093c4",
+          "disabled": true,
           "settings": {
             "desktop_width_percent": 100,
             "section_padding": 40,
@@ -229,10 +230,10 @@
       "settings": {
         "eyebrow": "The Vennix approach",
         "heading": "A simpler way to discover what works",
-        "text": "<p>We bring useful finds across home, technology, style and everyday living into one considered edit.</p>",
+        "text": "<ul><li>We bring useful finds across home, technology, style and everyday living into one considered edit.</li></ul>",
         "link_label": "Explore all products",
         "link": "shopify://collections/all",
-        "color_scheme": "scheme-2"
+        "color_scheme": "scheme-4"
       }
     },
     "178752782879b7db22": {
