@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "vennix_hero": {
@@ -48,6 +57,98 @@
         "secondary_link": "shopify://collections"
       }
     },
+    "featured_collection": {
+      "type": "featured-collection",
+      "settings": {
+        "collection": "all",
+        "products_to_show": 8,
+        "title": "New In",
+        "heading_size": "h1",
+        "description": "<p>Useful, design-conscious finds selected for everyday life.</p>",
+        "show_description": true,
+        "description_style": "body",
+        "columns_desktop": 4,
+        "enable_desktop_slider": false,
+        "full_width": false,
+        "show_view_all": true,
+        "view_all_style": "solid",
+        "color_scheme": "scheme-1",
+        "image_ratio": "square",
+        "image_shape": "default",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_rating": true,
+        "quick_add": "standard",
+        "columns_mobile": "2",
+        "swipe_on_mobile": true,
+        "padding_top": 88,
+        "padding_bottom": 96
+      }
+    },
+    "1787528713ec24d91e": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_d6093c4_kaaWmw": {
+          "type": "ai_gen_block_d6093c4",
+          "settings": {
+            "desktop_width_percent": 100,
+            "section_padding": 40,
+            "grid_gap": 20,
+            "mobile_grid_gap": 15,
+            "image_radius": 12,
+            "min_height": 300,
+            "featured_min_height": 600,
+            "card_background": "#f4f4f4",
+            "text_color": "#ffffff",
+            "category_color": "#d4af37",
+            "overlay_opacity": 0.7,
+            "content_padding": 30,
+            "category_size": 12,
+            "title_size": 24,
+            "featured_title_size": 42,
+            "excerpt_size": 16,
+            "meta_size": 13,
+            "show_meta": true,
+            "featured_category": "Featured",
+            "featured_title": "The Art of Modern Living",
+            "featured_excerpt": "Where considered design and everyday living meet — spaces worth lingering in.",
+            "featured_author": "Editorial Team",
+            "featured_date": "August 23, 2026",
+            "featured_link": "",
+            "secondary_1_category": "Lifestyle",
+            "secondary_1_title": "Curated Essentials",
+            "secondary_1_author": "Style Editor",
+            "secondary_1_date": "August 20, 2026",
+            "secondary_1_link": "",
+            "secondary_2_category": "Design",
+            "secondary_2_title": "Minimalist Spaces",
+            "secondary_2_author": "Design Editor",
+            "secondary_2_date": "August 18, 2026",
+            "secondary_2_link": "",
+            "tertiary_1_category": "Trends",
+            "tertiary_1_title": "Summer Palette",
+            "tertiary_1_author": "",
+            "tertiary_1_date": "August 15, 2026",
+            "tertiary_1_link": "",
+            "tertiary_2_category": "Culture",
+            "tertiary_2_title": "Artisan Crafts",
+            "tertiary_2_author": "",
+            "tertiary_2_date": "August 12, 2026",
+            "tertiary_2_link": "",
+            "tertiary_3_category": "Travel",
+            "tertiary_3_title": "Hidden Gems",
+            "tertiary_3_author": "",
+            "tertiary_3_date": "August 10, 2026",
+            "tertiary_3_link": ""
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_d6093c4_kaaWmw"
+      ],
+      "settings": {}
+    },
     "vennix_trust": {
       "type": "vennix-trust-bar",
       "blocks": {
@@ -80,7 +181,7 @@
           "settings": {
             "icon": "support",
             "title": "Customer support",
-            "description": "Questions? We are here to help"
+            "description": "Here whenever you need us"
           }
         }
       },
@@ -90,36 +191,9 @@
         "secure",
         "support"
       ],
+      "disabled": true,
       "settings": {
         "color_scheme": "scheme-2"
-      }
-    },
-    "featured_collection": {
-      "type": "featured-collection",
-      "settings": {
-        "title": "The latest edit",
-        "heading_size": "h1",
-        "description": "<p>Useful, design-conscious finds selected for everyday life.</p>",
-        "show_description": true,
-        "description_style": "body",
-        "collection": "all",
-        "products_to_show": 8,
-        "columns_desktop": 4,
-        "color_scheme": "scheme-1",
-        "full_width": false,
-        "show_view_all": true,
-        "view_all_style": "solid",
-        "enable_desktop_slider": false,
-        "swipe_on_mobile": true,
-        "image_ratio": "square",
-        "image_shape": "default",
-        "show_secondary_image": true,
-        "show_vendor": false,
-        "show_rating": true,
-        "quick_add": "standard",
-        "columns_mobile": "2",
-        "padding_top": 88,
-        "padding_bottom": 96
       }
     },
     "vennix_values": {
@@ -161,6 +235,85 @@
         "color_scheme": "scheme-2"
       }
     },
+    "178752782879b7db22": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_9b786fb_QNEgY3": {
+          "type": "ai_gen_block_9b786fb",
+          "settings": {
+            "badge_label": "New Arrival",
+            "days_threshold": 30,
+            "badge_position": "top left",
+            "badge_offset": 10,
+            "badge_background_color": "#26332f",
+            "badge_text_color": "#fafafa",
+            "badge_corner_radius": 40,
+            "badge_font_size": 11,
+            "badge_padding_horizontal": 10,
+            "badge_padding_vertical": 4
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_9b786fb_QNEgY3"
+      ],
+      "settings": {}
+    },
+    "1787528409bc8262fc": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_cab1973_eHi3cY": {
+          "type": "ai_gen_block_cab1973",
+          "disabled": true,
+          "settings": {
+            "item_1_enabled": true,
+            "item_1_date": "2024",
+            "item_1_title": "Vennix is born",
+            "item_1_description": "Started with a straightforward idea — make it easier to find products that are actually worth buying.",
+            "item_2_enabled": true,
+            "item_2_date": "Early 2025",
+            "item_2_title": "First collections live",
+            "item_2_description": "Launched our first curated edits across home, tech, and everyday essentials.",
+            "item_3_enabled": true,
+            "item_3_date": "Mid 2025",
+            "item_3_title": "Growing the edit",
+            "item_3_description": "Expanded into apparel and phone accessories, staying true to our considered selection process.",
+            "item_4_enabled": true,
+            "item_4_date": "Late 2025",
+            "item_4_title": "Community building",
+            "item_4_description": "Welcomed our first loyal customers and started listening closely to what they actually need.",
+            "item_5_enabled": true,
+            "item_5_date": "2026",
+            "item_5_title": "Still at it",
+            "item_5_description": "Continuing to find, test, and curate — one useful product at a time.",
+            "desktop_width_percent": 100,
+            "line_position": 40,
+            "line_thickness": 2,
+            "line_color": "#e0e0e0",
+            "active_line_color": "#000000",
+            "dot_size": 16,
+            "dot_border_thickness": 2,
+            "dot_color": "#ffffff",
+            "active_dot_color": "#000000",
+            "card_background": "#ffffff",
+            "card_border_radius": 12,
+            "inactive_opacity": 0.5,
+            "date_font_size": 14,
+            "date_color": "#666666",
+            "title_font_size": 24,
+            "title_color": "#000000",
+            "description_font_size": 16,
+            "description_color": "#333333"
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_cab1973_eHi3cY"
+      ],
+      "settings": {}
+    },
     "vennix_newsletter": {
       "type": "vennix-newsletter",
       "settings": {
@@ -177,9 +330,12 @@
   },
   "order": [
     "vennix_hero",
-    "vennix_trust",
     "featured_collection",
+    "1787528713ec24d91e",
+    "vennix_trust",
     "vennix_values",
+    "178752782879b7db22",
+    "1787528409bc8262fc",
     "vennix_newsletter"
   ]
 }
