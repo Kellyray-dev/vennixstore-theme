@@ -1,3 +1,7 @@
+{%- liquid
+  assign free_shipping_amount = settings.free_shipping_threshold | times: 100 | money_without_trailing_zeros
+-%}
+
 <section class="vx-trust color-{{ section.settings.color_scheme }} gradient" aria-label="Shopping benefits">
   <ul class="vx-trust__grid page-width" role="list">
     {%- for block in section.blocks -%}
@@ -15,8 +19,8 @@
           {%- endcase -%}
         </span>
         <span class="vx-trust__copy">
-          <strong>{{ block.settings.title | escape }}</strong>
-          {%- if block.settings.description != blank -%}<small>{{ block.settings.description | escape }}</small>{%- endif -%}
+          <strong>{{ block.settings.title | escape | replace: '[threshold]', free_shipping_amount }}</strong>
+          {%- if block.settings.description != blank -%}<small>{{ block.settings.description | escape | replace: '[threshold]', free_shipping_amount }}</small>{%- endif -%}
         </span>
       </li>
     {%- endfor -%}
@@ -55,7 +59,13 @@
           ],
           "default": "secure"
         },
-        { "type": "text", "id": "title", "label": "Title", "default": "Secure checkout" },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Secure checkout",
+          "info": "Use [threshold] to insert the free-shipping threshold from Theme settings > Cart."
+        },
         { "type": "text", "id": "description", "label": "Description" }
       ]
     }
@@ -64,7 +74,7 @@
     {
       "name": "Vennix trust bar",
       "blocks": [
-        { "type": "badge", "settings": { "icon": "delivery", "title": "Free shipping", "description": "On orders over $50" } },
+        { "type": "badge", "settings": { "icon": "delivery", "title": "Free shipping", "description": "On orders over [threshold]" } },
         { "type": "badge", "settings": { "icon": "returns", "title": "30-day returns", "description": "Clear return window" } },
         { "type": "badge", "settings": { "icon": "secure", "title": "Secure checkout", "description": "Protected payments" } },
         { "type": "badge", "settings": { "icon": "support", "title": "Customer support", "description": "Questions? We are here to help" } }

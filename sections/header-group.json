@@ -8,7 +8,7 @@
         "message_rLkwnm": {
           "type": "message",
           "settings": {
-            "text": "Free shipping on orders over $50"
+            "text": "Free shipping on orders over [threshold]"
           }
         },
         "message_Va47ry": {
