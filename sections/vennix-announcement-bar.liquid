@@ -1,3 +1,7 @@
+{%- liquid
+  assign free_shipping_amount = settings.free_shipping_threshold | times: 100 | money_without_trailing_zeros
+-%}
+
 <div
   class="vx-announcement"
   role="region"
@@ -9,7 +13,7 @@
       {%- for block in section.blocks -%}
         <li {{ block.shopify_attributes }}>
           <span class="vx-announcement__dot" aria-hidden="true"></span>
-          {{ block.settings.text | escape }}
+          {{ block.settings.text | escape | replace: '[threshold]', free_shipping_amount }}
         </li>
       {%- endfor -%}
     </ul>
@@ -34,7 +38,13 @@
       "name": "Message",
       "limit": 3,
       "settings": [
-        { "type": "text", "id": "text", "label": "Text", "default": "Free shipping on orders over $50" }
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "Free shipping on orders over [threshold]",
+          "info": "Use [threshold] to insert the free-shipping threshold from Theme settings > Cart."
+        }
       ]
     }
   ],
@@ -42,7 +52,7 @@
     {
       "name": "Vennix announcement bar",
       "blocks": [
-        { "type": "message", "settings": { "text": "Free shipping on orders over $50" } },
+        { "type": "message", "settings": { "text": "Free shipping on orders over [threshold]" } },
         { "type": "message", "settings": { "text": "30-day returns" } },
         { "type": "message", "settings": { "text": "Secure checkout" } }
       ]

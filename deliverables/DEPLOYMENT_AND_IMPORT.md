@@ -2,7 +2,7 @@
 
 ## Deliverables
 
-- Theme ZIP: `deliverables/vennix-redesigned-theme.zip`
+- Theme ZIP: build on demand with `shopify theme package` (ZIPs are not committed)
 - Full cleaned catalog: `catalog/vennix-products-cleaned.csv`
 - Catalog audit: `catalog/CATALOG_CLEANUP_REPORT.md`
 - Metafield and SEO guide: `docs/PRODUCT_CATALOG_AND_SEO_GUIDE.md`
@@ -20,13 +20,13 @@ Preferred method with Shopify's GitHub integration:
 
 ZIP alternative:
 
-1. Download `deliverables/vennix-redesigned-theme.zip` from GitHub.
+1. Run `shopify theme package` at the repository root to produce the theme ZIP.
 2. In **Online Store → Themes**, choose **Add theme → Upload ZIP file**.
 3. Upload it and keep it unpublished while testing.
 
 ## 2. Verify store settings before catalog import
 
-- Free-shipping rate is actually configured for eligible orders over $50.
+- Free-shipping rate is actually configured for the threshold set in Theme settings > Cart.
 - Refund policy matches the stated 30-day return window.
 - Payment providers and test mode are configured correctly.
 - Shipping profiles, fulfillment locations, package weights, and tax settings are correct.

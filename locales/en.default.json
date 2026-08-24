@@ -525,6 +525,13 @@
       "expired": "Expired"
     }
   },
+  "vennix": {
+    "shipping_progress": {
+      "label": "Progress toward free shipping",
+      "unlocked_html": "<strong>Free shipping unlocked!</strong> Your order qualifies.",
+      "remaining_html": "Add <strong>{{ amount }}</strong> more for free shipping."
+    }
+  },
   "recipient": {
     "form": {
       "checkbox": "I want to send this as a gift",

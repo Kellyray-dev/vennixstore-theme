@@ -1,3 +1,7 @@
+{%- liquid
+  assign free_shipping_amount = settings.free_shipping_threshold | times: 100 | money_without_trailing_zeros
+-%}
+
 <product-info
   id="MainProduct-{{ section.id }}"
   class="section-{{ section.id }}-padding gradient color-{{ section.settings.color_scheme }}"
@@ -240,7 +244,7 @@
                         {{- 'icon-caret.svg' | inline_asset_content -}}
                       </summary>
                       <div class="accordion__content rte" id="ProductAccordion-{{ block.id }}-{{ section.id }}">
-                        {{ block.settings.content }}
+                        {{ block.settings.content | replace: '[threshold]', free_shipping_amount }}
                         {{ block.settings.page.content }}
                       </div>
                     </details>

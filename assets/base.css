@@ -3460,7 +3460,6 @@ details-disclosure > details {
 
   :root {
     --easter-egg: none;
-    --sparkle: url('./sparkle.gif');
   }
 
   .animate--hover-vertical-lift .button:not(.button--tertiary),

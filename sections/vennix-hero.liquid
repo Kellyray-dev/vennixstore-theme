@@ -6,6 +6,7 @@
   assign hero_alt = section.settings.desktop_image.alt | default: fallback_alt
   assign hero_loading = 'eager'
   assign hero_priority = 'high'
+  assign free_shipping_amount = settings.free_shipping_threshold | times: 100 | money_without_trailing_zeros
 -%}
 
 <vennix-hero
@@ -130,8 +131,8 @@
                 {%- endcase -%}
               </span>
               <span>
-                <strong>{{ block.settings.heading | escape }}</strong>
-                {%- if block.settings.text != blank -%}<small>{{ block.settings.text | escape }}</small>{%- endif -%}
+                <strong>{{ block.settings.heading | escape | replace: '[threshold]', free_shipping_amount }}</strong>
+                {%- if block.settings.text != blank -%}<small>{{ block.settings.text | escape | replace: '[threshold]', free_shipping_amount }}</small>{%- endif -%}
               </span>
             </li>
           {%- endfor -%}
@@ -272,7 +273,8 @@
           "type": "text",
           "id": "heading",
           "label": "Heading",
-          "default": "Secure checkout"
+          "default": "Secure checkout",
+          "info": "Use [threshold] to insert the free-shipping threshold from Theme settings > Cart."
         },
         {
           "type": "text",
@@ -290,7 +292,7 @@
           "type": "assurance",
           "settings": {
             "icon": "delivery",
-            "heading": "Free shipping over $50",
+            "heading": "Free shipping over [threshold]",
             "text": "On eligible orders"
           }
         },

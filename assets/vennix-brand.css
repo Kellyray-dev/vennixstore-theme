@@ -1197,6 +1197,10 @@ body {
   background: #f0eee9;
 }
 
+.vx-shipping-progress--page {
+  margin-inline: 0;
+}
+
 .vx-shipping-progress__message {
   display: flex;
   align-items: center;
