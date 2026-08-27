@@ -1774,3 +1774,184 @@ body {
     transition: none;
   }
 }
+
+/* ============================================================
+   Phase 0 · Task 2 — Premium Collection Hero
+   ============================================================ */
+.vnx-chero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  height: clamp(24rem, 72vh, 43rem);
+  display: flex;
+  align-items: flex-end;
+}
+
+/* ---- Layers ---- */
+.vnx-chero__media,
+.vnx-chero__brand-art,
+.vnx-chero__scrim {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+}
+
+/* Tier 3 · branded gradient floor — always painted, catches any gaps */
+.vnx-chero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background: radial-gradient(120% 90% at 78% 12%, #4a6359 0%, transparent 58%),
+    radial-gradient(110% 85% at 12% 88%, rgba(122, 96, 38, 0.55) 0%, transparent 55%),
+    linear-gradient(168deg, #1d2623 0%, #171716 62%, #232b27 100%);
+}
+
+/* Tier 1 · merchant photo, gentle scale-up + parallax target */
+.vnx-chero__img {
+  width: 100%;
+  height: calc(100% + 120px);
+  object-fit: cover;
+  object-position: center;
+  transform-origin: center;
+  will-change: transform;
+  transition: transform 0.02s linear;
+}
+
+.vnx-chero:not(.vx-has-tier1) .vnx-chero__media {
+  display: none;
+}
+
+/* Tier 2 · Vennix-branded artwork (mapped by handle) */
+.vnx-chero.vx-has-tier2 .vnx-chero__brand-art {
+  background-image: var(--vx-tier2);
+  background-size: cover;
+  background-position: center;
+}
+
+/* Readability scrim — bottom-to-top */
+.vnx-chero__scrim {
+  background: linear-gradient(to top, rgba(13, 15, 14, 0.92) 0%, rgba(13, 15, 14, 0.45) 46%, rgba(13, 15, 14, 0) 82%);
+}
+
+/* ---- Content ---- */
+.vnx-chero__content {
+  position: relative;
+  z-index: 1;
+  padding-block: clamp(2rem, 5vh, 4rem);
+  max-width: min(var(--page-width, 120rem), calc(100% - 3rem));
+}
+
+.vnx-chero__title {
+  margin: 0;
+  font-size: clamp(3rem, 7.5vw, 7.2rem);
+  line-height: 1.04;
+  letter-spacing: -0.02em;
+  font-weight: 600;
+}
+
+.vnx-chero__description {
+  margin-block-start: 0.6em;
+  max-width: 56ch;
+  font-size: clamp(1.4rem, 1.05vw + 0.85rem, 1.9rem);
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.86);
+}
+
+.vnx-chero__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-block-start: clamp(1.4rem, 2.6vh, 2.4rem);
+  font-size: clamp(1.4rem, 1vw, 1.6rem);
+}
+
+.vnx-chero__cta svg {
+  width: 1.35em;
+  height: 1.35em;
+  transition: transform 0.25s ease;
+}
+
+.vnx-chero__cta:hover svg {
+  transform: translateX(0.35em);
+}
+
+/* Text over imagery ⇒ always light-on-dark */
+.vnx-chero .vnx-chero__title,
+.vnx-chero {
+  color: #f5f2ec;
+}
+
+/* ---- Alignment variants ---- */
+.vnx-chero.vx-center .vnx-chero__content {
+  text-align: center;
+  justify-content: center;
+}
+
+.vnx-chero.vx-center .vnx-chero__description {
+  margin-inline: auto;
+}
+
+.vnx-chero.vx-right .vnx-chero__content {
+  text-align: right;
+}
+
+.vnx-chero.vx-right .vnx-chero__description,
+.vnx-chero.vx-right .vnx-chero__cta {
+  margin-left: auto;
+}
+
+/* ---- Staggered fade-up reveal ---- */
+.vx-reveal {
+  opacity: 0;
+  transform: translateY(clamp(0.8rem, 2vh, 1.6rem));
+  transition:
+    opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--vx-delay, 0s);
+}
+
+.vnx-chero.is-revealed .vx-reveal {
+  opacity: 1;
+  transform: none;
+}
+
+/* No-JS safety net */
+.no-js .vx-reveal {
+  opacity: 1;
+  transform: none;
+}
+
+/* Short laptops: never eat the whole viewport */
+@media screen and (min-height: 700px) and (max-height: 900px) and (min-width: 990px) {
+  .vnx-chero {
+    height: min(64vh, 40rem);
+  }
+}
+
+@media screen and (max-width: 749px) {
+  .vnx-chero {
+    height: clamp(22rem, 62vh, 30rem);
+  }
+
+  .vnx-chero__content {
+    max-width: none;
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vnx-chero__img {
+    transform: none !important;
+  }
+
+  .vx-reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .vnx-chero__cta svg {
+    transition: none;
+  }
+}

@@ -1,11 +1,16 @@
 {
   "sections": {
     "banner": {
-      "type": "main-collection-banner",
+      "type": "collection-hero",
       "settings": {
-        "show_collection_description": true,
-        "show_collection_image": false,
-        "color_scheme": "scheme-1"
+        "show_title": true,
+        "show_description": true,
+        "show_cta": true,
+        "cta_label": "Shop the collection",
+        "handle_map": "tech=collection-hero-tech.jpg\nhome=collection-hero-home.jpg\naccessories=collection-hero-accessories.jpg\napparel=collection-hero-apparel.jpg\nbeauty=collection-hero-beauty.jpg",
+        "overlay_opacity": 35,
+        "text_alignment": "left",
+        "color_scheme": "scheme-2"
       }
     },
     "product-grid": {
