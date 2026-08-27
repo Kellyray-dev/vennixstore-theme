@@ -11,6 +11,7 @@
 
 <script src="{{ 'cart.js' | asset_url }}" defer="defer"></script>
 <script src="{{ 'quantity-popover.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'vennix-cart-note.js' | asset_url }}" defer="defer"></script>
 
 <style>
   .drawer {
@@ -493,23 +494,53 @@
       </cart-drawer-items>
       <div class="drawer__footer">
         {%- if settings.show_cart_note -%}
-          <details id="Details-CartDrawer">
-            <summary>
-              <span class="summary__title">
-                {{ 'sections.cart.note' | t }}
-                {{- 'icon-caret.svg' | inline_asset_content -}}
+          <vnx-cart-note
+            class="vnx-cart-note"
+            data-vnx-label-saving="{{ 'sections.cart.status_saving' | t }}"
+            data-vnx-label-saved="{{ 'sections.cart.status_saved' | t }}"
+            data-vnx-label-error="{{ 'sections.cart.status_error' | t }}"
+          >
+            <div class="vnx-cart-note__head">
+              <label class="vnx-cart-note__label" for="CartDrawer-Note">{{ 'sections.cart.note' | t }}</label>
+              <span class="vnx-status-pill" role="status" data-vnx-status>
+                <span class="vnx-status-pill__spinner" aria-hidden="true"><span class="vnx-spinner-ring"></span></span>
+                <span class="vnx-status-pill__check" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" focusable="false">
+                    <path d="m20 7-10 10L4.8 11.8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
+                <span class="vnx-status-pill__alert" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" focusable="false">
+                    <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5"/>
+                    <path d="M12 7.6v5.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                    <path d="M12 16.2h.01" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                  </svg>
+                </span>
+                <span class="vnx-status-pill__text"></span>
               </span>
-            </summary>
-            <cart-note class="cart__note field">
-              <label class="visually-hidden" for="CartDrawer-Note">{{ 'sections.cart.note' | t }}</label>
-              <textarea
-                id="CartDrawer-Note"
-                class="text-area text-area--resize-vertical field__input"
-                name="note"
-                placeholder="{{ 'sections.cart.note' | t }}"
-              >{{ cart.note }}</textarea>
-            </cart-note>
-          </details>
+            </div>
+            <textarea
+              id="CartDrawer-Note"
+              class="vnx-cart-note__textarea"
+              name="note"
+              rows="3"
+              maxlength="200"
+              placeholder="{{ 'sections.cart.note_placeholder' | t }}"
+              aria-describedby="CartDrawer-NoteHint"
+            >{{ cart.note }}</textarea>
+            <div class="vnx-cart-note__meta">
+              <p class="vnx-cart-note__hint" id="CartDrawer-NoteHint">{{ 'sections.cart.note_hint' | t }}</p>
+              <span class="vnx-cart-note__count" aria-hidden="true">
+                <span class="vnx-cart-note__count-value" data-vnx-count>
+                  {%- if cart.note != blank -%}
+                    {{- cart.note | size -}}
+                  {%- else -%}
+                    0
+                  {%- endif -%}
+                </span>/200
+              </span>
+            </div>
+          </vnx-cart-note>
         {%- endif -%}
 
         <!-- Start blocks -->

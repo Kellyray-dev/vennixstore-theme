@@ -1344,3 +1344,184 @@ body {
     transition: none;
   }
 }
+
+/* ============================================================
+   Vennix · Cart drawer — order note (premium)
+   ============================================================ */
+.drawer__footer > .vnx-cart-note {
+  padding-bottom: 1.6rem;
+  border-bottom: 0.1rem solid rgba(11, 11, 11, 0.08);
+}
+
+.drawer__footer > .vnx-cart-note + .cart-drawer__footer {
+  padding-top: 1.5rem;
+}
+
+.vnx-cart-note__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.9rem;
+}
+
+.vnx-cart-note__label {
+  color: #6f6b64;
+  font-size: 1.15rem;
+  font-weight: 650;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transition: color 0.22s ease;
+}
+
+.vnx-cart-note:focus-within .vnx-cart-note__label {
+  color: var(--v-gold-deep, #344b43);
+}
+
+/* --- Shared status pill (order note + fulfillment picker) --- */
+.vnx-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-height: 2.4rem;
+  margin-left: auto;
+  padding-inline: 0.95rem;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(11, 11, 11, 0.05);
+  color: #7a756e;
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateY(0.2rem) scale(0.96);
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease, background-color 0.25s ease, color 0.25s ease;
+}
+
+.vnx-status-pill.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+.vnx-status-pill--saved {
+  background: #e9efeb;
+  color: #245d43;
+}
+
+.vnx-status-pill--error {
+  background: #fbeeea;
+  color: #b34a3c;
+}
+
+.vnx-status-pill__spinner,
+.vnx-status-pill__check,
+.vnx-status-pill__alert {
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.vnx-status-pill__check svg,
+.vnx-status-pill__alert svg {
+  width: 1.35rem;
+  height: 1.35rem;
+}
+
+.vnx-status-pill--saving .vnx-status-pill__spinner,
+.vnx-status-pill--saved .vnx-status-pill__check,
+.vnx-status-pill--error .vnx-status-pill__alert {
+  display: inline-flex;
+}
+
+.vnx-spinner-ring {
+  width: 1.25rem;
+  height: 1.25rem;
+  border: 2px solid rgba(122, 117, 110, 0.28);
+  border-top-color: #7a756e;
+  border-radius: 50%;
+  animation: vnx-spin 0.8s linear infinite;
+}
+
+@keyframes vnx-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* --- Note field --- */
+.vnx-cart-note__textarea {
+  width: 100%;
+  min-height: 8.6rem;
+  padding: 1.3rem 1.5rem;
+  resize: vertical;
+  border: 1px solid var(--v-line, #deded8);
+  border-radius: var(--v-radius-md, 14px);
+  background: #fff;
+  color: var(--v-ink, #0b0b0b);
+  font-size: 1.35rem;
+  line-height: 1.55;
+  transition: border-color 0.22s ease, box-shadow 0.22s ease;
+  appearance: none;
+}
+
+.vnx-cart-note__textarea:hover {
+  border-color: rgba(52, 75, 67, 0.38);
+}
+
+.vnx-cart-note__textarea:focus {
+  outline: none;
+  border-color: var(--v-gold-deep, #344b43);
+  box-shadow: 0 0 0 0.35rem rgba(83, 106, 97, 0.14);
+}
+
+.vnx-cart-note__textarea::placeholder {
+  color: rgba(11, 11, 11, 0.36);
+}
+
+.vnx-cart-note__meta {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1.4rem;
+  margin-top: 0.85rem;
+}
+
+.vnx-cart-note__hint {
+  margin: 0;
+  max-width: 72%;
+  color: var(--v-ink-soft, #53534f);
+  font-size: 1.15rem;
+  line-height: 1.45;
+}
+
+.vnx-cart-note__count {
+  flex: 0 0 auto;
+  color: #7a756e;
+  font-size: 1.15rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.vnx-cart-note__count-value.is-near-limit {
+  color: #b3761f;
+  font-weight: 650;
+}
+
+@media (max-width: 480px) {
+  .vnx-cart-note__hint {
+    max-width: 60%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vnx-status-pill,
+  .vnx-cart-note__textarea,
+  .vnx-cart-note__label {
+    transition: none;
+  }
+
+  .vnx-spinner-ring {
+    animation-duration: 2s;
+  }
+}
