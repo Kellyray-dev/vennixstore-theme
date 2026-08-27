@@ -257,7 +257,19 @@
 
       html {
         box-sizing: border-box;
-        font-size: calc(var(--font-body-scale) * 62.5%);
+        /* Fluid root scale (Phase 0 · viewport fix)
+           • Below  993px : floors at 59% — matches Dawn's 990 desktop breakpoint
+           • At   1366px  : baseline 62.5% — unchanged legacy rendering
+           • Grows toward 1920px+: caps at 67% so proportions stay premium on
+             large monitors instead of looking magnified
+           The variance applies ON TOP of the merchant's body_scale choice. */
+        font-size: clamp(
+          calc(var(--font-body-scale) * 59%),
+          calc(var(--font-body-scale) * 62.5% + (1vw - 13.66px) * 0.13),
+          calc(var(--font-body-scale) * 67%)
+        );
+        -webkit-text-size-adjust: 100%;
+        text-size-adjust: 100%;
         height: 100%;
       }
 
