@@ -7,7 +7,7 @@
         "show_description": true,
         "show_cta": true,
         "cta_label": "Shop the collection",
-        "handle_map": "tech=collection-hero-tech.jpg\nhome=collection-hero-home.jpg\naccessories=collection-hero-accessories.jpg\napparel=collection-hero-apparel.jpg\nbeauty=collection-hero-beauty.jpg",
+        "handle_map": "apparel=collection-hero-apparel.svg\nbath-rugs-mats=collection-hero-home.svg\nfitness-active=collection-hero-apparel.svg\ngrooming=collection-hero-beauty.svg\nhome-living=collection-hero-home.svg\nhome-living-1=collection-hero-home.svg\nhome-essentials=collection-hero-home.svg\nlighting=collection-hero-tech.svg\nmens-clothing=collection-hero-apparel.svg\nmens-pants=collection-hero-apparel.svg\nmens-suits-formalwear=collection-hero-apparel.svg\nmens-tops=collection-hero-apparel.svg\npets=collection-hero-home.svg\nphone-accessories=collection-hero-tech.svg\ntech-accessories=collection-hero-tech.svg\ntech-devices=collection-hero-tech.svg\nusb-c-hubs=collection-hero-tech.svg\nwomens-clothing=collection-hero-apparel.svg\nwomens-clothing-accessories=collection-hero-apparel.svg",
         "overlay_opacity": 35,
         "text_alignment": "left",
         "color_scheme": "scheme-2"

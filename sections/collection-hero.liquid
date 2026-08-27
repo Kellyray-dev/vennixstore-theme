@@ -32,6 +32,25 @@
     endif
   endfor
 
+  comment
+    Family fallback: exact handle not listed -> try its first segment,
+    e.g. "tech-devices" falls back to a "tech=..." map entry.
+  endcomment
+  if tier2_asset == ''
+    assign vnx_handle_prefix = collection.handle | split: '-' | first
+    for line in map_raw
+      assign line_clean = line | strip | remove: ','
+      if line_clean == ''
+        continue
+      endif
+      assign pair = line_clean | split: '='
+      if pair[0] == vnx_handle_prefix
+        assign tier2_asset = pair[1] | strip
+        break
+      endif
+    endfor
+  endif
+
   assign has_tier2 = false
   if tier2_asset != ''
     assign has_tier2 = true
@@ -168,7 +187,7 @@
       "id": "handle_map",
       "label": "Handle → image map (Tier 2)",
       "info": "One \"collection-handle=filename.jpg\" per line. The file must exist in assets/. Unlisted handles fall back to the gradient.",
-      "default": "tech=collection-hero-tech.jpg\nhome=collection-hero-home.jpg\naccessories=collection-hero-accessories.jpg\napparel=collection-hero-apparel.jpg\nbeauty=collection-hero-beauty.jpg"
+      "default": "apparel=collection-hero-apparel.svg\nbath-rugs-mats=collection-hero-home.svg\nfitness-active=collection-hero-apparel.svg\ngrooming=collection-hero-beauty.svg\nhome-living=collection-hero-home.svg\nhome-living-1=collection-hero-home.svg\nhome-essentials=collection-hero-home.svg\nlighting=collection-hero-tech.svg\nmens-clothing=collection-hero-apparel.svg\nmens-pants=collection-hero-apparel.svg\nmens-suits-formalwear=collection-hero-apparel.svg\nmens-tops=collection-hero-apparel.svg\npets=collection-hero-home.svg\nphone-accessories=collection-hero-tech.svg\ntech-accessories=collection-hero-tech.svg\ntech-devices=collection-hero-tech.svg\nusb-c-hubs=collection-hero-tech.svg\nwomens-clothing=collection-hero-apparel.svg\nwomens-clothing-accessories=collection-hero-apparel.svg"
     },
     {
       "type": "header",

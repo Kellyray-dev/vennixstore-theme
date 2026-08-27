@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2560 1440" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="base" x1="1" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2e3b35"/>
+      <stop offset=".55" stop-color="#171716"/>
+      <stop offset="1" stop-color="#1d2623"/>
+    </linearGradient>
+    <radialGradient id="glowA" cx=".74" cy=".3" r=".5">
+      <stop offset="0" stop-color="#c9a45c" stop-opacity=".32"/>
+      <stop offset="1" stop-color="#c9a45c" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowB" cx=".2" cy=".85" r=".45">
+      <stop offset="0" stop-color="#4a6359" stop-opacity=".4"/>
+      <stop offset="1" stop-color="#4a6359" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="grain"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="linear" slope=".05"/></feComponentTransfer></filter>
+  </defs>
+  <rect width="2560" height="1440" fill="url(#base)"/>
+  <rect width="2560" height="1440" fill="url(#glowA)"/>
+  <rect width="2560" height="1440" fill="url(#glowB)"/>
+  <g fill="none" stroke="#c9a45c">
+    <circle cx="1820" cy="560" r="120" stroke-opacity=".55" stroke-width="2"/>
+    <circle cx="1820" cy="560" r="230" stroke-opacity=".38" stroke-width="1.6"/>
+    <circle cx="1820" cy="560" r="360" stroke-opacity=".26" stroke-width="1.4"/>
+    <circle cx="1820" cy="560" r="510" stroke-opacity=".16" stroke-width="1.2"/>
+    <circle cx="1820" cy="560" r="680" stroke-opacity=".09" stroke-width="1"/>
+  </g>
+  <circle cx="1820" cy="560" r="10" fill="#c9a45c" fill-opacity=".8"/>
+  <circle cx="2050" cy="560" r="6" fill="#f5f2ec" fill-opacity=".5"/>
+  <g fill="none" stroke="#f5f2ec" stroke-opacity=".1" stroke-width="1.2">
+    <circle cx="470" cy="1160" r="90"/>
+    <circle cx="470" cy="1160" r="170"/>
+  </g>
+  <rect width="2560" height="1440" filter="url(#grain)" opacity=".5"/>
+</svg>
