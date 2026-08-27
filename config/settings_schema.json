@@ -1452,6 +1452,13 @@
         "default": false
       },
       {
+        "type": "checkbox",
+        "id": "show_fulfillment_picker",
+        "label": "Show delivery-method picker in cart drawer",
+        "info": "Let customers switch between shipping and local pickup. Saves the choice as a cart attribute and adapts shipping messages.",
+        "default": true
+      },
+      {
         "type": "header",
         "content": "t:settings_schema.cart.settings.cart_drawer.header"
       },
