@@ -1,11 +1,16 @@
 {
   "sections": {
-    "banner": {
-      "type": "main-collection-banner",
+    "collection-hero": {
+      "type": "collection-hero",
       "settings": {
-        "show_collection_description": true,
-        "show_collection_image": false,
-        "color_scheme": "scheme-1"
+        "show_title": true,
+        "show_description": true,
+        "show_cta": false,
+        "enable_unsplash_fallback": true,
+        "text_alignment": "center",
+        "animation_style": "parallax",
+        "overlay_opacity": 30,
+        "text_color": "#FFFFFF"
       }
     },
     "product-grid": {
@@ -30,7 +35,7 @@
     }
   },
   "order": [
-    "banner",
+    "collection-hero",
     "product-grid"
   ]
 }

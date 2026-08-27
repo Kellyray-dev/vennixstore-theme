@@ -1,0 +1,484 @@
+{%- comment -%}
+  Vennix Collection Hero Section
+  Premium OS 2.0 section with intelligent fallbacks and animations
+  
+  Fallback Priority:
+  1. Collection image (if uploaded)
+  2. Unsplash keyword-matched image (based on collection handle/title)
+  3. Branded gradient background (Vennix gold/cream)
+  
+  Features:
+  - Parallax scroll effect
+  - Fade-up text animations
+  - Fluid typography with clamp()
+  - Fully customizable via schema
+{%- endcomment -%}
+
+<style>
+  /* ============================================
+     COLLECTION HERO - PREMIUM STYLES
+     ============================================ */
+  
+  .vennix-collection-hero {
+    position: relative;
+    width: 100%;
+    min-height: clamp(400px, 60vh, 700px);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Background Layer */
+  .vennix-hero__background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    transition: opacity 0.6s ease;
+  }
+
+  /* Image Background (Collection or Unsplash) */
+  .vennix-hero__image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    will-change: transform;
+    transition: transform 0.3s ease-out;
+  }
+
+  /* Gradient Fallback Background */
+  .vennix-hero__gradient {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      135deg,
+      var(--v-gold, #D4AF37) 0%,
+      var(--v-gold-light, #F4D06F) 35%,
+      var(--v-cream, #FFF8E7) 70%,
+      var(--v-cream, #FFF8E7) 100%
+    );
+    opacity: 0;
+    transition: opacity 0.6s ease;
+  }
+
+  .vennix-hero__background--no-image .vennix-hero__gradient {
+    opacity: 1;
+  }
+
+  /* Overlay for Text Readability */
+  .vennix-hero__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, var(--vennix-hero-overlay-opacity, 0.3));
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  /* Content Container */
+  .vennix-hero__content {
+    position: relative;
+    z-index: 3;
+    max-width: 1200px;
+    width: 90%;
+    text-align: center;
+    padding: clamp(40px, 8vh, 80px) 20px;
+  }
+
+  /* Text Alignment Variants */
+  .vennix-hero__content--left {
+    text-align: left;
+    margin-left: 0;
+  }
+
+  .vennix-hero__content--right {
+    text-align: right;
+    margin-right: 0;
+  }
+
+  /* Collection Title */
+  .vennix-hero__title {
+    font-family: var(--font-heading-family, 'Playfair Display', serif);
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: 0.02em;
+    color: var(--vennix-hero-text-color, #FFFFFF);
+    margin-bottom: clamp(16px, 2vh, 24px);
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    transform: translateY(30px);
+    animation: vennix-fade-up 0.8s ease forwards;
+    animation-delay: 0.2s;
+  }
+
+  /* Collection Description */
+  .vennix-hero__description {
+    font-family: var(--font-body-family, 'Inter', sans-serif);
+    font-size: clamp(1rem, 1.5vw, 1.25rem);
+    font-weight: 400;
+    line-height: 1.6;
+    color: var(--vennix-hero-text-color, #FFFFFF);
+    max-width: 650px;
+    margin: 0 auto;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    transform: translateY(30px);
+    animation: vennix-fade-up 0.8s ease forwards;
+    animation-delay: 0.4s;
+  }
+
+  .vennix-hero__description p {
+    margin: 0;
+  }
+
+  /* CTA Button (Optional) */
+  .vennix-hero__cta {
+    display: inline-block;
+    margin-top: clamp(24px, 3vh, 40px);
+    padding: clamp(14px, 2vw, 18px) clamp(28px, 4vw, 48px);
+    background: var(--vennix-hero-btn-bg, #FFFFFF);
+    color: var(--vennix-hero-btn-text, #1A1A1A);
+    font-family: var(--font-body-family, 'Inter', sans-serif);
+    font-size: clamp(0.9rem, 1.2vw, 1rem);
+    font-weight: 600;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: vennix-fade-up 0.8s ease forwards;
+    animation-delay: 0.6s;
+  }
+
+  .vennix-hero__cta:hover {
+    background: var(--vennix-hero-btn-hover-bg, var(--v-gold, #D4AF37));
+    color: var(--vennix-hero-btn-hover-text, #FFFFFF);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  }
+
+  /* Animation Keyframes */
+  @keyframes vennix-fade-up {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Parallax Effect Class */
+  .vennix-hero--parallax .vennix-hero__image {
+    transform: translateY(0);
+  }
+
+  /* Mobile Optimizations */
+  @media (max-width: 768px) {
+    .vennix-collection-hero {
+      min-height: clamp(300px, 50vh, 500px);
+    }
+
+    .vennix-hero__content {
+      width: 95%;
+      padding: clamp(30px, 6vh, 60px) 16px;
+    }
+
+    .vennix-hero__title {
+      font-size: clamp(2rem, 6vw, 3rem);
+    }
+
+    .vennix-hero__description {
+      font-size: clamp(0.9rem, 1.4vw, 1rem);
+    }
+  }
+
+  /* Reduced Motion Preference */
+  @media (prefers-reduced-motion: reduce) {
+    .vennix-hero__title,
+    .vennix-hero__description,
+    .vennix-hero__cta {
+      animation: none;
+      opacity: 1;
+      transform: none;
+    }
+
+    .vennix-hero__image {
+      transition: none;
+    }
+  }
+
+  /* Loading State */
+  .vennix-hero__background--loading {
+    opacity: 0;
+  }
+
+  .vennix-hero__background--loaded {
+    opacity: 1;
+  }
+</style>
+
+<div class="vennix-collection-hero vennix-hero--{{ section.settings.animation_style }}"
+     data-overlay-opacity="{{ section.settings.overlay_opacity }}"
+     data-text-color="{{ section.settings.text_color }}">
+  
+  {%- assign hero_image = null -%}
+  {%- assign use_gradient = false -%}
+
+  {%- comment -%} PRIORITY 1: Collection Image {%- endcomment -%}
+  {%- if collection.image -%}
+    {%- assign hero_image = collection.image | image_url: width: 1920 -%}
+  
+  {%- comment -%} PRIORITY 2: Unsplash Keyword Match {%- endcomment -%}
+  {%- elsif section.settings.enable_unsplash_fallback -%}
+    {%- assign keywords = section.settings.unsplash_keywords | default: collection.handle | default: collection.title -%}
+    {%- assign keywords = keywords | replace: ' ', ',' | url_encode -%}
+    {%- assign hero_image = 'https://source.unsplash.com/1920x1080/?' | append: keywords -%}
+  
+  {%- comment -%} PRIORITY 3: Gradient Fallback {%- endcomment -%}
+  {%- else -%}
+    {%- assign use_gradient = true -%}
+  {%- endif -%}
+
+  {%- comment -%} Background Layer {%- endcomment -%}
+  <div class="vennix-hero__background {% if use_gradient %}vennix-hero__background--no-image{% endif %}"
+       id="hero-bg-{{ section.id }}">
+    
+    {%- unless use_gradient -%}
+      <img class="vennix-hero__image"
+           src="{{ hero_image }}"
+           alt="{{ collection.title | escape }}"
+           loading="eager"
+           fetchpriority="high"
+           onload="this.parentElement.classList.add('vennix-hero__background--loaded'); this.parentElement.classList.remove('vennix-hero__background--loading');"
+           onerror="this.parentElement.classList.add('vennix-hero__background--no-image'); this.parentElement.classList.add('vennix-hero__background--loaded');">
+    {%- endunless -%}
+    
+    <div class="vennix-hero__gradient"></div>
+  </div>
+
+  {%- comment -%} Overlay Layer {%- endcomment -%}
+  <div class="vennix-hero__overlay" 
+       style="--vennix-hero-overlay-opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }}"></div>
+
+  {%- comment -%} Content Layer {%- endcomment -%}
+  <div class="vennix-hero__content vennix-hero__content--{{ section.settings.text_alignment }}"
+       style="--vennix-hero-text-color: {{ section.settings.text_color }}">
+    
+    {%- if section.settings.show_title -%}
+      <h1 class="vennix-hero__title">
+        {{ collection.title }}
+      </h1>
+    {%- endif -%}
+
+    {%- if section.settings.show_description and collection.description != blank -%}
+      <div class="vennix-hero__description">
+        {{ collection.description }}
+      </div>
+    {%- endif -%}
+
+    {%- if section.settings.show_cta and section.settings.cta_link != blank -%}
+      <a href="{{ section.settings.cta_link }}" class="vennix-hero__cta"
+         style="--vennix-hero-btn-bg: {{ section.settings.btn_background }};
+                --vennix-hero-btn-text: {{ section.settings.btn_text_color }};
+                --vennix-hero-btn-hover-bg: {{ section.settings.btn_hover_background }};
+                --vennix-hero-btn-hover-text: {{ section.settings.btn_hover_text }}">
+        {{ section.settings.cta_text }}
+      </a>
+    {%- endif -%}
+  </div>
+</div>
+
+<script>
+  (function() {
+    // Parallax Effect
+    const heroSection = document.querySelector('.vennix-collection-hero.vennix-hero--parallax');
+    
+    if (heroSection && window.matchMedia('(min-width: 769px)').matches) {
+      const heroImage = heroSection.querySelector('.vennix-hero__image');
+      
+      if (heroImage) {
+        window.addEventListener('scroll', function() {
+          const scrolled = window.pageYOffset;
+          const heroTop = heroSection.offsetTop;
+          const heroHeight = heroSection.offsetHeight;
+          const windowHeight = window.innerHeight;
+          
+          // Only apply parallax when hero is in viewport
+          if (scrolled + windowHeight > heroTop && scrolled < heroTop + heroHeight) {
+            const offset = (scrolled - heroTop) * 0.3;
+            heroImage.style.transform = 'translateY(' + offset + 'px) scale(1.05)';
+          }
+        }, { passive: true });
+      }
+    }
+
+    // Apply custom CSS variables from data attributes
+    const hero = document.querySelector('.vennix-collection-hero');
+    if (hero) {
+      const overlayOpacity = hero.getAttribute('data-overlay-opacity');
+      const textColor = hero.getAttribute('data-text-color');
+      
+      if (overlayOpacity) {
+        document.documentElement.style.setProperty('--vennix-hero-overlay-opacity', overlayOpacity / 100);
+      }
+      if (textColor) {
+        document.documentElement.style.setProperty('--vennix-hero-text-color', textColor);
+      }
+    }
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Vennix Collection Hero",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content Settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_title",
+      "label": "Show collection title",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_description",
+      "label": "Show collection description",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_cta",
+      "label": "Show call-to-action button",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "Button text",
+      "default": "Shop Now"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Button link"
+    },
+    {
+      "type": "header",
+      "content": "Background Fallback Settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_unsplash_fallback",
+      "label": "Enable Unsplash fallback (if no collection image)",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "unsplash_keywords",
+      "label": "Unsplash search keywords (optional)",
+      "info": "Leave empty to use collection handle. Example: 'fashion,luxury,minimal'",
+      "default": ""
+    },
+    {
+      "type": "header",
+      "content": "Style Settings"
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "Text alignment",
+      "options": [
+        { "value": "center", "label": "Center" },
+        { "value": "left", "label": "Left" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "animation_style",
+      "label": "Animation style",
+      "options": [
+        { "value": "fade", "label": "Fade up only" },
+        { "value": "parallax", "label": "Parallax scroll effect" }
+      ],
+      "default": "parallax"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Overlay opacity (%)",
+      "min": 0,
+      "max": 80,
+      "step": 5,
+      "default": 30
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "header",
+      "content": "Button Style (if enabled)"
+    },
+    {
+      "type": "color",
+      "id": "btn_background",
+      "label": "Button background",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "btn_text_color",
+      "label": "Button text color",
+      "default": "#1A1A1A"
+    },
+    {
+      "type": "color",
+      "id": "btn_hover_background",
+      "label": "Button hover background",
+      "default": "#D4AF37"
+    },
+    {
+      "type": "color",
+      "id": "btn_hover_text",
+      "label": "Button hover text color",
+      "default": "#FFFFFF"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Vennix Collection Hero",
+      "settings": {
+        "show_title": true,
+        "show_description": true,
+        "show_cta": false,
+        "enable_unsplash_fallback": true,
+        "text_alignment": "center",
+        "animation_style": "parallax",
+        "overlay_opacity": 30
+      }
+    }
+  ]
+}
+{% endschema %}
