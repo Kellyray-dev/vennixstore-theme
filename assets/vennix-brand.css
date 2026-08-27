@@ -1656,3 +1656,77 @@ body {
     transition: none;
   }
 }
+
+/* ============================================================
+   Module 1 · Pre-order badges, scarcity pills & quick-buy polish
+   ============================================================ */
+.vx-badge-preorder {
+  color: #1e342d;
+  background: linear-gradient(135deg, #f6efdc, #eaddb8);
+}
+
+.badge.vx-badge-preorder::before {
+  content: '';
+  display: inline-block;
+  width: 0.55em;
+  height: 0.55em;
+  margin-inline-end: 0.5em;
+  border-radius: 50%;
+  background: var(--v-gold-deep, #344b43);
+}
+
+.vx-low-stock {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-top: 0.6rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  background: rgba(179, 118, 31, 0.12);
+  color: #8a5a14;
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  width: fit-content;
+}
+
+.vx-low-stock::before {
+  content: '';
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 50%;
+  background: #b3761f;
+}
+
+/* PDP expected-availability chip */
+.vx-preorder-note {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 1rem 0 0;
+  padding: 0.8rem 1.1rem;
+  border: 1px solid rgba(52, 75, 67, 0.28);
+  border-radius: var(--v-radius-md, 14px);
+  background: rgba(83, 106, 97, 0.07);
+  color: var(--v-gold-deep, #344b43);
+  font-size: 1.2rem;
+  line-height: 1.45;
+}
+
+.vx-preorder-note[hidden] {
+  display: none;
+}
+
+.vx-preorder-note svg {
+  width: 1.6rem;
+  height: 1.6rem;
+  flex: 0 0 auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vx-badge-preorder,
+  .vx-low-stock,
+  .vx-preorder-note {
+    transition: none;
+  }
+}

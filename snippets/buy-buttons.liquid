@@ -55,6 +55,22 @@
           {% endif %}
           class="product-variant-id"
         >
+        {%- if vnx_has_any_preorder -%}
+          <script type="application/json" data-vnx-variants>
+            [
+            {%- for vnx_v in product.variants -%}
+              {
+                "id": {{ vnx_v.id }},
+                "available": {{ vnx_v.available | json }},
+                "policy": "{{ vnx_v.inventory_policy }}",
+                "managed": "{{ vnx_v.inventory_management }}",
+                "qty": {{ vnx_v.inventory_quantity | default: 0 }}
+              }{%- unless forloop.last -%},{% endunless -%}
+            {%- endfor -%}
+            ]
+          </script>
+        {%- endif -%}
+
 
         {%- if gift_card_recipient_feature_active -%}
           {%- render 'gift-card-recipient-form', product: product, form: form, section: section -%}
@@ -69,6 +85,27 @@
             if product.selected_or_first_available_variant.quantity_rule.min > product.selected_or_first_available_variant.inventory_quantity and check_against_inventory
               assign quantity_rule_soldout = true
             endif
+
+            comment
+              Vennix · Module 1 — pre-order detection
+              A variant is pre-order when Shopify keeps selling past zero stock
+              (inventory_policy == 'continue'). Surfaces: submit-button label,
+              card badges (card-product.liquid) and the expected-date chip below.
+            endcomment
+            assign vnx_current_variant = product.selected_or_first_available_variant
+            assign vnx_preorder_now = false
+            assign vnx_has_any_preorder = false
+            if vnx_current_variant != null and vnx_current_variant.available
+              if vnx_current_variant.inventory_policy == 'continue' and vnx_current_variant.inventory_management == 'shopify' and vnx_current_variant.inventory_quantity <= 0
+                assign vnx_preorder_now = true
+              endif
+            endif
+            for vnx_v in product.variants
+              if vnx_v.available and vnx_v.inventory_policy == 'continue' and vnx_v.inventory_management == 'shopify' and vnx_v.inventory_quantity <= 0
+                assign vnx_has_any_preorder = true
+                break
+              endif
+            endfor
           -%}
           <button
             id="ProductSubmitButton-{{ section_id }}"
@@ -87,12 +124,34 @@
                 {{ 'products.product.unavailable' | t }}
               {%- elsif product.selected_or_first_available_variant.available == false or quantity_rule_soldout -%}
                 {{ 'products.product.sold_out' | t }}
+              {%- elsif vnx_preorder_now -%}
+                {{ 'products.product.pre_order' | t }}
               {%- else -%}
                 {{ 'products.product.add_to_cart' | t }}
               {%- endif -%}
             </span>
             {%- render 'loading-spinner' -%}
           </button>
+          {%- if vnx_has_any_preorder -%}
+            {%- assign vnx_pre_date = product.metafields.custom.preorder_date -%}
+            <p class="vx-preorder-note" role="status" data-vnx-note {% unless vnx_preorder_now %}hidden{% endunless %}>
+              {%- if vnx_pre_date != blank -%}
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
+                  <rect x="3.2" y="4.8" width="17.6" height="16" rx="2.4" stroke="currentColor" stroke-width="1.5"/>
+                  <path d="M3.2 9.6h17.6M8 2.8v3.4M16 2.8v3.4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+                <span>{{ 'products.product.preorder_expected' | t: date: vnx_pre_date | date: '%B %-d, %Y' }}</span>
+              {%- else -%}
+                <span>{{ 'products.product.pre_order_note' | t }}</span>
+              {%- endif -%}
+            </p>
+            <script>
+              window.vnxPreorderLabels = {
+                addToCart: {{ 'products.product.add_to_cart' | t | json }},
+                preOrder: {{ 'products.product.pre_order' | t | json }}
+              };
+            </script>
+          {%- endif -%}
           {%- if show_dynamic_checkout -%}
             {{ form | payment_button }}
           {%- endif -%}
