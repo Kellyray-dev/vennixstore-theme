@@ -119,7 +119,23 @@
   animation: none;
 }
 
-.vennix-hero__content > .vennix-hero__content-body { animation-delay: 0.1s; }
+/* Content-body hosts the per-element stagger: eyebrow → heading → text → CTAs */
+.vennix-hero__content > .vennix-hero__content-body {
+  opacity: 1;
+  transform: none;
+  animation: none;
+}
+
+.vennix-hero__content-body > * {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: vennix-hero-reveal 0.85s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+}
+
+.vennix-hero__content-body > .vennix-hero__eyebrow { animation-delay: 0.1s; }
+.vennix-hero__content-body > .vennix-hero__heading { animation-delay: 0.25s; }
+.vennix-hero__content-body > .vennix-hero__text    { animation-delay: 0.4s; }
+.vennix-hero__content-body > .vennix-hero__actions { animation-delay: 0.55s; }
 
 .vennix-hero__content-body .vennix-hero__eyebrow {
   color: rgba(255, 255, 255, 0.78);

@@ -384,6 +384,35 @@ textarea {
   padding-right: 0;
 }
 
+/* Premium hover: gentle lift + gold-tinted icon ring */
+.vx-trust__item {
+  transition: transform 0.3s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.vx-trust__item:hover {
+  transform: translateY(-4px);
+}
+
+.vx-trust__item:hover .vx-trust__icon {
+  color: var(--v-gold);
+  border-color: rgba(201, 164, 92, 0.55);
+  background: rgba(201, 164, 92, 0.08);
+  box-shadow: 0 6px 18px rgba(122, 96, 38, 0.18);
+}
+
+.vx-trust__icon {
+  transition: color 0.3s ease, border-color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vx-trust__item,
+  .vx-trust__item:hover,
+  .vx-trust__icon {
+    transition: none;
+    transform: none;
+  }
+}
+
 .vx-trust__icon {
   width: 4rem;
   height: 4rem;
