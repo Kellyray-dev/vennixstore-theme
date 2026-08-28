@@ -636,6 +636,17 @@
         "step": 1,
         "label": "Low-stock threshold",
         "default": 3
+      },
+      {
+        "type": "header",
+        "content": "Quick view"
+      },
+      {
+        "type": "checkbox",
+        "id": "quick_view_enabled",
+        "label": "Enable quick view on product cards",
+        "info": "Adds a Quick view button to product cards that opens a modal with a gallery and add-to-cart.",
+        "default": true
       }
     ]
   },
