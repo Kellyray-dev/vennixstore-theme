@@ -1291,93 +1291,110 @@ body {
 }
 
 .vx-sticky-atc {
-  display: none;
+  position: fixed;
+  z-index: 29;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding-bottom: env(safe-area-inset-bottom, 0);
+  border-top: 1px solid rgba(11, 11, 11, 0.12);
+  background: rgba(250, 250, 248, 0.96);
+  box-shadow: 0 -12px 32px rgba(0, 0, 0, 0.1);
+  -webkit-backdrop-filter: blur(16px) saturate(1.1);
+  backdrop-filter: blur(16px) saturate(1.1);
+  transform: translateY(calc(100% + 2rem));
+  visibility: hidden;
+  transition: transform 0.35s cubic-bezier(0.22, 0.61, 0.36, 1), visibility 0.35s;
+}
+
+.vx-sticky-atc.is-visible {
+  transform: translateY(0);
+  visibility: visible;
+}
+
+body.overflow-hidden .vx-sticky-atc {
+  transform: translateY(calc(100% + 2rem));
+  visibility: hidden;
+}
+
+.vx-sticky-atc__inner {
+  min-height: 7.4rem;
+  display: flex;
+  align-items: center;
+  gap: 1.6rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+.vx-sticky-atc__media {
+  width: 5.6rem;
+  height: 5.6rem;
+  flex: 0 0 5.6rem;
+  overflow: hidden;
+  border-radius: 8px;
+  background: #efefeb;
+}
+
+.vx-sticky-atc__media img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.vx-sticky-atc__details {
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.vx-sticky-atc__details strong,
+.vx-sticky-atc__details span {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.vx-sticky-atc__details strong {
+  color: #0b0b0b;
+  font-size: 1.3rem;
+  line-height: 1.35;
+}
+
+.vx-sticky-atc__details span {
+  margin-top: 0.3rem;
+  color: #53534f;
+  font-size: 1.2rem;
+  letter-spacing: 0.02em;
+}
+
+.vx-sticky-atc__button {
+  min-width: 18rem;
+  min-height: 4.8rem;
+  flex: 0 0 auto;
+  margin: 0;
+  padding-inline: 2.4rem;
 }
 
 @media screen and (max-width: 749px) {
-  .vx-sticky-atc {
-    position: fixed;
-    z-index: 29;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    display: block;
-    padding-bottom: env(safe-area-inset-bottom, 0);
-    border-top: 1px solid rgba(11, 11, 11, 0.12);
-    background: rgba(250, 250, 248, 0.96);
-    box-shadow: 0 -12px 32px rgba(0, 0, 0, 0.1);
-    -webkit-backdrop-filter: blur(16px) saturate(1.1);
-    backdrop-filter: blur(16px) saturate(1.1);
-    transform: translateY(calc(100% + 2rem));
-    visibility: hidden;
-    transition: transform 0.35s cubic-bezier(0.22, 0.61, 0.36, 1), visibility 0.35s;
-  }
-
-  .vx-sticky-atc.is-visible {
-    transform: translateY(0);
-    visibility: visible;
-  }
-
-  body.overflow-hidden .vx-sticky-atc {
-    transform: translateY(calc(100% + 2rem));
-    visibility: hidden;
-  }
-
-  .vx-sticky-atc__inner {
-    min-height: 7.4rem;
-    display: flex;
-    align-items: center;
-    gap: 1.2rem;
-    padding-top: 1rem;
-    padding-bottom: 1rem;
-  }
-
   .vx-sticky-atc__media {
-    width: 5.2rem;
-    height: 5.2rem;
-    flex: 0 0 5.2rem;
-    overflow: hidden;
-    border-radius: 8px;
-    background: #efefeb;
-  }
-
-  .vx-sticky-atc__media img {
-    width: 100%;
-    height: 100%;
-    display: block;
-    object-fit: cover;
-  }
-
-  .vx-sticky-atc__details {
-    min-width: 0;
-    flex: 1 1 auto;
-  }
-
-  .vx-sticky-atc__details strong,
-  .vx-sticky-atc__details span {
-    display: block;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    display: none;
   }
 
   .vx-sticky-atc__details strong {
-    color: #0b0b0b;
     font-size: 1.15rem;
-    line-height: 1.35;
   }
 
   .vx-sticky-atc__details span {
-    margin-top: 0.25rem;
-    color: #53534f;
     font-size: 1.1rem;
+  }
+
+  .vx-sticky-atc__inner {
+    gap: 1.2rem;
   }
 
   .vx-sticky-atc__button {
     min-width: 13.5rem;
-    min-height: 4.8rem;
-    flex: 0 0 auto;
-    margin: 0;
     padding-inline: 1.7rem;
   }
 }
@@ -1657,6 +1674,78 @@ body {
 }
 
 .vnx-fulfillment__option:focus-visible {
+
+/* ============================================================
+   Phase 1 — Premium product page enhancements
+   ============================================================ */
+
+/* 1. Breadcrumbs */
+.vennix-crumbs {
+  margin-bottom: 2.4rem;
+}
+
+.vennix-crumbs ol {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem 0.8rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 1.25rem;
+  letter-spacing: 0.04em;
+}
+
+.vennix-crumbs li {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin: 0;
+}
+
+.vennix-crumbs li + li::before {
+  content: '/';
+  color: rgba(11, 11, 11, 0.32);
+}
+
+.vennix-crumbs a {
+  color: var(--v-gold-deep, #7a6026);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.vennix-crumbs a:hover,
+.vennix-crumbs a:focus-visible {
+  color: #0b0b0b;
+  text-decoration: underline;
+  text-underline-offset: 0.3em;
+}
+
+.vennix-crumbs [aria-current='page'] {
+  color: rgba(11, 11, 11, 0.62);
+}
+
+/* 2. PDP price & variant-picker micro-polish */
+.product__info-container .price {
+  letter-spacing: 0.01em;
+}
+
+.product__info-container .price-item--regular {
+  font-weight: 500;
+}
+
+.product__info-container .variant-select-wrapper select,
+.product__info-container .product-form__input select {
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.product__info-container .variant-select-wrapper select:focus-visible,
+.product__info-container .product-form__input select:focus-visible {
+  border-color: var(--v-gold-deep, #7a6026);
+  box-shadow: 0 0 0 0.2rem rgba(122, 96, 38, 0.22);
+  outline: none;
+}
+
   outline: 2px solid var(--v-gold-deep, #344b43);
   outline-offset: 2px;
 }
