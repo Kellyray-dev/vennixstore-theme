@@ -1,0 +1,162 @@
+/* ============================================================
+   Phase 3B — Before & After comparison slider
+   Pointer-event dragging, hardware-accelerated clip, frosted
+   circular handle with arrows. Touch + keyboard + reduced motion.
+   ============================================================ */
+.vx-ba__inner {
+  padding-top: 64px;
+  padding-bottom: 64px;
+}
+
+.section--before-after .vx-ba__inner {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.vx-ba__header {
+  max-width: 46rem;
+  margin: 0 auto 2.8rem;
+  text-align: center;
+}
+
+.vx-ba__heading {
+  margin: 0;
+  font-size: clamp(2.4rem, 3.6vw, 3.6rem);
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  font-weight: 650;
+  color: #0b0b0b;
+}
+
+.vx-ba__heading em {
+  font-style: italic;
+  color: #8a6c2c;
+}
+
+.vx-ba__subheading {
+  margin-top: 1rem;
+  font-size: 1.3rem;
+  color: #53534f;
+}
+
+.vx-ba__stage {
+  max-width: 108rem;
+  margin: 0 auto;
+  touch-action: pan-y;
+  user-select: none;
+  -webkit-user-select: none;
+  cursor: ew-resize;
+}
+
+.vx-ba__stage:focus-visible {
+  outline: 2px solid #7a6026;
+  outline-offset: 4px;
+  border-radius: 18px;
+}
+
+.vx-ba__frame {
+  position: relative;
+  overflow: hidden;
+  border-radius: 18px;
+  aspect-ratio: 16 / 9;
+  max-height: 72rem;
+  border: 1px solid rgba(11, 11, 11, 0.08);
+  background: #f1f1ed;
+  box-shadow: 0 24px 60px rgba(23, 23, 22, 0.12);
+}
+
+.vx-ba__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+/* "After" is the base layer; "Before" is clipped over it */
+.vx-ba__clip {
+  position: absolute;
+  inset: 0;
+  clip-path: inset(0 50% 0 0);
+  will-change: clip-path;
+}
+
+.vx-ba__label {
+  position: absolute;
+  top: 1.6rem;
+  padding: 0.45rem 1.1rem;
+  border-radius: 999px;
+  font-size: 1.1rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #fff;
+  background: rgba(15, 18, 16, 0.55);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  pointer-events: none;
+}
+
+.vx-ba__label--before { left: 1.6rem; }
+.vx-ba__label--after { right: 1.6rem; }
+
+/* Divider + frosted circular handle */
+.vx-ba__divider {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 2px;
+  background: rgba(255, 255, 255, 0.85);
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.35);
+  transform: translateX(-1px);
+  will-change: left;
+}
+
+.vx-ba__handle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  width: 5.2rem;
+  height: 5.2rem;
+  border-radius: 50%;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.22);
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  -webkit-backdrop-filter: blur(8px) saturate(1.2);
+  backdrop-filter: blur(8px) saturate(1.2);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  transform: translate(-50%, -50%);
+  transition: transform 0.25s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.vx-ba__stage:hover .vx-ba__handle {
+  transform: translate(-50%, -50%) scale(1.06);
+}
+
+.vx-ba__arrow {
+  width: 1.8rem;
+  height: 1.8rem;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.4));
+}
+
+@media screen and (max-width: 749px) {
+  .vx-ba__frame {
+    aspect-ratio: 4 / 3;
+  }
+
+  .vx-ba__handle {
+    width: 4.4rem;
+    height: 4.4rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vx-ba__handle {
+    transition: none;
+  }
+}

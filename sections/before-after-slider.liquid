@@ -1,0 +1,147 @@
+{{ 'section-before-after.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'vennix-before-after.js' | asset_url }}" defer="defer"></script>
+
+{%- liquid
+  assign before_img = section.settings.image_before
+  assign after_img = section.settings.image_after
+-%}
+
+<div class="vx-ba color-{{ section.settings.color_scheme }} gradient">
+  <div class="vx-ba__inner page-width">
+    {%- if section.settings.heading != blank or section.settings.subheading != blank -%}
+      <div class="vx-ba__header">
+        {%- if section.settings.heading != blank -%}
+          <h2 class="vx-ba__heading">{{ section.settings.heading }}</h2>
+        {%- endif -%}
+        {%- if section.settings.subheading != blank -%}
+          <p class="vx-ba__subheading">{{ section.settings.subheading | escape }}</p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <vennix-before-after
+      class="vx-ba__stage"
+      data-ba-stage
+      role="slider"
+      tabindex="0"
+      aria-label="{{ section.settings.heading | default: 'Before and after comparison' | escape }}"
+      aria-valuemin="0"
+      aria-valuemax="100"
+      aria-valuenow="50"
+      aria-orientation="horizontal"
+    >
+      <div class="vx-ba__frame">
+        {%- if after_img != blank -%}
+          {{
+            after_img
+            | image_url: width: 1800
+            | image_tag:
+              class: 'vx-ba__img vx-ba__img--after',
+              widths: '750, 1100, 1500, 1800',
+              sizes: '(min-width: 990px) 80vw, 100vw',
+              loading: 'lazy',
+              alt: section.settings.image_after.alt | default: 'After'
+          }}
+        {%- else -%}
+          <img class="vx-ba__img vx-ba__img--after" src="{{ 'collection-hero-home.svg' | asset_url }}" alt="After" loading="lazy" width="2560" height="1440">
+        {%- endif -%}
+
+        <div class="vx-ba__clip" data-ba-clip>
+          {%- if before_img != blank -%}
+            {{
+              before_img
+              | image_url: width: 1800
+              | image_tag:
+                class: 'vx-ba__img vx-ba__img--before',
+                widths: '750, 1100, 1500, 1800',
+                sizes: '(min-width: 990px) 80vw, 100vw',
+                loading: 'lazy',
+                alt: section.settings.image_before.alt | default: 'Before'
+            }}
+          {%- else -%}
+            <img class="vx-ba__img vx-ba__img--before" src="{{ 'collection-hero-tech.svg' | asset_url }}" alt="Before" loading="lazy" width="2560" height="1440">
+          {%- endif -%}
+        </div>
+
+        <span class="vx-ba__label vx-ba__label--before">Before</span>
+        <span class="vx-ba__label vx-ba__label--after">After</span>
+
+        <div class="vx-ba__divider" data-ba-divider>
+          <span class="vx-ba__handle" data-ba-handle aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" class="vx-ba__arrow vx-ba__arrow--left"><path d="M14 6l-6 6 6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" class="vx-ba__arrow vx-ba__arrow--right"><path d="M10 6l6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+        </div>
+      </div>
+    </vennix-before-after>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Before & after slider",
+  "tag": "section",
+  "class": "section section--before-after",
+  "disabled_on": { "groups": ["header", "footer"] },
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image_before",
+      "label": "Before image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_after",
+      "label": "After image"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "See the <em>difference.</em>"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Drag the handle to compare."
+    },
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "options": [
+        { "value": "scheme-1", "label": "Scheme 1" },
+        { "value": "scheme-2", "label": "Scheme 2" },
+        { "value": "scheme-3", "label": "Scheme 3" }
+      ],
+      "default": "scheme-1"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 64
+    }
+  ],
+  "presets": [
+    {
+      "name": "Before & after slider"
+    }
+  ]
+}
+{% endschema %}
