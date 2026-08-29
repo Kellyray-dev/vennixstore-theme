@@ -147,6 +147,23 @@
         "padding_bottom": 72
       }
     },
+    "press_carousel": {
+      "type": "press-carousel",
+      "blocks": {
+        "logo1": { "type": "logo", "settings": { "name": "Publication" } },
+        "logo2": { "type": "logo", "settings": { "name": "Publication" } },
+        "logo3": { "type": "logo", "settings": { "name": "Publication" } },
+        "logo4": { "type": "logo", "settings": { "name": "Publication" } }
+      },
+      "block_order": ["logo1", "logo2", "logo3", "logo4"],
+      "settings": {
+        "heading": "As seen in",
+        "color_scheme": "scheme-1",
+        "speed": 30,
+        "padding_top": 48,
+        "padding_bottom": 48
+      }
+    },
     "vennix_newsletter": {
       "type": "vennix-newsletter",
       "settings": {
@@ -166,6 +183,7 @@
     "vennix_trust",
     "featured_collection",
     "editorial_split",
+    "press_carousel",
     "vennix_newsletter"
   ]
 }
