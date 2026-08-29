@@ -7,6 +7,7 @@ if (!customElements.get('vennix-sticky-atc')) {
       this.stickyButton = this.querySelector('[data-sticky-atc-button]');
       this.price = this.querySelector('[data-sticky-atc-price]');
       this.label = this.querySelector('[data-sticky-atc-label]');
+      this.variantLabel = this.querySelector('[data-sticky-atc-variant]');
 
       if (!this.mainButton || !this.stickyButton) return;
 
@@ -92,6 +93,25 @@ if (!customElements.get('vennix-sticky-atc')) {
         priceRoot?.querySelector('.price__regular .price-item--regular') ||
         priceRoot?.querySelector('.price-item');
       if (this.price && activePrice) this.price.textContent = activePrice.textContent.trim();
+
+      if (this.variantLabel) {
+        let title = variant?.title;
+        if (!title && this.productInfo) {
+          const selectedOptions = Array.from(
+            this.productInfo.querySelectorAll('variant-radios fieldset input:checked, variant-selects select option:checked')
+          ).map((el) => el.value || el.textContent.trim()).filter(Boolean);
+          if (selectedOptions.length > 0) {
+            title = selectedOptions.join(' / ');
+          }
+        }
+
+        if (title && title !== 'Default Title') {
+          this.variantLabel.textContent = title;
+          this.variantLabel.style.display = 'block';
+        } else {
+          this.variantLabel.style.display = 'none';
+        }
+      }
     }
   }
 

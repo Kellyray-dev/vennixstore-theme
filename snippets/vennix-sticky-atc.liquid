@@ -19,6 +19,15 @@
     {%- endif -%}
     <div class="vx-sticky-atc__details">
       <strong>{{ product.title | escape | truncate: 52 }}</strong>
+      <span
+        class="vx-sticky-atc__variant"
+        data-sticky-atc-variant
+        {% if product.has_only_default_variant or product.selected_or_first_available_variant.title == blank or product.selected_or_first_available_variant.title == 'Default Title' %}
+          style="display: none;"
+        {% endif %}
+      >
+        {{- product.selected_or_first_available_variant.title | escape -}}
+      </span>
       <span data-sticky-atc-price>{{ product.selected_or_first_available_variant.price | money_with_currency }}</span>
     </div>
     <button

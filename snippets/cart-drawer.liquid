@@ -577,7 +577,7 @@
           >
             <div class="vnx-cart-note__head">
               <label class="vnx-cart-note__label" for="CartDrawer-Note">{{ 'sections.cart.note' | t }}</label>
-              <span class="vnx-status-pill" role="status" data-vnx-status>
+              <span class="vnx-status-pill" id="CartDrawer-NoteStatus" role="status" aria-live="polite" data-vnx-status>
                 <span class="vnx-status-pill__spinner" aria-hidden="true"><span class="vnx-spinner-ring"></span></span>
                 <span class="vnx-status-pill__check" aria-hidden="true">
                   <svg viewBox="0 0 24 24" fill="none" focusable="false">
@@ -601,7 +601,7 @@
               rows="3"
               maxlength="200"
               placeholder="{{ 'sections.cart.note_placeholder' | t }}"
-              aria-describedby="CartDrawer-NoteHint"
+              aria-describedby="CartDrawer-NoteHint CartDrawer-NoteStatus"
             >{{ cart.note }}</textarea>
             <div class="vnx-cart-note__meta">
               <p class="vnx-cart-note__hint" id="CartDrawer-NoteHint">{{ 'sections.cart.note_hint' | t }}</p>

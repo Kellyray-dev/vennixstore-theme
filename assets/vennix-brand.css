@@ -1323,6 +1323,50 @@ body {
   background: #2d7a5a;
 }
 
+.vx-shipping-progress__upsell {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem;
+  margin-top: 1rem;
+  padding: 0.6rem 1rem;
+  background-color: rgba(201, 169, 110, 0.08);
+  border: 1px dashed rgba(201, 169, 110, 0.4);
+  border-radius: 8px;
+}
+
+.vx-shipping-progress__upsell-title {
+  color: #242420;
+  font-size: 1.15rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.vx-shipping-progress__upsell-form {
+  margin: 0;
+}
+
+.vx-shipping-progress__upsell-btn {
+  display: inline-flex;
+  align-items: center;
+  background: #1a1a1a;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  padding: 0.4rem 0.9rem;
+  font-size: 1.1rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  white-space: nowrap;
+}
+
+.vx-shipping-progress__upsell-btn:hover {
+  background: #c9a96e;
+  color: #1a1a1a;
+}
+
 .vx-sticky-atc {
   position: fixed;
   z-index: 29;
@@ -1399,6 +1443,14 @@ body.overflow-hidden .vx-sticky-atc {
   color: #53534f;
   font-size: 1.2rem;
   letter-spacing: 0.02em;
+}
+
+.vx-sticky-atc__variant {
+  color: #c9a96e !important;
+  font-size: 1.1rem !important;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
 .vx-sticky-atc__button {

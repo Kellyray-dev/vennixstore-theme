@@ -97,9 +97,9 @@ if (!customElements.get('vnx-cart-note')) {
         if (!this.statusEl) return;
 
         const labels = {
-          saving: this.dataset.labelSaving,
-          saved: this.dataset.labelSaved,
-          error: this.dataset.labelError,
+          saving: this.dataset.vnxLabelSaving || this.dataset.labelSaving || 'Saving note…',
+          saved: this.dataset.vnxLabelSaved || this.dataset.labelSaved || 'Saved ✓',
+          error: this.dataset.vnxLabelError || this.dataset.labelError || 'Could not save note',
         };
 
         this.statusEl.classList.remove(
@@ -113,8 +113,10 @@ if (!customElements.get('vnx-cart-note')) {
         if (textEl) textEl.textContent = labels[state] || '';
 
         if (options.silent) {
+          this.statusEl.setAttribute('aria-live', 'off');
           this.statusEl.classList.add('is-visible');
         } else {
+          this.statusEl.setAttribute('aria-live', state === 'error' ? 'assertive' : 'polite');
           requestAnimationFrame(() => this.statusEl.classList.add('is-visible'));
         }
       }

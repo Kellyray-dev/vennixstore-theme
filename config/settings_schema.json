@@ -1471,6 +1471,12 @@
         "info": "Must match the free-shipping rate configured for the store currency."
       },
       {
+        "type": "product",
+        "id": "free_shipping_upsell_product",
+        "label": "Free-shipping quick add upsell product",
+        "info": "Optional small add-on item displayed in the shipping progress bar when threshold is not yet met."
+      },
+      {
         "type": "checkbox",
         "id": "show_vendor",
         "label": "t:settings_schema.cart.settings.show_vendor.label",

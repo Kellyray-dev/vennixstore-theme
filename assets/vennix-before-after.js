@@ -1,13 +1,25 @@
 if (!customElements.get('vennix-before-after')) {
   class VennixBeforeAfter extends HTMLElement {
     connectedCallback() {
-      this.stage = this.querySelector('[data-ba-stage]');
+      this.stage = this.hasAttribute('data-ba-stage') ? this : (this.querySelector('[data-ba-stage]') || this);
       this.clip = this.querySelector('[data-ba-clip]');
       this.divider = this.querySelector('[data-ba-divider]');
-      if (!this.stage || !this.clip || !this.divider) return;
+      if (!this.clip || !this.divider) return;
 
       this.position = 50;
       this.frame = null;
+
+      if (!this.stage.hasAttribute('role')) this.stage.setAttribute('role', 'slider');
+      if (!this.stage.hasAttribute('tabindex')) this.stage.setAttribute('tabindex', '0');
+      if (!this.stage.hasAttribute('aria-label')) {
+        this.stage.setAttribute('aria-label', 'Before and after comparison slider');
+      }
+      this.stage.setAttribute('aria-valuemin', '0');
+      this.stage.setAttribute('aria-valuemax', '100');
+      this.stage.setAttribute('aria-orientation', 'horizontal');
+      if (!this.stage.hasAttribute('aria-valuenow')) {
+        this.stage.setAttribute('aria-valuenow', '50');
+      }
 
       this.onPointerDown = this.onPointerDown.bind(this);
       this.onPointerMove = this.onPointerMove.bind(this);
@@ -19,10 +31,11 @@ if (!customElements.get('vennix-before-after')) {
     }
 
     disconnectedCallback() {
-      this.stage.removeEventListener('pointerdown', this.onPointerDown);
-      this.stage.removeEventListener('pointermove', this.onPointerMove);
-      this.stage.removeEventListener('pointerup', this.onPointerUp);
-      this.stage.removeEventListener('pointercancel', this.onPointerUp);
+      this.stage?.removeEventListener('pointerdown', this.onPointerDown);
+      this.stage?.removeEventListener('keydown', this.onKeyDown);
+      this.stage?.removeEventListener('pointermove', this.onPointerMove);
+      this.stage?.removeEventListener('pointerup', this.onPointerUp);
+      this.stage?.removeEventListener('pointercancel', this.onPointerUp);
       window.removeEventListener('pointermove', this.onPointerMove);
       window.removeEventListener('pointerup', this.onPointerUp);
       window.removeEventListener('pointercancel', this.onPointerUp);
@@ -58,10 +71,18 @@ if (!customElements.get('vennix-before-after')) {
 
       switch (event.key) {
         case 'ArrowLeft':
+        case 'ArrowDown':
           this.setPosition(this.position - step);
           break;
         case 'ArrowRight':
+        case 'ArrowUp':
           this.setPosition(this.position + step);
+          break;
+        case 'PageDown':
+          this.setPosition(this.position - 10);
+          break;
+        case 'PageUp':
+          this.setPosition(this.position + 10);
           break;
         case 'Home':
           this.setPosition(0);
