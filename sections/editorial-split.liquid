@@ -1,0 +1,168 @@
+{{ 'section-editorial-split.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'vennix-editorial.js' | asset_url }}" defer="defer"></script>
+
+<vennix-editorial
+  class="vx-esplit color-{{ section.settings.color_scheme }} gradient{% if section.settings.image_position == 'right' %} vx-esplit--flip{% endif %}"
+  data-zoom="{{ section.settings.enable_zoom }}"
+  data-parallax="{{ section.settings.enable_parallax }}"
+>
+  <div class="vx-esplit__media">
+    <div class="vx-esplit__media-frame" data-editorial-media>
+      {%- if section.settings.image != blank -%}
+        {{
+          section.settings.image
+          | image_url: width: 1800
+          | image_tag:
+            class: 'vx-esplit__img',
+            widths: '550, 750, 1100, 1500, 1800',
+            sizes: '(min-width: 990px) 50vw, 100vw',
+            loading: 'lazy'
+        }}
+      {%- else -%}
+        <img
+          class="vx-esplit__img"
+          src="{{ 'vennix-hero-editorial.jpg' | asset_url }}"
+          alt="{{ section.settings.image_alt | default: 'A considered edit of everyday essentials' | escape }}"
+          width="1672"
+          height="941"
+          loading="lazy"
+        >
+      {%- endif -%}
+    </div>
+  </div>
+
+  <div class="vx-esplit__content">
+    {%- if section.settings.eyebrow != blank -%}
+      <p class="vx-esplit__eyebrow vx-esplit__reveal">
+        <span class="vx-esplit__eyebrow-mark" aria-hidden="true"></span>
+        {{ section.settings.eyebrow | escape }}
+      </p>
+    {%- endif -%}
+
+    <h2 class="vx-esplit__heading vx-esplit__reveal">{{ section.settings.heading }}</h2>
+
+    {%- if section.settings.text != blank -%}
+      <div class="vx-esplit__text rte vx-esplit__reveal">{{ section.settings.text }}</div>
+    {%- endif -%}
+
+    {%- if section.settings.button_label != blank -%}
+      <div class="vx-esplit__actions vx-esplit__reveal">
+        <a class="button button--primary vx-esplit__button" href="{{ section.settings.button_link | default: routes.all_products_collection_url }}">
+          {{ section.settings.button_label | escape }}
+        </a>
+      </div>
+    {%- endif -%}
+  </div>
+</vennix-editorial>
+
+{% schema %}
+{
+  "name": "Editorial split",
+  "tag": "section",
+  "class": "section section--editorial-split",
+  "disabled_on": { "groups": ["header", "footer"] },
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "image_alt",
+      "label": "Image alt text"
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "Image position",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "options": [
+        { "value": "scheme-1", "label": "Scheme 1" },
+        { "value": "scheme-2", "label": "Scheme 2" },
+        { "value": "scheme-3", "label": "Scheme 3" }
+      ],
+      "default": "scheme-1"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_zoom",
+      "label": "Zoom image on scroll",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_parallax",
+      "label": "Parallax image drift",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "The Vennix approach"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "A simpler way to discover <em>what works.</em>"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "<p>Useful by design. We bring together everyday products across home, tech and style — chosen for practical features, considered design and clear details.</p>"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Explore all products"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 72
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 72
+    }
+  ],
+  "presets": [
+    {
+      "name": "Editorial split"
+    }
+  ]
+}
+{% endschema %}

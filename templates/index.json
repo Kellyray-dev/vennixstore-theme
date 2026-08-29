@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "vennix_hero": {
@@ -122,43 +131,20 @@
         "padding_bottom": 96
       }
     },
-    "vennix_values": {
-      "type": "vennix-why-us",
-      "blocks": {
-        "useful": {
-          "type": "reason",
-          "settings": {
-            "title": "Useful by design",
-            "description": "Everyday products selected for practical features and considered design."
-          }
-        },
-        "clear": {
-          "type": "reason",
-          "settings": {
-            "title": "Clear product details",
-            "description": "Straightforward information helps you choose with greater confidence."
-          }
-        },
-        "support": {
-          "type": "reason",
-          "settings": {
-            "title": "Support when needed",
-            "description": "Questions about an order or product? Our support team is ready to help."
-          }
-        }
-      },
-      "block_order": [
-        "useful",
-        "clear",
-        "support"
-      ],
+    "editorial_split": {
+      "type": "editorial-split",
       "settings": {
+        "image_position": "left",
+        "color_scheme": "scheme-1",
+        "enable_zoom": true,
+        "enable_parallax": true,
         "eyebrow": "The Vennix approach",
-        "heading": "A simpler way to discover what works",
-        "text": "<p>We bring useful finds across home, technology, style and everyday living into one considered edit.</p>",
-        "link_label": "Explore all products",
-        "link": "shopify://collections/all",
-        "color_scheme": "scheme-2"
+        "heading": "A simpler way to discover <em>what works.</em>",
+        "text": "<p>Useful by design. We bring together everyday products across home, tech and style — chosen for practical features, considered design and clear details.</p>",
+        "button_label": "Explore all products",
+        "button_link": "shopify://collections/all",
+        "padding_top": 72,
+        "padding_bottom": 72
       }
     },
     "vennix_newsletter": {
@@ -179,7 +165,7 @@
     "vennix_hero",
     "vennix_trust",
     "featured_collection",
-    "vennix_values",
+    "editorial_split",
     "vennix_newsletter"
   ]
 }
