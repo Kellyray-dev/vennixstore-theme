@@ -48,8 +48,8 @@
     endif
 
     assign prestige_badge = ''
-    if card_product.tags contains 'best-seller'
-      assign prestige_badge = 'Best seller'
+    if card_product.tags contains 'best-seller' or card_product.handle == 'cream-textured-tie-front-crop-top-mini-skirt-set'
+      assign prestige_badge = '★ Editor’s Pick'
     elsif card_product.tags contains 'new-arrival' or card_product.tags contains 'new'
       assign prestige_badge = 'New arrival'
     elsif card_product.tags contains 'limited-edition'

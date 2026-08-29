@@ -2460,3 +2460,27 @@ html.vx-qv-open body {
     animation: none;
   }
 }
+
+/* ============================================================
+   Featured Flagship Hero Product & First Grid Card Framing
+   ============================================================ */
+.featured-product {
+  padding: 3.2rem 2.4rem;
+  background: radial-gradient(circle at top right, rgba(201, 169, 110, 0.08) 0%, rgba(26, 26, 26, 0.02) 60%);
+  border: 1px solid rgba(201, 169, 110, 0.3);
+  border-radius: 16px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.05);
+}
+
+.featured-collection .grid__item:first-child .card-wrapper {
+  position: relative;
+  border: 1px solid rgba(201, 169, 110, 0.4);
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(201, 169, 110, 0.12);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.featured-collection .grid__item:first-child .card-wrapper:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 32px rgba(201, 169, 110, 0.22);
+}
