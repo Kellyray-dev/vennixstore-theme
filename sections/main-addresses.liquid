@@ -382,11 +382,7 @@
   </div>
 {%- endpaginate -%}
 
-<script>
-  window.addEventListener('load', () => {
-    typeof CustomerAddresses !== 'undefined' && new CustomerAddresses();
-  });
-</script>
+<script src="{{ 'vennix-customer-init.js' | asset_url }}" defer="defer"></script>
 
 {% schema %}
 {

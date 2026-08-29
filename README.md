@@ -10,19 +10,20 @@
 </div>
 
 ## ✨ Overview
-**VennixStore** is a high-performance, custom Shopify theme built on Dawn with premium enhancements. Designed for modern e-commerce brands, it delivers exceptional user experience through elegant animations, advanced cart/wishlist functionality, and seamless mobile-first design.
+**VennixStore** is a high-performance, custom Shopify theme built on Dawn with premium enhancements. Designed for modern e-commerce brands, it delivers exceptional user experience through its soft-minimal design system, conversion-focused purchase tools, and seamless mobile-first experience.
 
 **Key Highlights**:
-- Rich custom sections (Brand Story, Category Rows, Reviews, FAQ, Wishlist)
-- Smooth animations and interactive elements
-- Optimized performance with progressive enhancement
+- Soft-minimal design system built on `vennix-brand.css`
+- Editorial hero with configurable shopping benefits
+- Mobile conversion tools: sticky add-to-cart + free-shipping progress bar
 - Full localization support and accessibility focus
 
 ## 🚀 Features
-- **Custom Vennix Sections**: Brand storytelling, dynamic category displays, review carousels, and wishlist integration.
-- **Advanced Cart & UX**: Drawer, quick add, notifications, and persistent wishlist.
-- **Visual Excellence**: Premium icons, hero banners, image collages, and product galleries with model viewers.
-- **Developer Friendly**: Theme Check compliant, modular Liquid/JS/CSS, and extensive snippets.
+- **Custom Vennix Sections**: Editorial hero, trust bar, values ("Why us"), newsletter, and announcement bar.
+- **Purchase Conversion**: Sticky add-to-cart, shipping progress indicator, product assurances, and metafield-driven product details.
+- **SEO Ready**: Breadcrumb JSON-LD structured data and refined meta-tag rendering.
+- **Cart & UX**: Drawer cart, quick add, and cart notifications.
+- **Developer Friendly**: Theme Check compliant, modular Liquid/JS/CSS.
 
 ## 📝 Optional Additional Description
 *(Use this section for extended details, release notes, target audience, or custom project information. Example:)*  
@@ -48,4 +49,4 @@ See [CONTRIBUTING.md](.github/CONTRIBUTING.md).
 ---
 
 *Built with passion for elegant commerce | Powered by Shopify & Vennix*  
-*Last updated: July 2026*
+*Last updated: August 2026*
