@@ -1,3 +1,7 @@
+/* ============================================================
+   Phase 2B — "The Latest Edit" product grid polish (moved to EOF)
+   ============================================================ */
+
 /* Vennix soft-minimal brand layer — loaded after Dawn base.css. */
 :root {
   --v-ink: #0b0b0b;
@@ -2357,5 +2361,50 @@ html.vx-qv-open body {
 
   .vnx-chero__cta svg {
     transition: none;
+  }
+}
+
+/* ============================================================
+   Phase 2B — "The Latest Edit" product grid polish
+   Premium sale badge (glow + subtle pulse), gold sale pricing,
+   prestige badge glow. All motion is reduced-motion safe.
+   ============================================================ */
+:root {
+  --vx-gold-bright: #c9a45c;
+  --vx-gold-ink: #8a6c2c;
+}
+
+.vx-badge-sale {
+  color: #fff;
+  border-color: var(--vx-gold-ink);
+  background: linear-gradient(135deg, var(--vx-gold-bright) 0%, var(--vx-gold-ink) 100%);
+  box-shadow: 0 0 0 1px rgba(201, 164, 92, 0.25), 0 4px 16px rgba(138, 108, 44, 0.35);
+  animation: vx-badge-pulse 2.8s ease-in-out infinite;
+}
+
+@keyframes vx-badge-pulse {
+  0%, 100% { box-shadow: 0 0 0 1px rgba(201, 164, 92, 0.25), 0 4px 16px rgba(138, 108, 44, 0.35); }
+  50% { box-shadow: 0 0 0 1px rgba(201, 164, 92, 0.45), 0 4px 22px rgba(138, 108, 44, 0.55); }
+}
+
+/* Prestige badges (Best seller / New arrival / Limited edition): soft gold halo */
+.vx-product-badge {
+  box-shadow: 0 0 0 1px rgba(201, 164, 92, 0.28), 0 4px 14px rgba(9, 18, 15, 0.22), 0 0 18px rgba(201, 164, 92, 0.28);
+}
+
+/* Sale prices in brand gold; compare-at struck through (Dawn) and dimmed */
+.price__sale .price-item--sale,
+.price-item--sale,
+.card-information .price__sale .price-item--last {
+  color: var(--vx-gold-ink);
+}
+
+.price__sale .price-item--regular {
+  opacity: 0.55;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vx-badge-sale {
+    animation: none;
   }
 }
