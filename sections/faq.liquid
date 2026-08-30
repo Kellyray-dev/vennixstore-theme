@@ -1,0 +1,365 @@
+{{ 'component-accordion.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  .faq__container {
+    max-width: 80rem;
+    margin: 0 auto;
+  }
+
+  .faq__header {
+    text-align: {{ section.settings.heading_alignment }};
+    margin-bottom: 3rem;
+  }
+
+  .faq__header .faq__title {
+    margin: 0 0 1rem;
+  }
+
+  .faq__header .faq__description {
+    color: rgba(var(--color-foreground), 0.7);
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+
+  .faq__items {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .faq__item {
+    border: 0.1rem solid rgba(var(--color-foreground), 0.08);
+    border-radius: var(--corner-radius);
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+
+  .faq__item:hover {
+    border-color: rgba(var(--color-foreground), 0.15);
+    box-shadow: 0 2px 8px rgba(var(--color-foreground), 0.06);
+  }
+
+  .faq__item details {
+    margin: 0;
+  }
+
+  .faq__item summary {
+    padding: 1.5rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 500;
+    user-select: none;
+    transition: background-color 0.2s ease;
+  }
+
+  .faq__item summary:hover {
+    background-color: rgba(var(--color-foreground), 0.02);
+  }
+
+  .faq__item details[open] summary {
+    background-color: rgba(var(--color-foreground), 0.04);
+  }
+
+  .faq__question {
+    flex: 1;
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.4;
+    color: rgb(var(--color-foreground));
+  }
+
+  .faq__toggle-icon {
+    flex-shrink: 0;
+    margin-left: 1rem;
+    width: 1.2rem;
+    height: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease;
+  }
+
+  .faq__item details[open] .faq__toggle-icon {
+    transform: rotate(180deg);
+  }
+
+  .faq__answer {
+    padding: 0 1.5rem 1.5rem;
+    color: rgba(var(--color-foreground), 0.85);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    border-top: 0.1rem solid rgba(var(--color-foreground), 0.08);
+  }
+
+  .faq__answer *:first-child {
+    margin-top: 0;
+  }
+
+  .faq__answer *:last-child {
+    margin-bottom: 0;
+  }
+
+  .faq__answer a {
+    color: rgb(var(--color-accent));
+    text-decoration: underline;
+  }
+
+  .faq__answer a:hover {
+    text-decoration: none;
+  }
+
+  @media screen and (min-width: 750px) {
+    .faq__header {
+      margin-bottom: 4rem;
+    }
+
+    .faq__items {
+      gap: 1.2rem;
+    }
+
+    .faq__item summary {
+      padding: 2rem;
+    }
+
+    .faq__answer {
+      padding: 0 2rem 2rem;
+    }
+  }
+{%- endstyle -%}
+
+<div class="color-{{ section.settings.color_scheme }} gradient">
+  <div class="faq__container page-width section-{{ section.id }}-padding">
+    {%- if section.settings.title != blank or section.settings.description != blank -%}
+      <div class="faq__header">
+        {%- if section.settings.title != blank -%}
+          <h2 class="faq__title {{ section.settings.heading_size }}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+            {{ section.settings.title | escape }}
+          </h2>
+        {%- endif -%}
+        {%- if section.settings.description != blank -%}
+          <div class="faq__description{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+            {{ section.settings.description }}
+          </div>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    {%- if section.blocks.size > 0 -%}
+      <div class="faq__items">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'faq_item' -%}
+            <div class="faq__item" {{ block.shopify_attributes }}>
+              <details>
+                <summary class="focus-inset">
+                  <h3 class="faq__question">{{ block.settings.question | escape }}</h3>
+                  <div class="faq__toggle-icon">
+                    <span class="svg-wrapper">
+                      {{- 'icon-caret.svg' | inline_asset_content -}}
+                    </span>
+                  </div>
+                </summary>
+                <div class="faq__answer">
+                  {{ block.settings.answer }}
+                </div>
+              </details>
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    {%- else -%}
+      <div class="placeholder">
+        <div class="placeholder-content text-center">
+          <h3>{{ 'sections.faq.placeholder_heading' | t }}</h3>
+          <p>{{ 'sections.faq.placeholder_text' | t }}</p>
+        </div>
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{%- if section.blocks.size > 0 -%}
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'faq_item' -%}
+            {
+              "@type": "Question",
+              "name": {{ block.settings.question | json }},
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": {{ block.settings.answer | strip_html | json }}
+              }
+            }{% unless forloop.last %},{% endunless %}
+          {%- endif -%}
+        {%- endfor -%}
+      ]
+    }
+  </script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "t:sections.faq.name",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "label": "t:sections.faq.settings.title.label",
+      "default": "Frequently Asked Questions"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "t:sections.faq.settings.description.label",
+      "default": "<p>Find answers to common questions about our products and services.</p>"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "options": [
+        {
+          "value": "h2",
+          "label": "t:sections.all.heading_size.options__1.label"
+        },
+        {
+          "value": "h1",
+          "label": "t:sections.all.heading_size.options__2.label"
+        },
+        {
+          "value": "h0",
+          "label": "t:sections.all.heading_size.options__3.label"
+        }
+      ],
+      "default": "h1",
+      "label": "t:sections.all.heading_size.label"
+    },
+    {
+      "type": "select",
+      "id": "heading_alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "t:sections.all.heading_alignment.options__1.label"
+        },
+        {
+          "value": "center",
+          "label": "t:sections.all.heading_alignment.options__2.label"
+        },
+        {
+          "value": "right",
+          "label": "t:sections.all.heading_alignment.options__3.label"
+        }
+      ],
+      "default": "left",
+      "label": "t:sections.all.heading_alignment.label"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 36
+    }
+  ],
+  "blocks": [
+    {
+      "type": "faq_item",
+      "name": "t:sections.faq.blocks.faq_item.name",
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "label": "t:sections.faq.blocks.faq_item.settings.question.label",
+          "default": "How do I place an order?"
+        },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "label": "t:sections.faq.blocks.faq_item.settings.answer.label",
+          "default": "<p>Browse our product catalog, add items to your cart, and proceed to checkout. Follow the on-screen instructions to complete your purchase.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.faq.presets.name",
+      "blocks": [
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "What is your return policy?",
+            "answer": "<p>We offer a 30-day return policy for most items. Products must be in original condition with all packaging included. Contact our support team to initiate a return.</p>"
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "How long does shipping take?",
+            "answer": "<p>Standard shipping typically takes 5-7 business days. Express shipping options are available for faster delivery. International orders may take 10-14 business days.</p>"
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "Do you offer international shipping?",
+            "answer": "<p>Yes, we ship to most countries worldwide. Shipping costs and delivery times vary by location. During checkout, you'll see all available shipping options for your address.</p>"
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "How can I contact customer support?",
+            "answer": "<p>You can reach our support team via email at support@example.com or through the contact form on our website. We aim to respond to all inquiries within 24 business hours.</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

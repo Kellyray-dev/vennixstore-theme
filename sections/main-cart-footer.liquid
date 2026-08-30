@@ -44,6 +44,10 @@
               {% render block %}
             {%- when 'subtotal' -%}
               <div class="js-contents" {{ block.shopify_attributes }}>
+                {%- unless cart == empty -%}
+                  {%- render 'vennix-shipping-progress', layout: 'page' -%}
+                {%- endunless -%}
+
                 <div>
                   {%- if cart.cart_level_discount_applications.size > 0 -%}
                     <ul class="discounts list-unstyled" role="list" aria-label="{{ 'customer.order.discount' | t }}">

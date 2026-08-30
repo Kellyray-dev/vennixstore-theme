@@ -9,7 +9,8 @@ ehthumbs.db
 Thumbs.db
 .shopify
 node_modules
-*.zipopencode.json
+*.zip
+opencode.json
 
 # Python generated files
 __pycache__/
