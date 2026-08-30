@@ -51,12 +51,29 @@
     "brand_intro": {
       "type": "rich-text",
       "settings": {
-        "title": "Built for the way you move.",
-        "text": "<p>VennixStore brings together modern silhouettes, everyday comfort, and active-inspired essentials designed to move effortlessly through your day.</p>",
         "color_scheme": "scheme-1",
         "padding_top": 24,
         "padding_bottom": 24
-      }
+      },
+      "blocks": {
+        "heading": {
+          "type": "heading",
+          "settings": {
+            "heading": "Built for the way you move.",
+            "heading_size": "h2"
+          }
+        },
+        "text": {
+          "type": "text",
+          "settings": {
+            "text": "<p>VennixStore brings together modern silhouettes, everyday comfort, and active-inspired essentials designed to move effortlessly through your day.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "heading",
+        "text"
+      ]
     },
     "vennix_trust": {
       "type": "vennix-trust-bar",
@@ -163,29 +180,49 @@
     "editorial_image_text": {
       "type": "image-with-text",
       "settings": {
-        "heading": "Active Essentials",
-        "text": "<p>Performance-inspired everyday pieces built for modern movement — from morning runs to evening plans.</p>",
-        "button_label": "Shop Activewear",
-        "button_link": "shopify://collections/all",
-        "image": "images/editorial/active-essentials.jpg",
+        "image": "",
         "layout": "text_first",
         "color_scheme": "scheme-2",
         "padding_top": 88,
-        "padding_bottom": 88
-      }
+        "padding_bottom": 88,
+        "image_asset": "active-essentials.jpg"
+      },
+      "blocks": {
+        "heading": {
+          "type": "heading",
+          "settings": {
+            "heading": "Active Essentials",
+            "heading_size": "h2"
+          }
+        },
+        "text": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Performance-inspired everyday pieces built for modern movement \u2014 from morning runs to evening plans.</p>"
+          }
+        },
+        "button": {
+          "type": "button",
+          "settings": {
+            "button_label": "Shop Activewear",
+            "button_link": "shopify://collections/all"
+          }
+        }
+      },
+      "block_order": [
+        "heading",
+        "text",
+        "button"
+      ]
     },
     "collection_list": {
       "type": "collection-list",
       "settings": {
         "title": "Shop by Category",
         "heading_size": "h2",
-        "description": "",
-        "show_description": false,
-        "collections_to_show": 4,
         "columns_desktop": 4,
         "color_scheme": "scheme-1",
         "image_ratio": "portrait",
-        "show_title_on_image": true,
         "padding_top": 72,
         "padding_bottom": 72
       },
@@ -194,32 +231,32 @@
           "type": "featured_collection",
           "settings": {
             "collection": "all",
-            "image": "images/collections/womens-fashion.jpg",
-            "title": "Women's"
+            "title": "Women's",
+            "image_asset": "womens-fashion.jpg"
           }
         },
         "men": {
           "type": "featured_collection",
           "settings": {
             "collection": "all",
-            "image": "images/collections/mens-fashion.jpg",
-            "title": "Men's"
+            "title": "Men's",
+            "image_asset": "mens-fashion.jpg"
           }
         },
         "active": {
           "type": "featured_collection",
           "settings": {
             "collection": "all",
-            "image": "images/collections/activewear.jpg",
-            "title": "Activewear"
+            "title": "Activewear",
+            "image_asset": "activewear.jpg"
           }
         },
         "essentials": {
           "type": "featured_collection",
           "settings": {
             "collection": "all",
-            "image": "images/collections/essentials.jpg",
-            "title": "Essentials"
+            "title": "Essentials",
+            "image_asset": "essentials.jpg"
           }
         }
       },
@@ -235,8 +272,6 @@
       "settings": {
         "title": "Why VennixStore",
         "heading_size": "h2",
-        "description": "<p>Modern apparel and active essentials for everyday life.</p>",
-        "show_description": true,
         "columns_desktop": 3,
         "color_scheme": "scheme-2",
         "padding_top": 80,
@@ -244,21 +279,21 @@
       },
       "blocks": {
         "modern": {
-          "type": "text",
+          "type": "column",
           "settings": {
             "title": "Modern Design",
             "text": "Clean silhouettes and versatile pieces that work across your day."
           }
         },
         "movement": {
-          "type": "text",
+          "type": "column",
           "settings": {
             "title": "Built for Movement",
             "text": "Performance-inspired apparel designed for modern, active life."
           }
         },
         "quality": {
-          "type": "text",
+          "type": "column",
           "settings": {
             "title": "Quality Focused",
             "text": "Every product is selected for comfort, durability, and style."
