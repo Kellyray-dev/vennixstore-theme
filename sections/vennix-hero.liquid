@@ -2,7 +2,7 @@
 <script src="{{ 'vennix-hero.js' | asset_url }}" defer="defer"></script>
 
 {%- liquid
-  assign fallback_alt = 'A curated collection of modern everyday goods'
+  assign fallback_alt = 'VennixStore — Modern Clothing & Active Essentials'
   assign hero_alt = section.settings.desktop_image.alt | default: fallback_alt
   assign hero_loading = 'eager'
   assign hero_priority = 'high'
@@ -46,7 +46,7 @@
         {%- else -%}
           <img
             class="vennix-hero__image"
-            src="{{ 'vennix-hero-editorial.jpg' | asset_url }}"
+            src="{{ 'images/hero/editorial-hero-desktop.jpg' | asset_url }}"
             alt="{{ fallback_alt | escape }}"
             width="1672"
             height="941"
@@ -214,25 +214,25 @@
       "type": "text",
       "id": "eyebrow",
       "label": "Eyebrow",
-      "default": "The Vennix edit"
+      "default": "Modern Clothing & Active Essentials"
     },
     {
       "type": "inline_richtext",
       "id": "heading",
       "label": "Heading",
-      "default": "Better finds, <em>beautifully chosen.</em>"
+      "default": "Modern Clothing. Made for Movement."
     },
     {
       "type": "richtext",
       "id": "text",
       "label": "Text",
-      "default": "<p>A considered mix of style, home, tech and everyday essentials—selected to make the good stuff easier to find.</p>"
+      "default": "<p>Elevated everyday pieces and active essentials designed for modern life.</p>"
     },
     {
       "type": "text",
       "id": "primary_label",
       "label": "Primary button label",
-      "default": "Shop the latest edit"
+      "default": "Shop New Arrivals"
     },
     {
       "type": "url",
@@ -243,7 +243,7 @@
       "type": "text",
       "id": "secondary_label",
       "label": "Secondary link label",
-      "default": "Explore collections"
+      "default": "Explore Essentials"
     },
     {
       "type": "url",

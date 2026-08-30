@@ -23,14 +23,14 @@
         "about": {
           "type": "text",
           "settings": {
-            "heading": "Vennix",
-            "subtext": "<p>Considered goods for modern everyday living.</p>"
+            "heading": "VennixStore",
+            "subtext": "<p>Modern Clothing & Active Essentials. Elevated everyday pieces designed for modern movement and modern life.</p>"
           }
         },
         "shop": {
           "type": "link_list",
           "settings": {
-            "heading": "Explore",
+            "heading": "Shop",
             "menu": "main-menu"
           }
         }

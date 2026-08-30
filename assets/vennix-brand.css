@@ -44,10 +44,10 @@ svg {
 }
 
 :root {
-  --v-ink: #0b0b0b;
-  --v-ink-soft: #53534f;
-  --v-gold: #536a61;
-  --v-gold-deep: #344b43;
+  --v-ink: #1A1A1A;
+  --v-ink-soft: #5a5a5a;
+  --v-gold: #C9A96E;
+  --v-gold-deep: #A6854D;
   --v-cream: #fafaf8;
   --v-line: #deded8;
   --v-radius-lg: 20px;
@@ -66,8 +66,8 @@ body {
 /* Announcement */
 .announcement-bar-section .utility-bar,
 .announcement-bar-section .announcement-bar {
-  background: #20201e;
-  color: #f8f5ef;
+  background: #1A1A1A;
+  color: #FAF9F6;
 }
 
 .announcement-bar-section .utility-bar {
@@ -171,7 +171,7 @@ body {
 }
 
 .header__icon:hover {
-  color: #20201e;
+  color: #C9A96E;
   background: #efebe4;
   transform: translateY(-1px);
 }
@@ -243,8 +243,8 @@ textarea {
 }
 
 .badge.price__badge-sale {
-  background: #8c4f3f;
-  border-color: #8c4f3f;
+  background: #C9A96E;
+  border-color: #C9A96E;
 }
 
 /* Section rhythm */
@@ -258,7 +258,7 @@ textarea {
 .section-header__heading::after,
 .collection__title.center .title::after,
 .vennix-category-row__heading::after {
-  background: #8a7663;
+  background: #C9A96E;
 }
 
 @media screen and (max-width: 989px) {
@@ -1122,8 +1122,8 @@ body {
 
 .vx-product-badge {
   color: #fff;
-  border-color: #26332f;
-  background: #26332f;
+  border-color: #C9A96E;
+  background: #C9A96E;
   box-shadow: 0 4px 14px rgba(9, 18, 15, 0.14);
 }
 
@@ -1259,7 +1259,7 @@ body {
   width: 2rem;
   height: 2rem;
   flex: 0 0 2rem;
-  color: #344b43;
+  color: #C9A96E;
 }
 
 .vx-shipping-progress__message strong {
@@ -1278,7 +1278,7 @@ body {
   height: 100%;
   display: block;
   border-radius: inherit;
-  background: #26332f;
+  background: #C9A96E;
   transition: width 0.45s cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 

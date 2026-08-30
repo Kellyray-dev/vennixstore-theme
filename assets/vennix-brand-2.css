@@ -1,0 +1,481 @@
+/**
+ * VennixStore Design System — Modern Clothing & Active Essentials
+ * Centralized tokens for colors, typography, spacing, and components.
+ */
+
+:root {
+  /* Brand palette */
+  --v-ink: #1A1A1A;       /* Charcoal — primary dark */
+  --v-ink-soft: #5a5a5a;    /* Soft charcoal */
+  --v-gold: #C9A96E;        /* Gold accent */
+  --v-gold-deep: #A6854D;   /* Deep gold */
+  --v-cream: #FAF9F6;       /* Warm off-white */
+  --v-white: #FFFFFF;
+  --v-neutral-warm: #F0EEEA;
+  --v-neutral-light: #EAE7E2;
+  --v-line: #D8D5CE;        /* Subtle border */
+
+  /* Typography scale */
+  --font-editorial: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-heading-family: var(--font-editorial);
+  --font-body-family: var(--font-body);
+
+  /* Spacing */
+  --space-xs: 0.8rem;
+  --space-sm: 1.2rem;
+  --space-md: 2rem;
+  --space-lg: 3.2rem;
+  --space-xl: 5rem;
+  --space-2xl: 8rem;
+
+  /* Radius */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 14px;
+
+  /* Shadows — restrained */
+  --shadow-subtle: 0 2px 12px rgba(26, 26, 26, 0.04);
+  --shadow-card: 0 8px 32px rgba(26, 26, 26, 0.06);
+  --shadow-float: 0 16px 48px rgba(26, 26, 26, 0.08);
+}
+
+/* ============================================================
+   GLOBAL BRAND RESET
+   ============================================================ */
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: 1.5rem;
+  line-height: 1.65;
+  color: var(--v-ink);
+  background-color: var(--v-cream);
+  letter-spacing: 0.01em;
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-editorial);
+  font-weight: 400;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  color: var(--v-ink);
+  margin: 0 0 1.2rem;
+}
+
+/* Typography utilities */
+.text-editorial {
+  font-family: var(--font-editorial);
+  letter-spacing: -0.04em;
+}
+
+/* ============================================================
+   BUTTON SYSTEM
+   ============================================================ */
+
+.button,
+.product-form__submit,
+.customer button,
+.quick-add__submit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  min-height: 5.2rem;
+  padding: 0 2.6rem;
+  border-radius: 999px;
+  font-family: var(--font-body);
+  font-size: 1.05rem;
+  font-weight: 650;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 1.5px solid transparent;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.button--primary,
+.product-form__submit,
+.quick-add__submit:not([disabled]) {
+  background: var(--v-ink);
+  color: var(--v-white);
+  border-color: var(--v-ink);
+}
+
+.button--primary:hover,
+.product-form__submit:hover,
+.quick-add__submit:hover:not([disabled]) {
+  background: var(--v-gold);
+  border-color: var(--v-gold);
+  color: var(--v-white);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-subtle);
+}
+
+.button--secondary {
+  background: transparent;
+  color: var(--v-ink);
+  border-color: var(--v-ink);
+}
+
+.button--secondary:hover {
+  background: var(--v-ink);
+  color: var(--v-white);
+  transform: translateY(-1px);
+}
+
+/* ============================================================
+   PRODUCT CARDS — PREMIUM FASHION
+   ============================================================ */
+
+.card-wrapper {
+  position: relative;
+}
+
+.card-wrapper .card__inner {
+  overflow: hidden;
+  border: 1px solid rgba(26, 26, 26, 0.06);
+  border-radius: var(--radius-lg);
+  background: var(--v-white);
+  transition: transform 0.35s cubic-bezier(0.22, 0.61, 0.36, 1), box-shadow 0.35s ease;
+}
+
+.card-wrapper:hover .card__inner {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-card);
+}
+
+.card--standard .card__media,
+.card__media .media {
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  overflow: hidden;
+  aspect-ratio: 4 / 5;
+  background: var(--v-neutral-warm);
+}
+
+.card__media .media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 0.6s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.card-wrapper:hover .card__media .media img {
+  transform: scale(1.04);
+}
+
+.card__information {
+  padding: 1.4rem 1.6rem 2rem;
+}
+
+.card__heading {
+  font-family: var(--font-editorial);
+  font-size: 1.35rem;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  color: var(--v-ink);
+  margin-bottom: 0.4rem;
+}
+
+.card__heading a {
+  color: inherit;
+  text-decoration: none;
+  position: relative;
+}
+
+.card__heading a::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: var(--v-gold);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.3s ease;
+}
+
+.card__heading a:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+.card-information > .price {
+  margin-top: 0.75rem;
+  color: var(--v-ink);
+  font-family: var(--font-editorial);
+  font-size: 1.15rem;
+  letter-spacing: -0.01em;
+}
+
+/* Badges — restrained */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.9rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: 1px solid rgba(26, 26, 26, 0.12);
+  background: var(--v-ink);
+  color: var(--v-white);
+}
+
+.badge.price__badge-sale {
+  background: var(--v-gold);
+  border-color: var(--v-gold);
+  color: var(--v-white);
+}
+
+/* ============================================================
+   ANNOUNCEMENT BAR
+   ============================================================ */
+
+.announcement-bar-section .utility-bar,
+.announcement-bar-section .announcement-bar {
+  background: var(--v-ink);
+  color: var(--v-white);
+}
+
+.announcement-bar-section .announcement-bar__message {
+  color: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* ============================================================
+   HEADER / NAVIGATION
+   ============================================================ */
+
+.section-header {
+  z-index: 100;
+}
+
+.header-wrapper {
+  background: rgba(250, 249, 246, 0.95);
+  border-bottom: 1px solid rgba(26, 26, 26, 0.08);
+  backdrop-filter: blur(16px) saturate(1.1);
+  -webkit-backdrop-filter: blur(16px) saturate(1.1);
+}
+
+.header__menu-item {
+  color: var(--v-ink);
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding-block: 0.6rem;
+  text-decoration: none;
+}
+
+.header__menu-item:hover {
+  color: var(--v-gold);
+}
+
+.header__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 4.2rem;
+  height: 4.2rem;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.header__icon:hover {
+  background: var(--v-neutral-warm);
+  color: var(--v-ink);
+}
+
+/* ============================================================
+   HERO — EDITORIAL
+   ============================================================ */
+
+.vennix-hero {
+  position: relative;
+  overflow: hidden;
+}
+
+.vennix-hero__stage {
+  position: relative;
+  min-height: 85vh;
+  display: flex;
+  align-items: center;
+}
+
+.vennix-hero__media-frame {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.vennix-hero__picture img,
+.vennix-hero__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  filter: brightness(0.92) contrast(1.05);
+}
+
+.vennix-hero__wash {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(26, 26, 26, 0.35) 0%, rgba(26, 26, 26, 0.15) 60%, rgba(26, 26, 26, 0.45) 100%);
+  z-index: 2;
+}
+
+.vennix-hero__inner {
+  position: relative;
+  z-index: 3;
+  padding-top: 8rem;
+  padding-bottom: 8rem;
+}
+
+.vennix-hero__content-body {
+  max-width: 64rem;
+  color: var(--v-white);
+}
+
+.vennix-hero__eyebrow {
+  color: var(--v-gold);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 1.4rem;
+}
+
+.vennix-hero__heading {
+  font-size: clamp(3.5rem, 7vw, 6.5rem);
+  line-height: 0.95;
+  letter-spacing: -0.05em;
+  color: var(--v-white);
+  margin-bottom: 1.6rem;
+}
+
+.vennix-hero__text {
+  font-size: 1.25rem;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.85);
+  max-width: 52rem;
+  margin-bottom: 3rem;
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+
+.footer {
+  background: var(--v-ink);
+  color: rgba(255, 255, 255, 0.7);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.footer-block__heading {
+  color: var(--v-white);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 650;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 1.4rem;
+}
+
+.footer a {
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.footer a:hover {
+  color: var(--v-gold);
+}
+
+/* ============================================================
+   TRUST / VALUE BAR
+   ============================================================ */
+
+.vx-trust-bar {
+  background: var(--v-neutral-warm);
+  border-bottom: 1px solid rgba(26, 26, 26, 0.08);
+}
+
+.vx-trust-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.8rem 2rem;
+  border-right: 1px solid rgba(26, 26, 26, 0.06);
+}
+
+.vx-trust-item:last-child {
+  border-right: 0;
+}
+
+/* ============================================================
+   COLLECTION GRID
+   ============================================================ */
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 28rem), 1fr));
+  gap: 2.4rem;
+}
+
+/* ============================================================
+   SECTION SPACING
+   ============================================================ */
+
+.section {
+  padding-top: clamp(4rem, 8vw, 9rem);
+  padding-bottom: clamp(4rem, 8vw, 9rem);
+}
+
+/* ============================================================
+   ACCESSIBILITY
+   ============================================================ */
+
+.skip-to-content-link {
+  position: absolute;
+  top: -4rem;
+  left: 1rem;
+  z-index: 9999;
+  padding: 1rem 1.5rem;
+  background: var(--v-ink);
+  color: var(--v-white);
+  transition: top 0.2s ease;
+}
+
+.skip-to-content-link:focus {
+  top: 1rem;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
