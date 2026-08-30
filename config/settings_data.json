@@ -240,66 +240,6 @@
     }
   },
   "presets": {
-    "Vennix Modern Minimal": {
-      "logo_width": 180,
-      "type_header_font": "playfair_display_n4",
-      "heading_scale": 100,
-      "type_body_font": "inter_n4",
-      "body_scale": 100,
-      "page_width": 1400,
-      "animations_hover_elements": "vertical-lift",
-      "buttons_radius": 40,
-      "card_corner_radius": 12,
-      "card_color_scheme": "scheme-2",
-      "cart_color_scheme": "scheme-1",
-      "free_shipping_progress_enabled": true,
-      "free_shipping_threshold": 50
-    },
-    "Vennix Luxury Editorial": {
-      "logo_width": 200,
-      "type_header_font": "playfair_display_n7",
-      "heading_scale": 105,
-      "type_body_font": "inter_n4",
-      "body_scale": 98,
-      "page_width": 1440,
-      "animations_hover_elements": "vertical-lift",
-      "buttons_radius": 4,
-      "card_corner_radius": 8,
-      "card_color_scheme": "scheme-4",
-      "cart_color_scheme": "scheme-4",
-      "free_shipping_progress_enabled": true,
-      "free_shipping_threshold": 75
-    },
-    "Vennix Clean Scandinavian": {
-      "logo_width": 160,
-      "type_header_font": "inter_n6",
-      "heading_scale": 98,
-      "type_body_font": "inter_n4",
-      "body_scale": 100,
-      "page_width": 1360,
-      "animations_hover_elements": "vertical-lift",
-      "buttons_radius": 24,
-      "card_corner_radius": 16,
-      "card_color_scheme": "scheme-3",
-      "cart_color_scheme": "scheme-3",
-      "free_shipping_progress_enabled": true,
-      "free_shipping_threshold": 60
-    },
-    "Vennix Vibrant Tech": {
-      "logo_width": 180,
-      "type_header_font": "inter_n7",
-      "heading_scale": 102,
-      "type_body_font": "inter_n4",
-      "body_scale": 100,
-      "page_width": 1400,
-      "animations_hover_elements": "vertical-lift",
-      "buttons_radius": 0,
-      "card_corner_radius": 4,
-      "card_color_scheme": "scheme-1",
-      "cart_color_scheme": "scheme-2",
-      "free_shipping_progress_enabled": true,
-      "free_shipping_threshold": 50
-    },
     "Dawn": {
       "logo_width": 90,
       "color_schemes": {
