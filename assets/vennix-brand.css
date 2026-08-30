@@ -1,4 +1,48 @@
 /* Vennix soft-minimal brand layer — loaded after Dawn base.css. */
+
+/* --------------------------------------------------------------------------
+   LAPTOP/DESKTOP VIEWPORT OPTIMIZATIONS (1366px - 1920px)
+   Prevents unwanted zooming and ensures proper scaling
+---------------------------------------------------------------------------- */
+
+html {
+  /* Prevent iOS Safari auto-zoom on orientation change */
+  text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  /* Smooth font rendering on high-DPI displays */
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  /* Prevent pull-to-zoom gestures on touch devices */
+  overscroll-behavior-y: none;
+  /* Ensure body doesn't overflow horizontally causing scroll */
+  max-width: 100vw;
+  overflow-x: hidden;
+  /* Font smoothing for premium feel */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Ensure images scale properly without breaking layout */
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* Prevent layout shift from scrollbar width changes */
+@media (min-width: 1366px) {
+  html {
+    scrollbar-gutter: stable;
+  }
+}
+
 :root {
   --v-ink: #0b0b0b;
   --v-ink-soft: #53534f;
@@ -14,6 +58,7 @@
 }
 
 body {
+  /* Already set above, kept for fallback */
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }

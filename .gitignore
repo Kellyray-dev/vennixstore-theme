@@ -1,17 +1,54 @@
-# OS generated files #
-######################
-.DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
-Thumbs.db
-.shopify
-node_modules
-*.zip
-opencode.json
+```
+# Dependencies
+node_modules/
 
-# Python generated files
+# Build artifacts
+dist/
+build/
+target/
+
+# Logs and temp files
+*.log
+*.tmp
+
+# Environment
+.env
+.env.local
+*.env.*
+
+# Editors
+.vscode/
+.idea/
+
+# Python
 __pycache__/
-*.py[cod]
+*.pyc
+*.pyo
+*.pyd
+*.py~
+.Python
+venv/
+.venv/
+.venv.bak/
+.env.bak/
+.eggs/
+*.egg-info/
+.egg/
+
+# Coverage
+.coverage
+coverage/
+htmlcov/
+
+# MyPy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# PyTest
+.pytest_cache/
+
+# OS generated
+.DS_Store
+Thumbs.db
+```
