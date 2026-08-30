@@ -282,21 +282,21 @@
           "type": "column",
           "settings": {
             "title": "Modern Design",
-            "text": "Clean silhouettes and versatile pieces that work across your day."
+            "text": "<p>Clean silhouettes and versatile pieces that work across your day.</p>"
           }
         },
         "movement": {
           "type": "column",
           "settings": {
             "title": "Built for Movement",
-            "text": "Performance-inspired apparel designed for modern, active life."
+            "text": "<p>Performance-inspired apparel designed for modern, active life.</p>"
           }
         },
         "quality": {
           "type": "column",
           "settings": {
             "title": "Quality Focused",
-            "text": "Every product is selected for comfort, durability, and style."
+            "text": "<p>Every product is selected for comfort, durability, and style.</p>"
           }
         }
       },
