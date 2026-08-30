@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,shrink-to-fit=no,viewport-fit=cover">
-    <meta name="theme-color" content="">
+    <meta name="theme-color" content="#1A1A1A">
     <link rel="canonical" href="{{ canonical_url }}">
 
     {%- if settings.favicon != blank -%}
@@ -283,6 +283,7 @@
 
     {{ 'base.css' | asset_url | stylesheet_tag }}
     {{ 'vennix-brand.css' | asset_url | stylesheet_tag }}
+    {{ 'vennix-brand-2.css' | asset_url | stylesheet_tag }}
     <link rel="stylesheet" href="{{ 'component-cart-items.css' | asset_url }}" media="print" onload="this.media='all'">
 
     {%- if settings.cart_type == 'drawer' -%}
