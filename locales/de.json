@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin language editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "general": {
     "password_page": {
@@ -131,6 +140,9 @@
       },
       "share": "Dieses Produkt teilen",
       "sold_out": "Ausverkauft",
+      "pre_order": "Vorbestellung",
+      "pre_order_note": "Sichere dir dein Exemplar – es wird erst beim Versand belastet.",
+      "preorder_expected": "Voraussichtlich verfügbar ab: {{ date }}",
       "unavailable": "Nicht verfügbar",
       "vendor": "Anbieter",
       "video_exit_message": "{{ title }} öffnet das Video auf derselben Seite im Vollbildmodus.",
@@ -280,6 +292,17 @@
       "caption": "Artikel im Warenkorb",
       "remove_title": "{{ title }} entfernen",
       "note": "Spezielle Bestellanweisungen",
+      "note_hint": "Optional – maximal 200 Zeichen. Wird beim Tippen automatisch gespeichert.",
+      "note_placeholder": "Geschenknachricht, Lieferhinweise …",
+      "status_saving": "Speichern…",
+      "status_saved": "Gespeichert",
+      "status_error": "Speichern fehlgeschlagen",
+      "fulfillment_title": "Lieferart",
+      "fulfillment_shipping": "Versand",
+      "fulfillment_pickup": "Abholung im Geschäft",
+      "fulfillment_hint_shipping": "Versandkosten werden beim Checkout berechnet.",
+      "fulfillment_hint_pickup": "Keine Versandkosten – Abholung im Geschäft.",
+      "pickup_tax_note": "Steuern inklusive. Deine Bestellung steht zur Abholung bereit.",
       "checkout": "Auschecken",
       "empty": "Dein Warenkorb ist leer",
       "product_disclosure": "Produktoffenlegung",

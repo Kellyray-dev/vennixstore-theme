@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin language editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "general": {
     "password_page": {
@@ -133,6 +142,9 @@
       },
       "share": "Partager ce produit",
       "sold_out": "Épuisé",
+      "pre_order": "Précommande",
+      "pre_order_note": "Réservez dès aujourd'hui — aucun prélèvement avant l'expédition.",
+      "preorder_expected": "Disponibilité prévue : {{ date }}",
       "unavailable": "Non disponible(s)",
       "vendor": "Fournisseur",
       "video_exit_message": "{{ title }} ouvre la vidéo en plein écran dans la même fenêtre.",
@@ -290,6 +302,17 @@
       "caption": "Articles du panier",
       "remove_title": "Supprimer {{ title }}",
       "note": "Instructions spéciales concernant la commande",
+      "note_hint": "Facultatif — 200 caractères maximum. Enregistrée automatiquement pendant la saisie.",
+      "note_placeholder": "Messages cadeaux, instructions de livraison…",
+      "status_saving": "Enregistrement…",
+      "status_saved": "Enregistré",
+      "status_error": "Échec de l'enregistrement",
+      "fulfillment_title": "Mode de livraison",
+      "fulfillment_shipping": "Livraison",
+      "fulfillment_pickup": "Retrait en magasin",
+      "fulfillment_hint_shipping": "Frais de livraison calculés au paiement.",
+      "fulfillment_hint_pickup": "Sans frais de livraison — retirez votre commande au magasin.",
+      "pickup_tax_note": "Taxes incluses. Votre commande sera prête à être retirée.",
       "checkout": "Procéder au paiement",
       "empty": "Votre panier est vide",
       "product_disclosure": "Information sur le produit",

@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "current": {
     "logo": "{{ shop.brand.logo }}",
@@ -114,8 +123,11 @@
     "predictive_search_show_price": false,
     "currency_code_enabled": true,
     "cart_type": "drawer",
+    "free_shipping_progress_enabled": true,
+    "free_shipping_threshold": 50,
     "show_vendor": false,
-    "show_cart_note": false,
+    "show_cart_note": true,
+    "show_fulfillment_picker": true,
     "cart_drawer_collection": "",
     "cart_color_scheme": "scheme-1",
     "sections": {
@@ -144,11 +156,6 @@
         "disabled": false,
         "settings": {}
       },
-      "1010346387011022953": {
-        "type": "shopify://apps/gptlab-get-found-by-ai/blocks/app_embed/019e923e-9c84-76cd-a285-13b157fc1dcd",
-        "disabled": false,
-        "settings": {}
-      },
       "15683396631634586217": {
         "type": "shopify://apps/inbox/blocks/chat/841fc607-4181-4ad1-842d-e24d7f8bad6b",
         "disabled": false,
@@ -157,8 +164,6 @@
           "background_color": "#FFFFFF",
           "font_color": "#000000",
           "button_color": "#000000",
-          "secondary_color": "#FFFFFF",
-          "ternary_color": "#6A6A6A",
           "button_icon": "chat_bubble",
           "button_text": "chat_with_us",
           "button_horizontal_position": "bottom_right",
@@ -232,11 +237,69 @@
           "shadow": "#050912"
         }
       }
-    },
-    "free_shipping_progress_enabled": true,
-    "free_shipping_threshold": 50
+    }
   },
   "presets": {
+    "Vennix Modern Minimal": {
+      "logo_width": 180,
+      "type_header_font": "playfair_display_n4",
+      "heading_scale": 100,
+      "type_body_font": "inter_n4",
+      "body_scale": 100,
+      "page_width": 1400,
+      "animations_hover_elements": "vertical-lift",
+      "buttons_radius": 40,
+      "card_corner_radius": 12,
+      "card_color_scheme": "scheme-2",
+      "cart_color_scheme": "scheme-1",
+      "free_shipping_progress_enabled": true,
+      "free_shipping_threshold": 50
+    },
+    "Vennix Luxury Editorial": {
+      "logo_width": 200,
+      "type_header_font": "playfair_display_n7",
+      "heading_scale": 105,
+      "type_body_font": "inter_n4",
+      "body_scale": 98,
+      "page_width": 1440,
+      "animations_hover_elements": "vertical-lift",
+      "buttons_radius": 4,
+      "card_corner_radius": 8,
+      "card_color_scheme": "scheme-4",
+      "cart_color_scheme": "scheme-4",
+      "free_shipping_progress_enabled": true,
+      "free_shipping_threshold": 75
+    },
+    "Vennix Clean Scandinavian": {
+      "logo_width": 160,
+      "type_header_font": "inter_n6",
+      "heading_scale": 98,
+      "type_body_font": "inter_n4",
+      "body_scale": 100,
+      "page_width": 1360,
+      "animations_hover_elements": "vertical-lift",
+      "buttons_radius": 24,
+      "card_corner_radius": 16,
+      "card_color_scheme": "scheme-3",
+      "cart_color_scheme": "scheme-3",
+      "free_shipping_progress_enabled": true,
+      "free_shipping_threshold": 60
+    },
+    "Vennix Vibrant Tech": {
+      "logo_width": 180,
+      "type_header_font": "inter_n7",
+      "heading_scale": 102,
+      "type_body_font": "inter_n4",
+      "body_scale": 100,
+      "page_width": 1400,
+      "animations_hover_elements": "vertical-lift",
+      "buttons_radius": 0,
+      "card_corner_radius": 4,
+      "card_color_scheme": "scheme-1",
+      "cart_color_scheme": "scheme-2",
+      "free_shipping_progress_enabled": true,
+      "free_shipping_threshold": 50
+    },
     "Dawn": {
       "logo_width": 90,
       "color_schemes": {
@@ -409,7 +472,8 @@
       "currency_code_enabled": true,
       "cart_type": "notification",
       "show_vendor": false,
-      "show_cart_note": false,
+      "show_cart_note": true,
+      "show_fulfillment_picker": true,
       "cart_drawer_collection": "",
       "cart_color_scheme": "scheme-1",
       "sections": {

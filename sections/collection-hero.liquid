@@ -1,0 +1,225 @@
+{% comment %}
+  Vennix · Premium Collection Hero (Phase 0, Task 2)
+  ==================================================================
+  Three-tier background resolution:
+    Tier 1 · Merchant-uploaded collection image (collection.image)
+    Tier 2 · Vennix-branded artwork mapped to this collection's handle,
+             resolved from the section's "Handle → image map" setting
+             (default: seed list below — filenames live in /assets)
+             Format: one "handle=collection-hero-<handle>.jpg" per line
+    Tier 3 · Branded CSS gradient — permanently painted beneath the
+             image layers, so any missing Tier 1/2 asset degrades
+             elegantly without a broken image or empty flash.
+{% endcomment %}
+
+{%- liquid
+  assign has_tier1 = false
+  if collection.image != blank
+    assign has_tier1 = true
+  endif
+
+  assign tier2_asset = ''
+  assign map_raw = section.settings.handle_map | newline_to_br | split: '<br />'
+  for line in map_raw
+    assign line_clean = line | strip | remove: ','
+    if line_clean == ''
+      continue
+    endif
+    assign pair = line_clean | split: '='
+    if pair[0] == collection.handle
+      assign tier2_asset = pair[1] | strip
+      break
+    endif
+  endfor
+
+  comment
+    Family fallback: exact handle not listed -> try its first segment,
+    e.g. "tech-devices" falls back to a "tech=..." map entry.
+  endcomment
+  if tier2_asset == ''
+    assign vnx_handle_prefix = collection.handle | split: '-' | first
+    for line in map_raw
+      assign line_clean = line | strip | remove: ','
+      if line_clean == ''
+        continue
+      endif
+      assign pair = line_clean | split: '='
+      if pair[0] == vnx_handle_prefix
+        assign tier2_asset = pair[1] | strip
+        break
+      endif
+    endfor
+  endif
+
+  assign has_tier2 = false
+  if tier2_asset != ''
+    assign has_tier2 = true
+  endif
+
+  case section.settings.text_alignment
+    when 'center'
+      assign align_class = 'vx-center'
+    when 'right'
+      assign align_class = 'vx-right'
+    else
+      assign align_class = 'vx-left'
+  endcase
+-%}
+
+<div
+  class="vnx-chero color-{{ section.settings.color_scheme }} {{ align_class }}{% if has_tier1 %} vx-has-tier1{% endif %}{% if has_tier2 %} vx-has-tier2{% endif %}"
+  data-vnx-hero
+>
+  {%- liquid
+    assign cta_href = section.settings.cta_link
+    if cta_href == blank
+      assign cta_href = '#shopify-section-product-grid'
+    endif
+  -%}
+
+  <div class="vnx-chero__media" data-vnx-hero-media aria-hidden="true">
+    {%- if has_tier1 -%}
+      {{
+        collection.image
+        | image_url: width: 2400
+        | image_tag:
+          class: 'vnx-chero__img',
+          sizes: '100vw',
+          widths: '750, 1080, 1500, 1920, 2400',
+          loading: 'eager',
+          fetchpriority: 'high'
+      }}
+    {%- endif -%}
+  </div>
+
+  {%- if has_tier2 -%}
+    <div class="vnx-chero__brand-art" aria-hidden="true" style="--vx-tier2: url('{{ tier2_asset | asset_url }}')"></div>
+  {%- endif -%}
+
+  <div
+    class="vnx-chero__scrim"
+    aria-hidden="true"
+    style="opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }}"
+  ></div>
+
+  <div class="vnx-chero__content page-width">
+    {%- if section.settings.show_title -%}
+      <h1 class="vnx-chero__title vx-reveal" style="--vx-delay: 0.2s">{{ collection.title | escape }}</h1>
+    {%- endif -%}
+
+    {%- if section.settings.show_description and collection.description != blank -%}
+      <div class="vnx-chero__description rte vx-reveal" style="--vx-delay: 0.4s">
+        {{ collection.description }}
+      </div>
+    {%- endif -%}
+
+    {%- if section.settings.show_cta -%}
+      <a
+        class="button vnx-chero__cta vx-reveal"
+        style="--vx-delay: 0.6s"
+        href="{{ cta_href }}"
+        data-vnx-hero-cta
+      >
+        {{- section.settings.cta_label | escape -}}
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
+          <path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+    {%- endif -%}
+  </div>
+</div>
+
+<script src="{{ 'vennix-collection-hero.js' | asset_url }}" defer="defer"></script>
+
+{% schema %}
+{
+  "name": "Collection hero",
+  "class": "section",
+  "enabled_on": {
+    "templates": ["collection"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_title",
+      "label": "Show title",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_description",
+      "label": "Show description",
+      "info": "Uses the collection description written in Shopify admin.",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_cta",
+      "label": "Show call-to-action button",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Button label",
+      "default": "Shop the collection"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Button link",
+      "info": "Defaults to this collection's page (scrolls past the hero)."
+    },
+    {
+      "type": "header",
+      "content": "Background tiers"
+    },
+    {
+      "type": "paragraph",
+      "content": "Tier 1: the collection image set in Shopify admin. Tier 2: Vennix-branded artwork mapped by handle below (files live in assets/). Tier 3: branded gradient, always active underneath."
+    },
+    {
+      "type": "textarea",
+      "id": "handle_map",
+      "label": "Handle → image map (Tier 2)",
+      "info": "One \"collection-handle=filename.jpg\" per line. The file must exist in assets/. Unlisted handles fall back to the gradient.",
+      "default": "apparel=collection-hero-apparel.svg\nbath-rugs-mats=collection-hero-home.svg\nfitness-active=collection-hero-apparel.svg\ngrooming=collection-hero-beauty.svg\nhome-living=collection-hero-home.svg\nhome-living-1=collection-hero-home.svg\nhome-essentials=collection-hero-home.svg\nlighting=collection-hero-tech.svg\nmens-clothing=collection-hero-apparel.svg\nmens-pants=collection-hero-apparel.svg\nmens-suits-formalwear=collection-hero-apparel.svg\nmens-tops=collection-hero-apparel.svg\npets=collection-hero-home.svg\nphone-accessories=collection-hero-tech.svg\ntech-accessories=collection-hero-tech.svg\ntech-devices=collection-hero-tech.svg\nusb-c-hubs=collection-hero-tech.svg\nwomens-clothing=collection-hero-apparel.svg\nwomens-clothing-accessories=collection-hero-apparel.svg"
+    },
+    {
+      "type": "header",
+      "content": "Presentation"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "min": 0,
+      "max": 80,
+      "step": 5,
+      "unit": "%",
+      "label": "Overlay opacity",
+      "default": 35
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "Text alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-2"
+    }
+  ]
+}
+{% endschema %}

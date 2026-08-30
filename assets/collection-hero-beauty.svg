@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2560 1440" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="base" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#232b27"/>
+      <stop offset=".55" stop-color="#171716"/>
+      <stop offset="1" stop-color="#1d2623"/>
+    </linearGradient>
+    <radialGradient id="glowA" cx=".76" cy=".24" r=".5">
+      <stop offset="0" stop-color="#7a6026" stop-opacity=".45"/>
+      <stop offset="1" stop-color="#7a6026" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowB" cx=".5" cy=".9" r=".5">
+      <stop offset="0" stop-color="#4a6359" stop-opacity=".35"/>
+      <stop offset="1" stop-color="#4a6359" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="orb" cx=".35" cy=".3" r=".8">
+      <stop offset="0" stop-color="#f5f2ec" stop-opacity=".5"/>
+      <stop offset=".5" stop-color="#c9a45c" stop-opacity=".28"/>
+      <stop offset="1" stop-color="#c9a45c" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="blur1"><feGaussianBlur stdDeviation="26"/></filter>
+    <filter id="blur2"><feGaussianBlur stdDeviation="12"/></filter>
+    <filter id="grain"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="linear" slope=".05"/></feComponentTransfer></filter>
+  </defs>
+  <rect width="2560" height="1440" fill="url(#base)"/>
+  <rect width="2560" height="1440" fill="url(#glowA)"/>
+  <rect width="2560" height="1440" fill="url(#glowB)"/>
+  <g filter="url(#blur1)">
+    <circle cx="1860" cy="420" r="200" fill="url(#orb)"/>
+    <circle cx="2140" cy="700" r="130" fill="url(#orb)" opacity=".8"/>
+    <circle cx="1640" cy="760" r="90" fill="url(#orb)" opacity=".7"/>
+  </g>
+  <g filter="url(#blur2)">
+    <circle cx="1960" cy="360" r="60" fill="#f5f2ec" fill-opacity=".22"/>
+    <circle cx="2230" cy="560" r="44" fill="#c9a45c" fill-opacity=".35"/>
+    <circle cx="1740" cy="640" r="34" fill="#f5f2ec" fill-opacity=".16"/>
+  </g>
+  <g fill="none" stroke="#f5f2ec" stroke-opacity=".12" stroke-width="1.4">
+    <ellipse cx="1860" cy="540" rx="330" ry="120" transform="rotate(-18 1860 540)"/>
+    <ellipse cx="1900" cy="560" rx="450" ry="170" transform="rotate(-18 1900 560)"/>
+  </g>
+  <rect width="2560" height="1440" filter="url(#grain)" opacity=".5"/>
+</svg>

@@ -94,6 +94,60 @@
         "color_scheme": "scheme-2"
       }
     },
+    "featured_product": {
+      "type": "featured-product",
+      "blocks": {
+        "title": {
+          "type": "title",
+          "settings": {
+            "heading_size": "h1"
+          }
+        },
+        "price": {
+          "type": "price",
+          "settings": {}
+        },
+        "variant_picker": {
+          "type": "variant_picker",
+          "settings": {
+            "picker_type": "button"
+          }
+        },
+        "quantity_selector": {
+          "type": "quantity_selector",
+          "settings": {}
+        },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": true
+          }
+        },
+        "description": {
+          "type": "description",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "title",
+        "price",
+        "variant_picker",
+        "quantity_selector",
+        "buy_buttons",
+        "description"
+      ],
+      "settings": {
+        "product": "cream-textured-tie-front-crop-top-mini-skirt-set",
+        "color_scheme": "scheme-1",
+        "media_size": "medium",
+        "media_position": "left",
+        "image_zoom": "hover",
+        "hide_variants": false,
+        "enable_video_looping": false,
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
+    },
     "featured_collection": {
       "type": "featured-collection",
       "settings": {
@@ -122,43 +176,70 @@
         "padding_bottom": 96
       }
     },
-    "vennix_values": {
-      "type": "vennix-why-us",
+    "editorial_split": {
+      "type": "editorial-split",
+      "settings": {
+        "image_position": "left",
+        "color_scheme": "scheme-1",
+        "enable_zoom": true,
+        "enable_parallax": true,
+        "eyebrow": "The Vennix approach",
+        "heading": "A simpler way to discover <em>what works.</em>",
+        "text": "<p>Useful by design. We bring together everyday products across home, tech and style — chosen for practical features, considered design and clear details.</p>",
+        "button_label": "Explore all products",
+        "button_link": "shopify://collections/all",
+        "padding_top": 72,
+        "padding_bottom": 72
+      }
+    },
+    "press_carousel": {
+      "type": "press-carousel",
       "blocks": {
-        "useful": {
-          "type": "reason",
+        "logo1": {
+          "type": "logo",
           "settings": {
-            "title": "Useful by design",
-            "description": "Everyday products selected for practical features and considered design."
+            "name": "Publication"
           }
         },
-        "clear": {
-          "type": "reason",
+        "logo2": {
+          "type": "logo",
           "settings": {
-            "title": "Clear product details",
-            "description": "Straightforward information helps you choose with greater confidence."
+            "name": "Publication"
           }
         },
-        "support": {
-          "type": "reason",
+        "logo3": {
+          "type": "logo",
           "settings": {
-            "title": "Support when needed",
-            "description": "Questions about an order or product? Our support team is ready to help."
+            "name": "Publication"
+          }
+        },
+        "logo4": {
+          "type": "logo",
+          "settings": {
+            "name": "Publication"
           }
         }
       },
       "block_order": [
-        "useful",
-        "clear",
-        "support"
+        "logo1",
+        "logo2",
+        "logo3",
+        "logo4"
       ],
       "settings": {
-        "eyebrow": "The Vennix approach",
-        "heading": "A simpler way to discover what works",
-        "text": "<p>We bring useful finds across home, technology, style and everyday living into one considered edit.</p>",
-        "link_label": "Explore all products",
-        "link": "shopify://collections/all",
-        "color_scheme": "scheme-2"
+        "heading": "As seen in",
+        "color_scheme": "scheme-1",
+        "speed": 30,
+        "padding_top": 48,
+        "padding_bottom": 48
+      }
+    },
+    "before-after": {
+      "type": "before-after-slider",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "padding_top": 64,
+        "padding_bottom": 64
       }
     },
     "vennix_newsletter": {
@@ -178,8 +259,11 @@
   "order": [
     "vennix_hero",
     "vennix_trust",
+    "featured_product",
     "featured_collection",
-    "vennix_values",
+    "editorial_split",
+    "before-after",
+    "press_carousel",
     "vennix_newsletter"
   ]
 }

@@ -27,6 +27,7 @@
   {{ 'component-price.css' | asset_url | stylesheet_tag }}
   {{ 'quick-order-list.css' | asset_url | stylesheet_tag }}
   {{ 'quantity-popover.css' | asset_url | stylesheet_tag }}
+  <script src="{{ 'vennix-quick-view.js' | asset_url }}" defer="defer"></script>
 {%- endunless -%}
 {%- if card_product and card_product != empty -%}
   {%- liquid
@@ -47,12 +48,26 @@
     endif
 
     assign prestige_badge = ''
-    if card_product.tags contains 'best-seller'
-      assign prestige_badge = 'Best seller'
+    if card_product.tags contains 'best-seller' or card_product.handle == 'cream-textured-tie-front-crop-top-mini-skirt-set'
+      assign prestige_badge = '★ Editor’s Pick'
     elsif card_product.tags contains 'new-arrival' or card_product.tags contains 'new'
       assign prestige_badge = 'New arrival'
     elsif card_product.tags contains 'limited-edition'
       assign prestige_badge = 'Limited edition'
+    endif
+
+    comment
+      Vennix · Module 1 — per-card pre-order & scarcity state
+    endcomment
+    assign vnx_card_variant = card_product.selected_or_first_available_variant
+    assign card_preorder = false
+    assign card_low_stock = false
+    if card_product.available and vnx_card_variant != null
+      if vnx_card_variant.inventory_policy == 'continue' and vnx_card_variant.inventory_management == 'shopify' and vnx_card_variant.inventory_quantity <= 0
+        assign card_preorder = true
+      elsif vnx_card_variant.inventory_management == 'shopify' and settings.low_stock_indicator_enabled and vnx_card_variant.inventory_quantity > 0 and vnx_card_variant.inventory_quantity <= settings.low_stock_threshold
+        assign card_low_stock = true
+      endif
     endif
   -%}
 
@@ -121,6 +136,22 @@
                   >
                 {%- endif -%}
               </div>
+              {%- if settings.quick_view_enabled -%}
+                <button
+                  type="button"
+                  class="vx-qv__trigger button button--secondary"
+                  data-quick-view
+                  data-quick-view-url="{{ card_product.url }}"
+                  aria-haspopup="dialog"
+                  aria-label="Quick view: {{ card_product.title | escape }}"
+                >
+                  <svg aria-hidden="true" focusable="false" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                    <path d="M2 12s3.5-6.5 10-6.5S22 12 22 12s-3.5 6.5-10 6.5S2 12 2 12Z" stroke="currentColor" stroke-width="1.5"/>
+                    <circle cx="12" cy="12" r="2.8" stroke="currentColor" stroke-width="1.5"/>
+                  </svg>
+                  <span>Quick view</span>
+                </button>
+              {%- endif -%}
             </div>
           {%- endif -%}
           <div class="card__content">
@@ -152,10 +183,17 @@
                 >
                   {{- 'products.product.sold_out' | t -}}
                 </span>
+              {%- elsif card_preorder -%}
+                <span
+                  id="NoMediaStandardBadge-{{ section_id }}-{{ card_product.id }}"
+                  class="badge badge--bottom-left vx-badge-preorder"
+                >
+                  {{- 'products.product.pre_order' | t -}}
+                </span>
               {%- elsif card_on_sale and card_product.available -%}
                 <span
                   id="NoMediaStandardBadge-{{ section_id }}-{{ card_product.id }}"
-                  class="badge badge--bottom-left color-{{ settings.sale_badge_color_scheme }}"
+                  class="badge badge--bottom-left vx-badge-sale color-{{ settings.sale_badge_color_scheme }}"
                 >
                   {{- 'products.product.on_sale' | t -}}
                 </span>
@@ -221,6 +259,11 @@
                     {{- card_product.metafields.reviews.rating_count }}
                     {{ 'accessibility.total_reviews' | t -}}
                   </span>
+                </p>
+              {%- endif -%}
+              {%- if card_low_stock -%}
+                <p class="vx-low-stock" role="status">
+                  {{ 'products.product.inventory_low_stock_show_count' | t: quantity: vnx_card_variant.inventory_quantity }}
                 </p>
               {%- endif -%}
 
@@ -582,7 +625,7 @@
             {%- elsif card_on_sale and card_product.available -%}
               <span
                 id="Badge-{{ section_id }}-{{ card_product.id }}"
-                class="badge badge--bottom-left color-{{ settings.sale_badge_color_scheme }}"
+                class="badge badge--bottom-left vx-badge-sale color-{{ settings.sale_badge_color_scheme }}"
               >
                 {{- 'products.product.on_sale' | t -}}
               </span>

@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin language editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "general": {
     "password_page": {
@@ -132,6 +141,9 @@
       },
       "share": "Compartir este producto",
       "sold_out": "Agotado",
+      "pre_order": "Reserva",
+      "pre_order_note": "Reserva el tuyo hoy: no se cobra hasta el envío.",
+      "preorder_expected": "Disponibilidad estimada: {{ date }}",
       "unavailable": "No disponible",
       "vendor": "Proveedor",
       "video_exit_message": "{{ title }} abre el video en pantalla completa en la misma ventana.",
@@ -290,6 +302,17 @@
       "caption": "Artículos en el carrito",
       "remove_title": "Eliminar {{ title }}",
       "note": "Instrucciones especiales del pedido",
+      "note_hint": "Opcional: hasta 200 caracteres. Se guarda automáticamente mientras escribes.",
+      "note_placeholder": "Mensajes de regalo, notas de entrega…",
+      "status_saving": "Guardando…",
+      "status_saved": "Guardado",
+      "status_error": "No se pudo guardar",
+      "fulfillment_title": "Método de entrega",
+      "fulfillment_shipping": "Envío",
+      "fulfillment_pickup": "Recogida en tienda",
+      "fulfillment_hint_shipping": "Gastos de envío calculados al finalizar la compra.",
+      "fulfillment_hint_pickup": "Sin gastos de envío: recoge tu pedido en la tienda.",
+      "pickup_tax_note": "Impuestos incluidos. Tu pedido estará listo para recoger.",
       "checkout": "Pagar pedido",
       "empty": "Tu carrito esta vacío",
       "product_disclosure": "Aviso sobre el producto",

@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2560 1440" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="base" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0" stop-color="#171716"/>
+      <stop offset=".5" stop-color="#232b27"/>
+      <stop offset="1" stop-color="#2e3b35"/>
+    </linearGradient>
+    <radialGradient id="glowA" cx=".72" cy=".18" r=".5">
+      <stop offset="0" stop-color="#c9a45c" stop-opacity=".26"/>
+      <stop offset="1" stop-color="#c9a45c" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowB" cx=".85" cy=".7" r=".4">
+      <stop offset="0" stop-color="#4a6359" stop-opacity=".5"/>
+      <stop offset="1" stop-color="#4a6359" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="soft"><feGaussianBlur stdDeviation="3"/></filter>
+    <filter id="grain"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="linear" slope=".05"/></feComponentTransfer></filter>
+  </defs>
+  <rect width="2560" height="1440" fill="url(#base)"/>
+  <rect width="2560" height="1440" fill="url(#glowA)"/>
+  <rect width="2560" height="1440" fill="url(#glowB)"/>
+  <g fill="none" filter="url(#soft)">
+    <path d="M1750 -80C1560 320 1980 640 1740 1040 1600 1270 1700 1400 1760 1520" stroke="#f5f2ec" stroke-opacity=".2" stroke-width="3"/>
+    <path d="M2000 -80C1830 360 2260 700 2000 1100 1880 1290 1970 1420 2030 1520" stroke="#c9a45c" stroke-opacity=".38" stroke-width="2.4"/>
+    <path d="M2240 -80C2100 340 2500 660 2260 1060 2140 1260 2220 1420 2280 1520" stroke="#f5f2ec" stroke-opacity=".14" stroke-width="2.4"/>
+    <path d="M1470 -80C1290 360 1700 700 1450 1120 1330 1310 1420 1440 1480 1540" stroke="#c9a45c" stroke-opacity=".22" stroke-width="2"/>
+  </g>
+  <rect width="2560" height="1440" filter="url(#grain)" opacity=".5"/>
+</svg>

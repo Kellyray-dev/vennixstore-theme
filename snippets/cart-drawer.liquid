@@ -11,6 +11,8 @@
 
 <script src="{{ 'cart.js' | asset_url }}" defer="defer"></script>
 <script src="{{ 'quantity-popover.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'vennix-cart-note.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'vennix-fulfillment-picker.js' | asset_url }}" defer="defer"></script>
 
 <style>
   .drawer {
@@ -18,7 +20,7 @@
   }
 </style>
 
-<cart-drawer class="drawer{% if cart == empty %} is-empty{% endif %}">
+<cart-drawer class="drawer{% if cart == empty %} is-empty{% endif %}{% if cart.attributes.fulfillment == 'pickup' %} vnx-pickup-mode{% endif %}">
   <div id="CartDrawer" class="cart-drawer">
     <div id="CartDrawer-Overlay" class="cart-drawer__overlay"></div>
     <div
@@ -492,24 +494,128 @@
         </form>
       </cart-drawer-items>
       <div class="drawer__footer">
-        {%- if settings.show_cart_note -%}
-          <details id="Details-CartDrawer">
-            <summary>
-              <span class="summary__title">
-                {{ 'sections.cart.note' | t }}
-                {{- 'icon-caret.svg' | inline_asset_content -}}
+        {%- assign vnx_fulfillment = cart.attributes.fulfillment | default: 'shipping' -%}
+        {%- if settings.show_fulfillment_picker and cart != empty -%}
+          <vnx-fulfillment-picker
+            class="vnx-fulfillment"
+            data-vnx-value="{{ vnx_fulfillment }}"
+            data-vnx-label-saving="{{ 'sections.cart.status_saving' | t }}"
+            data-vnx-label-saved="{{ 'sections.cart.status_saved' | t }}"
+            data-vnx-label-error="{{ 'sections.cart.status_error' | t }}"
+          >
+            <div class="vnx-cart-note__head">
+              <span class="vnx-cart-note__label" id="VnxFulfillmentLegend">{{ 'sections.cart.fulfillment_title' | t }}</span>
+              <span class="vnx-status-pill" role="status" data-vnx-status>
+                <span class="vnx-status-pill__spinner" aria-hidden="true"><span class="vnx-spinner-ring"></span></span>
+                <span class="vnx-status-pill__check" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" focusable="false">
+                    <path d="m20 7-10 10L4.8 11.8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
+                <span class="vnx-status-pill__alert" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" focusable="false">
+                    <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5"/>
+                    <path d="M12 7.6v5.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                    <path d="M12 16.2h.01" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                  </svg>
+                </span>
+                <span class="vnx-status-pill__text"></span>
               </span>
-            </summary>
-            <cart-note class="cart__note field">
-              <label class="visually-hidden" for="CartDrawer-Note">{{ 'sections.cart.note' | t }}</label>
-              <textarea
-                id="CartDrawer-Note"
-                class="text-area text-area--resize-vertical field__input"
-                name="note"
-                placeholder="{{ 'sections.cart.note' | t }}"
-              >{{ cart.note }}</textarea>
-            </cart-note>
-          </details>
+            </div>
+            <div
+              class="vnx-fulfillment__control"
+              role="radiogroup"
+              aria-labelledby="VnxFulfillmentLegend"
+              data-vnx-control
+              data-selected="{{ vnx_fulfillment }}"
+            >
+              <button
+                type="button"
+                role="radio"
+                class="vnx-fulfillment__option"
+                data-vnx-value="shipping"
+                data-vnxFulfillmentOption
+                aria-checked="{% if vnx_fulfillment == 'pickup' %}false{% else %}true{% endif %}"
+                tabindex="{% if vnx_fulfillment == 'pickup' %}-1{% else %}0{% endif %}"
+              >
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
+                  <path d="M2.8 6.6h11.6v9H2.8z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+                  <path d="M14.4 10h3.4l3.4 3.4v2.2h-6.8" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+                  <circle cx="6.6" cy="17.9" r="1.8" stroke="currentColor" stroke-width="1.4"/>
+                  <circle cx="17.3" cy="17.9" r="1.8" stroke="currentColor" stroke-width="1.4"/>
+                </svg>
+                <span>{{ 'sections.cart.fulfillment_shipping' | t }}</span>
+              </button>
+              <button
+                type="button"
+                role="radio"
+                class="vnx-fulfillment__option"
+                data-vnx-value="pickup"
+                data-vnxFulfillmentOption
+                aria-checked="{% if vnx_fulfillment == 'pickup' %}true{% else %}false{% endif %}"
+                tabindex="{% if vnx_fulfillment == 'pickup' %}0{% else %}-1{% endif %}"
+              >
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
+                  <path d="M3.6 9.3 5.2 4.6h13.6l1.6 4.7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M5.4 9v10.4h13.2V9" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+                  <path d="M9.6 19.4v-5h4.8v5" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+                </svg>
+                <span>{{ 'sections.cart.fulfillment_pickup' | t }}</span>
+              </button>
+              <span class="vnx-fulfillment__thumb" aria-hidden="true"></span>
+            </div>
+            <p class="vnx-fulfillment__hint vnx-fulfillment__hint--shipping">{{ 'sections.cart.fulfillment_hint_shipping' | t }}</p>
+            <p class="vnx-fulfillment__hint vnx-fulfillment__hint--pickup">{{ 'sections.cart.fulfillment_hint_pickup' | t }}</p>
+          </vnx-fulfillment-picker>
+        {%- endif -%}
+        {%- if settings.show_cart_note -%}
+          <vnx-cart-note
+            class="vnx-cart-note"
+            data-vnx-label-saving="{{ 'sections.cart.status_saving' | t }}"
+            data-vnx-label-saved="{{ 'sections.cart.status_saved' | t }}"
+            data-vnx-label-error="{{ 'sections.cart.status_error' | t }}"
+          >
+            <div class="vnx-cart-note__head">
+              <label class="vnx-cart-note__label" for="CartDrawer-Note">{{ 'sections.cart.note' | t }}</label>
+              <span class="vnx-status-pill" id="CartDrawer-NoteStatus" role="status" aria-live="polite" data-vnx-status>
+                <span class="vnx-status-pill__spinner" aria-hidden="true"><span class="vnx-spinner-ring"></span></span>
+                <span class="vnx-status-pill__check" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" focusable="false">
+                    <path d="m20 7-10 10L4.8 11.8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
+                <span class="vnx-status-pill__alert" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" focusable="false">
+                    <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5"/>
+                    <path d="M12 7.6v5.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                    <path d="M12 16.2h.01" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                  </svg>
+                </span>
+                <span class="vnx-status-pill__text"></span>
+              </span>
+            </div>
+            <textarea
+              id="CartDrawer-Note"
+              class="vnx-cart-note__textarea"
+              name="note"
+              rows="3"
+              maxlength="200"
+              placeholder="{{ 'sections.cart.note_placeholder' | t }}"
+              aria-describedby="CartDrawer-NoteHint CartDrawer-NoteStatus"
+            >{{ cart.note }}</textarea>
+            <div class="vnx-cart-note__meta">
+              <p class="vnx-cart-note__hint" id="CartDrawer-NoteHint">{{ 'sections.cart.note_hint' | t }}</p>
+              <span class="vnx-cart-note__count" aria-hidden="true">
+                <span class="vnx-cart-note__count-value" data-vnx-count>
+                  {%- if cart.note != blank -%}
+                    {{- cart.note | size -}}
+                  {%- else -%}
+                    0
+                  {%- endif -%}
+                </span>/200
+              </span>
+            </div>
+          </vnx-cart-note>
         {%- endif -%}
 
         <!-- Start blocks -->
@@ -535,7 +641,7 @@
             <p class="totals__total-value">{{ cart.total_price | money_with_currency }}</p>
           </div>
 
-          <small class="tax-note caption-large rte">
+          <small class="tax-note caption-large rte"><span class="vnx-tax-note vnx-tax-note--shipping">
             {%- if cart.duties_included and cart.taxes_included -%}
               {%- if shop.shipping_policy.body == blank -%}
                 {{ 'sections.cart.duties_and_taxes_included_shipping_at_checkout_without_policy' | t }}
@@ -572,7 +678,10 @@
                   | t: link: shop.shipping_policy.url
                 }}
               {%- endif -%}
-            {%- endif -%}
+            {%- endif -%}</span>
+          </small>
+          <small class="tax-note caption-large rte vnx-tax-note--pickup">
+            {{ 'sections.cart.pickup_tax_note' | t }}
           </small>
         </div>
 

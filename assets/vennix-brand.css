@@ -1,3 +1,7 @@
+/* ============================================================
+   Phase 2B — "The Latest Edit" product grid polish (moved to EOF)
+   ============================================================ */
+
 /* Vennix soft-minimal brand layer — loaded after Dawn base.css. */
 :root {
   --v-ink: #0b0b0b;
@@ -16,6 +20,50 @@
 body {
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+}
+
+/* ============================================================
+   Phase 0 · Laptop & desktop viewport refinements
+   The fluid root scale lives in theme.liquid; this module fixes
+   the second failure mode: oversized vertical rhythm on short
+   laptop viewports (1366–1536 wide, ≤ 900 tall).
+   ============================================================ */
+
+/* Short-laptop breathing room: cap full-height hero banners when
+   vertical space is scarce (typical 1366×768 / 1536×864 screens)
+   so more than half the viewport isn't consumed by imagery.
+   Deep-link anchors also stop hiding behind the sticky header. */
+@media screen and (min-width: 990px) and (max-height: 900px) {
+  .banner,
+  .collection-hero--with-image {
+    min-height: min(72vh, 70rem);
+  }
+
+  section[id] {
+    scroll-margin-top: 8rem;
+  }
+}
+
+/* Large-desktop typographic polish: headings gain tracking and
+   content gets more air as screens widen past 1440px. */
+@media screen and (min-width: 1440px) {
+  h1,
+  h2,
+  .h0,
+  .h1,
+  .h2 {
+    letter-spacing: -0.01em;
+  }
+}
+
+@media screen and (min-width: 1740px) {
+  h1,
+  h2,
+  .h0,
+  .h1,
+  .h2 {
+    letter-spacing: -0.015em;
+  }
 }
 
 /* Announcement */
@@ -338,6 +386,35 @@ textarea {
 
 .vx-trust__item:last-child {
   padding-right: 0;
+}
+
+/* Premium hover: gentle lift + gold-tinted icon ring */
+.vx-trust__item {
+  transition: transform 0.3s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.vx-trust__item:hover {
+  transform: translateY(-4px);
+}
+
+.vx-trust__item:hover .vx-trust__icon {
+  color: var(--v-gold);
+  border-color: rgba(201, 164, 92, 0.55);
+  background: rgba(201, 164, 92, 0.08);
+  box-shadow: 0 6px 18px rgba(122, 96, 38, 0.18);
+}
+
+.vx-trust__icon {
+  transition: color 0.3s ease, border-color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vx-trust__item,
+  .vx-trust__item:hover,
+  .vx-trust__icon {
+    transition: none;
+    transform: none;
+  }
 }
 
 .vx-trust__icon {
@@ -1250,94 +1327,163 @@ body {
   background: #2d7a5a;
 }
 
+.vx-shipping-progress__upsell {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem;
+  margin-top: 1rem;
+  padding: 0.6rem 1rem;
+  background-color: rgba(201, 169, 110, 0.08);
+  border: 1px dashed rgba(201, 169, 110, 0.4);
+  border-radius: 8px;
+}
+
+.vx-shipping-progress__upsell-title {
+  color: #242420;
+  font-size: 1.15rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.vx-shipping-progress__upsell-form {
+  margin: 0;
+}
+
+.vx-shipping-progress__upsell-btn {
+  display: inline-flex;
+  align-items: center;
+  background: #1a1a1a;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  padding: 0.4rem 0.9rem;
+  font-size: 1.1rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  white-space: nowrap;
+}
+
+.vx-shipping-progress__upsell-btn:hover {
+  background: #c9a96e;
+  color: #1a1a1a;
+}
+
 .vx-sticky-atc {
-  display: none;
+  position: fixed;
+  z-index: 29;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding-bottom: env(safe-area-inset-bottom, 0);
+  border-top: 1px solid rgba(11, 11, 11, 0.12);
+  background: rgba(250, 250, 248, 0.96);
+  box-shadow: 0 -12px 32px rgba(0, 0, 0, 0.1);
+  -webkit-backdrop-filter: blur(16px) saturate(1.1);
+  backdrop-filter: blur(16px) saturate(1.1);
+  transform: translateY(calc(100% + 2rem));
+  visibility: hidden;
+  transition: transform 0.35s cubic-bezier(0.22, 0.61, 0.36, 1), visibility 0.35s;
+}
+
+.vx-sticky-atc.is-visible {
+  transform: translateY(0);
+  visibility: visible;
+}
+
+body.overflow-hidden .vx-sticky-atc {
+  transform: translateY(calc(100% + 2rem));
+  visibility: hidden;
+}
+
+.vx-sticky-atc__inner {
+  min-height: 7.4rem;
+  display: flex;
+  align-items: center;
+  gap: 1.6rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+.vx-sticky-atc__media {
+  width: 5.6rem;
+  height: 5.6rem;
+  flex: 0 0 5.6rem;
+  overflow: hidden;
+  border-radius: 8px;
+  background: #efefeb;
+}
+
+.vx-sticky-atc__media img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.vx-sticky-atc__details {
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.vx-sticky-atc__details strong,
+.vx-sticky-atc__details span {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.vx-sticky-atc__details strong {
+  color: #0b0b0b;
+  font-size: 1.3rem;
+  line-height: 1.35;
+}
+
+.vx-sticky-atc__details span {
+  margin-top: 0.3rem;
+  color: #53534f;
+  font-size: 1.2rem;
+  letter-spacing: 0.02em;
+}
+
+.vx-sticky-atc__variant {
+  color: #c9a96e !important;
+  font-size: 1.1rem !important;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.vx-sticky-atc__button {
+  min-width: 18rem;
+  min-height: 4.8rem;
+  flex: 0 0 auto;
+  margin: 0;
+  padding-inline: 2.4rem;
 }
 
 @media screen and (max-width: 749px) {
-  .vx-sticky-atc {
-    position: fixed;
-    z-index: 29;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    display: block;
-    padding-bottom: env(safe-area-inset-bottom, 0);
-    border-top: 1px solid rgba(11, 11, 11, 0.12);
-    background: rgba(250, 250, 248, 0.96);
-    box-shadow: 0 -12px 32px rgba(0, 0, 0, 0.1);
-    -webkit-backdrop-filter: blur(16px) saturate(1.1);
-    backdrop-filter: blur(16px) saturate(1.1);
-    transform: translateY(calc(100% + 2rem));
-    visibility: hidden;
-    transition: transform 0.35s cubic-bezier(0.22, 0.61, 0.36, 1), visibility 0.35s;
-  }
-
-  .vx-sticky-atc.is-visible {
-    transform: translateY(0);
-    visibility: visible;
-  }
-
-  body.overflow-hidden .vx-sticky-atc {
-    transform: translateY(calc(100% + 2rem));
-    visibility: hidden;
-  }
-
-  .vx-sticky-atc__inner {
-    min-height: 7.4rem;
-    display: flex;
-    align-items: center;
-    gap: 1.2rem;
-    padding-top: 1rem;
-    padding-bottom: 1rem;
-  }
-
   .vx-sticky-atc__media {
-    width: 5.2rem;
-    height: 5.2rem;
-    flex: 0 0 5.2rem;
-    overflow: hidden;
-    border-radius: 8px;
-    background: #efefeb;
-  }
-
-  .vx-sticky-atc__media img {
-    width: 100%;
-    height: 100%;
-    display: block;
-    object-fit: cover;
-  }
-
-  .vx-sticky-atc__details {
-    min-width: 0;
-    flex: 1 1 auto;
-  }
-
-  .vx-sticky-atc__details strong,
-  .vx-sticky-atc__details span {
-    display: block;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    display: none;
   }
 
   .vx-sticky-atc__details strong {
-    color: #0b0b0b;
     font-size: 1.15rem;
-    line-height: 1.35;
   }
 
   .vx-sticky-atc__details span {
-    margin-top: 0.25rem;
-    color: #53534f;
     font-size: 1.1rem;
+  }
+
+  .vx-sticky-atc__inner {
+    gap: 1.2rem;
   }
 
   .vx-sticky-atc__button {
     min-width: 13.5rem;
-    min-height: 4.8rem;
-    flex: 0 0 auto;
-    margin: 0;
     padding-inline: 1.7rem;
   }
 }
@@ -1347,4 +1493,998 @@ body {
   .vx-sticky-atc {
     transition: none;
   }
+}
+
+/* ============================================================
+   Vennix · Cart drawer — order note (premium)
+   ============================================================ */
+.drawer__footer > .vnx-cart-note {
+  padding-bottom: 1.6rem;
+  border-bottom: 0.1rem solid rgba(11, 11, 11, 0.08);
+}
+
+.drawer__footer > .vnx-cart-note + .cart-drawer__footer {
+  padding-top: 1.5rem;
+}
+
+.vnx-cart-note__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.9rem;
+}
+
+.vnx-cart-note__label {
+  color: #6f6b64;
+  font-size: 1.15rem;
+  font-weight: 650;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transition: color 0.22s ease;
+}
+
+.vnx-cart-note:focus-within .vnx-cart-note__label {
+  color: var(--v-gold-deep, #344b43);
+}
+
+/* --- Shared status pill (order note + fulfillment picker) --- */
+.vnx-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-height: 2.4rem;
+  margin-left: auto;
+  padding-inline: 0.95rem;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(11, 11, 11, 0.05);
+  color: #7a756e;
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateY(0.2rem) scale(0.96);
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease, background-color 0.25s ease, color 0.25s ease;
+}
+
+.vnx-status-pill.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+.vnx-status-pill--saved {
+  background: #e9efeb;
+  color: #245d43;
+}
+
+.vnx-status-pill--error {
+  background: #fbeeea;
+  color: #b34a3c;
+}
+
+.vnx-status-pill__spinner,
+.vnx-status-pill__check,
+.vnx-status-pill__alert {
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.vnx-status-pill__check svg,
+.vnx-status-pill__alert svg {
+  width: 1.35rem;
+  height: 1.35rem;
+}
+
+.vnx-status-pill--saving .vnx-status-pill__spinner,
+.vnx-status-pill--saved .vnx-status-pill__check,
+.vnx-status-pill--error .vnx-status-pill__alert {
+  display: inline-flex;
+}
+
+.vnx-spinner-ring {
+  width: 1.25rem;
+  height: 1.25rem;
+  border: 2px solid rgba(122, 117, 110, 0.28);
+  border-top-color: #7a756e;
+  border-radius: 50%;
+  animation: vnx-spin 0.8s linear infinite;
+}
+
+@keyframes vnx-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* --- Note field --- */
+.vnx-cart-note__textarea {
+  width: 100%;
+  min-height: 8.6rem;
+  padding: 1.3rem 1.5rem;
+  resize: vertical;
+  border: 1px solid var(--v-line, #deded8);
+  border-radius: var(--v-radius-md, 14px);
+  background: #fff;
+  color: var(--v-ink, #0b0b0b);
+  font-size: 1.35rem;
+  line-height: 1.55;
+  transition: border-color 0.22s ease, box-shadow 0.22s ease;
+  appearance: none;
+}
+
+.vnx-cart-note__textarea:hover {
+  border-color: rgba(52, 75, 67, 0.38);
+}
+
+.vnx-cart-note__textarea:focus {
+  outline: none;
+  border-color: var(--v-gold-deep, #344b43);
+  box-shadow: 0 0 0 0.35rem rgba(83, 106, 97, 0.14);
+}
+
+.vnx-cart-note__textarea::placeholder {
+  color: rgba(11, 11, 11, 0.36);
+}
+
+.vnx-cart-note__meta {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1.4rem;
+  margin-top: 0.85rem;
+}
+
+.vnx-cart-note__hint {
+  margin: 0;
+  max-width: 72%;
+  color: var(--v-ink-soft, #53534f);
+  font-size: 1.15rem;
+  line-height: 1.45;
+}
+
+.vnx-cart-note__count {
+  flex: 0 0 auto;
+  color: #7a756e;
+  font-size: 1.15rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.vnx-cart-note__count-value.is-near-limit {
+  color: #b3761f;
+  font-weight: 650;
+}
+
+@media (max-width: 480px) {
+  .vnx-cart-note__hint {
+    max-width: 60%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vnx-status-pill,
+  .vnx-cart-note__textarea,
+  .vnx-cart-note__label {
+    transition: none;
+  }
+
+  .vnx-spinner-ring {
+    animation-duration: 2s;
+  }
+}
+
+/* ============================================================
+   Vennix · Cart drawer — delivery-method picker (shipping / pickup)
+   ============================================================ */
+.drawer__footer > .vnx-fulfillment {
+  padding-bottom: 1.5rem;
+  border-bottom: 0.1rem solid rgba(11, 11, 11, 0.08);
+}
+
+.vnx-fulfillment:focus-within .vnx-cart-note__label {
+  color: var(--v-gold-deep, #344b43);
+}
+
+.vnx-fulfillment__control {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 0.45rem;
+  border-radius: 999px;
+  background: #efece6;
+  box-shadow: inset 0 0 0 1px rgba(11, 11, 11, 0.05);
+}
+
+.vnx-fulfillment.is-busy .vnx-fulfillment__control {
+  pointer-events: none;
+  opacity: 0.85;
+}
+
+.vnx-fulfillment__thumb {
+  position: absolute;
+  top: 0.45rem;
+  bottom: 0.45rem;
+  inset-inline-start: 0.45rem;
+  width: calc(50% - 0.45rem);
+  border-radius: 999px;
+  background: var(--v-gold-deep, #344b43);
+  box-shadow: 0 6px 18px rgba(52, 75, 67, 0.3);
+  transition: transform 0.32s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.vnx-fulfillment__control[data-selected='pickup'] .vnx-fulfillment__thumb {
+  transform: translateX(100%);
+}
+
+[dir='rtl'] .vnx-fulfillment__control[data-selected='pickup'] .vnx-fulfillment__thumb {
+  transform: translateX(-100%);
+}
+
+.vnx-fulfillment__option {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7rem;
+  min-height: 4.5rem;
+  padding: 0 1rem;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: #6f6b64;
+  font-size: 1.2rem;
+  font-weight: 650;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 0.25s ease, transform 0.15s ease;
+}
+
+.vnx-fulfillment__option svg {
+  width: 1.8rem;
+  height: 1.8rem;
+  flex: 0 0 auto;
+}
+
+.vnx-fulfillment__option:hover:not(.is-selected) {
+  color: var(--v-ink, #0b0b0b);
+}
+
+.vnx-fulfillment__option:active:not(.is-selected) {
+  transform: scale(0.98);
+}
+
+.vnx-fulfillment__option.is-selected {
+  color: var(--v-cream, #fafaf8);
+}
+
+.vnx-fulfillment__option:focus-visible {
+
+/* ============================================================
+   Phase 1 — Premium product page enhancements
+   ============================================================ */
+
+/* 1. Breadcrumbs */
+.vennix-crumbs {
+  margin-bottom: 2.4rem;
+}
+
+.vennix-crumbs ol {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem 0.8rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 1.25rem;
+  letter-spacing: 0.04em;
+}
+
+.vennix-crumbs li {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin: 0;
+}
+
+.vennix-crumbs li + li::before {
+  content: '/';
+  color: rgba(11, 11, 11, 0.32);
+}
+
+.vennix-crumbs a {
+  color: var(--v-gold-deep, #7a6026);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.vennix-crumbs a:hover,
+.vennix-crumbs a:focus-visible {
+  color: #0b0b0b;
+  text-decoration: underline;
+  text-underline-offset: 0.3em;
+}
+
+.vennix-crumbs [aria-current='page'] {
+  color: rgba(11, 11, 11, 0.62);
+}
+
+/* 2. PDP price & variant-picker micro-polish */
+.product__info-container .price {
+  letter-spacing: 0.01em;
+}
+
+.product__info-container .price-item--regular {
+  font-weight: 500;
+}
+
+/* ============================================================
+   Phase 2 · Feature 1 — Premium Quick View
+   ============================================================ */
+.vx-qv__trigger {
+  position: absolute;
+  left: 50%;
+  bottom: 1.2rem;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-height: 3.6rem;
+  margin: 0;
+  padding-inline: 1.8rem;
+  border-radius: 999px;
+  background: rgba(250, 250, 248, 0.94);
+  color: #171716;
+  font-size: 1.25rem;
+  letter-spacing: 0.04em;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.16);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  opacity: 0;
+  transform: translate(-50%, 0.8rem);
+  transition: opacity 0.25s ease, transform 0.25s ease, background-color 0.2s ease, color 0.2s ease;
+}
+
+.card__media .vx-qv__trigger svg {
+  width: 1.6rem;
+  height: 1.6rem;
+}
+
+.card-wrapper:hover .vx-qv__trigger,
+.card-wrapper:focus-within .vx-qv__trigger {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+.vx-qv__trigger:hover {
+  background: #171716;
+  color: #fafaf8;
+}
+
+@media (hover: none) {
+  .vx-qv__trigger {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+/* Modal shell */
+.vx-qv {
+  position: fixed;
+  inset: 0;
+  z-index: 99;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.vx-qv[hidden] {
+  display: none;
+}
+
+.vx-qv__overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(13, 13, 12, 0.55);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.vx-qv__dialog {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  width: min(104rem, 100%);
+  max-height: min(86rem, calc(100vh - 4rem));
+  overflow: hidden;
+  border-radius: 12px;
+  background: #fafaf8;
+  box-shadow: 0 32px 80px rgba(0, 0, 0, 0.35);
+  opacity: 0;
+  transform: translateY(2.4rem) scale(0.985);
+  transition: opacity 0.3s cubic-bezier(0.22, 0.61, 0.36, 1), transform 0.3s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.vx-qv.is-open .vx-qv__overlay {
+  opacity: 1;
+}
+
+.vx-qv.is-open .vx-qv__dialog {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.vx-qv__close {
+  position: absolute;
+  top: 1.2rem;
+  right: 1.2rem;
+  z-index: 4;
+  display: grid;
+  place-items: center;
+  width: 4rem;
+  height: 4rem;
+  padding: 0;
+  border: 1px solid rgba(11, 11, 11, 0.12);
+  border-radius: 50%;
+  background: rgba(250, 250, 248, 0.92);
+  color: #171716;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.vx-qv__close:hover {
+  background: #171716;
+  color: #fafaf8;
+  transform: rotate(90deg);
+}
+
+.vx-qv__body {
+  display: grid;
+  grid-template-columns: inherit;
+  width: 100%;
+  overflow: hidden;
+}
+
+.vx-qv__media {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  overflow: hidden;
+  background: #efefeb;
+}
+
+.vx-qv__media-main {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.vx-qv__media-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.vx-qv__media-img.is-active {
+  opacity: 1;
+}
+
+.vx-qv__media-thumbs {
+  display: flex;
+  gap: 0.8rem;
+  padding: 1.2rem;
+  overflow-x: auto;
+}
+
+.vx-qv__thumb {
+  flex: 0 0 6.4rem;
+  width: 6.4rem;
+  height: 6.4rem;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid rgba(11, 11, 11, 0.12);
+  border-radius: 6px;
+  background: #fff;
+  cursor: pointer;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.vx-qv__thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.vx-qv__thumb.is-active {
+  border-color: var(--v-gold-deep, #7a6026);
+  box-shadow: 0 0 0 0.2rem rgba(122, 96, 38, 0.22);
+}
+
+/* Info pane — hosts cloned Dawn product info */
+.vx-qv__info {
+  overflow-y: auto;
+  padding: 3.2rem 3.2rem 2.4rem;
+}
+
+.vx-qv__info .product__info-container {
+  max-width: none;
+}
+
+.vx-qv__info .product__info-container > * + * {
+  margin-top: 1.4rem;
+}
+
+.vx-qv__info .product__title h1 {
+  font-size: clamp(2.2rem, 2vw + 1.4rem, 3.2rem);
+  line-height: 1.15;
+  margin: 0;
+}
+
+.vx-qv__info .price {
+  font-size: 1.9rem;
+  align-items: center;
+}
+
+.vx-qv__loading {
+  display: grid;
+  place-items: center;
+  min-height: 32rem;
+}
+
+.vx-qv__spinner {
+  width: 3.6rem;
+  height: 3.6rem;
+  border: 3px solid rgba(11, 11, 11, 0.15);
+  border-top-color: var(--v-gold-deep, #7a6026);
+  border-radius: 50%;
+  animation: vx-qv-spin 0.8s linear infinite;
+}
+
+@keyframes vx-qv-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+html.vx-qv-open,
+html.vx-qv-open body {
+  overflow: hidden;
+}
+
+@media screen and (max-width: 899px) {
+  .vx-qv {
+    padding: 0;
+  }
+
+  .vx-qv__dialog {
+    grid-template-columns: 1fr;
+    width: 100%;
+    max-height: 100vh;
+    height: 100%;
+    border-radius: 0;
+    overflow-y: auto;
+  }
+
+  .vx-qv__body {
+    grid-template-columns: 1fr;
+    overflow: visible;
+  }
+
+  .vx-qv__media {
+    min-height: 42vh;
+  }
+
+  .vx-qv__info {
+    overflow: visible;
+    padding: 2.4rem 2rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vx-qv__overlay,
+  .vx-qv__dialog,
+  .vx-qv__trigger,
+  .vx-qv__media-img {
+    transition: none;
+  }
+
+  .vx-qv__spinner {
+    animation: none;
+  }
+}
+
+
+.product__info-container .variant-select-wrapper select,
+.product__info-container .product-form__input select {
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.product__info-container .variant-select-wrapper select:focus-visible,
+.product__info-container .product-form__input select:focus-visible {
+  border-color: var(--v-gold-deep, #7a6026);
+  box-shadow: 0 0 0 0.2rem rgba(122, 96, 38, 0.22);
+  outline: none;
+}
+
+  outline: 2px solid var(--v-gold-deep, #344b43);
+  outline-offset: 2px;
+}
+
+.vnx-fulfillment__hint {
+  margin-top: 1rem;
+  color: var(--v-ink-soft, #53534f);
+  font-size: 1.15rem;
+  line-height: 1.45;
+}
+
+.cart-drawer:not(.vnx-pickup-mode) .vnx-fulfillment__hint--pickup {
+  display: none;
+}
+
+.cart-drawer.vnx-pickup-mode .vnx-fulfillment__hint--shipping {
+  display: none;
+}
+
+/* Pickup mode: gracefully retire shipping surfaces */
+.vx-shipping-progress.is-collapsing {
+  overflow: hidden;
+  opacity: 0;
+  transition: height 0.32s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.22s ease,
+    margin 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.cart-drawer.vnx-pickup-mode .vx-shipping-progress {
+  display: none;
+}
+
+.cart-drawer.vnx-pickup-mode .tax-note:not(.vnx-tax-note--pickup),
+.cart-drawer:not(.vnx-pickup-mode) .vnx-tax-note--pickup {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vnx-fulfillment__thumb,
+  .vnx-fulfillment__option,
+  .vx-shipping-progress.is-collapsing {
+    transition: none;
+  }
+}
+
+/* ============================================================
+   Module 1 · Pre-order badges, scarcity pills & quick-buy polish
+   ============================================================ */
+.vx-badge-preorder {
+  color: #1e342d;
+  background: linear-gradient(135deg, #f6efdc, #eaddb8);
+}
+
+.badge.vx-badge-preorder::before {
+  content: '';
+  display: inline-block;
+  width: 0.55em;
+  height: 0.55em;
+  margin-inline-end: 0.5em;
+  border-radius: 50%;
+  background: var(--v-gold-deep, #344b43);
+}
+
+.vx-low-stock {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-top: 0.6rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  background: rgba(179, 118, 31, 0.12);
+  color: #8a5a14;
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  width: fit-content;
+}
+
+.vx-low-stock::before {
+  content: '';
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 50%;
+  background: #b3761f;
+}
+
+/* PDP expected-availability chip */
+.vx-preorder-note {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 1rem 0 0;
+  padding: 0.8rem 1.1rem;
+  border: 1px solid rgba(52, 75, 67, 0.28);
+  border-radius: var(--v-radius-md, 14px);
+  background: rgba(83, 106, 97, 0.07);
+  color: var(--v-gold-deep, #344b43);
+  font-size: 1.2rem;
+  line-height: 1.45;
+}
+
+.vx-preorder-note[hidden] {
+  display: none;
+}
+
+.vx-preorder-note svg {
+  width: 1.6rem;
+  height: 1.6rem;
+  flex: 0 0 auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vx-badge-preorder,
+  .vx-low-stock,
+  .vx-preorder-note {
+    transition: none;
+  }
+}
+
+/* ============================================================
+   Phase 0 · Task 2 — Premium Collection Hero
+   ============================================================ */
+.vnx-chero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  height: clamp(24rem, 72vh, 43rem);
+  display: flex;
+  align-items: flex-end;
+}
+
+/* ---- Layers ---- */
+.vnx-chero__media,
+.vnx-chero__brand-art,
+.vnx-chero__scrim {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+}
+
+/* Tier 3 · branded gradient floor — always painted, catches any gaps */
+.vnx-chero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background: radial-gradient(120% 90% at 78% 12%, #4a6359 0%, transparent 58%),
+    radial-gradient(110% 85% at 12% 88%, rgba(122, 96, 38, 0.55) 0%, transparent 55%),
+    linear-gradient(168deg, #1d2623 0%, #171716 62%, #232b27 100%);
+}
+
+/* Tier 1 · merchant photo, gentle scale-up + parallax target */
+.vnx-chero__img {
+  width: 100%;
+  height: calc(100% + 120px);
+  object-fit: cover;
+  object-position: center;
+  transform-origin: center;
+  will-change: transform;
+  transition: transform 0.02s linear;
+}
+
+.vnx-chero:not(.vx-has-tier1) .vnx-chero__media {
+  display: none;
+}
+
+/* Tier 2 · Vennix-branded artwork (mapped by handle) */
+.vnx-chero.vx-has-tier2 .vnx-chero__brand-art {
+  background-image: var(--vx-tier2);
+  background-size: cover;
+  background-position: center;
+}
+
+/* Readability scrim — bottom-to-top */
+.vnx-chero__scrim {
+  background: linear-gradient(to top, rgba(13, 15, 14, 0.92) 0%, rgba(13, 15, 14, 0.45) 46%, rgba(13, 15, 14, 0) 82%);
+}
+
+/* ---- Content ---- */
+.vnx-chero__content {
+  position: relative;
+  z-index: 1;
+  padding-block: clamp(2rem, 5vh, 4rem);
+  max-width: min(var(--page-width, 120rem), calc(100% - 3rem));
+}
+
+.vnx-chero__title {
+  margin: 0;
+  font-size: clamp(3rem, 7.5vw, 7.2rem);
+  line-height: 1.04;
+  letter-spacing: -0.02em;
+  font-weight: 600;
+}
+
+.vnx-chero__description {
+  margin-block-start: 0.6em;
+  max-width: 56ch;
+  font-size: clamp(1.4rem, 1.05vw + 0.85rem, 1.9rem);
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.86);
+}
+
+.vnx-chero__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-block-start: clamp(1.4rem, 2.6vh, 2.4rem);
+  font-size: clamp(1.4rem, 1vw, 1.6rem);
+}
+
+.vnx-chero__cta svg {
+  width: 1.35em;
+  height: 1.35em;
+  transition: transform 0.25s ease;
+}
+
+.vnx-chero__cta:hover svg {
+  transform: translateX(0.35em);
+}
+
+/* Text over imagery ⇒ always light-on-dark */
+.vnx-chero .vnx-chero__title,
+.vnx-chero {
+  color: #f5f2ec;
+}
+
+/* ---- Alignment variants ---- */
+.vnx-chero.vx-center .vnx-chero__content {
+  text-align: center;
+  justify-content: center;
+}
+
+.vnx-chero.vx-center .vnx-chero__description {
+  margin-inline: auto;
+}
+
+.vnx-chero.vx-right .vnx-chero__content {
+  text-align: right;
+}
+
+.vnx-chero.vx-right .vnx-chero__description,
+.vnx-chero.vx-right .vnx-chero__cta {
+  margin-left: auto;
+}
+
+/* ---- Staggered fade-up reveal ---- */
+.vx-reveal {
+  opacity: 0;
+  transform: translateY(clamp(0.8rem, 2vh, 1.6rem));
+  transition:
+    opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--vx-delay, 0s);
+}
+
+.vnx-chero.is-revealed .vx-reveal {
+  opacity: 1;
+  transform: none;
+}
+
+/* No-JS safety net */
+.no-js .vx-reveal {
+  opacity: 1;
+  transform: none;
+}
+
+/* Short laptops: never eat the whole viewport */
+@media screen and (min-height: 700px) and (max-height: 900px) and (min-width: 990px) {
+  .vnx-chero {
+    height: min(64vh, 40rem);
+  }
+}
+
+@media screen and (max-width: 749px) {
+  .vnx-chero {
+    height: clamp(22rem, 62vh, 30rem);
+  }
+
+  .vnx-chero__content {
+    max-width: none;
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vnx-chero__img {
+    transform: none !important;
+  }
+
+  .vx-reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .vnx-chero__cta svg {
+    transition: none;
+  }
+}
+
+/* ============================================================
+   Phase 2B — "The Latest Edit" product grid polish
+   Premium sale badge (glow + subtle pulse), gold sale pricing,
+   prestige badge glow. All motion is reduced-motion safe.
+   ============================================================ */
+:root {
+  --vx-gold-bright: #c9a45c;
+  --vx-gold-ink: #8a6c2c;
+}
+
+.vx-badge-sale {
+  color: #fff;
+  border-color: var(--vx-gold-ink);
+  background: linear-gradient(135deg, var(--vx-gold-bright) 0%, var(--vx-gold-ink) 100%);
+  box-shadow: 0 0 0 1px rgba(201, 164, 92, 0.25), 0 4px 16px rgba(138, 108, 44, 0.35);
+  animation: vx-badge-pulse 2.8s ease-in-out infinite;
+}
+
+@keyframes vx-badge-pulse {
+  0%, 100% { box-shadow: 0 0 0 1px rgba(201, 164, 92, 0.25), 0 4px 16px rgba(138, 108, 44, 0.35); }
+  50% { box-shadow: 0 0 0 1px rgba(201, 164, 92, 0.45), 0 4px 22px rgba(138, 108, 44, 0.55); }
+}
+
+/* Prestige badges (Best seller / New arrival / Limited edition): soft gold halo */
+.vx-product-badge {
+  box-shadow: 0 0 0 1px rgba(201, 164, 92, 0.28), 0 4px 14px rgba(9, 18, 15, 0.22), 0 0 18px rgba(201, 164, 92, 0.28);
+}
+
+/* Sale prices in brand gold; compare-at struck through (Dawn) and dimmed */
+.price__sale .price-item--sale,
+.price-item--sale,
+.card-information .price__sale .price-item--last {
+  color: var(--vx-gold-ink);
+}
+
+.price__sale .price-item--regular {
+  opacity: 0.55;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vx-badge-sale {
+    animation: none;
+  }
+}
+
+/* ============================================================
+   Featured Flagship Hero Product & First Grid Card Framing
+   ============================================================ */
+.featured-product {
+  padding: 3.2rem 2.4rem;
+  background: radial-gradient(circle at top right, rgba(201, 169, 110, 0.08) 0%, rgba(26, 26, 26, 0.02) 60%);
+  border: 1px solid rgba(201, 169, 110, 0.3);
+  border-radius: 16px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.05);
+}
+
+.featured-collection .grid__item:first-child .card-wrapper {
+  position: relative;
+  border: 1px solid rgba(201, 169, 110, 0.4);
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(201, 169, 110, 0.12);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.featured-collection .grid__item:first-child .card-wrapper:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 32px rgba(201, 169, 110, 0.22);
 }

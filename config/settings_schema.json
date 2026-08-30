@@ -616,6 +616,37 @@
         "unit": "px",
         "label": "t:settings_schema.global.settings.blur.label",
         "default": 0
+      },
+      {
+        "type": "header",
+        "content": "Scarcity & pre-order indicators"
+      },
+      {
+        "type": "checkbox",
+        "id": "low_stock_indicator_enabled",
+        "label": "Show low-stock counter on product cards",
+        "info": "Displays \"Low stock: N left\" when Shopify-managed inventory falls to the threshold.",
+        "default": true
+      },
+      {
+        "type": "range",
+        "id": "low_stock_threshold",
+        "min": 1,
+        "max": 10,
+        "step": 1,
+        "label": "Low-stock threshold",
+        "default": 3
+      },
+      {
+        "type": "header",
+        "content": "Quick view"
+      },
+      {
+        "type": "checkbox",
+        "id": "quick_view_enabled",
+        "label": "Enable quick view on product cards",
+        "info": "Adds a Quick view button to product cards that opens a modal with a gallery and add-to-cart.",
+        "default": true
       }
     ]
   },
@@ -1440,6 +1471,12 @@
         "info": "Must match the free-shipping rate configured for the store currency."
       },
       {
+        "type": "product",
+        "id": "free_shipping_upsell_product",
+        "label": "Free-shipping quick add upsell product",
+        "info": "Optional small add-on item displayed in the shipping progress bar when threshold is not yet met."
+      },
+      {
         "type": "checkbox",
         "id": "show_vendor",
         "label": "t:settings_schema.cart.settings.show_vendor.label",
@@ -1450,6 +1487,13 @@
         "id": "show_cart_note",
         "label": "t:settings_schema.cart.settings.show_cart_note.label",
         "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "show_fulfillment_picker",
+        "label": "Show delivery-method picker in cart drawer",
+        "info": "Let customers switch between shipping and local pickup. Saves the choice as a cart attribute and adapts shipping messages.",
+        "default": true
       },
       {
         "type": "header",

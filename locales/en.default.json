@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin language editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "general": {
     "password_page": {
@@ -168,6 +177,9 @@
       },
       "share": "Share this product",
       "sold_out": "Sold out",
+      "pre_order": "Pre-order",
+      "pre_order_note": "Reserve yours today — no charge until it ships.",
+      "preorder_expected": "Expected availability: {{ date }}",
       "unavailable": "Unavailable",
       "vendor": "Vendor",
       "value_unavailable": "{{ option_value }} - Unavailable",
@@ -297,6 +309,17 @@
       "estimated_total": "Estimated total",
       "new_estimated_total": "New estimated total",
       "note": "Order special instructions",
+      "note_hint": "Optional — up to 200 characters. Saved automatically as you type.",
+      "note_placeholder": "Gift messages, delivery notes…",
+      "status_saving": "Saving…",
+      "status_saved": "Saved",
+      "status_error": "Couldn't save",
+      "fulfillment_title": "Delivery method",
+      "fulfillment_shipping": "Shipping",
+      "fulfillment_pickup": "Local pickup",
+      "fulfillment_hint_shipping": "Shipping cost calculated at checkout.",
+      "fulfillment_hint_pickup": "No shipping fees — collect your order at the store.",
+      "pickup_tax_note": "Taxes included. Your order will be ready for pickup.",
       "checkout": "Check out",
       "empty": "Your cart is empty",
       "product_disclosure": "Product disclosure",

@@ -1,0 +1,25 @@
+{%- comment -%}
+  Vennix premium breadcrumbs for the product page.
+  Renders: Home / Collection / Product title.
+{%- endcomment -%}
+{%- liquid
+  assign crumb_collection = collection
+  if crumb_collection == blank and product.collections.size > 0
+    assign crumb_collection = product.collections.first
+  endif
+-%}
+<nav class="vennix-crumbs" aria-label="Breadcrumbs">
+  <ol role="list">
+    <li>
+      <a href="{{ routes.root_url }}">Home</a>
+    </li>
+    {%- if crumb_collection -%}
+      <li>
+        <a href="{{ crumb_collection.url }}">{{ crumb_collection.title | escape }}</a>
+      </li>
+    {%- endif -%}
+    <li aria-current="page">
+      <span>{{ product.title | escape }}</span>
+    </li>
+  </ol>
+</nav>

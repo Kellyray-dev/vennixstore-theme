@@ -49,5 +49,36 @@
     >
       <span class="vx-shipping-progress__fill" style="width: {{ progress_percent }}%;"></span>
     </div>
+
+    {%- if remaining_cents > 0 and settings.free_shipping_upsell_product != blank -%}
+      {%- assign upsell_product = settings.free_shipping_upsell_product -%}
+      {%- assign upsell_variant = upsell_product.selected_or_first_available_variant -%}
+      {%- assign in_cart = false -%}
+      {%- for item in cart.items -%}
+        {%- if item.product_id == upsell_product.id -%}
+          {%- assign in_cart = true -%}
+          {%- break -%}
+        {%- endif -%}
+      {%- endfor -%}
+
+      {%- if upsell_variant.available and in_cart == false -%}
+        <div class="vx-shipping-progress__upsell">
+          <span class="vx-shipping-progress__upsell-title">Need a boost?</span>
+          <product-form class="vx-shipping-progress__upsell-form">
+            {%- form 'product', upsell_product, id: 'vx-shipping-upsell-form', class: 'form', novalidate: 'novalidate', data-type: 'add-to-cart-form' -%}
+              <input type="hidden" name="id" value="{{ upsell_variant.id }}">
+              <button
+                type="submit"
+                name="add"
+                class="vx-shipping-progress__upsell-btn"
+                aria-label="Add {{ upsell_product.title | escape }} for {{ upsell_variant.price | money_with_currency }}"
+              >
+                <span>+ Add {{ upsell_product.title | truncate: 22 }} ({{ upsell_variant.price | money }})</span>
+              </button>
+            {%- endform -%}
+          </product-form>
+        </div>
+      {%- endif -%}
+    {%- endif -%}
   </div>
 {%- endif -%}

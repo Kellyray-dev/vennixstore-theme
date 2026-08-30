@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin language editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "general": {
     "password_page": {
@@ -132,6 +141,9 @@
       },
       "share": "Condividi questo prodotto",
       "sold_out": "Esaurito",
+      "pre_order": "Prevendita",
+      "pre_order_note": "Prenotalo oggi: il pagamento avviene solo alla spedizione.",
+      "preorder_expected": "Disponibilità prevista: {{ date }}",
       "unavailable": "Non disponibile",
       "vendor": "Fornitore",
       "video_exit_message": "{{ title }} apre un video a schermo intero nella stessa finestra.",
@@ -290,6 +302,17 @@
       "caption": "Articoli nel carrello",
       "remove_title": "Rimuovi {{ title }}",
       "note": "Istruzioni speciali per l'ordine",
+      "note_hint": "Opzionale — fino a 200 caratteri. Salvataggio automatico durante la scrittura.",
+      "note_placeholder": "Messaggi regalo, istruzioni per la consegna…",
+      "status_saving": "Salvataggio…",
+      "status_saved": "Salvato",
+      "status_error": "Salvataggio non riuscito",
+      "fulfillment_title": "Metodo di consegna",
+      "fulfillment_shipping": "Spedizione",
+      "fulfillment_pickup": "Ritiro in negozio",
+      "fulfillment_hint_shipping": "Spese di spedizione calcolate al check-out.",
+      "fulfillment_hint_pickup": "Nessuna spesa di spedizione — ritira il tuo ordine al negozio.",
+      "pickup_tax_note": "Tasse incluse. Il tuo ordine sarà pronto per il ritiro.",
       "checkout": "Check-out",
       "empty": "Il tuo carrello è vuoto",
       "product_disclosure": "Informativa sul prodotto",

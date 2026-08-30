@@ -1,0 +1,112 @@
+/* ============================================================
+   Phase 3A — "As Seen In" press logo carousel
+   Infinite marquee loop, grayscale → color on hover, edge fade
+   masks. Reduced motion: animation paused, manual scroll/drag.
+   ============================================================ */
+.vx-press {
+  overflow: hidden;
+}
+
+.vx-press__inner {
+  padding-top: 48px;
+  padding-bottom: 48px;
+}
+
+.section--press-carousel .vx-press__inner {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.vx-press__heading {
+  margin: 0 0 2rem;
+  text-align: center;
+  font-size: 1.1rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  opacity: 0.55;
+}
+
+/* Edge fade masks */
+.vx-press__viewport {
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 12%, #000 88%, transparent 100%);
+  mask-image: linear-gradient(90deg, transparent 0, #000 12%, #000 88%, transparent 100%);
+}
+
+.vx-press__track {
+  display: flex;
+  align-items: center;
+  width: max-content;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  animation: vx-press-scroll var(--vx-press-duration, 30s) linear infinite;
+}
+
+/* Pause on hover/focus for a premium, controllable feel */
+.vx-press__viewport:hover .vx-press__track,
+.vx-press__viewport:focus-within .vx-press__track {
+  animation-play-state: paused;
+}
+
+@keyframes vx-press-scroll {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(-50%, 0, 0); }
+}
+
+.vx-press__item {
+  flex: 0 0 auto;
+  padding: 0 clamp(2rem, 4vw, 4rem);
+}
+
+.vx-press__logo {
+  display: block;
+}
+
+.vx-press__logo img {
+  display: block;
+  height: clamp(2.4rem, 4vw, 3.6rem);
+  width: auto;
+  object-fit: contain;
+  filter: grayscale(100%) opacity(0.75);
+  transition: filter 0.45s ease, transform 0.35s cubic-bezier(0.22, 0.61, 0.36, 1);
+  will-change: filter, transform;
+}
+
+.vx-press__logo:hover img,
+.vx-press__logo:focus-visible img {
+  filter: grayscale(0%) opacity(1);
+  transform: translateY(-2px);
+}
+
+.vx-press__placeholder {
+  display: grid;
+  place-items: center;
+  height: clamp(2.4rem, 4vw, 3.6rem);
+  padding: 0 1.6rem;
+  border: 1px dashed rgba(var(--color-foreground), 0.25);
+  border-radius: 8px;
+  font-size: 1.2rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.5;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vx-press__viewport {
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .vx-press__viewport::-webkit-scrollbar {
+    display: none;
+  }
+
+  .vx-press__track {
+    animation: none;
+  }
+
+  .vx-press__logo img {
+    transition: none;
+  }
+}
