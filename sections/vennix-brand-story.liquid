@@ -118,7 +118,7 @@
 
 <section
   class="vx-story color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-padding"
-  aria-labelledby="VennixStoryHeading-{{ section.id }}"
+  {%- if section.settings.heading != blank %} aria-labelledby="VennixStoryHeading-{{ section.id }}"{% endif %}
 >
   <div class="page-width">
     <div class="vx-story__grid">

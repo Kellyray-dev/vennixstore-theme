@@ -507,35 +507,38 @@ h1, h2, h3, h4, h5, h6 {
 
 /* 3. Static, uniform product grids --------------------------
    Carousel feeds are rendered as a clean CSS grid: 4 columns on
-   desktop, 2 on mobile — every product renders exactly once. */
-.collection .product-grid {
+   desktop, 2 on mobile — every product renders exactly once.
+   Scoped to the featured-collection section (added via the
+   `featured-collection-grid` class) so collection, search and
+   cart pages keep their own column settings. */
+.featured-collection-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
 }
 
 @media screen and (min-width: 750px) {
-  .collection .product-grid {
+  .featured-collection-grid {
     grid-template-columns: repeat(3, 1fr);
   }
 }
 
 @media screen and (min-width: 990px) {
-  .collection .product-grid {
+  .featured-collection-grid {
     grid-template-columns: repeat(4, 1fr);
   }
 
-  .collection .product-grid.grid--3-col-desktop {
+  .featured-collection-grid.grid--3-col-desktop {
     grid-template-columns: repeat(3, 1fr);
   }
 }
 
-.collection .product-grid .grid__item {
+.featured-collection-grid .grid__item {
   width: 100%;
   max-width: 100%;
   margin: 0;
 }
 
-.collection .product-grid:not(.slider) {
+.featured-collection-grid:not(.slider) {
   margin-bottom: 0;
 }
 
@@ -602,11 +605,11 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Static homepage feeds are never sliders: neutralise peek offsets
    and slider counters so the pure CSS grid aligns to page-width. */
-.collection .product-grid:not(.slider)::after {
+.featured-collection-grid:not(.slider)::after {
   margin: 0;
 }
 
-.collection .product-grid:not(.slider) .grid__item:first-of-type {
+.featured-collection-grid:not(.slider) .grid__item:first-of-type {
   margin-left: 0;
 }
 

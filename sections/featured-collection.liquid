@@ -80,6 +80,7 @@
   endif
 
   assign rendered_count = 0
+  assign rendered_handles = ''
 -%}
 
 <div
@@ -114,7 +115,7 @@
       <ul
         id="Slider-{{ section.id }}"
         data-id="{{ section.id }}"
-        class="grid product-grid contains-card contains-card--product{% if settings.card_style == 'standard' %} contains-card--standard{% endif %} grid--{{ section.settings.columns_desktop }}-col-desktop{% if section.settings.collection == blank %} grid--2-col-tablet-down{% else %} grid--{{ section.settings.columns_mobile }}-col-tablet-down{% endif %}{% if show_mobile_slider or show_desktop_slider %} slider{% if show_desktop_slider %} slider--desktop{% endif %}{% if show_mobile_slider %} slider--tablet grid--peek{% endif %}{% endif %}"
+        class="featured-collection-grid grid product-grid contains-card contains-card--product{% if settings.card_style == 'standard' %} contains-card--standard{% endif %} grid--{{ section.settings.columns_desktop }}-col-desktop{% if section.settings.collection == blank %} grid--2-col-tablet-down{% else %} grid--{{ section.settings.columns_mobile }}-col-tablet-down{% endif %}{% if show_mobile_slider or show_desktop_slider %} slider{% if show_desktop_slider %} slider--desktop{% endif %}{% if show_mobile_slider %} slider--tablet grid--peek{% endif %}{% endif %}"
         role="list"
         aria-label="{{ 'general.slider.name' | t }}"
       >
@@ -132,7 +133,9 @@
               {%- comment -%} De-duplicate by handle — a product must never render twice. {%- endcomment -%}
               {%- assign is_duplicate = false -%}
               {%- assign product_handle = product.handle | downcase -%}
-              {%- if rendered_handles contains product_handle -%}
+              {%- comment -%} Exact-token match (comma-wrapped) so handles that are substrings of other handles, e.g. "tee" vs "white-tee", never collide. {%- endcomment -%}
+              {%- assign rendered_needle = ',' | append: product_handle | append: ',' -%}
+              {%- if rendered_handles contains rendered_needle -%}
                 {%- assign is_duplicate = true -%}
               {%- endif -%}
 
@@ -163,7 +166,7 @@
               {%- endif -%}
 
               {%- assign rendered_count = rendered_count | plus: 1 -%}
-              {%- assign rendered_handles = rendered_handles | append: ',' | append: product_handle -%}
+              {%- assign rendered_handles = rendered_handles | append: ',' | append: product_handle | append: ',' -%}
 
               {%- if rendered_count > section.settings.products_to_show -%}
                 {%- break -%}
