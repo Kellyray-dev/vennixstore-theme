@@ -64,6 +64,24 @@
   endif
 -%}
 
+{%- comment -%}
+  VennixStore homepage curation:
+  Optionally filter the selected collection by product tags so apparel and
+  tech products never share the same feed. Each product is rendered at most
+  once — the loop de-duplicates by product handle and stops as soon as the
+  requested number of unique products has been displayed.
+{%- endcomment -%}
+{%- liquid
+  assign filter_mode = section.settings.product_filter | default: 'none'
+  assign filter_terms = section.settings.filter_terms | default: '' | downcase | strip
+  assign has_filter = false
+  if filter_mode != 'none' and filter_terms != blank
+    assign has_filter = true
+  endif
+
+  assign rendered_count = 0
+-%}
+
 <div
   class="color-{{ section.settings.color_scheme }} isolate gradient"
 >
@@ -104,17 +122,63 @@
 
         {%- if section.settings.collection.products.size > 0 -%}
           {% assign lazy_load = false %}
-          {% paginate section.settings.collection.products by section.settings.products_to_show %}
-            {%- for product in section.settings.collection.products limit: section.settings.products_to_show -%}
-              {% if lazy_load == false and forloop.index > max_columns_to_show %}
+          {%- comment -%}
+            Paginate deeply (50 is the storefront maximum) so tag filtering can
+            scan past the first page of the collection; the loop still renders
+            at most `products_to_show` unique product cards.
+          {%- endcomment -%}
+          {% paginate section.settings.collection.products by 50 %}
+            {%- for product in section.settings.collection.products -%}
+              {%- comment -%} De-duplicate by handle — a product must never render twice. {%- endcomment -%}
+              {%- assign is_duplicate = false -%}
+              {%- assign product_handle = product.handle | downcase -%}
+              {%- if rendered_handles contains product_handle -%}
+                {%- assign is_duplicate = true -%}
+              {%- endif -%}
+
+              {%- comment -%} Tag-based curation filter. {%- endcomment -%}
+              {%- assign matches_filter = true -%}
+              {%- if has_filter -%}
+                {%- assign product_tags = product.tags | join: ',' | downcase -%}
+                {%- assign product_searchable = product.type | downcase | append: ' ' | append: product.title | downcase | append: ' ' | append: product_tags -%}
+                {%- assign term_hit = false -%}
+                {%- assign terms = filter_terms | split: ',' -%}
+                {%- for term in terms -%}
+                  {%- assign term_clean = term | strip -%}
+                  {%- if term_clean != blank and product_searchable contains term_clean -%}
+                    {%- assign term_hit = true -%}
+                    {%- break -%}
+                  {%- endif -%}
+                {%- endfor -%}
+                {%- if filter_mode == 'exclude' -%}
+                  {%- assign matches_filter = true -%}
+                  {%- if term_hit -%}{%- assign matches_filter = false -%}{%- endif -%}
+                {%- elsif filter_mode == 'include' -%}
+                  {%- assign matches_filter = term_hit -%}
+                {%- endif -%}
+              {%- endif -%}
+
+              {%- if is_duplicate or matches_filter == false -%}
+                {%- continue -%}
+              {%- endif -%}
+
+              {%- assign rendered_count = rendered_count | plus: 1 -%}
+              {%- assign rendered_handles = rendered_handles | append: ',' | append: product_handle -%}
+
+              {%- if rendered_count > section.settings.products_to_show -%}
+                {%- break -%}
+              {%- endif -%}
+
+              {%- if lazy_load == false and rendered_count > max_columns_to_show -%}
                 {% assign lazy_load = true %}
               {% endif %}
               <li
-                id="Slide-{{ section.id }}-{{ forloop.index }}"
+                id="Slide-{{ section.id }}-{{ rendered_count }}"
+                data-product-handle="{{ product.handle }}"
                 class="grid__item{% if show_mobile_slider or show_desktop_slider %} slider__slide{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
                 {% if settings.animations_reveal_on_scroll %}
                   data-cascade
-                  style="--animation-order: {{ forloop.index }};"
+                  style="--animation-order: {{ rendered_count }};"
                 {% endif %}
               >
                 {% render 'card-product',
@@ -134,7 +198,9 @@
               {%- assign skip_card_product_styles = true -%}
             {%- endfor -%}
           {% endpaginate %}
-        {%- else -%}
+        {%- endif -%}
+
+        {%- if rendered_count == 0 -%}
           {%- for i in (1..section.settings.columns_desktop) -%}
             <li
               class="grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
@@ -310,7 +376,35 @@
     {
       "type": "header",
       "content": "t:sections.featured-collection.settings.header_collection.content"
-    },    
+    },
+    {
+      "type": "select",
+      "id": "product_filter",
+      "label": "Product tag filter",
+      "info": "Filters products in the selected collection by tags, type and title so feeds stay on-brand. Each product renders only once.",
+      "options": [
+        {
+          "value": "none",
+          "label": "No filtering"
+        },
+        {
+          "value": "exclude",
+          "label": "Exclude products containing terms"
+        },
+        {
+          "value": "include",
+          "label": "Only include products containing terms"
+        }
+      ],
+      "default": "none"
+    },
+    {
+      "type": "text",
+      "id": "filter_terms",
+      "label": "Filter terms",
+      "info": "Comma-separated words matched against tags, product type and title. Example: tech, usb, humidifier, case",
+      "default": ""
+    },
     {
       "type": "range",
       "id": "columns_desktop",

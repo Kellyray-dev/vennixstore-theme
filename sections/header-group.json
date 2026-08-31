@@ -8,30 +8,16 @@
         "message_rLkwnm": {
           "type": "message",
           "settings": {
-            "text": "Free shipping on orders over [threshold]"
-          }
-        },
-        "message_Va47ry": {
-          "type": "message",
-          "settings": {
-            "text": "30-day returns"
-          }
-        },
-        "message_V488jG": {
-          "type": "message",
-          "settings": {
-            "text": "Secure checkout"
+            "text": "Free Shipping on Orders Over $50 | 30-Day Easy Returns"
           }
         }
       },
       "block_order": [
-        "message_rLkwnm",
-        "message_Va47ry",
-        "message_V488jG"
+        "message_rLkwnm"
       ],
       "name": "Vennix Announcement Bar",
       "settings": {
-        "bg_color": "#20201e",
+        "bg_color": "#1a1a1a",
         "text_color": "#ffffff",
         "rotate_speed": 5
       }

@@ -124,23 +124,20 @@
             </div>
           {%- endif -%}
           <div class="card__content">
-            <div class="card__information">
-              <h3
-                class="card__heading"
-                {% if card_product.featured_media == null and settings.card_style == 'standard' %}
-                  id="title-{{ section_id }}-{{ card_product.id }}"
-                {% endif %}
-              >
-                <a
-                  href="{{ card_product.url }}"
-                  id="StandardCardNoMediaLink-{{ section_id }}-{{ card_product.id }}"
-                  class="full-unstyled-link"
-                  aria-labelledby="StandardCardNoMediaLink-{{ section_id }}-{{ card_product.id }}{% if card_product.available == false or card_on_sale %} NoMediaStandardBadge-{{ section_id }}-{{ card_product.id }}{% endif %}"
-                >
-                  {{ card_product.title | escape }}
-                </a>
-              </h3>
-            </div>
+            {%- if card_product.featured_media == null -%}
+              <div class="card__information">
+                <h3 class="card__heading" id="title-{{ section_id }}-{{ card_product.id }}">
+                  <a
+                    href="{{ card_product.url }}"
+                    id="StandardCardNoMediaLink-{{ section_id }}-{{ card_product.id }}"
+                    class="full-unstyled-link"
+                    aria-labelledby="StandardCardNoMediaLink-{{ section_id }}-{{ card_product.id }}{% if card_product.available == false or card_on_sale %} NoMediaStandardBadge-{{ section_id }}-{{ card_product.id }}{% endif %}"
+                  >
+                    {{ card_product.title | escape }}
+                  </a>
+                </h3>
+              </div>
+            {%- endif -%}
             <div class="card__badge {{ settings.badge_position }}">
               {%- if prestige_badge != blank -%}
                 <span class="badge vx-product-badge">{{ prestige_badge | escape }}</span>
@@ -175,7 +172,7 @@
                 href="{{ card_product.url }}"
                 id="CardLink-{{ section_id }}-{{ card_product.id }}"
                 class="full-unstyled-link"
-                aria-labelledby="CardLink-{{ section_id }}-{{ card_product.id }}{% if card_product.available == false or card_on_sale %} Badge-{{ section_id }}-{{ card_product.id }}{% endif %}"
+                aria-labelledby="CardLink-{{ section_id }}-{{ card_product.id }}{% if card_product.available == false or card_on_sale %} NoMediaStandardBadge-{{ section_id }}-{{ card_product.id }}{% endif %}"
               >
                 {{ card_product.title | escape }}
               </a>
@@ -185,8 +182,6 @@
                 <span class="visually-hidden">{{ 'accessibility.vendor' | t }}</span>
                 <div class="caption-with-letter-spacing light">{{ card_product.vendor }}</div>
               {%- endif -%}
-
-              <span class="caption-large light">{{ block.settings.description | escape }}</span>
 
               {%- if show_rating and card_product.metafields.reviews.rating.value != blank -%}
                 {% liquid
@@ -568,26 +563,6 @@
               </div>
             {% endif %}
           {% endif %}
-          <div class="card__badge {{ settings.badge_position }}">
-            {%- if prestige_badge != blank -%}
-              <span class="badge vx-product-badge">{{ prestige_badge | escape }}</span>
-            {%- endif -%}
-            {%- if card_product.available == false -%}
-              <span
-                id="Badge-{{ section_id }}-{{ card_product.id }}"
-                class="badge badge--bottom-left color-{{ settings.sold_out_badge_color_scheme }}"
-              >
-                {{- 'products.product.sold_out' | t -}}
-              </span>
-            {%- elsif card_on_sale and card_product.available -%}
-              <span
-                id="Badge-{{ section_id }}-{{ card_product.id }}"
-                class="badge badge--bottom-left color-{{ settings.sale_badge_color_scheme }}"
-              >
-                {{- 'products.product.on_sale' | t -}}
-              </span>
-            {%- endif -%}
-          </div>
         </div>
       </div>
     </div>

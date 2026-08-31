@@ -2,37 +2,8 @@
   "sections": {
     "vennix_hero": {
       "type": "vennix-hero",
-      "blocks": {
-        "shipping": {
-          "type": "assurance",
-          "settings": {
-            "icon": "delivery",
-            "heading": "Free shipping over [threshold]",
-            "text": "On eligible orders"
-          }
-        },
-        "returns": {
-          "type": "assurance",
-          "settings": {
-            "icon": "returns",
-            "heading": "30-day returns",
-            "text": "Simple and straightforward"
-          }
-        },
-        "checkout": {
-          "type": "assurance",
-          "settings": {
-            "icon": "secure",
-            "heading": "Secure checkout",
-            "text": "Protected payments"
-          }
-        }
-      },
-      "block_order": [
-        "shipping",
-        "returns",
-        "checkout"
-      ],
+      "blocks": {},
+      "block_order": [],
       "settings": {
         "image_focus": "right",
         "desktop_height": 720,
@@ -42,38 +13,11 @@
         "eyebrow": "Modern Clothing & Active Essentials",
         "heading": "Modern Clothing. Made for Movement.",
         "text": "<p>Elevated everyday pieces and active essentials designed for modern life.</p>",
-        "primary_label": "Shop New Arrivals",
+        "primary_label": "Shop Active Essentials",
         "primary_link": "shopify://collections/all",
-        "secondary_label": "Explore Essentials",
+        "secondary_label": "Explore Collections",
         "secondary_link": "shopify://collections"
       }
-    },
-    "brand_intro": {
-      "type": "rich-text",
-      "settings": {
-        "color_scheme": "scheme-1",
-        "padding_top": 24,
-        "padding_bottom": 24
-      },
-      "blocks": {
-        "heading": {
-          "type": "heading",
-          "settings": {
-            "heading": "Built for the way you move.",
-            "heading_size": "h2"
-          }
-        },
-        "text": {
-          "type": "text",
-          "settings": {
-            "text": "<p>VennixStore brings together modern silhouettes, everyday comfort, and active-inspired essentials designed to move effortlessly through your day.</p>"
-          }
-        }
-      },
-      "block_order": [
-        "heading",
-        "text"
-      ]
     },
     "vennix_trust": {
       "type": "vennix-trust-bar",
@@ -82,238 +26,136 @@
           "type": "badge",
           "settings": {
             "icon": "delivery",
-            "title": "Fast Shipping",
-            "description": "On eligible orders"
+            "title": "Free shipping over $50",
+            "description": "Delivered to your door"
           }
         },
         "returns": {
           "type": "badge",
           "settings": {
             "icon": "returns",
-            "title": "Easy Returns",
-            "description": "30-day return window"
+            "title": "30-day returns",
+            "description": "Simple and straightforward"
           }
         },
         "secure": {
           "type": "badge",
           "settings": {
             "icon": "secure",
-            "title": "Secure Checkout",
+            "title": "Secure checkout",
             "description": "Protected payments"
-          }
-        },
-        "quality": {
-          "type": "badge",
-          "settings": {
-            "icon": "secure",
-            "title": "Quality Focused",
-            "description": "Curated essentials"
           }
         }
       },
       "block_order": [
         "shipping",
         "returns",
-        "secure",
-        "quality"
+        "secure"
       ],
       "settings": {
         "color_scheme": "scheme-2"
       }
     },
-    "new_arrivals": {
-      "type": "featured-collection",
+    "shop_by_category": {
+      "type": "vennix-category-grid",
       "settings": {
-        "title": "New Arrivals",
-        "heading_size": "h2",
-        "description": "<p>Fresh styles and latest additions.</p>",
-        "show_description": true,
-        "description_style": "body",
-        "collection": "all",
-        "products_to_show": 8,
-        "columns_desktop": 4,
+        "eyebrow": "Shop the edit",
+        "heading": "Shop by Category",
         "color_scheme": "scheme-1",
-        "full_width": false,
-        "show_view_all": true,
-        "view_all_style": "solid",
-        "enable_desktop_slider": false,
-        "swipe_on_mobile": true,
-        "image_ratio": "square",
-        "image_shape": "default",
-        "show_secondary_image": true,
-        "show_vendor": false,
-        "show_rating": true,
-        "quick_add": "standard",
-        "columns_mobile": "2",
-        "padding_top": 72,
-        "padding_bottom": 72
-      }
-    },
-    "featured_collection": {
-      "type": "featured-collection",
-      "settings": {
-        "title": "Best Sellers",
-        "heading_size": "h2",
-        "description": "<p>Products generating the strongest customer interest.</p>",
-        "show_description": true,
-        "description_style": "body",
-        "collection": "all",
-        "products_to_show": 8,
-        "columns_desktop": 4,
-        "color_scheme": "scheme-1",
-        "full_width": false,
-        "show_view_all": true,
-        "view_all_style": "solid",
-        "enable_desktop_slider": false,
-        "swipe_on_mobile": true,
-        "image_ratio": "square",
-        "image_shape": "default",
-        "show_secondary_image": true,
-        "show_vendor": false,
-        "show_rating": true,
-        "quick_add": "standard",
-        "columns_mobile": "2",
-        "padding_top": 72,
-        "padding_bottom": 72
-      }
-    },
-    "editorial_image_text": {
-      "type": "image-with-text",
-      "settings": {
-        "image": "",
-        "layout": "text_first",
-        "color_scheme": "scheme-2",
-        "padding_top": 88,
-        "padding_bottom": 88,
-        "image_asset": "active-essentials.jpg"
-      },
-      "blocks": {
-        "heading": {
-          "type": "heading",
-          "settings": {
-            "heading": "Active Essentials",
-            "heading_size": "h2"
-          }
-        },
-        "text": {
-          "type": "text",
-          "settings": {
-            "text": "<p>Performance-inspired everyday pieces built for modern movement \u2014 from morning runs to evening plans.</p>"
-          }
-        },
-        "button": {
-          "type": "button",
-          "settings": {
-            "button_label": "Shop Activewear",
-            "button_link": "shopify://collections/all"
-          }
-        }
-      },
-      "block_order": [
-        "heading",
-        "text",
-        "button"
-      ]
-    },
-    "collection_list": {
-      "type": "collection-list",
-      "settings": {
-        "title": "Shop by Category",
-        "heading_size": "h2",
-        "columns_desktop": 4,
-        "color_scheme": "scheme-1",
-        "image_ratio": "portrait",
-        "padding_top": 72,
-        "padding_bottom": 72
+        "padding_top": 80,
+        "padding_bottom": 80
       },
       "blocks": {
         "women": {
-          "type": "featured_collection",
+          "type": "category",
           "settings": {
-            "collection": "all",
-            "title": "Women's",
-            "image_asset": "womens-fashion.jpg"
+            "image_asset": "womens-fashion.jpg",
+            "title": "Women's Activewear",
+            "tagline": "Movement-first sets, dresses and essentials",
+            "cta_label": "Shop now",
+            "link": "shopify://collections/all"
           }
         },
         "men": {
-          "type": "featured_collection",
+          "type": "category",
           "settings": {
-            "collection": "all",
-            "title": "Men's",
-            "image_asset": "mens-fashion.jpg"
+            "image_asset": "mens-fashion.jpg",
+            "title": "Men's Essentials",
+            "tagline": "Everyday basics built for modern life",
+            "cta_label": "Shop now",
+            "link": "shopify://collections/all"
           }
         },
         "active": {
-          "type": "featured_collection",
+          "type": "category",
           "settings": {
-            "collection": "all",
-            "title": "Activewear",
-            "image_asset": "activewear.jpg"
-          }
-        },
-        "essentials": {
-          "type": "featured_collection",
-          "settings": {
-            "collection": "all",
-            "title": "Essentials",
-            "image_asset": "essentials.jpg"
+            "image_asset": "active-essentials.jpg",
+            "title": "Active Essentials",
+            "tagline": "Performance layers for every move",
+            "cta_label": "Shop now",
+            "link": "shopify://collections/all"
           }
         }
       },
       "block_order": [
         "women",
         "men",
-        "active",
-        "essentials"
+        "active"
       ]
     },
-    "social_proof": {
-      "type": "multicolumn",
+    "new_in_apparel": {
+      "type": "featured-collection",
       "settings": {
-        "title": "Why VennixStore",
+        "title": "New in Apparel",
         "heading_size": "h2",
-        "columns_desktop": 3,
+        "description": "<p>Fresh clothing and active essentials — movement-first pieces for modern life.</p>",
+        "show_description": false,
+        "description_style": "body",
+        "collection": "all",
+        "products_to_show": 8,
+        "product_filter": "exclude",
+        "filter_terms": "tech, usb, humidifier, case, gadget, electronics, phone, cable, charger, trimmer, clipper",
+        "columns_desktop": 4,
+        "columns_mobile": "2",
+        "color_scheme": "scheme-1",
+        "full_width": false,
+        "show_view_all": true,
+        "view_all_style": "solid",
+        "enable_desktop_slider": false,
+        "swipe_on_mobile": false,
+        "image_ratio": "portrait",
+        "image_shape": "default",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_rating": false,
+        "quick_add": "standard",
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
+    },
+    "brand_story": {
+      "type": "vennix-brand-story",
+      "settings": {
+        "image": "",
+        "image_asset": "activewear.jpg",
+        "eyebrow": "The Vennix difference",
+        "heading": "Why VennixStore",
+        "text": "<p>Performance inspired everyday pieces built for modern movement — from morning runs to evening plans.</p>",
+        "button_label": "Shop Active Wear",
+        "button_link": "shopify://collections/all",
         "color_scheme": "scheme-2",
         "padding_top": 80,
         "padding_bottom": 80
-      },
-      "blocks": {
-        "modern": {
-          "type": "column",
-          "settings": {
-            "title": "Modern Design",
-            "text": "<p>Clean silhouettes and versatile pieces that work across your day.</p>"
-          }
-        },
-        "movement": {
-          "type": "column",
-          "settings": {
-            "title": "Built for Movement",
-            "text": "<p>Performance-inspired apparel designed for modern, active life.</p>"
-          }
-        },
-        "quality": {
-          "type": "column",
-          "settings": {
-            "title": "Quality Focused",
-            "text": "<p>Every product is selected for comfort, durability, and style.</p>"
-          }
-        }
-      },
-      "block_order": [
-        "modern",
-        "movement",
-        "quality"
-      ]
+      }
     },
     "vennix_newsletter": {
       "type": "vennix-newsletter",
       "settings": {
-        "eyebrow": "Stay Updated",
-        "heading": "New Arrivals, Direct",
+        "eyebrow": "",
+        "heading": "STAY UPDATED",
         "subtext": "Be first to hear about new collections, active essentials, and occasional offers.",
         "placeholder": "Your email address",
-        "btn_label": "Subscribe",
+        "btn_label": "SUBSCRIBE",
         "success_msg": "Thanks for subscribing.",
         "disclaimer": "Unsubscribe at any time.",
         "color_scheme": "scheme-3"
@@ -322,13 +164,10 @@
   },
   "order": [
     "vennix_hero",
-    "brand_intro",
     "vennix_trust",
-    "new_arrivals",
-    "featured_collection",
-    "editorial_image_text",
-    "collection_list",
-    "social_proof",
+    "shop_by_category",
+    "new_in_apparel",
+    "brand_story",
     "vennix_newsletter"
   ]
 }
