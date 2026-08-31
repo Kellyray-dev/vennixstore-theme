@@ -181,14 +181,6 @@ body {
   height: 2rem;
 }
 
-.vennix-header-wishlist .cart-count-bubble[hidden] {
-  display: none;
-}
-
-.vennix-header-wishlist .cart-count-bubble:not([hidden]) {
-  display: flex !important;
-}
-
 /* Shared controls */
 .button,
 .shopify-challenge__button,

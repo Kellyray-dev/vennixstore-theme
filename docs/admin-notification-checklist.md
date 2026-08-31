@@ -13,10 +13,10 @@ These affect only the **storefront** (public website), not Shopify email templat
 
 | Item | Where | Status |
 |------|-------|--------|
-| Store logo in header | `sections/header.liquid` | Uses `settings.logo` or `vennix-logo.svg`; alt now uses `shop.name` |
+| Store logo in header | `sections/header.liquid` + `assets/vennix-logo.svg` | The brand lockup is **inlined** (`inline_asset_content`) and painted with `var(--v-ink)`/`var(--v-gold)`, so it stays legible in dark mode; accessible name is `shop.name`. Upload a logo in **Admin → Branding → Logo** to override it |
 | Theme color (browser tab) | `layout/theme.liquid` | Fixed to charcoal `#1a1a1a` (Vennix palette) |
-| Custom design CSS | `layout/theme.liquid` | Now loads `vennix-custom.css` + `vennix-enhancements.css` |
-| SEO/brand JSON-LD | `snippets/vennix-seo-jsonld.liquid` | Now uses `shop.name` dynamically |
+| Custom design CSS | `layout/theme.liquid` | Loads `vennix-brand.css` + `vennix-brand-2.css` after `base.css`, plus `dark-mode.css` when dark mode is on (`vennix-custom.css` / `vennix-enhancements.css` do not exist) |
+| SEO/brand JSON-LD | `snippets/vennix-breadcrumb-jsonld.liquid` | Uses `shop.name` / `shop.url` dynamically (`vennix-seo-jsonld.liquid` does not exist) |
 | Social links (Open Graph) | `snippets/meta-tags.liquid`, settings | Uses `settings.social_*_link` |
 
 Theme changes **do not** change the content or look of Shopify's email templates.

@@ -132,8 +132,7 @@ html[data-theme='dark'] .header__icon--cart:hover {
   background: rgba(255, 255, 255, 0.08);
 }
 
-html[data-theme='dark'] .header__icon--cart .cart-count-bubble,
-html[data-theme='dark'] .vennix-header-wishlist .cart-count-bubble {
+html[data-theme='dark'] .header__icon--cart .cart-count-bubble {
   background: var(--v-gold);
   color: var(--v-on-inverse);
 }

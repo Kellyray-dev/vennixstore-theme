@@ -172,7 +172,8 @@
             }}
           </div>
         {%- else -%}
-          <img src="{{ 'vennix-logo.svg' | asset_url }}" alt="{{ shop.name | escape }}" width="184" height="39" class="header__heading-logo">
+          {{ 'vennix-logo.svg' | inline_asset_content }}
+          <span class="visually-hidden">{{ shop.name | escape }}</span>
         {%- endif -%}
       </a>
       {%- if request.page_type == 'index' -%}
@@ -215,7 +216,8 @@
             }}
           </div>
         {%- else -%}
-          <img src="{{ 'vennix-logo.svg' | asset_url }}" alt="{{ shop.name | escape }}" width="184" height="39" class="header__heading-logo">
+          {{ 'vennix-logo.svg' | inline_asset_content }}
+          <span class="visually-hidden">{{ shop.name | escape }}</span>
         {%- endif -%}
       </a>
       {%- if request.page_type == 'index' -%}

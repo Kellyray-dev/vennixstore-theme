@@ -324,6 +324,10 @@
         "paragraph_html": "<a href=\"{{ link }}\" class=\"link underlined-link\">Log in</a> to check out faster."
       }
     },
+    "faq": {
+      "placeholder_heading": "Add your FAQ heading",
+      "placeholder_text": "Tell customers about your returns, shipping and product care."
+    },
     "footer": {
       "payment": "Payment methods",
       "contact_info": "Contact us",

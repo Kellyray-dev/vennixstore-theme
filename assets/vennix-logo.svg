@@ -1,11 +1,10 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 60" width="280" height="60">
-  <g fill="none" fill-rule="evenodd">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 60" width="184" height="39" class="header__heading-logo" aria-hidden="true" focusable="false">
+  <g style="fill: none" fill-rule="evenodd">
     <g transform="translate(2 5)">
-      <rect width="50" height="50" rx="25" fill="#E9EDEB"/>
-      <path d="M13.5 15.5 25 39l11.5-23.5" stroke="#0B0B0B" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
-      <path d="m18.5 15.5 6.5 13 6.5-13" stroke="#344B43" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <rect width="50" height="50" rx="25" style="fill: var(--v-neutral-warm, #F0EEEA)"/>
+      <path d="M13.5 15.5 25 39l11.5-23.5" style="stroke: var(--v-ink, #1A1A1A)" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="m18.5 15.5 6.5 13 6.5-13" style="stroke: var(--v-gold, #C9A96E)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
     </g>
-    <text x="67" y="31" fill="#0B0B0B" font-family="Helvetica Neue, Arial, sans-serif" font-size="25" font-weight="600" letter-spacing="4.2">VENNIX</text>
-    <text x="69" y="46" fill="#536A61" font-family="Helvetica Neue, Arial, sans-serif" font-size="7.5" font-weight="600" letter-spacing="3.15">CURATED GOODS</text>
+    <text x="67" y="39" style="fill: var(--v-ink, #1A1A1A)" font-family="Helvetica Neue, Arial, sans-serif" font-size="25" font-weight="600" letter-spacing="4.2">VENNIX</text>
   </g>
 </svg>

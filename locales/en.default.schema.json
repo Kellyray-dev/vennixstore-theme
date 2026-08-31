@@ -393,6 +393,18 @@
         "label": "Color scheme",
         "has_cards_info": "To change the card color scheme, update your theme settings."
       },
+      "heading_alignment": {
+        "label": "Heading alignment",
+        "options__1": {
+          "label": "Left"
+        },
+        "options__2": {
+          "label": "Center"
+        },
+        "options__3": {
+          "label": "Right"
+        }
+      },
       "heading_size": {
         "label": "Heading size",
         "options__1": {
@@ -686,6 +698,33 @@
       },
       "presets": {
         "name": "Custom Liquid"
+      }
+    },
+    "faq": {
+      "name": "FAQ",
+      "settings": {
+        "title": {
+          "label": "Heading"
+        },
+        "description": {
+          "label": "Description"
+        }
+      },
+      "blocks": {
+        "faq_item": {
+          "name": "Question",
+          "settings": {
+            "question": {
+              "label": "Question"
+            },
+            "answer": {
+              "label": "Answer"
+            }
+          }
+        }
+      },
+      "presets": {
+        "name": "FAQ"
       }
     },
     "featured-blog": {
@@ -1646,6 +1685,9 @@
       "presets": {
         "name": "Multirow"
       }
+    },
+    "main-404": {
+      "name": "404 page"
     },
     "main-account": {
       "name": "Account"

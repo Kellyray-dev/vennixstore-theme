@@ -3,6 +3,14 @@
  * Centralized tokens for colors, typography, spacing, and components.
  */
 
+/* NOTE - brand lockup contract:
+   assets/vennix-logo.svg paints itself with var(--v-ink), var(--v-gold) and
+   var(--v-neutral-warm), each with a light-mode fallback, and header.liquid inlines it
+   with `inline_asset_content` so these tokens cascade in. That is what keeps the logo
+   legible on the dark header. Therefore:
+     - keep those three var() references; a hard-coded hex silently breaks dark mode;
+     - keep it inlined; loading it as <img src> freezes it on the light-mode fallbacks. */
+
 :root {
   /* Brand palette */
   --v-ink: #1A1A1A;       /* Charcoal — primary dark */
