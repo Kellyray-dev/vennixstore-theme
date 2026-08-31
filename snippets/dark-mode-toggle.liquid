@@ -1,0 +1,48 @@
+{%- comment -%}
+  Renders the sun/moon button that lets visitors override the dark-mode
+  auto-detection in the header.
+
+  Usage:
+  {% render 'dark-mode-toggle' %}
+{%- endcomment -%}
+
+<dark-mode-toggle class="vx-theme-toggle">
+  <button
+    type="button"
+    class="vx-theme-toggle__button header__icon focus-inset"
+    data-theme-toggle-button
+    data-label-light="{{ 'vennix.dark_mode.switch_to_light' | t }}"
+    data-label-dark="{{ 'vennix.dark_mode.switch_to_dark' | t }}"
+    aria-label="{{ 'vennix.dark_mode.switch_to_dark' | t }}"
+    title="{{ 'vennix.dark_mode.switch_to_dark' | t }}"
+    aria-pressed="false"
+  >
+    <span class="svg-wrapper vx-theme-toggle__icon vx-theme-toggle__icon--moon" aria-hidden="true">
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.6"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        focusable="false"
+      >
+        <path d="M20.5 14.3A8.5 8.5 0 1 1 9.7 3.5a6.8 6.8 0 0 0 10.8 10.8z"></path>
+      </svg>
+    </span>
+    <span class="svg-wrapper vx-theme-toggle__icon vx-theme-toggle__icon--sun" aria-hidden="true">
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.6"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        focusable="false"
+      >
+        <circle cx="12" cy="12" r="4.2"></circle>
+        <path d="M12 2.4v2.2M12 19.4v2.2M2.4 12h2.2M19.4 12h2.2M5.2 5.2l1.6 1.6M17.2 17.2l1.6 1.6M18.8 5.2l-1.6 1.6M6.8 17.2l-1.6 1.6"></path>
+      </svg>
+    </span>
+  </button>
+</dark-mode-toggle>

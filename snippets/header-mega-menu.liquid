@@ -36,12 +36,34 @@
                 >
                   {%- for childlink in link.links -%}
                     <li class="vx-mega-menu__column">
+                      {%- comment -%}
+                        Image resolution order for a mega-menu column:
+                        1. the linked collection's own image
+                        2. the collection's first product image
+                        3. a bundled lifestyle photo matched on the link title/handle
+                      {%- endcomment -%}
                       {%- liquid
                         assign mega_menu_image = blank
+                        assign mega_menu_fallback = ''
                         if childlink.type == 'collection_link'
                           assign mega_menu_image = childlink.object.image
                           if mega_menu_image == blank
                             assign mega_menu_image = childlink.object.products.first.featured_media.preview_image
+                          endif
+                        endif
+
+                        if mega_menu_image == blank
+                          assign mega_menu_keywords = childlink.title | downcase | append: ' ' | append: childlink.handle | downcase
+                          if mega_menu_keywords contains 'women' or mega_menu_keywords contains 'ladies' or mega_menu_keywords contains 'dress' or mega_menu_keywords contains 'female'
+                            assign mega_menu_fallback = 'womens-fashion.jpg'
+                          elsif mega_menu_keywords contains 'men'
+                            assign mega_menu_fallback = 'mens-fashion.jpg'
+                          elsif mega_menu_keywords contains 'active' and mega_menu_keywords contains 'essential'
+                            assign mega_menu_fallback = 'active-essentials.jpg'
+                          elsif mega_menu_keywords contains 'active' or mega_menu_keywords contains 'fitness' or mega_menu_keywords contains 'gym' or mega_menu_keywords contains 'sport' or mega_menu_keywords contains 'training' or mega_menu_keywords contains 'yoga'
+                            assign mega_menu_fallback = 'activewear.jpg'
+                          elsif mega_menu_keywords contains 'essential' or mega_menu_keywords contains 'basic' or mega_menu_keywords contains 'accessor' or mega_menu_keywords contains 'underwear' or mega_menu_keywords contains 'lounge'
+                            assign mega_menu_fallback = 'essentials.jpg'
                           endif
                         endif
                       -%}
@@ -56,6 +78,20 @@
                               sizes: '(min-width: 990px) 220px, 0px',
                               alt: ''
                           }}
+                        </a>
+                      {%- elsif mega_menu_fallback != '' -%}
+                        <a class="vx-mega-menu__media" href="{{ childlink.url }}" tabindex="-1" aria-hidden="true">
+                          <img
+                            src="{{ mega_menu_fallback | asset_img_url: '480x' }}"
+                            srcset="{{ mega_menu_fallback | asset_img_url: '240x' }} 240w,
+                                    {{ mega_menu_fallback | asset_img_url: '360x' }} 360w,
+                                    {{ mega_menu_fallback | asset_img_url: '480x' }} 480w"
+                            sizes="(min-width: 990px) 220px, 0px"
+                            width="480"
+                            height="360"
+                            loading="lazy"
+                            alt=""
+                          >
                         </a>
                       {%- endif -%}
                       <a
