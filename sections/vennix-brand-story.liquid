@@ -1,0 +1,234 @@
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  .vx-story__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: clamp(2.4rem, 4vw, 4.8rem);
+    align-items: center;
+  }
+
+  @media screen and (min-width: 990px) {
+    .vx-story__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: clamp(4.8rem, 7vw, 9.6rem);
+    }
+  }
+
+  .vx-story__media {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius-lg);
+    aspect-ratio: 4 / 5;
+    background: var(--v-neutral-warm);
+    box-shadow: var(--shadow-card);
+  }
+
+  @media screen and (min-width: 990px) {
+    .vx-story__media {
+      aspect-ratio: 5 / 6;
+    }
+  }
+
+  .vx-story__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transition: transform 1.1s cubic-bezier(0.22, 0.61, 0.36, 1);
+  }
+
+  .vx-story__media:hover img {
+    transform: scale(1.05);
+  }
+
+  .vx-story__content {
+    max-width: 52rem;
+  }
+
+  @media screen and (min-width: 990px) {
+    .vx-story__content {
+      max-width: none;
+    }
+  }
+
+  .vx-story__eyebrow {
+    margin: 0 0 1.6rem;
+    color: var(--v-gold-deep);
+    font-size: 1.05rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  .vx-story__heading {
+    margin: 0 0 2rem;
+    color: rgb(var(--color-foreground));
+    font-family: var(--font-editorial);
+    font-size: clamp(3rem, 4vw, 5rem);
+    font-weight: 400;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+  }
+
+  .vx-story__text {
+    margin: 0;
+    color: rgba(var(--color-foreground), 0.72);
+    font-size: 1.65rem;
+    line-height: 1.7;
+  }
+
+  .vx-story__text p {
+    margin: 0 0 1.4rem;
+  }
+
+  .vx-story__button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.9rem;
+    margin-top: 3rem;
+  }
+
+  .vx-story__button svg {
+    width: 1.7rem;
+    height: 1.7rem;
+    transition: transform 0.3s ease;
+  }
+
+  .vx-story__button:hover svg {
+    transform: translateX(4px);
+  }
+
+  @media screen and (max-width: 989px) {
+    .vx-story__media {
+      order: -1;
+    }
+  }
+{%- endstyle -%}
+
+<section
+  class="vx-story color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-padding"
+  aria-labelledby="VennixStoryHeading-{{ section.id }}"
+>
+  <div class="page-width">
+    <div class="vx-story__grid">
+      <div class="vx-story__media">
+        {%- if section.settings.image != blank -%}
+          {{
+            section.settings.image
+            | image_url: width: 1600
+            | image_tag:
+              widths: '500, 800, 1100, 1600',
+              sizes: '(min-width: 990px) calc((100vw - 16rem) / 2), 100vw',
+              loading: 'lazy',
+              alt: section.settings.heading | escape
+          }}
+        {%- elsif section.settings.image_asset != blank -%}
+          <img
+            src="{{ section.settings.image_asset | asset_url }}"
+            alt="{{ section.settings.heading | escape }}"
+            loading="lazy"
+            width="1200"
+            height="1440"
+          >
+        {%- else -%}
+          {{ 'collection-apparel-2' | placeholder_svg_tag: 'placeholder-svg' }}
+        {%- endif -%}
+      </div>
+
+      <div class="vx-story__content">
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="vx-story__eyebrow">{{ section.settings.eyebrow | escape }}</p>
+        {%- endif -%}
+        {%- if section.settings.heading != blank -%}
+          <h2 id="VennixStoryHeading-{{ section.id }}" class="vx-story__heading">
+            {{ section.settings.heading }}
+          </h2>
+        {%- endif -%}
+        {%- if section.settings.text != blank -%}
+          <div class="vx-story__text rte">{{ section.settings.text }}</div>
+        {%- endif -%}
+        {%- if section.settings.button_label != blank -%}
+          <a
+            class="button button--primary vx-story__button"
+            href="{{ section.settings.button_link | default: routes.all_products_collection_url }}"
+          >
+            <span>{{ section.settings.button_label | escape }}</span>
+            <svg aria-hidden="true" viewBox="0 0 20 20" fill="none">
+              <path d="M4 10h11M11 6l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Vennix brand story",
+  "tag": "section",
+  "class": "section section--vennix-story",
+  "disabled_on": { "groups": ["header", "footer"] },
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Image" },
+    {
+      "type": "text",
+      "id": "image_asset",
+      "label": "Bundled image",
+      "default": "activewear.jpg",
+      "info": "Used when no image is selected. Enter an asset filename from the theme's assets folder."
+    },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "The Vennix difference" },
+    { "type": "inline_richtext", "id": "heading", "label": "Heading", "default": "Why VennixStore" },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "<p>Performance inspired everyday pieces built for modern movement — from morning runs to evening plans.</p>"
+    },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Shop Active Wear" },
+    { "type": "url", "id": "button_link", "label": "Button link" },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-2" },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 80
+    }
+  ],
+  "presets": [
+    {
+      "name": "Vennix brand story"
+    }
+  ]
+}
+{% endschema %}

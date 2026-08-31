@@ -1,0 +1,320 @@
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  .vx-categories {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.6rem;
+    margin-top: clamp(3.2rem, 5vw, 5.6rem);
+  }
+
+  @media screen and (min-width: 750px) {
+    .vx-categories {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 2.4rem;
+    }
+  }
+
+  .vx-category {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    border-radius: var(--radius-lg);
+    background: var(--v-neutral-warm);
+    box-shadow: var(--shadow-subtle);
+    transition: box-shadow 0.4s ease, transform 0.4s ease;
+  }
+
+  .vx-category:hover {
+    box-shadow: var(--shadow-card);
+    transform: translateY(-4px);
+  }
+
+  .vx-category__media {
+    position: relative;
+    display: block;
+    aspect-ratio: 3 / 4;
+    overflow: hidden;
+  }
+
+  .vx-category__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transition: transform 0.6s cubic-bezier(0.22, 0.61, 0.36, 1);
+  }
+
+  .vx-category:hover .vx-category__media img {
+    transform: scale(1.05);
+  }
+
+  .vx-category__wash {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top,
+      rgba(12, 12, 12, 0.62) 0%,
+      rgba(12, 12, 12, 0.12) 45%,
+      rgba(12, 12, 12, 0) 70%
+    );
+  }
+
+  .vx-category__body {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 2.4rem;
+    color: #fff;
+  }
+
+  .vx-category__title {
+    margin: 0;
+    color: #fff;
+    font-family: var(--font-editorial);
+    font-size: clamp(2.2rem, 2.6vw, 3rem);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+  }
+
+  .vx-category__tagline {
+    margin: 0.6rem 0 0;
+    color: rgba(255, 255, 255, 0.82);
+    font-size: 1.25rem;
+    line-height: 1.5;
+  }
+
+  .vx-category__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+    margin-top: 1.4rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  .vx-category__cta svg {
+    width: 1.6rem;
+    height: 1.6rem;
+    transition: transform 0.3s ease;
+  }
+
+  .vx-category:hover .vx-category__cta svg {
+    transform: translateX(4px);
+  }
+
+  @media screen and (max-width: 749px) {
+    .vx-category__media {
+      aspect-ratio: 16 / 11;
+    }
+  }
+{%- endstyle -%}
+
+<section
+  class="vx-category-section color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-padding"
+  aria-label="{{ section.settings.heading | default: 'Shop by category' | escape }}"
+>
+  <div class="page-width">
+    <header class="vx-category-section__header">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="vx-section-eyebrow">{{ section.settings.eyebrow | escape }}</p>
+      {%- endif -%}
+      {%- if section.settings.heading != blank -%}
+        <h2 class="vx-category-section__heading">{{ section.settings.heading | escape }}</h2>
+      {%- endif -%}
+    </header>
+
+    <ul class="vx-categories" role="list">
+      {%- for block in section.blocks -%}
+        {%- liquid
+          assign tile_collection = block.settings.collection
+
+          assign block_url = block.settings.link
+          if block_url == blank and tile_collection != blank
+            assign block_url = tile_collection.url
+          endif
+          if block_url == blank
+            assign block_url = routes.all_products_collection_url
+          endif
+
+          assign tile_title = block.settings.title
+          if tile_title == blank and tile_collection != blank
+            assign tile_title = tile_collection.title
+          endif
+          if tile_title == blank
+            assign tile_title = 'Shop now'
+          endif
+
+          assign tile_image = block.settings.image
+        -%}
+        <li class="vx-categories__item" {{ block.shopify_attributes }}>
+          <a class="vx-category" href="{{ block_url }}" aria-label="{{ tile_title | escape }}">
+            <span class="vx-category__media">
+              {%- if tile_image != blank -%}
+                {{
+                  tile_image
+                  | image_url: width: 1200
+                  | image_tag:
+                    widths: '400, 600, 800, 1200',
+                    sizes: '(min-width: 990px) calc((100vw - 12rem) / 3), (min-width: 750px) calc((100vw - 10rem) / 3), 100vw',
+                    loading: 'lazy',
+                    alt: tile_title | escape
+                }}
+              {%- elsif tile_collection.featured_image != blank -%}
+                {{
+                  tile_collection.featured_image
+                  | image_url: width: 1200
+                  | image_tag:
+                    widths: '400, 600, 800, 1200',
+                    sizes: '(min-width: 990px) calc((100vw - 12rem) / 3), (min-width: 750px) calc((100vw - 10rem) / 3), 100vw',
+                    loading: 'lazy',
+                    alt: tile_title | escape
+                }}
+              {%- elsif block.settings.image_asset != blank -%}
+                <img
+                  src="{{ block.settings.image_asset | asset_url }}"
+                  alt="{{ tile_title | escape }}"
+                  loading="lazy"
+                  width="1408"
+                  height="768"
+                >
+              {%- else -%}
+                {{ 'collection-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}
+              {%- endif -%}
+              <span class="vx-category__wash" aria-hidden="true"></span>
+            </span>
+            <span class="vx-category__body">
+              <h3 class="vx-category__title">{{ tile_title | escape }}</h3>
+              {%- if block.settings.tagline != blank -%}
+                <span class="vx-category__tagline">{{ block.settings.tagline | escape }}</span>
+              {%- endif -%}
+              <span class="vx-category__cta">
+                {{ block.settings.cta_label | default: 'Shop now' | escape }}
+                <svg aria-hidden="true" viewBox="0 0 20 20" fill="none">
+                  <path d="M4 10h11M11 6l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
+            </span>
+          </a>
+        </li>
+      {%- endfor -%}
+    </ul>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Vennix category grid",
+  "tag": "section",
+  "class": "section section--vennix-categories",
+  "disabled_on": { "groups": ["header", "footer"] },
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Shop the edit" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Shop by Category" },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 80
+    }
+  ],
+  "blocks": [
+    {
+      "type": "category",
+      "name": "Category tile",
+      "limit": 3,
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection",
+          "info": "Automatically uses the collection's title, image and link. Override below if needed."
+        },
+        { "type": "image_picker", "id": "image", "label": "Custom image", "info": "Overrides the collection image." },
+        {
+          "type": "text",
+          "id": "image_asset",
+          "label": "Bundled fallback image",
+          "info": "Used when no collection or custom image is set. Enter an asset filename from the theme's assets folder."
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Custom title",
+          "info": "Overrides the collection title."
+        },
+        { "type": "text", "id": "tagline", "label": "Tagline", "default": "" },
+        { "type": "text", "id": "cta_label", "label": "Button label", "default": "Shop now" },
+        { "type": "url", "id": "link", "label": "Custom link", "info": "Overrides the collection link." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Vennix category grid",
+      "blocks": [
+        {
+          "type": "category",
+          "settings": {
+            "image_asset": "womens-fashion.jpg",
+            "title": "Women's Activewear",
+            "tagline": "Movement-first sets, dresses and essentials",
+            "cta_label": "Shop now"
+          }
+        },
+        {
+          "type": "category",
+          "settings": {
+            "image_asset": "mens-fashion.jpg",
+            "title": "Men's Essentials",
+            "tagline": "Everyday basics built for modern life",
+            "cta_label": "Shop now"
+          }
+        },
+        {
+          "type": "category",
+          "settings": {
+            "image_asset": "active-essentials.jpg",
+            "title": "Active Essentials",
+            "tagline": "Performance layers for every move",
+            "cta_label": "Shop now"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

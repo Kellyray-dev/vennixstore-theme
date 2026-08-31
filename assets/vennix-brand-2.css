@@ -479,3 +479,148 @@ h1, h2, h3, h4, h5, h6 {
   white-space: nowrap;
   border-width: 0;
 }
+
+/* ============================================================
+   HOMEPAGE UX OVERHAUL — premium layout & consistency tweaks
+   ============================================================ */
+
+/* 1. Increase whitespace for a premium feel ---------------- */
+.section-padding {
+  padding-top: 80px;
+  padding-bottom: 80px;
+}
+
+@media screen and (max-width: 749px) {
+  .section-padding {
+    padding-top: 40px;
+    padding-bottom: 40px;
+  }
+}
+
+/* 2. Clean navigation — flat, softly-shadowed dropdowns ----- */
+.header__inline-menu details[open] .header__submenu,
+.header__inline-menu details[open] .mega-menu__content {
+  border: none;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+/* 3. Static, uniform product grids --------------------------
+   Carousel feeds are rendered as a clean CSS grid: 4 columns on
+   desktop, 2 on mobile — every product renders exactly once. */
+.collection .product-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+@media screen and (min-width: 750px) {
+  .collection .product-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media screen and (min-width: 990px) {
+  .collection .product-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .collection .product-grid.grid--3-col-desktop {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.collection .product-grid .grid__item {
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+}
+
+.collection .product-grid:not(.slider) {
+  margin-bottom: 0;
+}
+
+/* 4. Product card consistency — equal heights, aligned CTA ---
+   Cards stretch to equal height; the price + quick-add button
+   group stays pinned to the bottom regardless of title length. */
+.card-wrapper.product-card-wrapper,
+.product-card-wrapper .card {
+  height: 100%;
+}
+
+/* Outer content block (price + quick add) is a flex column so the
+   CHOOSE OPTIONS / ADD TO CART button stays pinned to the card bottom. */
+.product-card-wrapper .card:not(.ratio) > .card__content {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+}
+
+.product-card-wrapper .card > .card__content > .card__information {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+}
+
+.product-card-wrapper .card__heading a {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.product-card-wrapper .quick-add {
+  margin-top: auto;
+  padding-top: 0.8rem;
+}
+
+/* 5. Sale price highlighting -------------------------------- */
+.price--on-sale .price-item--regular {
+  text-decoration: line-through;
+  color: #808080;
+}
+
+.price--on-sale .price-item--sale {
+  color: #d32f2f;
+  font-weight: 700;
+}
+
+/* 6. Category tile hover zoom -------------------------------- */
+.collection-list .card__media {
+  overflow: hidden;
+}
+
+.collection-list .card__media img {
+  transition: transform 0.5s ease;
+}
+
+.collection-list .card:hover .card__media img {
+  transform: scale(1.05);
+}
+
+/* Static homepage feeds are never sliders: neutralise peek offsets
+   and slider counters so the pure CSS grid aligns to page-width. */
+.collection .product-grid:not(.slider)::after {
+  margin: 0;
+}
+
+.collection .product-grid:not(.slider) .grid__item:first-of-type {
+  margin-left: 0;
+}
+
+/* Bespoke Vennix category + story sections use the same image zoom
+   interaction as the Dawn collection tiles. */
+.vx-categories .vx-category__media,
+.vx-story .vx-story__media {
+  overflow: hidden;
+}
+
+.vx-categories .vx-category__media img {
+  transition: transform 0.5s ease;
+}
+
+.vx-categories .vx-category:hover .vx-category__media img {
+  transform: scale(1.05);
+}
