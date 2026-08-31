@@ -249,6 +249,10 @@
       </div>
       {% render 'header-search', input_id: 'Search-In-Modal' %}
 
+      {%- if settings.enable_dark_mode != false -%}
+        {% render 'dark-mode-toggle' %}
+      {%- endif -%}
+
       {%- if shop.customer_accounts_enabled -%}
         <a
           href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}"

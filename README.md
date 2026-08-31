@@ -106,6 +106,7 @@ Centralized in `assets/vennix-brand-2.css`:
 - `vennix-product-assurances.liquid` — product assurances
 - `vennix-shipping-progress.liquid` — free-shipping progress
 - `vennix-sticky-atc.liquid` — mobile sticky Add to Cart
+- `dark-mode-toggle.liquid` — header sun/moon button for the dark theme override
 
 ### Commerce & UX features
 
@@ -119,6 +120,8 @@ Centralized in `assets/vennix-brand-2.css`:
 - Sticky header and mobile navigation
 - Volume pricing, quantity popovers, and pickup availability
 - Storefront events support for app/agent/AI cart interactions (see `release-notes.md`)
+- Mega menu with hover-intent opening and automatic collection imagery (collection image → first product image → bundled lifestyle photo matched on the link title)
+- Site-wide dark mode: follows the visitor's OS preference, overridable with the header toggle and remembered per visitor (`dark-mode.css`, `dark-mode.js`, `header-menu-hover.js`)
 
 ## Repository Structure
 

@@ -102,6 +102,18 @@
     ]
   },
   {
+    "name": "Dark mode",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "enable_dark_mode",
+        "default": true,
+        "label": "Enable dark mode",
+        "info": "Visitors with a dark system preference get the dark theme automatically, and everyone can switch with the sun/moon button in the header."
+      }
+    ]
+  },
+  {
     "name": "t:settings_schema.typography.name",
     "settings": [
       {
