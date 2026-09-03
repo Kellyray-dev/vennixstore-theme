@@ -387,14 +387,14 @@ a.product__text {
 
 @media screen and (max-width: 749px) {
   .product__media-list {
-    margin-left: -2.5rem;
+    margin-left: -1.6rem;
     margin-bottom: 3rem;
-    width: calc(100% + 4rem);
+    width: calc(100% + 3.2rem);
   }
 
   .product__media-wrapper slider-component:not(.thumbnail-slider--no-slide) {
-    margin-left: -1.5rem;
-    margin-right: -1.5rem;
+    margin-left: -1.6rem;
+    margin-right: -1.6rem;
   }
 
   .slider.product__media-list::-webkit-scrollbar {
@@ -411,11 +411,11 @@ a.product__text {
   }
 
   .product__media-list .product__media-item {
-    width: calc(100% - 3rem - var(--grid-mobile-horizontal-spacing));
+    width: calc(100% - 2.4rem - var(--grid-mobile-horizontal-spacing));
   }
 
   .product--mobile-columns .product__media-item {
-    width: calc(50% - 1.5rem - var(--grid-mobile-horizontal-spacing));
+    width: calc(50% - 1.2rem - var(--grid-mobile-horizontal-spacing));
   }
 }
 

@@ -244,8 +244,29 @@
                         {{- 'icon-caret.svg' | inline_asset_content -}}
                       </summary>
                       <div class="accordion__content rte" id="ProductAccordion-{{ block.id }}-{{ section.id }}">
-                        {{ block.settings.content | replace: '[threshold]', free_shipping_amount }}
-                        {{ block.settings.page.content }}
+                        {%- assign block_heading = block.settings.heading | downcase -%}
+                        {%- if block_heading == 'shipping' -%}
+                          <p>
+                            Free shipping is available on orders over {{ free_shipping_amount }}.
+                            Other available shipping options are shown at checkout.
+                          </p>
+                          {%- if shop.shipping_policy.body != blank -%}
+                            <p>{{ 'products.product.shipping_policy_html' | t: link: shop.shipping_policy.url }}</p>
+                          {%- endif -%}
+                        {%- elsif block_heading == 'returns' -%}
+                          <p>
+                            Review our
+                            {%- if shop.refund_policy != blank -%}
+                              <a href="{{ shop.refund_policy.url }}">refund policy</a>
+                            {%- else -%}
+                              return policy
+                            {%- endif -%}
+                            for the return window, conditions, and instructions.
+                          </p>
+                        {%- else -%}
+                          {{ block.settings.content | replace: '[threshold]', free_shipping_amount }}
+                          {{ block.settings.page.content }}
+                        {%- endif -%}
                       </div>
                     </details>
                   </div>

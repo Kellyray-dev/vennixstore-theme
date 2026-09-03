@@ -749,12 +749,25 @@ textarea {
 
 .template-product .product__media-wrapper .global-media-settings,
 .template-product .product__media img {
+  border: 1px solid var(--v-line);
   border-radius: 18px;
 }
 
 .template-product .thumbnail {
+  border: 1px solid var(--v-line);
   border-radius: 10px;
   overflow: hidden;
+}
+
+.template-product .product__info-container {
+  max-width: 58rem;
+  padding-top: clamp(0.6rem, 1.6vw, 1.6rem);
+}
+
+.template-product .product__text.caption-with-letter-spacing {
+  color: var(--v-gold-deep);
+  font-size: 0.92rem;
+  font-weight: 700;
 }
 
 .template-product .product__title h1 {
@@ -771,6 +784,10 @@ textarea {
   color: var(--v-ink-soft);
   font-size: 1.55rem;
   line-height: 1.6;
+}
+
+.template-product .price {
+  margin-top: 0.4rem;
 }
 
 .product__short-description .metafield-rich_text_field > :first-child,
@@ -798,10 +815,40 @@ textarea {
   border-radius: 12px;
 }
 
+.template-product .product-form__input input[type='radio'] + label {
+  min-height: 4.9rem;
+  padding: 1.2rem 1.6rem;
+  border: 1px solid var(--v-line);
+  border-radius: 999px;
+  background: var(--v-neutral-warm);
+  color: var(--v-ink);
+  font-size: 1.05rem;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.template-product .product-form__input input[type='radio']:checked + label {
+  background: var(--v-ink);
+  border-color: var(--v-ink);
+  color: var(--v-white);
+}
+
+.template-product .product-form__input input[type='radio']:focus-visible + label {
+  outline: 2px solid var(--v-gold-deep);
+  outline-offset: 2px;
+}
+
+.template-product .product-form__buttons {
+  display: grid;
+  gap: 1rem;
+}
+
 .template-product .product-form__submit {
   min-height: 5.8rem;
   font-size: 1.2rem;
   font-weight: 750;
+  width: 100%;
 }
 
 .vx-product-assurances {
