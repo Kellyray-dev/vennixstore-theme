@@ -14,7 +14,7 @@ Preferred method with Shopify's GitHub integration:
 1. Open **Shopify Admin → Online Store → Themes**.
 2. Add or connect a theme from GitHub.
 3. Select repository `Kellyray-dev/vennixstore-theme`.
-4. Select branch `arena/019ff6c1-vennixstore-theme`.
+4. Select branch `main`.
 5. Keep the connected theme unpublished.
 6. Preview the homepage, collection, product, search, cart, account, policy, and contact pages on desktop and mobile.
 
