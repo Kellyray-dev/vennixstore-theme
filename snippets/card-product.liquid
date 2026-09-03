@@ -23,12 +23,16 @@
   {% render 'card-product', show_vendor: section.settings.show_vendor %}
 {% endcomment %}
 {%- unless skip_styles -%}
-  {{ 'component-rating.css' | asset_url | stylesheet_tag }}
-  {{ 'component-volume-pricing.css' | asset_url | stylesheet_tag }}
-
-  {{ 'component-price.css' | asset_url | stylesheet_tag }}
-  {{ 'quick-order-list.css' | asset_url | stylesheet_tag }}
-  {{ 'quantity-popover.css' | asset_url | stylesheet_tag }}
+  {%- comment -%}
+    Card chrome (ratings, volume pricing, price, quick order, quantity popover) is
+    below the fold on grids and only needed once a card is interacted with, so these
+    stylesheets load asynchronously and stay off the critical rendering path.
+  {%- endcomment -%}
+  <link rel="stylesheet" href="{{ 'component-rating.css' | asset_url }}" media="print" onload="this.media='all'">
+  <link rel="stylesheet" href="{{ 'component-volume-pricing.css' | asset_url }}" media="print" onload="this.media='all'">
+  <link rel="stylesheet" href="{{ 'component-price.css' | asset_url }}" media="print" onload="this.media='all'">
+  <link rel="stylesheet" href="{{ 'quick-order-list.css' | asset_url }}" media="print" onload="this.media='all'">
+  <link rel="stylesheet" href="{{ 'quantity-popover.css' | asset_url }}" media="print" onload="this.media='all'">
 {%- endunless -%}
 {%- if card_product and card_product != empty -%}
   {%- liquid
