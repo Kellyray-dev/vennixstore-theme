@@ -216,8 +216,9 @@ textarea {
   border-radius: 16px;
 }
 
+/* Phase 4: the micro-lift now lives on .card__inner only (single source);
+   the wrapper itself must not translate, or the card double-lifts. */
 .card-wrapper:hover {
-  transform: translateY(-4px);
   box-shadow: none;
 }
 
@@ -296,13 +297,41 @@ textarea {
 /* --------------------------------------------------------------------------
    Vennix custom storefront sections
 ---------------------------------------------------------------------------- */
+/* Section opener eyebrow — editorial kicker with a muted-gold rule.
+   Used by the homepage opener pattern (categories / story / newsletter).
+   Colours are scheme-aware so the small caps always clear WCAG AA. */
 .vx-section-eyebrow {
-  margin: 0 0 1.6rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 0 0 1.8rem;
   color: var(--v-gold-deep);
-  font-size: 1.05rem;
-  font-weight: 700;
+  font-size: var(--vennix-type-eyebrow, 1.05rem);
+  font-weight: 650;
   letter-spacing: 0.2em;
+  line-height: 1.5;
   text-transform: uppercase;
+}
+
+.color-scheme-1 .vx-section-eyebrow,
+.color-scheme-2 .vx-section-eyebrow {
+  color: #83612c; /* deep muted gold — AA on the cream bands */
+}
+
+.color-scheme-3 .vx-section-eyebrow,
+.color-scheme-4 .vx-section-eyebrow {
+  color: var(--v-gold); /* lighter gold — AA on near-black bands */
+}
+
+.color-scheme-5 .vx-section-eyebrow {
+  color: var(--v-ink); /* ink — AA on the gold band */
+}
+
+.vx-section-eyebrow__mark {
+  width: 3rem;
+  height: 1px;
+  flex: none;
+  background: currentColor;
 }
 
 .vx-announcement {
@@ -344,18 +373,22 @@ textarea {
   background: #c7b6a4;
 }
 
+/* --------------------------------------------------------------------------
+   Vennix trust bar — quiet reassurance strip (homepage)
+   ------------------------------------------------------------------------- */
 .vx-trust {
-  border-bottom: 1px solid rgba(var(--color-foreground), 0.12);
+  border-top: 1px solid rgba(var(--color-foreground), 0.09);
+  border-bottom: 1px solid rgba(var(--color-foreground), 0.09);
 }
 
 .vx-trust__grid {
-  min-height: 10rem;
+  min-height: 8.8rem;
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  align-items: center;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(0, 1fr);
+  align-items: stretch;
   margin: 0 auto;
-  padding-top: 1.8rem;
-  padding-bottom: 1.8rem;
+  padding-block: 1.5rem;
   list-style: none;
 }
 
@@ -363,9 +396,9 @@ textarea {
   min-width: 0;
   display: flex;
   align-items: center;
-  gap: 1.3rem;
-  padding: 0 2.4rem;
-  border-left: 1px solid rgba(var(--color-foreground), 0.13);
+  gap: 1.4rem;
+  padding-inline: clamp(2rem, 3vw, 4rem);
+  border-left: 1px solid rgba(var(--color-foreground), 0.11);
 }
 
 .vx-trust__item:first-child {
@@ -378,39 +411,48 @@ textarea {
 }
 
 .vx-trust__icon {
-  width: 4rem;
-  height: 4rem;
-  flex: 0 0 4rem;
+  flex: 0 0 2.4rem;
+  width: 2.4rem;
+  height: 2.4rem;
   display: grid;
   place-items: center;
   color: var(--v-gold-deep);
-  border: 1px solid rgba(var(--color-foreground), 0.17);
-  border-radius: 50%;
-  background: rgba(var(--color-background), 0.5);
 }
 
 .vx-trust__icon svg {
-  width: 2rem;
-  height: 2rem;
+  width: 2.2rem;
+  height: 2.2rem;
+}
+
+.vx-trust__copy {
+  min-width: 0;
 }
 
 .vx-trust__copy strong,
 .vx-trust__copy small {
   display: block;
-  color: rgb(var(--color-foreground));
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .vx-trust__copy strong {
-  font-size: 1.25rem;
-  font-weight: 700;
+  color: rgb(var(--color-foreground));
+  font-size: 1.3rem;
+  font-weight: 650;
+  letter-spacing: 0.01em;
+  line-height: 1.4;
 }
 
 .vx-trust__copy small {
-  margin-top: 0.2rem;
-  opacity: 0.62;
+  margin-top: 0.15rem;
+  color: rgba(var(--color-foreground), 0.6);
   font-size: 1.08rem;
-  white-space: nowrap;
+  line-height: 1.45;
 }
+
+/* --------------------------------------------------------------------------
+   Vennix value cards (product/editorial context)
+   ------------------------------------------------------------------------- */
 
 .section--vennix-values {
   margin: 0;
@@ -510,42 +552,53 @@ textarea {
   text-transform: uppercase;
 }
 
+/* --------------------------------------------------------------------------
+   Vennix newsletter — quiet closing band (homepage)
+   ------------------------------------------------------------------------- */
 .section--vennix-newsletter {
   margin: 0;
 }
 
 .vx-newsletter {
-  padding: clamp(7rem, 9vw, 11rem) 0;
+  padding: clamp(6.4rem, 8vw, 9.6rem) 0;
 }
 
 .vx-newsletter__inner {
   display: grid;
-  grid-template-columns: minmax(0, 0.95fr) minmax(38rem, 1.05fr);
-  gap: clamp(5rem, 9vw, 13rem);
+  grid-template-columns: minmax(0, 0.9fr) minmax(36rem, 1.1fr);
+  gap: clamp(4.5rem, 8vw, 11rem);
   align-items: center;
 }
 
 .vx-newsletter__copy h2 {
-  max-width: 10ch;
+  max-width: 13ch;
   margin: 0;
   color: rgb(var(--color-foreground));
-  font-size: clamp(4rem, 5vw, 7rem);
-  letter-spacing: -0.05em;
-  line-height: 1;
+  font-family: var(--font-heading-family);
+  font-size: var(--vennix-type-section, clamp(3.2rem, 4vw, 5rem));
+  font-weight: 400;
+  letter-spacing: -0.035em;
+  line-height: 1.05;
+  text-wrap: balance;
 }
 
-.vx-newsletter__copy > p:last-child {
-  max-width: 47rem;
+.vx-newsletter__subtext {
+  max-width: 44rem;
   margin: 2rem 0 0;
   color: rgba(var(--color-foreground), 0.68);
-  font-size: 1.6rem;
+  font-size: 1.55rem;
   line-height: 1.65;
 }
 
 .vx-newsletter__field {
   display: flex;
   padding-bottom: 0.7rem;
-  border-bottom: 1px solid rgba(var(--color-foreground), 0.5);
+  border-bottom: 1px solid rgba(var(--color-foreground), 0.45);
+  transition: border-color var(--vennix-motion-duration-fast, 240ms) ease;
+}
+
+.vx-newsletter__field:focus-within {
+  border-color: var(--v-gold);
 }
 
 .vx-newsletter__field input {
@@ -562,30 +615,33 @@ textarea {
 }
 
 .vx-newsletter__field input::placeholder {
-  color: rgba(var(--color-foreground), 0.5);
+  color: rgba(var(--color-foreground), 0.45);
 }
 
 .vx-newsletter__field button {
   display: inline-flex;
   align-items: center;
   gap: 1rem;
-  padding: 1.2rem 0 1.2rem 2rem;
+  min-height: 4.8rem;
+  padding: 0 0 0 2rem;
   color: rgb(var(--color-foreground));
   border: 0;
   background: transparent;
   cursor: pointer;
   font: inherit;
-  font-size: 1.1rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
+  font-size: 1.05rem;
+  font-weight: 650;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
 }
 
 .vx-newsletter__field button svg {
-  transition: transform 0.25s ease;
+  color: var(--v-gold);
+  transition: transform var(--vennix-motion-duration-fast, 240ms) var(--vennix-motion-ease, cubic-bezier(0.22, 0.61, 0.36, 1));
 }
 
-.vx-newsletter__field button:hover svg {
+.vx-newsletter__field button:hover svg,
+.vx-newsletter__field button:focus-visible svg {
   transform: translateX(4px);
 }
 
@@ -593,8 +649,15 @@ textarea {
 .vx-newsletter__disclaimer {
   display: block;
   margin-top: 1.2rem;
-  color: rgba(var(--color-foreground), 0.65);
+  color: rgba(var(--color-foreground), 0.62);
   font-size: 1.1rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vx-newsletter__field,
+  .vx-newsletter__field button svg {
+    transition: none;
+  }
 }
 
 /* Footer */
@@ -618,14 +681,8 @@ textarea {
     display: none;
   }
 
-  .vx-trust__grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 2rem 0;
-  }
-
-  .vx-trust__item:nth-child(3) {
-    border-left: 0;
-    padding-left: 0;
+  .vx-trust__item {
+    padding-inline: 2rem;
   }
 
   .vx-values__header,
@@ -657,31 +714,36 @@ textarea {
   }
 
   .vx-trust__grid {
-    width: max-content;
-    min-width: 100%;
-    grid-template-columns: repeat(4, minmax(22rem, 1fr));
-  }
-
-  .vx-trust {
-    overflow-x: auto;
-    scrollbar-width: none;
-  }
-
-  .vx-trust::-webkit-scrollbar {
-    display: none;
+    grid-auto-flow: row;
+    grid-auto-columns: auto;
+    padding-block: 0;
   }
 
   .vx-trust__item,
   .vx-trust__item:first-child,
   .vx-trust__item:nth-child(3),
   .vx-trust__item:last-child {
-    padding: 0 1.8rem;
-    border-left: 1px solid rgba(var(--color-foreground), 0.13);
+    padding: 1.7rem 0;
+    border-left: 0;
+    border-bottom: 1px solid rgba(var(--color-foreground), 0.11);
   }
 
-  .vx-trust__item:first-child {
-    padding-left: 1.6rem;
-    border-left: 0;
+  .vx-trust__item:last-child {
+    border-bottom: 0;
+  }
+
+  .vx-trust__icon {
+    flex-basis: 2.2rem;
+    width: 2.2rem;
+    height: 2.2rem;
+  }
+
+  .vx-trust__copy strong {
+    font-size: 1.35rem;
+  }
+
+  .vx-trust__copy small {
+    white-space: normal;
   }
 
   .vx-values {
@@ -692,9 +754,12 @@ textarea {
     padding-bottom: 3.5rem;
   }
 
-  .vx-values__heading,
-  .vx-newsletter__copy h2 {
+  .vx-values__heading {
     font-size: clamp(4rem, 12vw, 5.6rem);
+  }
+
+  .vx-newsletter__copy h2 {
+    font-size: clamp(3.2rem, 9.6vw, 4.6rem);
   }
 
   .vx-values__grid {

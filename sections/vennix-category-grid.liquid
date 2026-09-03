@@ -1,3 +1,5 @@
+<script src="{{ 'vennix-motion.js' | asset_url }}" defer="defer"></script>
+
 {%- style -%}
   .section-{{ section.id }}-padding {
     padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
@@ -11,115 +13,162 @@
     }
   }
 
+  /* ---- Editorial category discovery ------------------------------------ */
+
+  .vx-category-section__header {
+    max-width: 64rem;
+  }
+
+  .vx-category-section__heading {
+    margin: 0;
+    color: rgb(var(--color-foreground));
+    font-family: var(--font-heading-family);
+    font-size: var(--vennix-type-section, clamp(3.2rem, 4.2vw, 5.2rem));
+    font-weight: 400;
+    letter-spacing: -0.035em;
+    line-height: 1.04;
+    text-wrap: balance;
+  }
+
   .vx-categories {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 1.6rem;
-    margin-top: clamp(3.2rem, 5vw, 5.6rem);
+    gap: clamp(2.4rem, 4vw, 4rem);
+    margin: var(--vennix-space-opener, 4rem) 0 0;
+    list-style: none;
   }
 
   @media screen and (min-width: 750px) {
     .vx-categories {
       grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 2.4rem;
+      gap: clamp(2.4rem, 3vw, 3.6rem);
     }
   }
 
+  /* Tile: sharp editorial image with a quiet caption below — no overlay
+     gradient, no heavy shadow, no rounded container clutter. */
   .vx-category {
-    position: relative;
     display: block;
-    overflow: hidden;
-    border-radius: var(--radius-lg);
-    background: var(--v-neutral-warm);
-    box-shadow: var(--shadow-subtle);
-    transition: box-shadow 0.4s ease, transform 0.4s ease;
-  }
-
-  .vx-category:hover {
-    box-shadow: var(--shadow-card);
-    transform: translateY(-4px);
+    text-decoration: none;
+    color: rgb(var(--color-foreground));
   }
 
   .vx-category__media {
     position: relative;
     display: block;
-    aspect-ratio: 3 / 4;
+    aspect-ratio: 16 / 11;
     overflow: hidden;
+    background: var(--v-neutral-warm);
+  }
+
+  @media screen and (min-width: 750px) {
+    .vx-category__media {
+      aspect-ratio: 3 / 2.6;
+    }
   }
 
   .vx-category__media img {
     width: 100%;
     height: 100%;
+    display: block;
     object-fit: cover;
     object-position: center;
-    transition: transform 0.6s cubic-bezier(0.22, 0.61, 0.36, 1);
+    transform: scale(1);
+    transition: transform 0.55s var(--vennix-motion-ease, cubic-bezier(0.22, 0.61, 0.36, 1));
   }
 
-  .vx-category:hover .vx-category__media img {
-    transform: scale(1.05);
-  }
-
-  .vx-category__wash {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-      to top,
-      rgba(12, 12, 12, 0.62) 0%,
-      rgba(12, 12, 12, 0.12) 45%,
-      rgba(12, 12, 12, 0) 70%
-    );
+  .vx-category:hover .vx-category__media img,
+  .vx-category:focus-visible .vx-category__media img {
+    transform: scale(1.04);
   }
 
   .vx-category__body {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    padding: 2.4rem;
-    color: #fff;
+    display: block;
+    padding-top: 1.9rem;
+    border-top: 1px solid rgba(var(--color-foreground), 0.14);
+    margin-top: 2rem;
   }
 
   .vx-category__title {
     margin: 0;
-    color: #fff;
-    font-family: var(--font-editorial);
-    font-size: clamp(2.2rem, 2.6vw, 3rem);
+    color: rgb(var(--color-foreground));
+    font-family: var(--font-heading-family);
+    font-size: clamp(1.9rem, 1.6vw, 2.3rem);
     font-weight: 400;
     letter-spacing: -0.02em;
-    line-height: 1.1;
+    line-height: 1.2;
   }
 
   .vx-category__tagline {
-    margin: 0.6rem 0 0;
-    color: rgba(255, 255, 255, 0.82);
-    font-size: 1.25rem;
-    line-height: 1.5;
+    display: block;
+    margin: 0.7rem 0 0;
+    color: rgba(var(--color-foreground), 0.6);
+    font-size: 1.3rem;
+    line-height: 1.55;
   }
 
   .vx-category__cta {
     display: inline-flex;
     align-items: center;
-    gap: 0.7rem;
-    margin-top: 1.4rem;
-    font-size: 1.1rem;
-    font-weight: 700;
+    gap: 0.8rem;
+    margin-top: 1.6rem;
+    padding-bottom: 0.3rem;
+    color: rgb(var(--color-foreground));
+    font-size: 1rem;
+    font-weight: 650;
     letter-spacing: 0.16em;
+    line-height: 1;
     text-transform: uppercase;
   }
 
-  .vx-category__cta svg {
-    width: 1.6rem;
-    height: 1.6rem;
-    transition: transform 0.3s ease;
+  .vx-category__cta::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 1px;
+    background: var(--v-gold-deep);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.35s var(--vennix-motion-ease, cubic-bezier(0.22, 0.61, 0.36, 1));
   }
 
-  .vx-category:hover .vx-category__cta svg {
+  .vx-category__cta {
+    position: relative;
+  }
+
+  .vx-category:hover .vx-category__cta::after,
+  .vx-category:focus-visible .vx-category__cta::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+
+  .vx-category__cta svg {
+    width: 1.5rem;
+    height: 1.5rem;
+    color: var(--v-gold-deep);
+    transition: transform var(--vennix-motion-duration-fast, 240ms) var(--vennix-motion-ease, cubic-bezier(0.22, 0.61, 0.36, 1));
+  }
+
+  .vx-category:hover .vx-category__cta svg,
+  .vx-category:focus-visible .vx-category__cta svg {
     transform: translateX(4px);
   }
 
   @media screen and (max-width: 749px) {
-    .vx-category__media {
-      aspect-ratio: 16 / 11;
+    .vx-category__body {
+      margin-top: 1.6rem;
+      padding-top: 1.5rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .vx-category__media img,
+    .vx-category__cta::after,
+    .vx-category__cta svg {
+      transition: none;
+      transform: none;
     }
   }
 {%- endstyle -%}
@@ -127,11 +176,16 @@
 <section
   class="vx-category-section color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-padding"
   aria-label="{{ section.settings.heading | default: 'Shop by category' | escape }}"
+  data-vx-motion="{{ section.settings.enable_entrance_animation }}"
+  style="--vennix-motion-duration: {{ section.settings.motion_duration }}ms;"
 >
   <div class="page-width">
-    <header class="vx-category-section__header">
+    <header class="vx-category-section__header vx-rise">
       {%- if section.settings.eyebrow != blank -%}
-        <p class="vx-section-eyebrow">{{ section.settings.eyebrow | escape }}</p>
+        <p class="vx-section-eyebrow">
+          <span class="vx-section-eyebrow__mark" aria-hidden="true"></span>
+          {{ section.settings.eyebrow | escape }}
+        </p>
       {%- endif -%}
       {%- if section.settings.heading != blank -%}
         <h2 class="vx-category-section__heading">{{ section.settings.heading | escape }}</h2>
@@ -160,8 +214,12 @@
           endif
 
           assign tile_image = block.settings.image
+          assign stagger = forloop.index0
+          if stagger > 5
+            assign stagger = 5
+          endif
         -%}
-        <li class="vx-categories__item" {{ block.shopify_attributes }}>
+        <li class="vx-categories__item vx-rise" style="--vx-index: {{ stagger }}" {{ block.shopify_attributes }}>
           <a class="vx-category" href="{{ block_url }}" aria-label="{{ tile_title | escape }}">
             <span class="vx-category__media">
               {%- if tile_image != blank -%}
@@ -195,19 +253,20 @@
               {%- else -%}
                 {{ 'collection-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}
               {%- endif -%}
-              <span class="vx-category__wash" aria-hidden="true"></span>
             </span>
             <span class="vx-category__body">
               <h3 class="vx-category__title">{{ tile_title | escape }}</h3>
               {%- if block.settings.tagline != blank -%}
                 <span class="vx-category__tagline">{{ block.settings.tagline | escape }}</span>
               {%- endif -%}
-              <span class="vx-category__cta">
-                {{ block.settings.cta_label | default: 'Shop now' | escape }}
-                <svg aria-hidden="true" viewBox="0 0 20 20" fill="none">
-                  <path d="M4 10h11M11 6l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </span>
+              {%- if block.settings.cta_label != blank -%}
+                <span class="vx-category__cta">
+                  {{ block.settings.cta_label | escape }}
+                  <svg aria-hidden="true" viewBox="0 0 20 20" fill="none">
+                    <path d="M4 10h11M11 6l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
+              {%- endif -%}
             </span>
           </a>
         </li>
@@ -226,6 +285,27 @@
     { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Shop the edit" },
     { "type": "text", "id": "heading", "label": "Heading", "default": "Shop by Category" },
     { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+    {
+      "type": "header",
+      "content": "Motion"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_entrance_animation",
+      "label": "Enable entrance animation",
+      "default": true,
+      "info": "Fade-and-rise reveal for the opener and each tile, with a gentle cascade. Disabled automatically for visitors who prefer reduced motion."
+    },
+    {
+      "type": "range",
+      "id": "motion_duration",
+      "min": 300,
+      "max": 800,
+      "step": 50,
+      "unit": "ms",
+      "label": "Animation duration",
+      "default": 560
+    },
     {
       "type": "header",
       "content": "t:sections.all.padding.section_padding_heading"
@@ -263,12 +343,17 @@
           "label": "Collection",
           "info": "Automatically uses the collection's title, image and link. Override below if needed."
         },
-        { "type": "image_picker", "id": "image", "label": "Custom image", "info": "Overrides the collection image." },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Custom image",
+          "info": "Placeholder — replace with your own photography. Overrides the collection image."
+        },
         {
           "type": "text",
           "id": "image_asset",
           "label": "Bundled fallback image",
-          "info": "Used when no collection or custom image is set. Enter an asset filename from the theme's assets folder."
+          "info": "Used when no collection or custom image is set. Enter an asset filename from the theme's assets folder. Placeholder — replace with your own photography."
         },
         {
           "type": "text",

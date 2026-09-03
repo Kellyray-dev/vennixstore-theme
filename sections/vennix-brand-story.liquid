@@ -1,3 +1,5 @@
+<script src="{{ 'vennix-motion.js' | asset_url }}" defer="defer"></script>
+
 {%- style -%}
   .section-{{ section.id }}-padding {
     padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
@@ -11,101 +13,93 @@
     }
   }
 
+  /* ---- Editorial brand story ---------------------------------------------
+     Asymmetric 60/40 composition on desktop: image left, copy pulled
+     off-axis on the right; clean single column on mobile. */
   .vx-story__grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: clamp(2.4rem, 4vw, 4.8rem);
-    align-items: center;
+    gap: clamp(2.8rem, 5vw, 4.8rem);
   }
 
   @media screen and (min-width: 990px) {
     .vx-story__grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: clamp(4.8rem, 7vw, 9.6rem);
+      grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
+      gap: clamp(5rem, 8vw, 9.6rem);
+      align-items: start;
     }
   }
 
   .vx-story__media {
     position: relative;
+    display: block;
+    aspect-ratio: 4 / 3;
     overflow: hidden;
-    border-radius: var(--radius-lg);
-    aspect-ratio: 4 / 5;
     background: var(--v-neutral-warm);
-    box-shadow: var(--shadow-card);
   }
 
-  @media screen and (min-width: 990px) {
-    .vx-story__media {
-      aspect-ratio: 5 / 6;
-    }
-  }
-
-  .vx-story__media img {
+  .vx-story__media > img {
     width: 100%;
     height: 100%;
+    display: block;
     object-fit: cover;
     object-position: center;
-    transition: transform 1.1s cubic-bezier(0.22, 0.61, 0.36, 1);
   }
 
-  .vx-story__media:hover img {
-    transform: scale(1.05);
-  }
-
+  /* Content column offset below the image top edge — quiet asymmetry. */
   .vx-story__content {
-    max-width: 52rem;
+    max-width: 50rem;
   }
 
   @media screen and (min-width: 990px) {
     .vx-story__content {
-      max-width: none;
+      padding-top: clamp(3rem, 6vh, 6.5rem);
     }
   }
 
-  .vx-story__eyebrow {
-    margin: 0 0 1.6rem;
-    color: var(--v-gold-deep);
-    font-size: 1.05rem;
-    font-weight: 700;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-  }
-
   .vx-story__heading {
-    margin: 0 0 2rem;
+    margin: 0;
     color: rgb(var(--color-foreground));
-    font-family: var(--font-editorial);
-    font-size: clamp(3rem, 4vw, 5rem);
+    font-family: var(--font-heading-family);
+    font-size: clamp(3.2rem, 4.2vw, 5.2rem);
     font-weight: 400;
-    letter-spacing: -0.03em;
-    line-height: 1.05;
+    letter-spacing: -0.035em;
+    line-height: 1.04;
+    text-wrap: balance;
   }
 
   .vx-story__text {
-    margin: 0;
-    color: rgba(var(--color-foreground), 0.72);
-    font-size: 1.65rem;
+    margin: 2.2rem 0 0;
+    color: rgba(var(--color-foreground), 0.68);
+    font-size: var(--vennix-type-lead, 1.6rem);
     line-height: 1.7;
   }
 
   .vx-story__text p {
     margin: 0 0 1.4rem;
+    color: inherit;
+  }
+
+  .vx-story__text p:last-child {
+    margin-bottom: 0;
   }
 
   .vx-story__button {
     display: inline-flex;
     align-items: center;
-    gap: 0.9rem;
-    margin-top: 3rem;
+    gap: 1rem;
+    min-height: 5rem;
+    margin-top: 3.2rem;
   }
 
   .vx-story__button svg {
-    width: 1.7rem;
-    height: 1.7rem;
-    transition: transform 0.3s ease;
+    width: 1.6rem;
+    height: 1.6rem;
+    transition: transform var(--vennix-motion-duration-fast, 240ms) var(--vennix-motion-ease, cubic-bezier(0.22, 0.61, 0.36, 1));
   }
 
-  .vx-story__button:hover svg {
+  .vx-story__button:hover svg,
+  .vx-story__button:focus-visible svg {
     transform: translateX(4px);
   }
 
@@ -114,53 +108,81 @@
       order: -1;
     }
   }
+
+  @media screen and (max-width: 749px) {
+    .vx-story__grid {
+      gap: 3rem;
+    }
+
+    .vx-story__button {
+      width: 100%;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .vx-story__button svg {
+      transition: none;
+      transform: none;
+    }
+  }
 {%- endstyle -%}
 
 <section
   class="vx-story color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-padding"
   {%- if section.settings.heading != blank %} aria-labelledby="VennixStoryHeading-{{ section.id }}"{% endif %}
+  data-vx-motion="{{ section.settings.enable_entrance_animation }}"
+  style="--vennix-motion-duration: {{ section.settings.motion_duration }}ms;"
 >
   <div class="page-width">
     <div class="vx-story__grid">
-      <div class="vx-story__media">
-        {%- if section.settings.image != blank -%}
-          {{
-            section.settings.image
-            | image_url: width: 1600
-            | image_tag:
-              widths: '500, 800, 1100, 1600',
-              sizes: '(min-width: 990px) calc((100vw - 16rem) / 2), 100vw',
-              loading: 'lazy',
-              alt: section.settings.heading | escape
-          }}
-        {%- elsif section.settings.image_asset != blank -%}
-          <img
-            src="{{ section.settings.image_asset | asset_url }}"
-            alt="{{ section.settings.heading | escape }}"
-            loading="lazy"
-            width="1200"
-            height="1440"
-          >
-        {%- else -%}
-          {{ 'collection-apparel-2' | placeholder_svg_tag: 'placeholder-svg' }}
-        {%- endif -%}
+      <div class="vx-rise" style="--vx-index: 0">
+        <div
+          class="vx-story__media"
+          data-vx-parallax="{{ section.settings.enable_parallax }}"
+        >
+          {%- if section.settings.image != blank -%}
+            {{
+              section.settings.image
+              | image_url: width: 1600
+              | image_tag:
+                widths: '500, 800, 1100, 1600',
+                sizes: '(min-width: 990px) calc((100vw - 16rem) * 0.53), 100vw',
+                loading: 'lazy',
+                alt: section.settings.image.alt | default: section.settings.heading | escape
+            }}
+          {%- elsif section.settings.image_asset != blank -%}
+            <img
+              src="{{ section.settings.image_asset | asset_url }}"
+              alt="{{ section.settings.heading | escape }}"
+              loading="lazy"
+              width="1408"
+              height="768"
+            >
+          {%- else -%}
+            {{ 'collection-apparel-2' | placeholder_svg_tag: 'placeholder-svg' }}
+          {%- endif -%}
+        </div>
       </div>
 
       <div class="vx-story__content">
         {%- if section.settings.eyebrow != blank -%}
-          <p class="vx-story__eyebrow">{{ section.settings.eyebrow | escape }}</p>
+          <p class="vx-section-eyebrow vx-rise" style="--vx-index: 0">
+            <span class="vx-section-eyebrow__mark" aria-hidden="true"></span>
+            {{ section.settings.eyebrow | escape }}
+          </p>
         {%- endif -%}
         {%- if section.settings.heading != blank -%}
-          <h2 id="VennixStoryHeading-{{ section.id }}" class="vx-story__heading">
+          <h2 id="VennixStoryHeading-{{ section.id }}" class="vx-story__heading vx-rise" style="--vx-index: 1">
             {{ section.settings.heading }}
           </h2>
         {%- endif -%}
         {%- if section.settings.text != blank -%}
-          <div class="vx-story__text rte">{{ section.settings.text }}</div>
+          <div class="vx-story__text rte vx-rise" style="--vx-index: 2">{{ section.settings.text }}</div>
         {%- endif -%}
         {%- if section.settings.button_label != blank -%}
           <a
-            class="button button--primary vx-story__button"
+            class="button button--primary vx-story__button vx-rise"
+            style="--vx-index: 3"
             href="{{ section.settings.button_link | default: routes.all_products_collection_url }}"
           >
             <span>{{ section.settings.button_label | escape }}</span>
@@ -181,13 +203,18 @@
   "class": "section section--vennix-story",
   "disabled_on": { "groups": ["header", "footer"] },
   "settings": [
-    { "type": "image_picker", "id": "image", "label": "Image" },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image",
+      "info": "Placeholder — replace with your own photography."
+    },
     {
       "type": "text",
       "id": "image_asset",
       "label": "Bundled image",
       "default": "activewear.jpg",
-      "info": "Used when no image is selected. Enter an asset filename from the theme's assets folder."
+      "info": "Used when no image is selected. Enter an asset filename from the theme's assets folder. Placeholder — replace with your own photography."
     },
     { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "The Vennix difference" },
     { "type": "inline_richtext", "id": "heading", "label": "Heading", "default": "Why VennixStore" },
@@ -200,6 +227,34 @@
     { "type": "text", "id": "button_label", "label": "Button label", "default": "Shop Active Wear" },
     { "type": "url", "id": "button_link", "label": "Button link" },
     { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-2" },
+    {
+      "type": "header",
+      "content": "Motion"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_entrance_animation",
+      "label": "Enable entrance animation",
+      "default": true,
+      "info": "Fade-and-rise reveal for the imagery and copy. Disabled automatically for visitors who prefer reduced motion."
+    },
+    {
+      "type": "range",
+      "id": "motion_duration",
+      "min": 300,
+      "max": 800,
+      "step": 50,
+      "unit": "ms",
+      "label": "Animation duration",
+      "default": 560
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_parallax",
+      "label": "Enable image parallax",
+      "default": true,
+      "info": "A gentle scale-drift on the image while scrolling. Desktop only; disabled automatically for visitors who prefer reduced motion."
+    },
     {
       "type": "header",
       "content": "t:sections.all.padding.section_padding_heading"

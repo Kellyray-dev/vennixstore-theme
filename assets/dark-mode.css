@@ -410,31 +410,19 @@ html[data-theme='dark'] .article-card__excerpt {
    Vennix homepage sections
    ========================================================================== */
 
-html[data-theme='dark'] .vx-trust-bar {
-  background: var(--v-neutral-warm);
+html[data-theme='dark'] .vx-trust,
+html[data-theme='dark'] .vx-trust__item {
   border-color: var(--v-border);
 }
 
-html[data-theme='dark'] .vx-trust-item,
-html[data-theme='dark'] .vx-trust__item {
-  border-color: rgba(255, 255, 255, 0.08);
-}
-
-html[data-theme='dark'] .vx-trust__copy,
-html[data-theme='dark'] .vx-trust-item strong {
-  color: var(--v-ink);
-}
-
-html[data-theme='dark'] .vx-trust__icon,
-html[data-theme='dark'] .vx-trust-item svg {
+html[data-theme='dark'] .vx-trust__icon {
   color: var(--v-gold);
 }
 
-html[data-theme='dark'] .vx-category__body,
-html[data-theme='dark'] .vx-category__title,
-html[data-theme='dark'] .vx-category__tagline,
-html[data-theme='dark'] .vx-category__cta {
-  color: #ffffff;
+/* Category tiles carry their text below the image now, so copy colouring is
+   scheme-driven (auto-adapting); only the media background needs a surface. */
+html[data-theme='dark'] .vx-category__media {
+  background: var(--v-surface-raised);
 }
 
 html[data-theme='dark'] .vx-values__card,
@@ -454,34 +442,16 @@ html[data-theme='dark'] .vx-values__link {
   color: var(--v-ink);
 }
 
-html[data-theme='dark'] .vx-story__content,
-html[data-theme='dark'] .vx-story__heading,
-html[data-theme='dark'] .vx-story__text,
-html[data-theme='dark'] .vx-story__eyebrow {
-  color: var(--v-ink);
-}
+/* Brand story: all copy is scheme-driven (auto-adapts in dark mode), and the
+   CTA is the shared primary button — its dark-mode colouring is defined above. */
 
-html[data-theme='dark'] .vx-story__button {
-  color: var(--v-ink);
-  border-color: var(--v-ink);
-}
-
-html[data-theme='dark'] .vx-newsletter,
-html[data-theme='dark'] .vx-newsletter__inner {
+html[data-theme='dark'] .vx-newsletter {
+  /* Keep the closing band raised against the dark page background. */
   background: var(--v-surface);
-  border-color: var(--v-border);
 }
 
-html[data-theme='dark'] .vx-newsletter__copy,
-html[data-theme='dark'] .vx-newsletter__disclaimer,
-html[data-theme='dark'] .vx-newsletter__message {
-  color: var(--v-ink-soft);
-}
-
-html[data-theme='dark'] .vx-newsletter__field {
-  background: var(--v-surface-raised);
-  border-color: var(--v-border);
-  color: var(--v-ink);
+html[data-theme='dark'] .vx-newsletter__field:focus-within {
+  border-color: var(--v-gold);
 }
 
 html[data-theme='dark'] .vx-section-eyebrow {

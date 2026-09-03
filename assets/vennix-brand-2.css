@@ -313,81 +313,6 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* ============================================================
-   HERO — EDITORIAL
-   ============================================================ */
-
-.vennix-hero {
-  position: relative;
-  overflow: hidden;
-}
-
-.vennix-hero__stage {
-  position: relative;
-  min-height: 85vh;
-  display: flex;
-  align-items: center;
-}
-
-.vennix-hero__media-frame {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-}
-
-.vennix-hero__picture img,
-.vennix-hero__image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-  filter: brightness(0.92) contrast(1.05);
-}
-
-.vennix-hero__wash {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, rgba(26, 26, 26, 0.35) 0%, rgba(26, 26, 26, 0.15) 60%, rgba(26, 26, 26, 0.45) 100%);
-  z-index: 2;
-}
-
-.vennix-hero__inner {
-  position: relative;
-  z-index: 3;
-  padding-top: 8rem;
-  padding-bottom: 8rem;
-}
-
-.vennix-hero__content-body {
-  max-width: 64rem;
-  color: var(--v-white);
-}
-
-.vennix-hero__eyebrow {
-  color: var(--v-gold);
-  font-size: 0.85rem;
-  font-weight: 700;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  margin-bottom: 1.4rem;
-}
-
-.vennix-hero__heading {
-  font-size: clamp(3.5rem, 7vw, 6.5rem);
-  line-height: 0.95;
-  letter-spacing: -0.05em;
-  color: var(--v-white);
-  margin-bottom: 1.6rem;
-}
-
-.vennix-hero__text {
-  font-size: 1.25rem;
-  line-height: 1.55;
-  color: rgba(255, 255, 255, 0.85);
-  max-width: 52rem;
-  margin-bottom: 3rem;
-}
-
-/* ============================================================
    FOOTER
    ============================================================ */
 
@@ -415,27 +340,6 @@ h1, h2, h3, h4, h5, h6 {
 
 .footer a:hover {
   color: var(--v-gold);
-}
-
-/* ============================================================
-   TRUST / VALUE BAR
-   ============================================================ */
-
-.vx-trust-bar {
-  background: var(--v-neutral-warm);
-  border-bottom: 1px solid rgba(26, 26, 26, 0.08);
-}
-
-.vx-trust-item {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  padding: 1.8rem 2rem;
-  border-right: 1px solid rgba(26, 26, 26, 0.06);
-}
-
-.vx-trust-item:last-child {
-  border-right: 0;
 }
 
 /* ============================================================
@@ -621,17 +525,142 @@ h1, h2, h3, h4, h5, h6 {
   margin-left: 0;
 }
 
-/* Bespoke Vennix category + story sections use the same image zoom
-   interaction as the Dawn collection tiles. */
-.vx-categories .vx-category__media,
-.vx-story .vx-story__media {
+/* ============================================================
+   PHASE 4 — EDITORIAL MOTION SYSTEM + TYPE SCALE (additive)
+   Namespaced `--vennix-*` tokens shared by every template.
+   ============================================================ */
+
+:root {
+  /* Motion tokens — single source of truth for duration/easing/rise. */
+  --vennix-motion-duration: 560ms;   /* default reveal */
+  --vennix-motion-duration-fast: 240ms;
+  --vennix-motion-duration-slow: 720ms;
+  --vennix-motion-ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --vennix-motion-rise: 8px;         /* reveal translate-up distance */
+  --vennix-motion-stagger: 45ms;     /* per-item grid cascade (40–60 ms band) */
+
+  /* Editorial type scale (minor-third 1.25 on the 62.5% root). */
+  --vennix-type-eyebrow: 1.05rem;
+  --vennix-type-lead: clamp(1.6rem, 1.4vw, 1.8rem);
+  --vennix-type-title: clamp(2.2rem, 2.2vw, 2.8rem);
+  --vennix-type-section: clamp(3.4rem, 4.6vw, 5.4rem);
+  --vennix-type-display: clamp(5rem, 7vw, 8.8rem); /* hero only — one per viewport */
+
+  /* Editorial spacing tokens */
+  --vennix-space-section: clamp(6.4rem, 8vw, 10rem);
+  --vennix-space-opener: clamp(3.2rem, 4vw, 5.6rem);
+  --vennix-space-card: 2.4rem;
+}
+
+/*
+   Scroll reveals (used by Vennix homepage sections).
+
+   Visibility contract (never breaks no-JS / no-IO / reduced-motion users):
+   1. Default state is fully visible.
+   2. `vennix-motion.js` adds `.vx-motion-ready` to each `[data-vx-motion="true"]`
+      root; ONLY then do child `.vx-rise` items get their hidden pre-reveal state.
+   3. The observer adds `.vx-rise--in` when an item enters the viewport (or when
+      it receives keyboard focus). Stagger = `--vx-index` × stagger token.
+   4. `data-vx-motion="false"` (Theme Editor toggle) never hides anything.
+   5. `prefers-reduced-motion: reduce` forces everything visible + static.
+*/
+.vx-rise {
+  transition:
+    opacity var(--vennix-motion-duration, 560ms) var(--vennix-motion-ease),
+    transform var(--vennix-motion-duration, 560ms) var(--vennix-motion-ease);
+  transition-delay: calc(var(--vx-index, 0) * var(--vennix-motion-stagger, 45ms));
+}
+
+[data-vx-motion='true'].vx-motion-ready .vx-rise:not(.vx-rise--in) {
+  opacity: 0;
+  transform: translateY(var(--vennix-motion-rise, 8px));
+}
+
+[data-vx-motion='true'] .vx-rise.vx-rise--in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Theme Editor (design mode): show everything statically — no hidden states,
+   no waiting on observers inside the editor canvas. */
+.shopify-design-mode [data-vx-motion='true'].vx-motion-ready .vx-rise:not(.vx-rise--in) {
+  opacity: 1;
+  transform: none;
+  transition: none;
+}
+
+/* Editorial parallax frame: child media scales; JS drives --vx-parallax-progress.
+   Desktop-only and static under reduced motion (JS also gates it). */
+[data-vx-parallax='true'] {
   overflow: hidden;
 }
 
-.vx-categories .vx-category__media img {
-  transition: transform 0.5s ease;
+@media screen and (min-width: 990px) {
+  [data-vx-parallax='true'] > img,
+  [data-vx-parallax='true'] > picture > img {
+    transform: scale(calc(1.06 + var(--vx-parallax-progress, 0) * 0.05));
+    transition: transform 0.4s var(--vennix-motion-ease);
+  }
 }
 
-.vx-categories .vx-category:hover .vx-category__media img {
-  transform: scale(1.05);
+/* Dawn featured-collection cascade: cap the per-item delay so every card
+   finishes well inside the 800 ms guardrail (homepage grids only). */
+.template-index .featured-collection-grid .grid__item.scroll-trigger.animate--slide-in {
+  animation-delay: calc(min(var(--animation-order, 0), 5) * 45ms);
+  animation-duration: 500ms;
+}
+
+/* Editorial opener treatment for the featured-collection heading block. The
+   merchant's heading-size picker still wins (no font-size override here). */
+.template-index .featured-collection .collection__title {
+  margin-bottom: 3.6rem;
+}
+
+.template-index .featured-collection .collection__title .title {
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+}
+
+.template-index .featured-collection .collection__description {
+  max-width: 62rem;
+  margin-top: 1.6rem;
+  color: rgba(var(--color-foreground), 0.66);
+}
+
+.template-index .featured-collection .collection__view-all {
+  margin-top: 4.4rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vx-rise,
+  [data-vx-motion='true'].vx-motion-ready .vx-rise:not(.vx-rise--in),
+  [data-vx-motion='true'] .vx-rise.vx-rise--in {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  [data-vx-parallax='true'] > img,
+  [data-vx-parallax='true'] > picture > img {
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
+/* ============================================================
+   PHASE 4 — SHARED TEMPLATE POLISH (additive, namespaced)
+   Defaults stay cohesive on every template without restructuring
+   product / collection / search / cart / account layouts.
+   ============================================================ */
+
+/* Product-card hover: single micro-lift comes from the card's inner media
+   (see below), so the outer wrapper must not double-translate. */
+.card-wrapper:hover {
+  transform: none;
+}
+
+/* Tame Dawn's -0.75rem vertical-lift (via the global hover-elements theme
+   setting) to a quieter -0.4rem editorial lift on every template. */
+.animate--hover-vertical-lift .card-wrapper:hover .card--standard .card__inner {
+  transform: translateY(-0.4rem);
 }
