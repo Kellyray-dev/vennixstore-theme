@@ -12,8 +12,8 @@
         "show_scroll_cue": false,
         "eyebrow": "Modern Clothing & Active Essentials",
         "heading": "Modern Clothing. Made for Movement.",
-        "text": "<p>Elevated everyday pieces and active essentials designed for modern life.</p>",
-        "primary_label": "Shop Active Essentials",
+        "text": "<p>Modern clothing and everyday essentials designed for the way you move.</p>",
+        "primary_label": "Shop All",
         "primary_link": "shopify://collections/all",
         "secondary_label": "Explore Collections",
         "secondary_link": "shopify://collections"
@@ -74,8 +74,8 @@
           "type": "category",
           "settings": {
             "image_asset": "womens-fashion.jpg",
-            "title": "Women's Activewear",
-            "tagline": "Movement-first sets, dresses and essentials",
+            "title": "Women's",
+            "tagline": "Sets, dresses and everyday pieces",
             "cta_label": "Shop now",
             "link": "shopify://collections/all"
           }
@@ -84,7 +84,7 @@
           "type": "category",
           "settings": {
             "image_asset": "mens-fashion.jpg",
-            "title": "Men's Essentials",
+            "title": "Men's",
             "tagline": "Everyday basics built for modern life",
             "cta_label": "Shop now",
             "link": "shopify://collections/all"
@@ -94,8 +94,8 @@
           "type": "category",
           "settings": {
             "image_asset": "active-essentials.jpg",
-            "title": "Active Essentials",
-            "tagline": "Performance layers for every move",
+            "title": "Everyday Essentials",
+            "tagline": "Accessories and add-ons for daily life",
             "cta_label": "Shop now",
             "link": "shopify://collections/all"
           }
@@ -112,7 +112,7 @@
       "settings": {
         "title": "New in Apparel",
         "heading_size": "h2",
-        "description": "<p>Fresh clothing and active essentials — movement-first pieces for modern life.</p>",
+        "description": "<p>Fresh clothing and everyday essentials — modern pieces for the way you move.</p>",
         "show_description": false,
         "description_style": "body",
         "collection": "all",
@@ -146,8 +146,8 @@
         "image_asset": "activewear.jpg",
         "eyebrow": "The Vennix difference",
         "heading": "Why VennixStore",
-        "text": "<p>Performance inspired everyday pieces built for modern movement — from morning runs to evening plans.</p>",
-        "button_label": "Shop Active Wear",
+        "text": "<p>Modern, considered pieces built for everyday movement — from the morning commute to evening plans.</p>",
+        "button_label": "Shop All",
         "button_link": "shopify://collections/all",
         "color_scheme": "scheme-2",
         "padding_top": 80,
@@ -162,7 +162,7 @@
       "settings": {
         "eyebrow": "The Vennix list",
         "heading": "New finds, considered updates",
-        "subtext": "Be first to hear about new arrivals, active essentials, and occasional offers.",
+        "subtext": "Be first to hear about new arrivals, everyday essentials, and occasional offers.",
         "placeholder": "Your email address",
         "btn_label": "Join the list",
         "success_msg": "Thanks for joining the Vennix list.",

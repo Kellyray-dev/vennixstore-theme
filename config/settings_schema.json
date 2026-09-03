@@ -1282,6 +1282,23 @@
     "name": "t:settings_schema.brand_information.name",
     "settings": [
       {
+        "type": "header",
+        "content": "Storefront brand"
+      },
+      {
+        "type": "text",
+        "id": "storefront_brand_name",
+        "label": "Storefront brand name",
+        "info": "Shown to customers in place of supplier vendor names. Leave blank to use the store name."
+      },
+      {
+        "type": "checkbox",
+        "id": "hide_supplier_vendor",
+        "label": "Hide supplier vendor names",
+        "default": true,
+        "info": "Product vendor values that do not match the storefront brand name are replaced with the brand name in product cards, cart, search and social metadata. Shopify product data is not changed."
+      },
+      {
         "type": "paragraph",
         "content": "t:settings_schema.brand_information.settings.paragraph.content"
       },
@@ -1433,6 +1450,13 @@
         ],
         "default": "notification",
         "label": "t:settings_schema.cart.settings.cart_type.label"
+      },
+      {
+        "type": "checkbox",
+        "id": "cart_recommendations_enabled",
+        "label": "Show product recommendations in cart",
+        "default": true,
+        "info": "Uses Shopify's own recommendation engine, seeded from the first item in the cart. No products are hardcoded."
       },
       {
         "type": "checkbox",

@@ -664,3 +664,67 @@ h1, h2, h3, h4, h5, h6 {
 .animate--hover-vertical-lift .card-wrapper:hover .card--standard .card__inner {
   transform: translateY(-0.4rem);
 }
+
+/* ============================================================
+   PHASE 5 — CART CROSS-SELL
+   Small, quiet recommendation strip. The checkout CTA stays the
+   dominant action: cards are compact, type is small, and the strip
+   sits above the footer totals rather than competing with them.
+   ============================================================ */
+
+.vx-cart-recs:empty {
+  display: none;
+}
+
+.vx-cart-recs {
+  display: block;
+  margin-top: 3.2rem;
+  padding-top: 2.4rem;
+  border-top: 1px solid rgba(var(--color-foreground), 0.12);
+}
+
+.vx-cart-recs__heading {
+  margin: 0 0 1.8rem;
+  color: rgb(var(--color-foreground));
+  font-family: var(--font-heading-family);
+  font-size: 1.6rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  line-height: 1.2;
+}
+
+.vx-cart-recs__list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.6rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media screen and (min-width: 750px) {
+  .vx-cart-recs__list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 2rem;
+  }
+}
+
+.vx-cart-recs__item .card__heading {
+  font-size: 1.3rem;
+  line-height: 1.35;
+}
+
+.vx-cart-recs__item .price {
+  font-size: 1.3rem;
+}
+
+/* Cart drawer: single column so the strip never crowds the narrow panel. */
+.vx-cart-recs--drawer {
+  margin-top: 2.4rem;
+  padding: 2rem 1.5rem 0;
+}
+
+.vx-cart-recs--drawer .vx-cart-recs__list {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.2rem;
+}

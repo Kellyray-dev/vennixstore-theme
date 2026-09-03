@@ -1,0 +1,56 @@
+{% comment %}
+  Renders a small cart cross-sell strip powered by Shopify's own product
+  recommendations endpoint, seeded from the first item in the cart.
+
+  No products are hardcoded: `<product-recommendations>` (assets/global.js) lazily
+  fetches `routes.product_recommendations_url` and replaces its own contents, so
+  Shopify decides which products are relevant and available. If Shopify returns
+  nothing the element stays empty and nothing is shown.
+
+  Accepts:
+  - limit: {Number} Maximum products to request. Default: 3 (optional)
+  - heading: {String} Section heading. Default: 'You may also like' (optional)
+  - layout: {String} 'drawer' or 'page'. Default: 'page' (optional)
+
+  Usage:
+  {%- render 'vennix-cart-recommendations', layout: 'drawer', limit: 2 -%}
+{% endcomment %}
+
+{%- liquid
+  assign rec_limit = limit | default: 3
+  assign rec_heading = heading | default: 'You may also like'
+  assign seed_product = cart.items.first.product
+-%}
+
+{%- if cart != empty and seed_product != blank and settings.cart_recommendations_enabled -%}
+  {{ 'component-card.css' | asset_url | stylesheet_tag }}
+  {{ 'component-price.css' | asset_url | stylesheet_tag }}
+
+  <product-recommendations
+    class="vx-cart-recs{% if layout == 'drawer' %} vx-cart-recs--drawer{% endif %}"
+    data-url="{{ routes.product_recommendations_url }}?limit={{ rec_limit }}&intent=related"
+    data-section-id="{{ section.id | default: 'cart-recommendations' }}"
+    data-product-id="{{ seed_product.id }}"
+  >
+    {%- if recommendations.performed and recommendations.products_count > 0 -%}
+      <h2 class="vx-cart-recs__heading">{{ rec_heading | escape }}</h2>
+      <ul class="vx-cart-recs__list" role="list">
+        {%- assign skip_card_product_styles = false -%}
+        {%- for recommendation in recommendations.products -%}
+          <li class="vx-cart-recs__item">
+            {% render 'card-product',
+              card_product: recommendation,
+              media_aspect_ratio: 'square',
+              show_secondary_image: false,
+              show_vendor: false,
+              show_rating: false,
+              skip_styles: skip_card_product_styles,
+              product_view_context: 'recommendation'
+            %}
+          </li>
+          {%- assign skip_card_product_styles = true -%}
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+  </product-recommendations>
+{%- endif -%}

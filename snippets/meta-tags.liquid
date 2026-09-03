@@ -39,8 +39,10 @@
   <meta property="product:price:amount" content="{{ product.selected_or_first_available_variant.price | divided_by: 100.0 }}">
   <meta property="product:price:currency" content="{{ cart.currency.iso_code | default: shop.currency }}">
   <meta property="product:availability" content="{% if product.selected_or_first_available_variant.available %}in stock{% else %}out of stock{% endif %}">
-  {%- if product.vendor != blank -%}
-    <meta property="product:brand" content="{{ product.vendor | escape }}">
+  {%- capture product_brand -%}{%- render 'vennix-vendor', product: product -%}{%- endcapture -%}
+  {%- assign product_brand = product_brand | strip -%}
+  {%- if product_brand != blank -%}
+    <meta property="product:brand" content="{{ product_brand | escape }}">
   {%- endif -%}
 {%- endif -%}
 

@@ -14,7 +14,7 @@
       {%- endif -%}
       <div>
         {%- if settings.show_vendor -%}
-          <p class="caption-with-letter-spacing light">{{ item.product.vendor }}</p>
+          <p class="caption-with-letter-spacing light">{%- render 'vennix-vendor', product: item.product -%}</p>
         {%- endif -%}
         <div class="cart-notification-product__title">
           <h3 class="cart-notification-product__name h4">

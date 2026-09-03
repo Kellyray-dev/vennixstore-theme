@@ -1,0 +1,221 @@
+{% comment %}
+  Vennix policy links — surfaces the store's real Shopify policies plus an optional
+  contact page as a premium trust panel.
+
+  Every link is driven by Shopify's own `shop.policies` objects, so nothing is
+  hardcoded and no dead links are ever produced: a policy that the merchant has not
+  written simply is not listed. If no policies exist at all the section renders nothing
+  on the live storefront and shows a merchant prompt in the Theme Editor.
+{% endcomment %}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  .vx-policy-links__heading {
+    margin: 0;
+    color: rgb(var(--color-foreground));
+    font-family: var(--font-heading-family);
+    font-size: clamp(2.4rem, 3vw, 3.6rem);
+    font-weight: 400;
+    letter-spacing: -0.025em;
+    line-height: 1.1;
+  }
+
+  .vx-policy-links__intro {
+    margin: 1.2rem 0 0;
+    max-width: 60ch;
+    color: rgba(var(--color-foreground), 0.68);
+    line-height: 1.6;
+  }
+
+  .vx-policy-links__list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+    margin: 3.2rem 0 0;
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid rgba(var(--color-foreground), 0.14);
+  }
+
+  @media screen and (min-width: 750px) {
+    .vx-policy-links__list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      column-gap: clamp(2.4rem, 4vw, 5rem);
+    }
+  }
+
+  .vx-policy-links__item {
+    border-bottom: 1px solid rgba(var(--color-foreground), 0.14);
+  }
+
+  .vx-policy-links__link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.6rem;
+    min-height: 4.8rem;
+    padding: 1.8rem 0;
+    color: rgb(var(--color-foreground));
+    font-size: 1.6rem;
+    text-decoration: none;
+  }
+
+  .vx-policy-links__link:hover .vx-policy-links__label,
+  .vx-policy-links__link:focus-visible .vx-policy-links__label {
+    text-decoration: underline;
+    text-underline-offset: 0.3rem;
+  }
+
+  .vx-policy-links__link svg {
+    flex: 0 0 auto;
+    width: 1.8rem;
+    height: 1.8rem;
+    color: var(--v-gold-deep, currentColor);
+    transition: transform 240ms cubic-bezier(0.22, 0.61, 0.36, 1);
+  }
+
+  .vx-policy-links__link:hover svg,
+  .vx-policy-links__link:focus-visible svg {
+    transform: translateX(4px);
+  }
+
+  .vx-policy-links__empty {
+    margin: 0;
+    color: rgba(var(--color-foreground), 0.6);
+    font-size: 1.4rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .vx-policy-links__link svg {
+      transition: none;
+      transform: none;
+    }
+  }
+{%- endstyle -%}
+
+{%- liquid
+  assign policy_count = 0
+  for policy in shop.policies
+    if policy != blank
+      assign policy_count = policy_count | plus: 1
+    endif
+  endfor
+
+  assign has_contact = false
+  if section.settings.contact_page != blank
+    assign has_contact = true
+  endif
+-%}
+
+{%- if policy_count == 0 and has_contact == false -%}
+  {%- if request.design_mode -%}
+    <div class="color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-padding">
+      <div class="page-width">
+        <p class="vx-policy-links__empty">
+          No store policies are published yet. Add them in Shopify admin under Settings &rarr;
+          Policies, or choose a contact page below. This section stays hidden on the live
+          storefront until at least one link is available.
+        </p>
+      </div>
+    </div>
+  {%- endif -%}
+{%- else -%}
+  <div class="color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-padding">
+    <div class="page-width">
+      {%- if section.settings.heading != blank -%}
+        <h2 class="vx-policy-links__heading">{{ section.settings.heading | escape }}</h2>
+      {%- endif -%}
+      {%- if section.settings.text != blank -%}
+        <div class="vx-policy-links__intro rte">{{ section.settings.text }}</div>
+      {%- endif -%}
+
+      <ul class="vx-policy-links__list" role="list">
+        {%- for policy in shop.policies -%}
+          {%- if policy != blank -%}
+            <li class="vx-policy-links__item">
+              <a class="vx-policy-links__link" href="{{ policy.url }}">
+                <span class="vx-policy-links__label">{{ policy.title | escape }}</span>
+                <svg aria-hidden="true" viewBox="0 0 20 20" fill="none">
+                  <path d="M4 10h11M11 6l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </a>
+            </li>
+          {%- endif -%}
+        {%- endfor -%}
+
+        {%- if has_contact -%}
+          <li class="vx-policy-links__item">
+            <a class="vx-policy-links__link" href="{{ section.settings.contact_page.url }}">
+              <span class="vx-policy-links__label">
+                {{- section.settings.contact_label | default: section.settings.contact_page.title | escape -}}
+              </span>
+              <svg aria-hidden="true" viewBox="0 0 20 20" fill="none">
+                <path d="M4 10h11M11 6l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+          </li>
+        {%- endif -%}
+      </ul>
+    </div>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Vennix policy links",
+  "tag": "section",
+  "class": "section section--vennix-policy-links",
+  "disabled_on": { "groups": ["header", "footer"] },
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Lists the store policies you have published in Shopify admin (Settings > Policies). Policies you have not written are automatically omitted, so this section never shows a broken link."
+    },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Shopping with us" },
+    { "type": "richtext", "id": "text", "label": "Text" },
+    { "type": "page", "id": "contact_page", "label": "Contact page", "info": "Optional. Adds a link to your contact page." },
+    { "type": "text", "id": "contact_label", "label": "Contact link label", "default": "Contact us" },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 72
+    }
+  ],
+  "presets": [
+    {
+      "name": "Vennix policy links"
+    }
+  ]
+}
+{% endschema %}

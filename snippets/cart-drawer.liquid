@@ -153,7 +153,7 @@
 
                         <td class="cart-item__details" role="cell" headers="CartDrawer-ColumnProduct">
                           {%- if settings.show_vendor -%}
-                            <p class="caption-with-letter-spacing light">{{ item.product.vendor }}</p>
+                            <p class="caption-with-letter-spacing light">{%- render 'vennix-vendor', product: item.product -%}</p>
                           {%- endif -%}
 
                           <div class="cart-item__title">
@@ -491,6 +491,9 @@
           <div id="CartDrawer-CartErrors" role="alert"></div>
         </form>
       </cart-drawer-items>
+      {%- unless cart == empty -%}
+        {%- render 'vennix-cart-recommendations', layout: 'drawer', limit: 2 -%}
+      {%- endunless -%}
       <div class="drawer__footer">
         {%- if settings.show_cart_note -%}
           <details id="Details-CartDrawer">

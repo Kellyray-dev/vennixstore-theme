@@ -163,6 +163,14 @@
     }
   }
 
+  .vx-category-section__empty {
+    margin: 0;
+    padding: 3rem 0;
+    color: rgba(var(--color-foreground), 0.6);
+    font-size: 1.4rem;
+    text-align: center;
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .vx-category__media img,
     .vx-category__cta::after,
@@ -173,6 +181,30 @@
   }
 {%- endstyle -%}
 
+{%- liquid
+  comment
+    Never render an empty shell: with no category blocks configured the section renders
+    nothing on the live storefront, and only shows a merchant-facing prompt inside the
+    Theme Editor so it stays selectable and configurable.
+  endcomment
+  assign vx_has_categories = false
+  if section.blocks.size > 0
+    assign vx_has_categories = true
+  endif
+-%}
+
+{%- if vx_has_categories == false -%}
+  {%- if request.design_mode -%}
+    <section class="vx-category-section color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-padding">
+      <div class="page-width">
+        <p class="vx-category-section__empty">
+          Add a category tile block to show this section. It stays hidden on the live
+          storefront until at least one tile is configured.
+        </p>
+      </div>
+    </section>
+  {%- endif -%}
+{%- else -%}
 <section
   class="vx-category-section color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-padding"
   aria-label="{{ section.settings.heading | default: 'Shop by category' | escape }}"
@@ -274,6 +306,7 @@
     </ul>
   </div>
 </section>
+{%- endif -%}
 
 {% schema %}
 {
