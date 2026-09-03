@@ -860,6 +860,20 @@ a.product__text {
   text-decoration-thickness: 0.2rem;
 }
 
+/* Size guide opener — slightly emphasized so shoppers notice it near the variant picker. */
+.vx-size-guide__button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  font-size: 1.4rem;
+  letter-spacing: 0.02em;
+}
+
+.vx-size-guide__button .vx-size-guide__icon {
+  flex-shrink: 0;
+  color: rgba(var(--color-foreground), 0.7);
+}
+
 .product-popup-modal__content-info {
   padding-right: 4.4rem;
 }

@@ -525,6 +525,33 @@
                       {{ block.settings.text | default: block.settings.page.title | escape }}
                     </button>
                   </modal-opener>
+                {%- when 'size_guide' -%}
+                  <modal-opener
+                    class="product-popup-modal__opener quick-add-hidden vx-size-guide__opener"
+                    data-modal="#PopupModal-{{ block.id }}"
+                    {{ block.shopify_attributes }}
+                  >
+                    <button
+                      id="ProductSizeGuide-{{ block.id }}"
+                      class="product-popup-modal__button link vx-size-guide__button"
+                      type="button"
+                      aria-haspopup="dialog"
+                    >
+                      <svg
+                        class="vx-size-guide__icon"
+                        aria-hidden="true"
+                        focusable="false"
+                        viewBox="0 0 18 18"
+                        width="16"
+                        height="16"
+                        fill="none"
+                      >
+                        <path d="M2.25 6.75 6.75 2.25l9 9-4.5 4.5-9-9Z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                        <path d="M5.25 4.5l1.5 1.5M7.5 2.25 9 3.75M10.5 6.75l1.5 1.5M12.75 9l1.5 1.5M2.25 6.75 3.75 8.25" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/>
+                      </svg>
+                      {{- block.settings.text | default: 'Size guide' | escape -}}
+                    </button>
+                  </modal-opener>
                 {%- when 'share' -%}
                   {% liquid
                     assign share_url = product.selected_variant.url | default: product.url | prepend: request.origin
@@ -786,6 +813,31 @@
             <div class="product-popup-modal__content-info">
               <h1 class="h2">{{ block.settings.page.title | escape }}</h1>
               {{ block.settings.page.content }}
+            </div>
+          </div>
+        </modal-dialog>
+      {%- endfor -%}
+
+      {% assign size_guides = section.blocks | where: 'type', 'size_guide' %}
+      {%- for block in size_guides -%}
+        <modal-dialog id="PopupModal-{{ block.id }}" class="product-popup-modal" {{ block.shopify_attributes }}>
+          <div
+            role="dialog"
+            aria-label="{{ block.settings.text | default: 'Size guide' | escape }}"
+            aria-modal="true"
+            class="product-popup-modal__content"
+            tabindex="-1"
+          >
+            <button
+              id="ModalClose-{{ block.id }}"
+              type="button"
+              class="product-popup-modal__toggle"
+              aria-label="{{ 'accessibility.close' | t }}"
+            >
+              {{- 'icon-close.svg' | inline_asset_content -}}
+            </button>
+            <div class="product-popup-modal__content-info">
+              {% render 'vennix-size-guide', block: block, product: product %}
             </div>
           </div>
         </modal-dialog>
@@ -1324,6 +1376,28 @@
           "id": "page",
           "type": "page",
           "label": "t:sections.main-product.blocks.popup.settings.page.label"
+        }
+      ]
+    },
+    {
+      "type": "size_guide",
+      "name": "Size guide",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Adds a \"Size guide\" link that opens a size chart modal. With no page selected, a built-in apparel chart is shown; a product `custom.size_chart` page metafield overrides it per product."
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "default": "Size guide",
+          "label": "Link label"
+        },
+        {
+          "id": "page",
+          "type": "page",
+          "label": "Size chart page (optional)"
         }
       ]
     },

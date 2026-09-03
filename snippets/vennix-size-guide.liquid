@@ -1,0 +1,171 @@
+{%- comment -%}
+  VennixStore — Size guide modal content.
+
+  Content priority:
+    1. A page selected on the block (Theme Editor → Product page → Size guide)
+    2. The product's `custom.size_chart` page-reference metafield
+    3. Built-in default apparel chart (works with zero setup)
+
+  Usage:
+    {% render 'vennix-size-guide', block: block, product: product %}
+{%- endcomment -%}
+
+{%- liquid
+  assign chart_page = block.settings.page
+  assign chart_source = 'default'
+
+  if chart_page != blank
+    assign chart_source = 'page'
+  else
+    assign metafield_page = product.metafields.custom.size_chart.value
+    if metafield_page != blank and metafield_page.content != blank
+      assign chart_page = metafield_page
+      assign chart_source = 'metafield'
+    endif
+  endif
+-%}
+
+{%- style -%}
+  .vx-size-chart {
+    width: 100%;
+  }
+
+  .vx-size-chart__tables {
+    display: grid;
+    gap: 2.4rem;
+    margin: 0;
+  }
+
+  @media screen and (min-width: 990px) {
+    .vx-size-chart__tables {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 3.2rem;
+    }
+  }
+
+  .vx-size-chart__table-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .vx-size-chart table {
+    width: 100%;
+    min-width: 32rem;
+    border-collapse: collapse;
+    font-size: 1.3rem;
+    line-height: 1.5;
+  }
+
+  .vx-size-chart caption {
+    padding: 0 0 0.8rem;
+    color: rgb(var(--color-foreground));
+    font-family: var(--font-heading-family);
+    font-size: 1.5rem;
+    font-weight: 500;
+    text-align: left;
+  }
+
+  .vx-size-chart th,
+  .vx-size-chart td {
+    padding: 0.9rem 1.2rem;
+    border: 0.1rem solid rgba(var(--color-foreground), 0.15);
+    text-align: center;
+  }
+
+  .vx-size-chart thead th {
+    background-color: rgba(var(--color-foreground), 0.04);
+    color: rgb(var(--color-foreground));
+    font-weight: 600;
+  }
+
+  .vx-size-chart tbody th {
+    font-weight: 500;
+    text-align: left;
+    white-space: nowrap;
+  }
+
+  .vx-size-chart__tips {
+    margin: 2rem 0 0;
+    padding: 0 0 0 1.8rem;
+    color: rgba(var(--color-foreground), 0.75);
+    font-size: 1.3rem;
+  }
+
+  .vx-size-chart__tips li + li {
+    margin-top: 0.5rem;
+  }
+
+  .vx-size-chart__note {
+    margin: 1.6rem 0 0;
+    color: rgba(var(--color-foreground), 0.6);
+    font-size: 1.2rem;
+  }
+{%- endstyle -%}
+
+<div class="vx-size-chart rte">
+  {%- if chart_source == 'default' -%}
+    <h3>Size guide</h3>
+    <div class="vx-size-chart__tables">
+      <figure class="vx-size-chart__table-wrap">
+        <table>
+          <caption>Women&rsquo;s sizing (US)</caption>
+          <thead>
+            <tr>
+              <th scope="col">Size</th>
+              <th scope="col">US</th>
+              <th scope="col">Bust</th>
+              <th scope="col">Waist</th>
+              <th scope="col">Hips</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row">XS</th><td>0&ndash;2</td><td>31&ndash;32&Prime;</td><td>24&ndash;25&Prime;</td><td>34&ndash;35&Prime;</td></tr>
+            <tr><th scope="row">S</th><td>4&ndash;6</td><td>33&ndash;34&Prime;</td><td>26&ndash;27&Prime;</td><td>36&ndash;37&Prime;</td></tr>
+            <tr><th scope="row">M</th><td>8&ndash;10</td><td>35&ndash;36&Prime;</td><td>28&ndash;29&Prime;</td><td>38&ndash;39&Prime;</td></tr>
+            <tr><th scope="row">L</th><td>12&ndash;14</td><td>38&ndash;40&Prime;</td><td>30&ndash;32&Prime;</td><td>40&ndash;42&Prime;</td></tr>
+            <tr><th scope="row">XL</th><td>16&ndash;18</td><td>42&ndash;44&Prime;</td><td>33&ndash;35&Prime;</td><td>43&ndash;45&Prime;</td></tr>
+            <tr><th scope="row">XXL</th><td>20&ndash;22</td><td>45&ndash;47&Prime;</td><td>36&ndash;38&Prime;</td><td>46&ndash;48&Prime;</td></tr>
+          </tbody>
+        </table>
+      </figure>
+
+      <figure class="vx-size-chart__table-wrap">
+        <table>
+          <caption>Men&rsquo;s sizing (US)</caption>
+          <thead>
+            <tr>
+              <th scope="col">Size</th>
+              <th scope="col">Chest</th>
+              <th scope="col">Waist</th>
+              <th scope="col">Neck</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row">S</th><td>35&ndash;37&Prime;</td><td>29&ndash;31&Prime;</td><td>14&ndash;14.5&Prime;</td></tr>
+            <tr><th scope="row">M</th><td>38&ndash;40&Prime;</td><td>32&ndash;34&Prime;</td><td>15&ndash;15.5&Prime;</td></tr>
+            <tr><th scope="row">L</th><td>41&ndash;43&Prime;</td><td>36&ndash;38&Prime;</td><td>16&ndash;16.5&Prime;</td></tr>
+            <tr><th scope="row">XL</th><td>44&ndash;47&Prime;</td><td>40&ndash;42&Prime;</td><td>17&ndash;17.5&Prime;</td></tr>
+            <tr><th scope="row">2XL</th><td>48&ndash;51&Prime;</td><td>44&ndash;46&Prime;</td><td>18&ndash;18.5&Prime;</td></tr>
+            <tr><th scope="row">3XL</th><td>52&ndash;55&Prime;</td><td>48&ndash;50&Prime;</td><td>19&ndash;19.5&Prime;</td></tr>
+          </tbody>
+        </table>
+      </figure>
+    </div>
+
+    <ul class="vx-size-chart__tips">
+      <li><strong>Bust / chest:</strong> measure around the fullest part, keeping the tape level.</li>
+      <li><strong>Waist:</strong> measure around the narrowest part of your natural waistline.</li>
+      <li><strong>Hips:</strong> measure around the fullest part of your hips.</li>
+    </ul>
+
+    <p class="vx-size-chart__note">
+      Between sizes? We recommend sizing up for a relaxed fit. Measurements are body measurements in inches &mdash; not garment measurements. Need help?
+      <a href="/pages/contact">Contact us</a> and we&rsquo;ll point you to the right size.
+    </p>
+  {%- else -%}
+    {%- if chart_page.title != blank -%}
+      <h3>{{ chart_page.title | escape }}</h3>
+    {%- endif -%}
+    {{ chart_page.content }}
+  {%- endif -%}
+</div>

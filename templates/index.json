@@ -77,7 +77,7 @@
             "title": "Women's",
             "tagline": "Sets, dresses and everyday pieces",
             "cta_label": "Shop now",
-            "link": "shopify://collections/all"
+            "link": "shopify://collections/womens-clothing"
           }
         },
         "men": {
@@ -87,7 +87,7 @@
             "title": "Men's",
             "tagline": "Everyday basics built for modern life",
             "cta_label": "Shop now",
-            "link": "shopify://collections/all"
+            "link": "shopify://collections/mens-clothing"
           }
         },
         "active": {
@@ -95,9 +95,9 @@
           "settings": {
             "image_asset": "active-essentials.jpg",
             "title": "Everyday Essentials",
-            "tagline": "Accessories and add-ons for daily life",
+            "tagline": "Everyday pieces and polished styles",
             "cta_label": "Shop now",
-            "link": "shopify://collections/all"
+            "link": "shopify://collections/apparel"
           }
         }
       },
@@ -139,6 +139,38 @@
         "eyebrow": "The edit"
       }
     },
+    "best_sellers": {
+      "type": "featured-collection",
+      "settings": {
+        "title": "Best Sellers",
+        "heading_size": "h2",
+        "description": "<p>The pieces our customers reach for again and again.</p>",
+        "show_description": false,
+        "description_style": "body",
+        "collection": "apparel",
+        "products_to_show": 8,
+        "product_filter": "none",
+        "columns_desktop": 4,
+        "columns_mobile": "2",
+        "color_scheme": "scheme-1",
+        "full_width": false,
+        "show_view_all": true,
+        "view_all_style": "solid",
+        "enable_desktop_slider": false,
+        "swipe_on_mobile": false,
+        "image_ratio": "portrait",
+        "image_shape": "default",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_rating": false,
+        "quick_add": "standard",
+        "padding_top": 80,
+        "padding_bottom": 80,
+        "enable_entrance_animation": true,
+        "fallback_asset": "vennix-product-fallback.jpg",
+        "eyebrow": "Customer favorites"
+      }
+    },
     "brand_story": {
       "type": "vennix-brand-story",
       "settings": {
@@ -176,8 +208,9 @@
   "order": [
     "vennix_hero",
     "vennix_trust",
-    "new_in_apparel",
     "shop_by_category",
+    "new_in_apparel",
+    "best_sellers",
     "brand_story",
     "vennix_newsletter"
   ]
