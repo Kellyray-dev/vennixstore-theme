@@ -21,7 +21,7 @@
         "variant_picker": {
           "type": "variant_picker",
           "settings": {
-            "picker_type": "dropdown",
+            "picker_type": "button",
             "swatch_shape": "circle"
           }
         },
@@ -98,7 +98,7 @@
           "settings": {
             "heading": "Returns",
             "icon": "return",
-            "content": "<p>Eligible items can be returned within 30 days. Review our refund policy for conditions and return instructions.</p>",
+            "content": "<p>Review our refund policy for the return window, conditions, and return instructions.</p>",
             "page": ""
           }
         }

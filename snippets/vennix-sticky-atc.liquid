@@ -19,7 +19,7 @@
     {%- endif -%}
     <div class="vx-sticky-atc__details">
       <strong>{{ product.title | escape | truncate: 52 }}</strong>
-      <span data-sticky-atc-price>{{ product.selected_or_first_available_variant.price | money_with_currency }}</span>
+      <span data-sticky-atc-price aria-live="polite">{{ product.selected_or_first_available_variant.price | money_with_currency }}</span>
     </div>
     <button
       type="button"
@@ -27,7 +27,7 @@
       data-sticky-atc-button
       {% unless product.selected_or_first_available_variant.available %}disabled{% endunless %}
     >
-      <span data-sticky-atc-label>
+      <span data-sticky-atc-label aria-live="polite">
         {%- if product.selected_or_first_available_variant.available -%}
           {{ 'products.product.add_to_cart' | t }}
         {%- else -%}

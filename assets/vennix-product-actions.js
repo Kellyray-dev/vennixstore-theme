@@ -81,6 +81,7 @@ if (!customElements.get('vennix-sticky-atc')) {
         variant?.available === false;
 
       this.stickyButton.disabled = disabled;
+      this.stickyButton.setAttribute('aria-disabled', disabled ? 'true' : 'false');
       const mainLabel = this.mainButton.querySelector('span:not(.sold-out-message)')?.textContent?.trim();
       if (this.label) {
         this.label.textContent = mainLabel || (disabled ? window.variantStrings.soldOut : window.variantStrings.addToCart);
