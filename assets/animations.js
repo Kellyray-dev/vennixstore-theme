@@ -1,3 +1,13 @@
+/* Opt the document in to the CSS pre-reveal (hidden) states only once this script is
+   actually running and the browser can observe intersections. If the script is blocked,
+   fails to parse, or IntersectionObserver is missing, the class is never added and all
+   `.scroll-trigger` content — including collection product grids — stays fully visible. */
+if ('IntersectionObserver' in window) {
+  document.documentElement.classList.add('scroll-trigger-ready');
+  /* Read by the failsafe in layout/theme.liquid. */
+  window.__vennixScrollAnimationsReady = true;
+}
+
 const SCROLL_ANIMATION_TRIGGER_CLASSNAME = 'scroll-trigger';
 const SCROLL_ANIMATION_OFFSCREEN_CLASSNAME = 'scroll-trigger--offscreen';
 const SCROLL_ZOOM_IN_TRIGGER_CLASSNAME = 'animate--zoom-in';
@@ -24,6 +34,12 @@ function onIntersection(elements, observer) {
 function initializeScrollAnimationTrigger(rootEl = document, isDesignModeEvent = false) {
   const animationTriggerElements = Array.from(rootEl.getElementsByClassName(SCROLL_ANIMATION_TRIGGER_CLASSNAME));
   if (animationTriggerElements.length === 0) return;
+
+  // No IntersectionObserver: never hide anything.
+  if (!('IntersectionObserver' in window)) {
+    document.documentElement.classList.remove('scroll-trigger-ready');
+    return;
+  }
 
   if (isDesignModeEvent) {
     animationTriggerElements.forEach((element) => {

@@ -33,11 +33,21 @@
             "heading": "Shop",
             "menu": "main-menu"
           }
+        },
+        "help": {
+          "type": "policy_links",
+          "settings": {
+            "heading": "Help",
+            "about_label": "About us",
+            "contact_label": "Contact us",
+            "faq_label": "FAQ"
+          }
         }
       },
       "block_order": [
         "about",
-        "shop"
+        "shop",
+        "help"
       ]
     }
   },

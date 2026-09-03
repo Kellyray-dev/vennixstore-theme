@@ -89,6 +89,30 @@
     <script src="{{ 'header-menu-hover.js' | asset_url }}" defer="defer"></script>
 
     {%- if settings.animations_reveal_on_scroll -%}
+      {%- comment -%}
+        Applied synchronously so reveal-on-scroll content never flashes visible before
+        `animations.js` (deferred) runs. Gated on IntersectionObserver: without it the
+        class is never set and every `.scroll-trigger` element — product grids included —
+        stays fully visible instead of being stuck at opacity 0.
+      {%- endcomment -%}
+      <script>
+        (function () {
+          if (!('IntersectionObserver' in window)) return;
+          document.documentElement.classList.add('scroll-trigger-ready');
+
+          /* Failsafe: if animations.js never runs (blocked, cached error, CDN failure)
+             drop the gate again on load so nothing stays invisible. */
+          window.addEventListener(
+            'load',
+            function () {
+              if (!window.__vennixScrollAnimationsReady) {
+                document.documentElement.classList.remove('scroll-trigger-ready');
+              }
+            },
+            { once: true }
+          );
+        })();
+      </script>
       <script src="{{ 'animations.js' | asset_url }}" defer="defer"></script>
     {%- endif -%}
 

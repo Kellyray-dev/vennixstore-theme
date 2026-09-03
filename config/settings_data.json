@@ -97,6 +97,8 @@
     "badge_corner_radius": 40,
     "sale_badge_color_scheme": "scheme-5",
     "sold_out_badge_color_scheme": "scheme-3",
+    "storefront_brand_name": "VennixStore",
+    "hide_supplier_vendor": true,
     "brand_headline": "",
     "brand_description": "<p></p>",
     "brand_image_width": 100,
@@ -233,6 +235,7 @@
         }
       }
     },
+    "cart_recommendations_enabled": true,
     "free_shipping_progress_enabled": true,
     "free_shipping_threshold": 50
   },

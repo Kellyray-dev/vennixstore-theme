@@ -155,7 +155,7 @@
                         {%- if settings.predictive_search_show_vendor -%}
                           <span class="visually-hidden">{{ 'accessibility.vendor' | t }}</span>
                           <div class="predictive-search__item-vendor caption-with-letter-spacing">
-                            {{ product.vendor }}
+                            {%- render 'vennix-vendor', product: product -%}
                           </div>
                         {%- endif -%}
                         <p class="predictive-search__item-heading h5">{{ product.title | escape }}</p>

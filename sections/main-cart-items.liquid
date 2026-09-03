@@ -108,7 +108,7 @@
 
                     <td class="cart-item__details">
                       {%- if settings.show_vendor -%}
-                        <p class="caption-with-letter-spacing">{{ item.product.vendor }}</p>
+                        <p class="caption-with-letter-spacing">{%- render 'vennix-vendor', product: item.product -%}</p>
                       {%- endif -%}
 
                       <div class="cart-item__title">
@@ -467,6 +467,12 @@
     </form>
   </div>
 </cart-items>
+
+{%- unless cart == empty -%}
+  <div class="page-width">
+    {%- render 'vennix-cart-recommendations', layout: 'page', limit: 3 -%}
+  </div>
+{%- endunless -%}
 
 {% schema %}
 {

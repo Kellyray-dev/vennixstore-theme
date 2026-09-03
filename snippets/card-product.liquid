@@ -225,7 +225,7 @@
             <div class="card-information">
               {%- if show_vendor -%}
                 <span class="visually-hidden">{{ 'accessibility.vendor' | t }}</span>
-                <div class="caption-with-letter-spacing light">{{ card_product.vendor }}</div>
+                <div class="caption-with-letter-spacing light">{%- render 'vennix-vendor', product: card_product -%}</div>
               {%- endif -%}
 
               {%- if show_rating and card_product.metafields.reviews.rating.value != blank -%}

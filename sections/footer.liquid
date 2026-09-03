@@ -134,6 +134,70 @@
                         {%- endfor -%}
                       </ul>
                     {%- endif -%}
+                  {%- when 'policy_links' -%}
+                    {%- comment -%}
+                      Trust navigation driven entirely by Shopify's own policy objects plus
+                      optional merchant-selected pages. Policies that have not been published
+                      are skipped, so this block can never render a dead link.
+                    {%- endcomment -%}
+                    {%- liquid
+                      assign policy_link_count = 0
+                      for policy in shop.policies
+                        if policy != blank
+                          assign policy_link_count = policy_link_count | plus: 1
+                        endif
+                      endfor
+                    -%}
+                    {%- if policy_link_count > 0
+                      or block.settings.about_page != blank
+                      or block.settings.contact_page != blank
+                      or block.settings.faq_page != blank
+                    -%}
+                      <ul class="footer-block__details-content list-unstyled">
+                        {%- if block.settings.about_page != blank -%}
+                          <li>
+                            <a
+                              href="{{ block.settings.about_page.url }}"
+                              class="link link--text list-menu__item list-menu__item--link"
+                            >
+                              {{ block.settings.about_label | default: block.settings.about_page.title | escape }}
+                            </a>
+                          </li>
+                        {%- endif -%}
+                        {%- if block.settings.contact_page != blank -%}
+                          <li>
+                            <a
+                              href="{{ block.settings.contact_page.url }}"
+                              class="link link--text list-menu__item list-menu__item--link"
+                            >
+                              {{ block.settings.contact_label | default: block.settings.contact_page.title | escape }}
+                            </a>
+                          </li>
+                        {%- endif -%}
+                        {%- if block.settings.faq_page != blank -%}
+                          <li>
+                            <a
+                              href="{{ block.settings.faq_page.url }}"
+                              class="link link--text list-menu__item list-menu__item--link"
+                            >
+                              {{ block.settings.faq_label | default: block.settings.faq_page.title | escape }}
+                            </a>
+                          </li>
+                        {%- endif -%}
+                        {%- for policy in shop.policies -%}
+                          {%- if policy != blank -%}
+                            <li>
+                              <a
+                                href="{{ policy.url }}"
+                                class="link link--text list-menu__item list-menu__item--link"
+                              >
+                                {{ policy.title | escape }}
+                              </a>
+                            </li>
+                          {%- endif -%}
+                        {%- endfor -%}
+                      </ul>
+                    {%- endif -%}
                   {%- when 'brand_information' -%}
                     <div class="footer-block__brand-info">
                       {%- if settings.brand_image != blank -%}
@@ -412,6 +476,29 @@
           "default": "footer",
           "label": "t:sections.footer.blocks.link_list.settings.menu.label"
         }
+      ]
+    },
+    {
+      "type": "policy_links",
+      "name": "Policies & help",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Automatically lists the store policies published in Shopify admin (Settings > Policies). Policies you have not written are skipped, so no broken links are shown."
+        },
+        {
+          "type": "inline_richtext",
+          "id": "heading",
+          "default": "Help",
+          "label": "t:sections.footer.blocks.link_list.settings.heading.label"
+        },
+        { "type": "page", "id": "about_page", "label": "About page" },
+        { "type": "text", "id": "about_label", "label": "About link label", "default": "About us" },
+        { "type": "page", "id": "contact_page", "label": "Contact page" },
+        { "type": "text", "id": "contact_label", "label": "Contact link label", "default": "Contact us" },
+        { "type": "page", "id": "faq_page", "label": "FAQ page" },
+        { "type": "text", "id": "faq_label", "label": "FAQ link label", "default": "FAQ" }
       ]
     },
     {

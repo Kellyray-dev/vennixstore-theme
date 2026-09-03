@@ -12,7 +12,11 @@
   assign threshold_cents = settings.free_shipping_threshold | times: 100
   assign remaining_cents = threshold_cents | minus: cart.total_price | at_least: 0
   assign remaining_amount = remaining_cents | money_with_currency
-  assign progress_percent = cart.total_price | times: 100.0 | divided_by: threshold_cents | at_most: 100
+  comment
+    Integer-cents maths only — no float rounding drift. `times: 100` before dividing keeps
+    the percentage exact, and `at_most: 100` clamps carts above the threshold.
+  endcomment
+  assign progress_percent = cart.total_price | times: 100 | divided_by: threshold_cents | at_most: 100 | at_least: 0
   assign currency_matches_store = false
   if cart.currency.iso_code == shop.currency
     assign currency_matches_store = true
@@ -23,6 +27,8 @@
   <div
     class="vx-shipping-progress{% if layout == 'page' %} vx-shipping-progress--page{% endif %}{% if remaining_cents == 0 %} is-complete{% endif %}"
     role="status"
+    aria-live="polite"
+    aria-atomic="true"
   >
     <div class="vx-shipping-progress__message">
       {%- if remaining_cents == 0 -%}

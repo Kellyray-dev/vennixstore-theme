@@ -12,6 +12,11 @@
   if sizing == blank
     assign sizing = product.metafields.custom.sizing_info
   endif
+  assign fit = product.metafields.custom.fit
+  if fit == blank
+    assign fit = product.metafields.custom.fit_type
+  endif
+  assign stretch = product.metafields.custom.stretch
   assign included = product.metafields.custom.whats_included
   assign warranty = product.metafields.custom.warranty
   assign origin = product.metafields.custom.country_of_origin
@@ -20,7 +25,7 @@
   endif
 
   assign has_specs = false
-  if materials != blank or dimensions != blank or compatibility != blank or sizing != blank or included != blank or warranty != blank or origin != blank
+  if materials != blank or dimensions != blank or compatibility != blank or sizing != blank or included != blank or warranty != blank or origin != blank or fit != blank or stretch != blank
     assign has_specs = true
   endif
 -%}
@@ -60,6 +65,12 @@
             {%- endif -%}
             {%- if compatibility != blank -%}
               <div><dt>Compatibility</dt><dd>{{ compatibility | metafield_tag }}</dd></div>
+            {%- endif -%}
+            {%- if fit != blank -%}
+              <div><dt>Fit</dt><dd>{{ fit | metafield_tag }}</dd></div>
+            {%- endif -%}
+            {%- if stretch != blank -%}
+              <div><dt>Stretch</dt><dd>{{ stretch | metafield_tag }}</dd></div>
             {%- endif -%}
             {%- if sizing != blank -%}
               <div><dt>Sizing &amp; fit</dt><dd>{{ sizing | metafield_tag }}</dd></div>
