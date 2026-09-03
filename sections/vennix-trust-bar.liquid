@@ -1,11 +1,22 @@
+<script src="{{ 'vennix-motion.js' | asset_url }}" defer="defer"></script>
+
 {%- liquid
   assign free_shipping_amount = settings.free_shipping_threshold | times: 100 | money_without_trailing_zeros
 -%}
 
-<section class="vx-trust color-{{ section.settings.color_scheme }} gradient" aria-label="Shopping benefits">
+<section
+  class="vx-trust color-{{ section.settings.color_scheme }} gradient"
+  aria-label="Shopping benefits"
+  data-vx-motion="{{ section.settings.enable_entrance_animation }}"
+  style="--vennix-motion-duration: {{ section.settings.motion_duration }}ms;"
+>
   <ul class="vx-trust__grid page-width" role="list">
     {%- for block in section.blocks -%}
-      <li class="vx-trust__item" {{ block.shopify_attributes }}>
+      <li
+        class="vx-trust__item vx-rise"
+        style="--vx-index: {{ forloop.index0 }}"
+        {{ block.shopify_attributes }}
+      >
         <span class="vx-trust__icon" aria-hidden="true">
           {%- case block.settings.icon -%}
             {%- when 'delivery' -%}
@@ -39,6 +50,27 @@
       "id": "color_scheme",
       "label": "Color scheme",
       "default": "scheme-2"
+    },
+    {
+      "type": "header",
+      "content": "Motion"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_entrance_animation",
+      "label": "Enable entrance animation",
+      "default": true,
+      "info": "Subtle staggered fade-in as the bar scrolls into view. Disabled automatically for visitors who prefer reduced motion."
+    },
+    {
+      "type": "range",
+      "id": "motion_duration",
+      "min": 300,
+      "max": 800,
+      "step": 50,
+      "unit": "ms",
+      "label": "Animation duration",
+      "default": 560
     }
   ],
   "blocks": [

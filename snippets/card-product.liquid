@@ -16,6 +16,8 @@
   - horizontal_class: {Boolean} Add a card--horizontal class if set to true. Default: false (optional)
   - horizontal_quick_add: {Boolean} Changes the quick add button styles when set to true. Default: false (optional)
   - placeholder_image: {String} The placeholder image to use when no product exists. Default: 'product-apparel-2' (optional)
+  - no_media_image: {Image} Image shown when the product itself has no media (optional; only honoured when passed)
+  - no_media_asset: {String} Theme asset filename shown when the product has no media and no_media_image is blank (optional)
 
   Usage:
   {% render 'card-product', show_vendor: section.settings.show_vendor %}
@@ -31,7 +33,13 @@
 {%- if card_product and card_product != empty -%}
   {%- liquid
     assign ratio = 1
+    assign has_fallback_media = false
+    if no_media_image != blank or no_media_asset != blank
+      assign has_fallback_media = true
+    endif
     if card_product.featured_media and media_aspect_ratio == 'portrait'
+      assign ratio = 0.8
+    elsif has_fallback_media and media_aspect_ratio == 'portrait'
       assign ratio = 0.8
     elsif card_product.featured_media and media_aspect_ratio == 'adapt'
       assign ratio = card_product.featured_media.aspect_ratio
@@ -61,17 +69,17 @@
       <div
         class="
           card card--{{ settings.card_style }}
-          {% if card_product.featured_media %} card--media{% else %} card--text{% endif %}
+          {% if card_product.featured_media or has_fallback_media %} card--media{% else %} card--text{% endif %}
           {% if settings.card_style == 'card' %} color-{{ settings.card_color_scheme }} gradient{% endif %}
           {% if image_shape and image_shape != 'default' %} card--shape{% endif %}
           {% if extend_height %} card--extend-height{% endif %}
-          {% if card_product.featured_media == nil and settings.card_style == 'card' %} ratio{% endif %}
+          {% if card_product.featured_media == nil and has_fallback_media == false and settings.card_style == 'card' %} ratio{% endif %}
           {% if horizontal_class %} card--horizontal{% endif %}
         "
         style="--ratio-percent: {{ 1 | divided_by: ratio | times: 100 }}%;"
       >
         <div
-          class="card__inner {% if settings.card_style == 'standard' %}color-{{ settings.card_color_scheme }} gradient{% endif %}{% if card_product.featured_media or settings.card_style == 'standard' %} ratio{% endif %}"
+          class="card__inner {% if settings.card_style == 'standard' %}color-{{ settings.card_color_scheme }} gradient{% endif %}{% if card_product.featured_media or has_fallback_media or settings.card_style == 'standard' %} ratio{% endif %}"
           style="--ratio-percent: {{ 1 | divided_by: ratio | times: 100 }}%;"
         >
           {%- if card_product.featured_media -%}
@@ -122,9 +130,46 @@
                 {%- endif -%}
               </div>
             </div>
+          {%- elsif has_fallback_media -%}
+            <div class="card__media">
+              <div class="media media--transparent media--hover-effect">
+                {%- if no_media_image != blank -%}
+                  {% comment %}theme-check-disable ImgLazyLoading{% endcomment %}
+                  <img
+                    srcset="
+                      {%- if no_media_image.width >= 360 -%}{{ no_media_image | image_url: width: 360 }} 360w,{%- endif -%}
+                      {%- if no_media_image.width >= 533 -%}{{ no_media_image | image_url: width: 533 }} 533w,{%- endif -%}
+                      {%- if no_media_image.width >= 720 -%}{{ no_media_image | image_url: width: 720 }} 720w,{%- endif -%}
+                      {{ no_media_image | image_url }} {{ no_media_image.width }}w
+                    "
+                    src="{{ no_media_image | image_url: width: 533 }}"
+                    sizes="(min-width: {{ settings.page_width }}px) {{ settings.page_width | minus: 130 | divided_by: 4 }}px, (min-width: 990px) calc((100vw - 130px) / 4), (min-width: 750px) calc((100vw - 120px) / 3), calc((100vw - 35px) / 2)"
+                    alt="{{ card_product.title | escape }} — placeholder image"
+                    class="motion-reduce"
+                    {% unless lazy_load == false %}
+                      loading="lazy"
+                    {% endunless %}
+                    width="{{ no_media_image.width }}"
+                    height="{{ no_media_image.height }}"
+                  >
+                  {% comment %}theme-check-enable ImgLazyLoading{% endcomment %}
+                {%- else -%}
+                  <img
+                    src="{{ no_media_asset | asset_url }}"
+                    alt="{{ card_product.title | escape }} — placeholder image"
+                    class="motion-reduce"
+                    {% unless lazy_load == false %}
+                      loading="lazy"
+                    {% endunless %}
+                    width="928"
+                    height="1152"
+                  >
+                {%- endif -%}
+              </div>
+            </div>
           {%- endif -%}
           <div class="card__content">
-            {%- if card_product.featured_media == null -%}
+            {%- if card_product.featured_media == null and has_fallback_media == false -%}
               <div class="card__information">
                 <h3 class="card__heading" id="title-{{ section_id }}-{{ card_product.id }}">
                   <a

@@ -9,7 +9,7 @@
         "desktop_height": 720,
         "overlay_opacity": 10,
         "enable_motion": true,
-        "show_scroll_cue": true,
+        "show_scroll_cue": false,
         "eyebrow": "Modern Clothing & Active Essentials",
         "heading": "Modern Clothing. Made for Movement.",
         "text": "<p>Elevated everyday pieces and active essentials designed for modern life.</p>",
@@ -53,17 +53,21 @@
         "secure"
       ],
       "settings": {
-        "color_scheme": "scheme-2"
+        "color_scheme": "scheme-2",
+        "enable_entrance_animation": true,
+        "motion_duration": 560
       }
     },
     "shop_by_category": {
       "type": "vennix-category-grid",
       "settings": {
-        "eyebrow": "Shop the edit",
+        "eyebrow": "Explore",
         "heading": "Shop by Category",
         "color_scheme": "scheme-1",
         "padding_top": 80,
-        "padding_bottom": 80
+        "padding_bottom": 80,
+        "enable_entrance_animation": true,
+        "motion_duration": 560
       },
       "blocks": {
         "women": {
@@ -113,8 +117,7 @@
         "description_style": "body",
         "collection": "all",
         "products_to_show": 8,
-        "product_filter": "exclude",
-        "filter_terms": "tech, usb, humidifier, case, gadget, electronics, phone, cable, charger, trimmer, clipper",
+        "product_filter": "none",
         "columns_desktop": 4,
         "columns_mobile": "2",
         "color_scheme": "scheme-1",
@@ -130,7 +133,10 @@
         "show_rating": false,
         "quick_add": "standard",
         "padding_top": 80,
-        "padding_bottom": 80
+        "padding_bottom": 80,
+        "enable_entrance_animation": true,
+        "fallback_asset": "vennix-product-fallback.jpg",
+        "eyebrow": "The edit"
       }
     },
     "brand_story": {
@@ -145,28 +151,33 @@
         "button_link": "shopify://collections/all",
         "color_scheme": "scheme-2",
         "padding_top": 80,
-        "padding_bottom": 80
+        "padding_bottom": 80,
+        "enable_entrance_animation": true,
+        "motion_duration": 560,
+        "enable_parallax": true
       }
     },
     "vennix_newsletter": {
       "type": "vennix-newsletter",
       "settings": {
-        "eyebrow": "",
-        "heading": "STAY UPDATED",
-        "subtext": "Be first to hear about new collections, active essentials, and occasional offers.",
+        "eyebrow": "The Vennix list",
+        "heading": "New finds, considered updates",
+        "subtext": "Be first to hear about new arrivals, active essentials, and occasional offers.",
         "placeholder": "Your email address",
-        "btn_label": "SUBSCRIBE",
-        "success_msg": "Thanks for subscribing.",
+        "btn_label": "Join the list",
+        "success_msg": "Thanks for joining the Vennix list.",
         "disclaimer": "Unsubscribe at any time.",
-        "color_scheme": "scheme-3"
+        "color_scheme": "scheme-3",
+        "enable_entrance_animation": true,
+        "motion_duration": 560
       }
     }
   },
   "order": [
     "vennix_hero",
     "vennix_trust",
-    "shop_by_category",
     "new_in_apparel",
+    "shop_by_category",
     "brand_story",
     "vennix_newsletter"
   ]
