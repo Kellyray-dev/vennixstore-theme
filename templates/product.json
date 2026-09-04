@@ -24,6 +24,13 @@
             "swatch_shape": "circle"
           }
         },
+        "size_guide": {
+          "type": "size_guide",
+          "settings": {
+            "text": "Size guide",
+            "page": ""
+          }
+        },
         "quantity_selector": {
           "type": "quantity_selector",
           "settings": {}
@@ -109,6 +116,7 @@
         "price",
         "inventory",
         "variant_picker",
+        "size_guide",
         "quantity_selector",
         "buy_buttons",
         "description",

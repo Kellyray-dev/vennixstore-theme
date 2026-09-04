@@ -1,6 +1,6 @@
 # VennixStore Theme Status
 
-**Last updated:** Phase 2 alignment complete (2026-09-03)
+**Last updated:** Pre-launch audit fixes complete (2026-09-03)
 
 ## Summary
 
@@ -20,6 +20,8 @@ VennixStore already has a strong Shopify OS 2.0 foundation with premium branding
 - Breadcrumb JSON-LD and meta tags
 - Localization and accessibility support
 - Dark mode with visitor preference persistence
+- Size guide modal on product pages (`size_guide` block in `main-product`, built-in apparel chart with page / `custom.size_chart` metafield overrides)
+- Homepage "Best Sellers" featured collection and category tiles linked to real collections
 
 ## Partial features
 
@@ -29,7 +31,6 @@ VennixStore already has a strong Shopify OS 2.0 foundation with premium branding
 
 - Wishlist
 - Recently viewed
-- Size / fit guide
 - Compare products
 - Back-in-stock alerts
 - Lookbook or shoppable image content
@@ -48,8 +49,7 @@ VennixStore already has a strong Shopify OS 2.0 foundation with premium branding
 3. Collection and search improvements
 4. Wishlist
 5. Recently viewed
-6. Size / fit guide
-7. Compare products
+6. Compare products
 8. Back-in-stock alerts
-9. Lookbook / shoppable imagery
-10. UGC or social gallery
+8. Lookbook / shoppable imagery
+9. UGC or social gallery
