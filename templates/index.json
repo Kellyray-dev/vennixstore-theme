@@ -1,15 +1,22 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "vennix_hero": {
       "type": "vennix-hero",
-      "blocks": {},
-      "block_order": [],
       "settings": {
-        "image_focus": "right",
+        "image_focus": "center",
         "desktop_height": 720,
         "overlay_opacity": 10,
         "enable_motion": true,
-        "show_scroll_cue": false,
+        "show_scroll_cue": true,
         "eyebrow": "Modern Clothing & Active Essentials",
         "heading": "Modern Clothing. Made for Movement.",
         "text": "<p>Modern clothing and everyday essentials designed for the way you move.</p>",
@@ -53,26 +60,16 @@
         "secure"
       ],
       "settings": {
-        "color_scheme": "scheme-2",
-        "enable_entrance_animation": true,
-        "motion_duration": 560
+        "color_scheme": "scheme-2"
       }
     },
     "shop_by_category": {
       "type": "vennix-category-grid",
-      "settings": {
-        "eyebrow": "Explore",
-        "heading": "Shop by Category",
-        "color_scheme": "scheme-1",
-        "padding_top": 80,
-        "padding_bottom": 80,
-        "enable_entrance_animation": true,
-        "motion_duration": 560
-      },
       "blocks": {
         "women": {
           "type": "category",
           "settings": {
+            "collection": "",
             "image_asset": "womens-fashion.jpg",
             "title": "Women's",
             "tagline": "Sets, dresses and everyday pieces",
@@ -83,6 +80,7 @@
         "men": {
           "type": "category",
           "settings": {
+            "collection": "",
             "image_asset": "mens-fashion.jpg",
             "title": "Men's",
             "tagline": "Everyday basics built for modern life",
@@ -93,6 +91,7 @@
         "active": {
           "type": "category",
           "settings": {
+            "collection": "",
             "image_asset": "active-essentials.jpg",
             "title": "Everyday Essentials",
             "tagline": "Everyday pieces and polished styles",
@@ -105,76 +104,78 @@
         "women",
         "men",
         "active"
-      ]
+      ],
+      "settings": {
+        "eyebrow": "Explore",
+        "heading": "Shop by Category",
+        "color_scheme": "scheme-2",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
     },
     "new_in_apparel": {
       "type": "featured-collection",
       "settings": {
+        "collection": "all",
+        "products_to_show": 8,
         "title": "New in Apparel",
-        "heading_size": "h2",
+        "heading_size": "h1",
         "description": "<p>Fresh clothing and everyday essentials — modern pieces for the way you move.</p>",
         "show_description": false,
         "description_style": "body",
-        "collection": "all",
-        "products_to_show": 8,
-        "product_filter": "none",
+        "product_filter": "exclude",
+        "filter_terms": "",
         "columns_desktop": 4,
-        "columns_mobile": "2",
-        "color_scheme": "scheme-1",
-        "full_width": false,
+        "enable_desktop_slider": true,
+        "full_width": true,
         "show_view_all": true,
-        "view_all_style": "solid",
-        "enable_desktop_slider": false,
-        "swipe_on_mobile": false,
-        "image_ratio": "portrait",
+        "view_all_style": "outline",
+        "color_scheme": "scheme-1",
+        "image_ratio": "adapt",
         "image_shape": "default",
         "show_secondary_image": true,
         "show_vendor": false,
-        "show_rating": false,
+        "show_rating": true,
         "quick_add": "standard",
-        "padding_top": 80,
-        "padding_bottom": 80,
-        "enable_entrance_animation": true,
-        "fallback_asset": "vennix-product-fallback.jpg",
-        "eyebrow": "The edit"
+        "columns_mobile": "2",
+        "swipe_on_mobile": false,
+        "padding_top": 0,
+        "padding_bottom": 0
       }
     },
     "best_sellers": {
       "type": "featured-collection",
       "settings": {
+        "collection": "apparel",
+        "products_to_show": 12,
         "title": "Best Sellers",
         "heading_size": "h2",
         "description": "<p>The pieces our customers reach for again and again.</p>",
         "show_description": false,
         "description_style": "body",
-        "collection": "apparel",
-        "products_to_show": 8,
         "product_filter": "none",
+        "filter_terms": "",
         "columns_desktop": 4,
-        "columns_mobile": "2",
-        "color_scheme": "scheme-1",
-        "full_width": false,
-        "show_view_all": true,
-        "view_all_style": "solid",
         "enable_desktop_slider": false,
-        "swipe_on_mobile": false,
+        "full_width": true,
+        "show_view_all": true,
+        "view_all_style": "outline",
+        "color_scheme": "scheme-1",
         "image_ratio": "portrait",
         "image_shape": "default",
         "show_secondary_image": true,
         "show_vendor": false,
         "show_rating": false,
         "quick_add": "standard",
+        "columns_mobile": "2",
+        "swipe_on_mobile": false,
         "padding_top": 80,
-        "padding_bottom": 80,
-        "enable_entrance_animation": true,
-        "fallback_asset": "vennix-product-fallback.jpg",
-        "eyebrow": "Customer favorites"
+        "padding_bottom": 80
       }
     },
     "brand_story": {
       "type": "vennix-brand-story",
       "settings": {
-        "image": "",
         "image_asset": "activewear.jpg",
         "eyebrow": "The Vennix difference",
         "heading": "Why VennixStore",
@@ -183,10 +184,7 @@
         "button_link": "shopify://collections/all",
         "color_scheme": "scheme-2",
         "padding_top": 80,
-        "padding_bottom": 80,
-        "enable_entrance_animation": true,
-        "motion_duration": 560,
-        "enable_parallax": true
+        "padding_bottom": 80
       }
     },
     "vennix_newsletter": {
@@ -199,9 +197,7 @@
         "btn_label": "Join the list",
         "success_msg": "Thanks for joining the Vennix list.",
         "disclaimer": "Unsubscribe at any time.",
-        "color_scheme": "scheme-3",
-        "enable_entrance_animation": true,
-        "motion_duration": 560
+        "color_scheme": "scheme-3"
       }
     }
   },
