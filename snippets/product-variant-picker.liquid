@@ -8,6 +8,14 @@
   Usage:
   {% render 'product-variant-picker', product: product, block: block, product_form_id: product_form_id %}
 {% endcomment %}
+{%- liquid
+  assign product_type = product.type | default: ''
+  assign is_apparel = false
+  if product_type contains "Women's" or product_type contains "Men's" or product_type contains 'Active'
+    assign is_apparel = true
+  endif
+-%}
+
 {%- unless product.has_only_default_variant -%}
   <variant-selects
     id="variant-selects-{{ section.id }}"
@@ -22,6 +30,8 @@
     {{ block.shopify_attributes }}
   >
     {%- for option in product.options_with_values -%}
+      {%- assign option_name = option.name | downcase -%}
+      {%- unless is_apparel == false and option_name contains 'size' -%}
       {%- liquid
         assign swatch_count = option.values | map: 'swatch' | compact | size
         assign picker_type = block.settings.picker_type
@@ -92,6 +102,7 @@
           </div>
         </div>
       {%- endif -%}
+      {%- endunless -%}
     {%- endfor -%}
 
     <script type="application/json" data-selected-variant>

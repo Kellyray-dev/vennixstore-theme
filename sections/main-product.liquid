@@ -1,5 +1,10 @@
 {%- liquid
   assign free_shipping_amount = settings.free_shipping_threshold | times: 100 | money_without_trailing_zeros
+  assign product_type = product.type | default: ''
+  assign is_apparel = false
+  if product_type contains "Women's" or product_type contains "Men's" or product_type contains 'Active'
+    assign is_apparel = true
+  endif
 -%}
 
 <product-info
@@ -510,8 +515,12 @@
                   {% render 'product-variant-picker',
                     product: product,
                     block: block,
-                    product_form_id: product_form_id
+                    product_form_id: product_form_id,
+                    is_apparel: is_apparel
                   %}
+                  {%- if is_apparel -%}
+                    {%- render 'vennix-size-guide', product: product -%}
+                  {%- endif -%}
                 {%- when 'buy_buttons' -%}
                   {%- render 'buy-buttons',
                     block: block,

@@ -47,12 +47,10 @@
     endif
 
     assign prestige_badge = ''
-    if card_product.tags contains 'best-seller'
-      assign prestige_badge = 'Best seller'
-    elsif card_product.tags contains 'new-arrival' or card_product.tags contains 'new'
-      assign prestige_badge = 'New arrival'
-    elsif card_product.tags contains 'limited-edition'
-      assign prestige_badge = 'Limited edition'
+    if card_product.tags contains 'new-arrival'
+      assign prestige_badge = 'New Arrival'
+    elsif card_product.tags contains 'best-seller'
+      assign prestige_badge = 'Best Seller'
     endif
   -%}
 

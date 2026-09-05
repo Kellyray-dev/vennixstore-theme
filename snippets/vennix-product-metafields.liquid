@@ -19,8 +19,17 @@
     assign origin = product.metafields.custom.made_in
   endif
 
+  assign product_type = product.type | default: ''
+  assign is_apparel = false
+  if product_type contains "Women's" or product_type contains "Men's" or product_type contains 'Active'
+    assign is_apparel = true
+  endif
+
   assign has_specs = false
-  if materials != blank or dimensions != blank or compatibility != blank or sizing != blank or included != blank or warranty != blank or origin != blank
+  if materials != blank or dimensions != blank or compatibility != blank or included != blank or warranty != blank or origin != blank
+    assign has_specs = true
+  endif
+  if is_apparel and sizing != blank
     assign has_specs = true
   endif
 -%}
@@ -61,7 +70,7 @@
             {%- if compatibility != blank -%}
               <div><dt>Compatibility</dt><dd>{{ compatibility | metafield_tag }}</dd></div>
             {%- endif -%}
-            {%- if sizing != blank -%}
+            {%- if is_apparel and sizing != blank -%}
               <div><dt>Sizing &amp; fit</dt><dd>{{ sizing | metafield_tag }}</dd></div>
             {%- endif -%}
             {%- if included != blank -%}
