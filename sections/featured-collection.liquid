@@ -66,10 +66,10 @@
 
 {%- comment -%}
   VennixStore homepage curation:
-  Optionally filter the selected collection by product tags so apparel and
-  tech products never share the same feed. Each product is rendered at most
-  once — the loop de-duplicates by product handle and stops as soon as the
-  requested number of unique products has been displayed.
+  Optionally filter the selected collection by product tags so mixed feeds
+  can be narrowed (merchant-configurable via Theme Editor). Each product is
+  rendered at most once — the loop de-duplicates by product handle and stops
+  as soon as the requested number of unique products has been displayed.
 {%- endcomment -%}
 {%- liquid
   assign filter_mode = section.settings.product_filter | default: 'none'
@@ -80,6 +80,16 @@
   endif
 
   assign rendered_count = 0
+  assign rendered_handles = ''
+
+  comment
+    Phase 4 — per-section motion gate: Dawn's reveal engine only runs when the
+    global "Reveal on scroll" setting AND this section's toggle are both on.
+  endcomment
+  assign use_entrance_motion = false
+  if settings.animations_reveal_on_scroll and section.settings.enable_entrance_animation
+    assign use_entrance_motion = true
+  endif
 -%}
 
 <div
@@ -91,8 +101,14 @@
     data-id="{{ section.id }}"
   >
     <div class="collection__title title-wrapper title-wrapper--no-top-margin page-width{% if show_mobile_slider %} title-wrapper--self-padded-tablet-down{% endif %}{% if show_desktop_slider %} collection__title--desktop-slider{% endif %}">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="vx-section-eyebrow{% if use_entrance_motion %} scroll-trigger animate--slide-in{% endif %}">
+          <span class="vx-section-eyebrow__mark" aria-hidden="true"></span>
+          {{- section.settings.eyebrow | escape -}}
+        </p>
+      {%- endif -%}
       {%- if section.settings.title != blank -%}
-        <h2 class="title inline-richtext {{ section.settings.heading_size }}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+        <h2 class="title inline-richtext {{ section.settings.heading_size }}{% if use_entrance_motion %} scroll-trigger animate--slide-in{% endif %}">
           {{ section.settings.title }}
         </h2>
       {%- endif -%}
@@ -100,7 +116,7 @@
         or section.settings.show_description
         and section.settings.collection.description != empty
       -%}
-        <div class="collection__description {{ section.settings.description_style }} rte{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+        <div class="collection__description {{ section.settings.description_style }} rte{% if use_entrance_motion %} scroll-trigger animate--slide-in{% endif %}">
           {%- if section.settings.show_description -%}
             {{ section.settings.collection.description }}
           {%- else -%}
@@ -110,11 +126,11 @@
       {%- endif -%}
     </div>
 
-    <slider-component class="slider-mobile-gutter{% if section.settings.full_width %} slider-component-full-width{% endif %}{% if show_mobile_slider == false %} page-width{% endif %}{% if show_desktop_slider == false and section.settings.full_width == false %} page-width-desktop{% endif %}{% if show_desktop_slider %} slider-component-desktop{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+    <slider-component class="slider-mobile-gutter{% if section.settings.full_width %} slider-component-full-width{% endif %}{% if show_mobile_slider == false %} page-width{% endif %}{% if show_desktop_slider == false and section.settings.full_width == false %} page-width-desktop{% endif %}{% if show_desktop_slider %} slider-component-desktop{% endif %}{% if use_entrance_motion %} scroll-trigger animate--slide-in{% endif %}">
       <ul
         id="Slider-{{ section.id }}"
         data-id="{{ section.id }}"
-        class="grid product-grid contains-card contains-card--product{% if settings.card_style == 'standard' %} contains-card--standard{% endif %} grid--{{ section.settings.columns_desktop }}-col-desktop{% if section.settings.collection == blank %} grid--2-col-tablet-down{% else %} grid--{{ section.settings.columns_mobile }}-col-tablet-down{% endif %}{% if show_mobile_slider or show_desktop_slider %} slider{% if show_desktop_slider %} slider--desktop{% endif %}{% if show_mobile_slider %} slider--tablet grid--peek{% endif %}{% endif %}"
+        class="featured-collection-grid grid product-grid contains-card contains-card--product{% if settings.card_style == 'standard' %} contains-card--standard{% endif %} grid--{{ section.settings.columns_desktop }}-col-desktop{% if section.settings.collection == blank %} grid--2-col-tablet-down{% else %} grid--{{ section.settings.columns_mobile }}-col-tablet-down{% endif %}{% if show_mobile_slider or show_desktop_slider %} slider{% if show_desktop_slider %} slider--desktop{% endif %}{% if show_mobile_slider %} slider--tablet grid--peek{% endif %}{% endif %}"
         role="list"
         aria-label="{{ 'general.slider.name' | t }}"
       >
@@ -132,7 +148,9 @@
               {%- comment -%} De-duplicate by handle — a product must never render twice. {%- endcomment -%}
               {%- assign is_duplicate = false -%}
               {%- assign product_handle = product.handle | downcase -%}
-              {%- if rendered_handles contains product_handle -%}
+              {%- comment -%} Exact-token match (comma-wrapped) so handles that are substrings of other handles, e.g. "tee" vs "white-tee", never collide. {%- endcomment -%}
+              {%- assign rendered_needle = ',' | append: product_handle | append: ',' -%}
+              {%- if rendered_handles contains rendered_needle -%}
                 {%- assign is_duplicate = true -%}
               {%- endif -%}
 
@@ -163,7 +181,7 @@
               {%- endif -%}
 
               {%- assign rendered_count = rendered_count | plus: 1 -%}
-              {%- assign rendered_handles = rendered_handles | append: ',' | append: product_handle -%}
+              {%- assign rendered_handles = rendered_handles | append: ',' | append: product_handle | append: ',' -%}
 
               {%- if rendered_count > section.settings.products_to_show -%}
                 {%- break -%}
@@ -175,8 +193,8 @@
               <li
                 id="Slide-{{ section.id }}-{{ rendered_count }}"
                 data-product-handle="{{ product.handle }}"
-                class="grid__item{% if show_mobile_slider or show_desktop_slider %} slider__slide{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
-                {% if settings.animations_reveal_on_scroll %}
+                class="grid__item{% if show_mobile_slider or show_desktop_slider %} slider__slide{% endif %}{% if use_entrance_motion %} scroll-trigger animate--slide-in{% endif %}"
+                {% if use_entrance_motion %}
                   data-cascade
                   style="--animation-order: {{ rendered_count }};"
                 {% endif %}
@@ -192,7 +210,9 @@
                   skip_styles: skip_card_product_styles,
                   section_id: section.id,
                   quick_add: section.settings.quick_add,
-                  product_view_context: 'collection'
+                  product_view_context: 'collection',
+                  no_media_image: section.settings.fallback_image,
+                  no_media_asset: section.settings.fallback_asset
                 %}
               </li>
               {%- assign skip_card_product_styles = true -%}
@@ -203,8 +223,8 @@
         {%- if rendered_count == 0 -%}
           {%- for i in (1..section.settings.columns_desktop) -%}
             <li
-              class="grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
-              {% if settings.animations_reveal_on_scroll %}
+              class="grid__item{% if use_entrance_motion %} scroll-trigger animate--slide-in{% endif %}"
+              {% if use_entrance_motion %}
                 data-cascade
                 style="--animation-order: {{ forloop.index }};"
               {% endif %}
@@ -265,7 +285,7 @@
     </slider-component>
 
     {%- if section.settings.show_view_all and more_in_collection -%}
-      <div class="center collection__view-all{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+      <div class="center collection__view-all{% if use_entrance_motion %} scroll-trigger animate--slide-in{% endif %}">
         <a
           href="{{ section.settings.collection.url }}"
           class="{% if section.settings.view_all_style == 'link' %}link underlined-link{% elsif section.settings.view_all_style == 'solid' %}button{% else %}button button--secondary{% endif %}"
@@ -307,7 +327,14 @@
     {
       "type": "header",
       "content": "t:sections.featured-collection.settings.header_text.content"
-    },   
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "",
+      "info": "Optional editorial kicker above the heading."
+    },
     {
       "type": "inline_richtext",
       "id": "title",
@@ -402,8 +429,7 @@
       "type": "text",
       "id": "filter_terms",
       "label": "Filter terms",
-      "info": "Comma-separated words matched against tags, product type and title. Example: tech, usb, humidifier, case",
-      "default": ""
+      "info": "Comma-separated words matched against tags, product type and title. Example: hoodie, jogger, tank"
     },
     {
       "type": "range",
@@ -459,6 +485,34 @@
       "label": "t:sections.all.colors.label",
       "info": "t:sections.all.colors.has_cards_info",
       "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Image fallback"
+    },
+    {
+      "type": "image_picker",
+      "id": "fallback_image",
+      "label": "Product image fallback",
+      "info": "Placeholder image shown only for products that have no photo of their own — replace with your own photography."
+    },
+    {
+      "type": "text",
+      "id": "fallback_asset",
+      "label": "Bundled fallback asset",
+      "default": "vennix-product-fallback.jpg",
+      "info": "Used when no fallback image is selected. Enter an asset filename from the theme's assets folder."
+    },
+    {
+      "type": "header",
+      "content": "Motion"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_entrance_animation",
+      "label": "Enable entrance animation",
+      "default": true,
+      "info": "Reveals the heading and product cards with a staggered fade-and-rise. Also requires Theme settings > Animations > Reveal on scroll. Disabled automatically for visitors who prefer reduced motion."
     },
     {
       "type": "header",

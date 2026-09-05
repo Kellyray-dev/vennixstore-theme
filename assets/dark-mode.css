@@ -1,0 +1,737 @@
+/**
+ * VennixStore — site-wide dark mode
+ *
+ * Activated by `data-theme="dark"` on the <html> element, which is applied
+ * synchronously (before first paint) by the inline script in theme.liquid.
+ *
+ * Implementation notes
+ * --------------------
+ * 1. Dawn's `--color-*` scheme variables are remapped per color scheme in
+ *    layout/theme.liquid, so every component that already uses
+ *    `rgb(var(--color-background))` / `rgba(var(--color-foreground), …)` —
+ *    which is essentially all of base.css — follows along automatically.
+ * 2. The Vennix `--v-*` design tokens are remapped below.
+ * 3. The handful of rules that hard-code a light hex are overridden
+ *    explicitly at the bottom of this file.
+ */
+
+html[data-theme='dark'] {
+  color-scheme: dark;
+
+  /* ---- Brand tokens ------------------------------------------------------
+     `--v-ink` is the primary *text* colour, so it flips to a warm off-white.
+     `--v-white` stays white: it is only ever used for text sitting on dark or
+     inverse surfaces (buttons, badges, hero, footer). */
+  --v-ink: #f2efe9;
+  --v-ink-soft: #a7a29a;
+  --v-gold: #d9bd87;
+  --v-gold-deep: #c9a96e;
+  --v-cream: #131211;
+  --v-white: #ffffff;
+  --v-neutral-warm: #1b1a18;
+  --v-neutral-light: #242220;
+  --v-line: #322f2c;
+
+  /* Shadows need to be much stronger to read against a dark page. */
+  --shadow-subtle: 0 2px 12px rgba(0, 0, 0, 0.45);
+  --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.5);
+  --shadow-float: 0 16px 48px rgba(0, 0, 0, 0.55);
+  --v-shadow-sm: 0 4px 18px rgba(0, 0, 0, 0.4);
+  --v-shadow-md: 0 16px 45px rgba(0, 0, 0, 0.5);
+  --v-shadow-lg: 0 28px 80px rgba(0, 0, 0, 0.6);
+
+  /* Dark-mode-only helpers */
+  --v-surface: #1b1a18;
+  --v-surface-raised: #232120;
+  --v-border: #322f2c;
+  --v-on-inverse: #141210; /* text on light/inverse fills */
+}
+
+/* ==========================================================================
+   Page foundation
+   ========================================================================== */
+
+html[data-theme='dark'] body {
+  color: var(--v-ink);
+  background: var(--v-cream);
+}
+
+html[data-theme='dark'] body.gradient {
+  background: var(--v-cream);
+}
+
+html[data-theme='dark'] h1,
+html[data-theme='dark'] h2,
+html[data-theme='dark'] h3,
+html[data-theme='dark'] h4,
+html[data-theme='dark'] h5,
+html[data-theme='dark'] h6 {
+  color: var(--v-ink);
+}
+
+html[data-theme='dark'] .rte,
+html[data-theme='dark'] .metafield-rich_text_field,
+html[data-theme='dark'] .paragraph,
+html[data-theme='dark'] p {
+  color: rgba(242, 239, 233, 0.78);
+}
+
+/* Selection + focus ring */
+html[data-theme='dark'] ::selection {
+  background: rgba(217, 189, 135, 0.32);
+  color: #ffffff;
+}
+
+html[data-theme='dark'] .skip-to-content-link:focus {
+  box-shadow: 0 0 0 0.3rem var(--v-cream), 0 0 0 0.6rem var(--v-gold);
+}
+
+/* ==========================================================================
+   Announcement bar + header
+   ========================================================================== */
+
+html[data-theme='dark'] .announcement-bar-section .utility-bar,
+html[data-theme='dark'] .announcement-bar-section .announcement-bar {
+  background: #000000;
+  color: var(--v-white);
+}
+
+html[data-theme='dark'] .vx-announcement {
+  background: #000000;
+}
+
+html[data-theme='dark'] .vx-announcement__dot {
+  background: #d8c7b4;
+}
+
+html[data-theme='dark'] .header-wrapper,
+html[data-theme='dark'] .scrolled-past-header .header-wrapper,
+html[data-theme='dark'] .shopify-section-header-sticky .header-wrapper {
+  background: rgba(19, 18, 17, 0.92);
+  border-color: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.45);
+}
+
+html[data-theme='dark'] .header__menu-item,
+html[data-theme='dark'] .header__menu-item span {
+  color: var(--v-ink);
+}
+
+html[data-theme='dark'] .header__active-menu-item {
+  color: var(--v-ink);
+}
+
+html[data-theme='dark'] .header__icon,
+html[data-theme='dark'] .header__icon .svg-wrapper {
+  color: var(--v-ink);
+}
+
+html[data-theme='dark'] .header__icon:hover,
+html[data-theme='dark'] .header__icon--cart:hover {
+  color: var(--v-gold);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+html[data-theme='dark'] .header__icon--cart .cart-count-bubble {
+  background: var(--v-gold);
+  color: var(--v-on-inverse);
+}
+
+/* Localization / disclosure popovers */
+html[data-theme='dark'] .disclosure__list-wrapper,
+html[data-theme='dark'] .localization-selector,
+html[data-theme='dark'] .header__submenu {
+  background: var(--v-surface-raised);
+  border-color: var(--v-border);
+  color: var(--v-ink);
+}
+
+html[data-theme='dark'] .header__submenu .header__menu-item {
+  color: var(--v-ink);
+}
+
+html[data-theme='dark'] .mega-menu__content {
+  background: rgba(19, 18, 17, 0.98);
+  border-color: var(--v-border);
+  box-shadow: 0 22px 50px rgba(0, 0, 0, 0.55);
+}
+
+html[data-theme='dark'] .vx-mega-menu__media {
+  background: var(--v-surface-raised);
+}
+
+html[data-theme='dark'] .mega-menu__link--level-2 {
+  color: var(--v-ink);
+}
+
+html[data-theme='dark'] .mega-menu__link:not(.mega-menu__link--level-2) {
+  color: var(--v-ink-soft);
+}
+
+html[data-theme='dark'] .mega-menu__link:hover,
+html[data-theme='dark'] .mega-menu__link--active {
+  color: var(--v-gold);
+}
+
+/* Search + predictive search */
+html[data-theme='dark'] .search-modal,
+html[data-theme='dark'] .search-modal__content,
+html[data-theme='dark'] .predictive-search,
+html[data-theme='dark'] .search__input,
+html[data-theme='dark'] .field__input,
+html[data-theme='dark'] .select__select,
+html[data-theme='dark'] textarea,
+html[data-theme='dark'] .customer input,
+html[data-theme='dark'] .customer select,
+html[data-theme='dark'] .customer textarea {
+  background: var(--v-surface);
+  color: var(--v-ink);
+  border-color: var(--v-border);
+}
+
+html[data-theme='dark'] .field__input::placeholder,
+html[data-theme='dark'] .search__input::placeholder {
+  color: rgba(242, 239, 233, 0.45);
+}
+
+html[data-theme='dark'] .predictive-search__item:hover,
+html[data-theme='dark'] .predictive-search__item[aria-selected='true'] {
+  background: var(--v-surface-raised);
+}
+
+/* ==========================================================================
+   Buttons, badges, pills
+   ========================================================================== */
+
+html[data-theme='dark'] .button--primary,
+html[data-theme='dark'] .product-form__submit,
+html[data-theme='dark'] .quick-add__submit:not([disabled]) {
+  background: var(--v-ink);
+  border-color: var(--v-ink);
+  color: var(--v-on-inverse);
+}
+
+html[data-theme='dark'] .button--primary:not([disabled]):hover,
+html[data-theme='dark'] .product-form__submit:not([disabled]):hover,
+html[data-theme='dark'] .quick-add__submit:hover:not([disabled]),
+html[data-theme='dark'] .button--primary:hover,
+html[data-theme='dark'] .product-form__submit:hover {
+  background: var(--v-gold);
+  border-color: var(--v-gold);
+  color: var(--v-on-inverse);
+}
+
+html[data-theme='dark'] .button--secondary {
+  color: var(--v-ink);
+  border-color: var(--v-ink);
+}
+
+html[data-theme='dark'] .button--secondary:hover {
+  background: var(--v-ink);
+  border-color: var(--v-ink);
+  color: var(--v-on-inverse);
+}
+
+html[data-theme='dark'] .button--tertiary,
+html[data-theme='dark'] .button:not([class*='button--']) {
+  color: var(--v-ink);
+}
+
+html[data-theme='dark'] .badge {
+  background: var(--v-ink);
+  border-color: var(--v-ink);
+  color: var(--v-on-inverse);
+}
+
+html[data-theme='dark'] .badge.price__badge-sale {
+  background: var(--v-gold);
+  border-color: var(--v-gold);
+  color: var(--v-on-inverse);
+}
+
+html[data-theme='dark'] .vx-product-badge {
+  color: #14120f;
+  border-color: var(--v-gold);
+  background: var(--v-gold);
+}
+
+html[data-theme='dark'] .skip-to-content-link {
+  background: var(--v-ink);
+  color: var(--v-on-inverse);
+}
+
+/* Variant pills / swatches */
+html[data-theme='dark'] .product-form__input input[type='radio'] + label {
+  background: var(--v-surface);
+  border-color: var(--v-border);
+  color: var(--v-ink);
+}
+
+html[data-theme='dark'] .product-form__input input[type='radio']:checked + label {
+  background: var(--v-ink);
+  border-color: var(--v-ink);
+  color: var(--v-on-inverse);
+}
+
+html[data-theme='dark'] .quantity__input,
+html[data-theme='dark'] .quantity__button {
+  background: var(--v-surface);
+  color: var(--v-ink);
+  border-color: var(--v-border);
+}
+
+/* ==========================================================================
+   Cards, collections, product pages
+   ========================================================================== */
+
+html[data-theme='dark'] .card-wrapper .card__inner {
+  background: var(--v-surface-raised);
+  border-color: var(--v-border);
+}
+
+html[data-theme='dark'] .card--standard .card__media,
+html[data-theme='dark'] .card__media .media {
+  background: var(--v-surface-raised);
+}
+
+html[data-theme='dark'] .card__heading,
+html[data-theme='dark'] .card__heading a,
+html[data-theme='dark'] .card-information > .price,
+html[data-theme='dark'] .card__caption .price {
+  color: var(--v-ink);
+}
+
+html[data-theme='dark'] .card__content,
+html[data-theme='dark'] .card__information {
+  color: var(--v-ink-soft);
+}
+
+html[data-theme='dark'] .card-wrapper:hover .card__inner {
+  box-shadow: var(--shadow-card);
+}
+
+html[data-theme='dark'] .price,
+html[data-theme='dark'] .price__current,
+html[data-theme='dark'] .price-item {
+  color: var(--v-ink);
+}
+
+html[data-theme='dark'] .price--on-sale .price-item--regular,
+html[data-theme='dark'] .price__regular {
+  color: var(--v-ink-soft);
+}
+
+html[data-theme='dark'] .card--product .card__inner,
+html[data-theme='dark'] .collection-card-wrapper .card__inner {
+  background: var(--v-surface-raised);
+}
+
+html[data-theme='dark'] .product__media,
+html[data-theme='dark'] .product__media .media,
+html[data-theme='dark'] .product-media-container {
+  background: var(--v-surface-raised);
+  border-color: var(--v-border);
+}
+
+html[data-theme='dark'] .product__title,
+html[data-theme='dark'] .product__title h1,
+html[data-theme='dark'] .product__description,
+html[data-theme='dark'] .product__text {
+  color: var(--v-ink);
+}
+
+html[data-theme='dark'] .product__info-container > * {
+  color: var(--v-ink);
+}
+
+html[data-theme='dark'] .product-form__input legend,
+html[data-theme='dark'] .product-form__label {
+  color: var(--v-ink);
+}
+
+html[data-theme='dark'] .accordion summary,
+html[data-theme='dark'] .accordion__title,
+html[data-theme='dark'] .accordion__content,
+html[data-theme='dark'] .product__accordion .accordion__content {
+  color: var(--v-ink);
+}
+
+html[data-theme='dark'] .accordion details,
+html[data-theme='dark'] .product__accordion .accordion > details {
+  border-color: var(--v-border);
+}
+
+html[data-theme='dark'] .breadcrumb,
+html[data-theme='dark'] .breadcrumb__link {
+  color: var(--v-ink-soft);
+}
+
+/* Facets, pagination, article/blog cards */
+html[data-theme='dark'] .facets__wrapper,
+html[data-theme='dark'] .facets__disclosure,
+html[data-theme='dark'] .facets__summary,
+html[data-theme='dark'] .facets__form,
+html[data-theme='dark'] .facets__display,
+html[data-theme='dark'] .mobile-facets__main,
+html[data-theme='dark'] .mobile-facets__details {
+  background: var(--v-surface);
+  color: var(--v-ink);
+  border-color: var(--v-border);
+}
+
+html[data-theme='dark'] .facets__summary,
+html[data-theme='dark'] .facets__label,
+html[data-theme='dark'] .facet-checkbox,
+html[data-theme='dark'] .mobile-facets__summary {
+  color: var(--v-ink);
+}
+
+html[data-theme='dark'] .pagination__item,
+html[data-theme='dark'] .pagination__item--current {
+  color: var(--v-ink);
+}
+
+html[data-theme='dark'] .pagination__item--current::after {
+  background: var(--v-gold);
+}
+
+html[data-theme='dark'] .article-card .card__inner,
+html[data-theme='dark'] .article-card-wrapper .card__inner {
+  background: var(--v-surface-raised);
+  border-color: var(--v-border);
+}
+
+html[data-theme='dark'] .article-card__title,
+html[data-theme='dark'] .article-card__excerpt {
+  color: var(--v-ink);
+}
+
+/* ==========================================================================
+   Vennix homepage sections
+   ========================================================================== */
+
+html[data-theme='dark'] .vx-trust,
+html[data-theme='dark'] .vx-trust__item {
+  border-color: var(--v-border);
+}
+
+html[data-theme='dark'] .vx-trust__icon {
+  color: var(--v-gold);
+}
+
+/* Category tiles carry their text below the image now, so copy colouring is
+   scheme-driven (auto-adapting); only the media background needs a surface. */
+html[data-theme='dark'] .vx-category__media {
+  background: var(--v-surface-raised);
+}
+
+html[data-theme='dark'] .vx-values__card,
+html[data-theme='dark'] .vx-values__grid {
+  background: var(--v-surface);
+  border-color: var(--v-border);
+}
+
+html[data-theme='dark'] .vx-values__card {
+  border-color: var(--v-border);
+}
+
+html[data-theme='dark'] .vx-values__heading,
+html[data-theme='dark'] .vx-values__intro,
+html[data-theme='dark'] .vx-values__number,
+html[data-theme='dark'] .vx-values__link {
+  color: var(--v-ink);
+}
+
+/* Brand story: all copy is scheme-driven (auto-adapts in dark mode), and the
+   CTA is the shared primary button — its dark-mode colouring is defined above. */
+
+html[data-theme='dark'] .vx-newsletter {
+  /* Keep the closing band raised against the dark page background. */
+  background: var(--v-surface);
+}
+
+html[data-theme='dark'] .vx-newsletter__field:focus-within {
+  border-color: var(--v-gold);
+}
+
+html[data-theme='dark'] .vx-section-eyebrow {
+  color: var(--v-gold);
+}
+
+/* ==========================================================================
+   Cart: shipping progress + sticky add-to-cart
+   ========================================================================== */
+
+html[data-theme='dark'] .vx-shipping-progress {
+  background: var(--v-surface-raised);
+  border-color: var(--v-border);
+}
+
+html[data-theme='dark'] .vx-shipping-progress__message,
+html[data-theme='dark'] .vx-shipping-progress__message strong {
+  color: var(--v-ink);
+}
+
+html[data-theme='dark'] .vx-shipping-progress__message svg {
+  color: var(--v-gold);
+}
+
+html[data-theme='dark'] .vx-shipping-progress__track {
+  background: rgba(255, 255, 255, 0.14);
+}
+
+html[data-theme='dark'] .vx-shipping-progress__fill {
+  background: var(--v-gold);
+}
+
+html[data-theme='dark'] .vx-shipping-progress.is-complete {
+  background: rgba(79, 174, 130, 0.16);
+  border-color: rgba(79, 174, 130, 0.45);
+}
+
+html[data-theme='dark'] .vx-shipping-progress.is-complete .vx-shipping-progress__message svg,
+html[data-theme='dark'] .vx-shipping-progress.is-complete .vx-shipping-progress__fill {
+  color: #58c48d;
+  background: #58c48d;
+}
+
+html[data-theme='dark'] .vx-sticky-atc {
+  background: rgba(19, 18, 17, 0.96);
+  border-top-color: var(--v-border);
+  box-shadow: 0 -12px 32px rgba(0, 0, 0, 0.55);
+}
+
+html[data-theme='dark'] .vx-sticky-atc__media {
+  background: var(--v-surface-raised);
+}
+
+html[data-theme='dark'] .vx-sticky-atc__details strong {
+  color: var(--v-ink);
+}
+
+html[data-theme='dark'] .vx-sticky-atc__details span {
+  color: var(--v-ink-soft);
+}
+
+/* Cart drawer / cart page / totals */
+html[data-theme='dark'] .drawer__inner,
+html[data-theme='dark'] .cart-drawer,
+html[data-theme='dark'] .cart__contents,
+html[data-theme='dark'] .cart__footer-wrapper,
+html[data-theme='dark'] .totals,
+html[data-theme='dark'] .cart-item,
+html[data-theme='dark'] .cart-item__details {
+  background: var(--v-surface);
+  color: var(--v-ink);
+  border-color: var(--v-border);
+}
+
+html[data-theme='dark'] .drawer__close,
+html[data-theme='dark'] .cart-item__name,
+html[data-theme='dark'] .totals__subtotal-value,
+html[data-theme='dark'] .cart-item__price-wrapper {
+  color: var(--v-ink);
+}
+
+html[data-theme='dark'] .drawer__overlay,
+html[data-theme='dark'] .cart-drawer__overlay {
+  background: rgba(0, 0, 0, 0.6);
+}
+
+html[data-theme='dark'] .cart-drawer .drawer__inner {
+  background: var(--v-surface);
+}
+
+html[data-theme='dark'] .progress-bar,
+html[data-theme='dark'] .shipping-progress,
+html[data-theme='dark'] .free-shipping-progress__track {
+  background: rgba(255, 255, 255, 0.14);
+}
+
+html[data-theme='dark'] .progress-bar__fill,
+html[data-theme='dark'] .shipping-progress__fill,
+html[data-theme='dark'] .free-shipping-progress__fill {
+  background: var(--v-gold);
+}
+
+/* ==========================================================================
+   Footer — the brand footer is intentionally dark in both themes
+   ========================================================================== */
+
+html[data-theme='dark'] .footer {
+  background: #0e0d0c;
+  border-top-color: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.72);
+}
+
+html[data-theme='dark'] .footer-block__heading,
+html[data-theme='dark'] .footer__list-social a,
+html[data-theme='dark'] .footer .list-menu__item--link {
+  color: var(--v-white);
+}
+
+html[data-theme='dark'] .footer a {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+html[data-theme='dark'] .footer a:hover {
+  color: var(--v-gold);
+}
+
+html[data-theme='dark'] .footer__content-bottom {
+  border-top-color: rgba(255, 255, 255, 0.08);
+}
+
+html[data-theme='dark'] .footer__blocks-wrapper > .footer-block + .footer-block {
+  border-left-color: rgba(255, 255, 255, 0.12);
+}
+
+html[data-theme='dark'] .footer__payment,
+html[data-theme='dark'] .footer__copyright,
+html[data-theme='dark'] .footer__localization {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+html[data-theme='dark'] .newsletter-form__field-wrapper .field__input {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.18);
+  color: var(--v-white);
+}
+
+/* ==========================================================================
+   Dark-mode toggle (header icon)
+   ========================================================================== */
+
+.vx-theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vx-theme-toggle .vx-theme-toggle__button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 4.2rem;
+  height: 4.2rem;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  transition: color 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
+}
+
+.vx-theme-toggle .vx-theme-toggle__button:hover {
+  color: #c9a96e;
+  background: #efebe4;
+  transform: translateY(-1px);
+}
+
+html[data-theme='dark'] .vx-theme-toggle .vx-theme-toggle__button:hover {
+  color: var(--v-gold);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.vx-theme-toggle .vx-theme-toggle__button:focus-visible {
+  outline: 0.2rem solid currentColor;
+  outline-offset: 0.1rem;
+}
+
+.vx-theme-toggle .svg-wrapper {
+  width: 2rem;
+  height: 2rem;
+}
+
+/* Only ever show the icon for the mode you would switch *to*. */
+.vx-theme-toggle__icon--sun,
+.vx-theme-toggle__icon--moon {
+  display: none;
+}
+
+html[data-theme='dark'] .vx-theme-toggle__icon--sun {
+  display: block;
+}
+
+html:not([data-theme='dark']) .vx-theme-toggle__icon--moon {
+  display: block;
+}
+
+/* ==========================================================================
+   Misc surfaces that hard-code a light background
+   ========================================================================== */
+
+html[data-theme='dark'] .content-container,
+html[data-theme='dark'] .global-media-settings,
+html[data-theme='dark'] .newsletter__wrapper,
+html[data-theme='dark'] .modal__content,
+html[data-theme='dark'] .pickup-availability-preview,
+html[data-theme='dark'] .quantity-popover__info,
+html[data-theme='dark'] .volume-pricing__container,
+html[data-theme='dark'] .share-button__fallback {
+  background: var(--v-surface);
+  color: var(--v-ink);
+  border-color: var(--v-border);
+}
+
+html[data-theme='dark'] .product__modal-opener,
+html[data-theme='dark'] .thumbnail {
+  background: var(--v-surface-raised);
+  border-color: var(--v-border);
+}
+
+html[data-theme='dark'] .thumbnail[data-current='true'],
+html[data-theme='dark'] .thumbnail:hover {
+  border-color: var(--v-gold);
+}
+
+html[data-theme='dark'] .rating-star,
+html[data-theme='dark'] .rating__caption,
+html[data-theme='dark'] .rating-count {
+  color: var(--v-ink-soft);
+}
+
+html[data-theme='dark'] .spr-starrating .spr-icon,
+html[data-theme='dark'] .jdgm-star {
+  color: var(--v-gold);
+}
+
+html[data-theme='dark'] table,
+html[data-theme='dark'] th,
+html[data-theme='dark'] td {
+  border-color: var(--v-border);
+  color: var(--v-ink);
+}
+
+html[data-theme='dark'] .form__message,
+html[data-theme='dark'] .newsletter-form__message {
+  color: var(--v-ink);
+}
+
+html[data-theme='dark'] .form__message--success {
+  color: #58c48d;
+}
+
+html[data-theme='dark'] .errors-text,
+html[data-theme='dark'] .form__message--error,
+html[data-theme='dark'] .product-form__error-message-wrapper {
+  color: #ef8a8a;
+}
+
+/* Images that are pure white art (logos, payment icons) stay legible */
+html[data-theme='dark'] .footer__payment .list-payment__item,
+html[data-theme='dark'] .list-payment__item {
+  filter: brightness(0) invert(1) opacity(0.75);
+}
+
+/* Respect the OS-level "reduce transparency" setting */
+@media (prefers-contrast: more) {
+  html[data-theme='dark'] .header-wrapper,
+  html[data-theme='dark'] .scrolled-past-header .header-wrapper,
+  html[data-theme='dark'] .shopify-section-header-sticky .header-wrapper,
+  html[data-theme='dark'] .mega-menu__content,
+  html[data-theme='dark'] .vx-sticky-atc {
+    background: #131211;
+  }
+}

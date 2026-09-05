@@ -1,18 +1,28 @@
-<section class="vx-newsletter color-{{ section.settings.color_scheme }} gradient">
+<script src="{{ 'vennix-motion.js' | asset_url }}" defer="defer"></script>
+
+<section
+  class="vx-newsletter color-{{ section.settings.color_scheme }} gradient"
+  aria-label="{{ section.settings.heading | default: 'Newsletter' | escape }}"
+  data-vx-motion="{{ section.settings.enable_entrance_animation }}"
+  style="--vennix-motion-duration: {{ section.settings.motion_duration }}ms;"
+>
   <div class="vx-newsletter__inner page-width">
-    <div class="vx-newsletter__copy">
+    <div class="vx-newsletter__copy vx-rise">
       {%- if section.settings.eyebrow != blank -%}
-        <p class="vx-section-eyebrow">{{ section.settings.eyebrow | escape }}</p>
+        <p class="vx-section-eyebrow">
+          <span class="vx-section-eyebrow__mark" aria-hidden="true"></span>
+          {{ section.settings.eyebrow | escape }}
+        </p>
       {%- endif -%}
       {%- if section.settings.heading != blank -%}
         <h2>{{ section.settings.heading | escape }}</h2>
       {%- endif -%}
       {%- if section.settings.subtext != blank -%}
-        <p>{{ section.settings.subtext | escape }}</p>
+        <p class="vx-newsletter__subtext">{{ section.settings.subtext | escape }}</p>
       {%- endif -%}
     </div>
 
-    <div class="vx-newsletter__form-wrap">
+    <div class="vx-newsletter__form-wrap vx-rise" style="--vx-index: 1">
       {% form 'customer', class: 'vx-newsletter__form' %}
         <input type="hidden" name="contact[tags]" value="newsletter">
         <div class="vx-newsletter__field">
@@ -60,12 +70,33 @@
   "settings": [
     { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "The Vennix list" },
     { "type": "text", "id": "heading", "label": "Heading", "default": "New finds, considered updates" },
-    { "type": "textarea", "id": "subtext", "label": "Subtext", "default": "Be first to hear about new arrivals, useful guides, and occasional offers." },
+    { "type": "textarea", "id": "subtext", "label": "Subtext", "default": "Be first to hear about new arrivals, active essentials, and occasional offers." },
     { "type": "text", "id": "placeholder", "label": "Input placeholder", "default": "Your email address" },
     { "type": "text", "id": "btn_label", "label": "Button label", "default": "Join the list" },
     { "type": "text", "id": "success_msg", "label": "Success message", "default": "Thanks for joining the Vennix list." },
     { "type": "text", "id": "disclaimer", "label": "Disclaimer", "default": "Unsubscribe at any time." },
-    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-3" }
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-3" },
+    {
+      "type": "header",
+      "content": "Motion"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_entrance_animation",
+      "label": "Enable entrance animation",
+      "default": true,
+      "info": "Quiet fade-in as the section scrolls into view. Disabled automatically for visitors who prefer reduced motion."
+    },
+    {
+      "type": "range",
+      "id": "motion_duration",
+      "min": 300,
+      "max": 800,
+      "step": 50,
+      "unit": "ms",
+      "label": "Animation duration",
+      "default": 560
+    }
   ],
   "presets": [
     { "name": "Vennix newsletter" }

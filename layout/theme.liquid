@@ -8,6 +8,29 @@
     <meta name="theme-color" content="#1A1A1A">
     <link rel="canonical" href="{{ canonical_url }}">
 
+    {%- comment -%}
+      Dark mode — applied synchronously, before the first paint, so the visitor
+      never sees a flash of the wrong theme. The order of precedence is:
+      1. the visitor's own choice (stored when they use the header toggle)
+      2. the OS / browser "prefers-color-scheme" setting
+    {%- endcomment -%}
+    {%- if settings.enable_dark_mode != false -%}
+      <script>
+        (function () {
+          try {
+            var stored = localStorage.getItem('vx-color-scheme');
+            var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            var mode = stored === 'dark' || stored === 'light' ? stored : prefersDark ? 'dark' : 'light';
+
+            document.documentElement.setAttribute('data-theme', mode);
+            document.documentElement.style.colorScheme = mode;
+          } catch (error) {
+            /* Storage blocked or matchMedia unavailable — keep the light theme. */
+          }
+        })();
+      </script>
+    {%- endif -%}
+
     {%- if settings.favicon != blank -%}
       <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
     {%- endif -%}
@@ -60,8 +83,36 @@
     <script src="{{ 'details-modal.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'search-form.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'standard-actions-override.js' | asset_url }}" defer="defer"></script>
+    {%- if settings.enable_dark_mode != false -%}
+      <script src="{{ 'dark-mode.js' | asset_url }}" defer="defer"></script>
+    {%- endif -%}
+    <script src="{{ 'header-menu-hover.js' | asset_url }}" defer="defer"></script>
 
     {%- if settings.animations_reveal_on_scroll -%}
+      {%- comment -%}
+        Applied synchronously so reveal-on-scroll content never flashes visible before
+        `animations.js` (deferred) runs. Gated on IntersectionObserver: without it the
+        class is never set and every `.scroll-trigger` element — product grids included —
+        stays fully visible instead of being stuck at opacity 0.
+      {%- endcomment -%}
+      <script>
+        (function () {
+          if (!('IntersectionObserver' in window)) return;
+          document.documentElement.classList.add('scroll-trigger-ready');
+
+          /* Failsafe: if animations.js never runs (blocked, cached error, CDN failure)
+             drop the gate again on load so nothing stays invisible. */
+          window.addEventListener(
+            'load',
+            function () {
+              if (!window.__vennixScrollAnimationsReady) {
+                document.documentElement.classList.remove('scroll-trigger-ready');
+              }
+            },
+            { once: true }
+          );
+        })();
+      </script>
       <script src="{{ 'animations.js' | asset_url }}" defer="defer"></script>
     {%- endif -%}
 
@@ -125,6 +176,33 @@
         color: rgba(var(--color-foreground), 0.75);
         background-color: rgb(var(--color-background));
       }
+
+      {%- comment -%}
+        Dark mode remaps every color scheme to the dark palette. Because Dawn
+        builds nearly every component from these variables, one override here
+        carries dark mode through base.css and all of the component styles.
+      {%- endcomment -%}
+      {%- if settings.enable_dark_mode != false -%}
+        html[data-theme='dark']:root,
+        {%- for scheme in settings.color_schemes -%}
+          html[data-theme='dark'] .color-{{ scheme.id }}{% unless forloop.last %},{% endunless %}
+        {%- endfor %} {
+          --color-background: 19, 18, 17;
+          --color-foreground: 242, 239, 233;
+          --gradient-background: #131211;
+          --color-background-contrast: 45, 43, 40;
+          --color-shadow: 0, 0, 0;
+          --color-button: 242, 239, 233;
+          --color-button-text: 20, 18, 16;
+          --color-secondary-button: 27, 26, 24;
+          --color-secondary-button-text: 242, 239, 233;
+          --color-link: 242, 239, 233;
+          --color-badge-foreground: 242, 239, 233;
+          --color-badge-background: 45, 43, 40;
+          --color-badge-border: 242, 239, 233;
+          --payment-terms-background-color: rgb(27, 26, 24);
+        }
+      {%- endif -%}
 
       :root {
         --font-body-family: {{ settings.type_body_font.family }}, {{ settings.type_body_font.fallback_families }};
@@ -284,6 +362,9 @@
     {{ 'base.css' | asset_url | stylesheet_tag }}
     {{ 'vennix-brand.css' | asset_url | stylesheet_tag }}
     {{ 'vennix-brand-2.css' | asset_url | stylesheet_tag }}
+    {%- if settings.enable_dark_mode != false -%}
+      {{ 'dark-mode.css' | asset_url | stylesheet_tag }}
+    {%- endif -%}
     <link rel="stylesheet" href="{{ 'component-cart-items.css' | asset_url }}" media="print" onload="this.media='all'">
 
     {%- if settings.cart_type == 'drawer' -%}

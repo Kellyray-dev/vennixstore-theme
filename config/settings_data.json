@@ -1,12 +1,22 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "current": {
     "logo": "{{ shop.brand.logo }}",
     "logo_width": 180,
+    "enable_dark_mode": false,
     "type_header_font": "playfair_display_n4",
     "heading_scale": 100,
     "type_body_font": "inter_n4",
     "body_scale": 100,
-    "page_width": 1400,
+    "page_width": 1300,
     "spacing_sections": 0,
     "spacing_grid_horizontal": 8,
     "spacing_grid_vertical": 8,
@@ -31,12 +41,12 @@
     "inputs_radius": 10,
     "inputs_shadow_opacity": 0,
     "inputs_shadow_horizontal_offset": 0,
-    "inputs_shadow_vertical_offset": -2,
+    "inputs_shadow_vertical_offset": 12,
     "inputs_shadow_blur": 5,
     "card_style": "standard",
     "card_image_padding": 0,
     "card_text_alignment": "left",
-    "card_color_scheme": "scheme-2",
+    "card_color_scheme": "scheme-5",
     "card_border_thickness": 0,
     "card_border_opacity": 10,
     "card_corner_radius": 12,
@@ -95,7 +105,7 @@
     "drawer_shadow_blur": 5,
     "badge_position": "bottom left",
     "badge_corner_radius": 40,
-    "sale_badge_color_scheme": "scheme-4",
+    "sale_badge_color_scheme": "scheme-5",
     "sold_out_badge_color_scheme": "scheme-3",
     "brand_headline": "",
     "brand_description": "<p></p>",
@@ -114,10 +124,15 @@
     "predictive_search_show_price": false,
     "currency_code_enabled": true,
     "cart_type": "drawer",
+    "free_shipping_progress_enabled": true,
+    "free_shipping_threshold": 100,
     "show_vendor": false,
     "show_cart_note": false,
     "cart_drawer_collection": "",
     "cart_color_scheme": "scheme-1",
+    "storefront_brand_name": "VennixStore",
+    "hide_supplier_vendor": true,
+    "cart_recommendations_enabled": true,
     "sections": {
       "main-password-header": {
         "type": "main-password-header",
@@ -144,11 +159,6 @@
         "disabled": false,
         "settings": {}
       },
-      "1010346387011022953": {
-        "type": "shopify://apps/gptlab-get-found-by-ai/blocks/app_embed/019e923e-9c84-76cd-a285-13b157fc1dcd",
-        "disabled": false,
-        "settings": {}
-      },
       "15683396631634586217": {
         "type": "shopify://apps/inbox/blocks/chat/841fc607-4181-4ad1-842d-e24d7f8bad6b",
         "disabled": false,
@@ -157,8 +167,6 @@
           "background_color": "#FFFFFF",
           "font_color": "#000000",
           "button_color": "#000000",
-          "secondary_color": "#FFFFFF",
-          "ternary_color": "#6A6A6A",
           "button_icon": "chat_bubble",
           "button_text": "chat_with_us",
           "button_horizontal_position": "bottom_right",
@@ -212,29 +220,27 @@
       },
       "scheme-4": {
         "settings": {
-          "background": "#26332f",
+          "background": "#1a1a1a",
           "background_gradient": "",
           "text": "#fafafa",
           "button": "#fafafa",
-          "button_label": "#26332f",
+          "button_label": "#1a1a1a",
           "secondary_button_label": "#fafafa",
-          "shadow": "#0b100e"
+          "shadow": "#0b0b0b"
         }
       },
       "scheme-5": {
         "settings": {
-          "background": "#111927",
+          "background": "#c9a96e",
           "background_gradient": "",
-          "text": "#fafafa",
-          "button": "#fafafa",
-          "button_label": "#111927",
-          "secondary_button_label": "#fafafa",
-          "shadow": "#050912"
+          "text": "#1a1a1a",
+          "button": "#1a1a1a",
+          "button_label": "#c9a96e",
+          "secondary_button_label": "#1a1a1a",
+          "shadow": "#a6854d"
         }
       }
-    },
-    "free_shipping_progress_enabled": true,
-    "free_shipping_threshold": 50
+    }
   },
   "presets": {
     "Dawn": {

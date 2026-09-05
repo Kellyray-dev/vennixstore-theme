@@ -3288,12 +3288,19 @@ details-disclosure > details {
     }
   }
 
-  .scroll-trigger.animate--fade-in,
-  .scroll-trigger.animate--slide-in {
+  /* Reveal-on-scroll pre-state.
+
+     Gated behind `html.scroll-trigger-ready`, which `animations.js` adds as soon as it
+     runs. Without that gate a blocked/failed script or a browser without
+     IntersectionObserver leaves every `.scroll-trigger` element permanently at
+     `opacity: 0.01` — which is what made the collection product grid render as an empty
+     page under the "Sort by" bar while the feed still contained products. */
+  .scroll-trigger-ready .scroll-trigger.animate--fade-in,
+  .scroll-trigger-ready .scroll-trigger.animate--slide-in {
     opacity: 0.01;
   }
 
-  .scroll-trigger.animate--slide-in {
+  .scroll-trigger-ready .scroll-trigger.animate--slide-in {
     transform: translateY(2rem);
   }
 

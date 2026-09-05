@@ -18,7 +18,7 @@
 
 <style>
   header-drawer {
-    justify-self: start
+    justify-self: start;
     margin-left: -1.2rem;
   }
 
@@ -172,7 +172,8 @@
             }}
           </div>
         {%- else -%}
-          <img src="{{ 'vennix-logo.svg' | asset_url }}" alt="{{ shop.name | escape }}" width="184" height="39" class="header__heading-logo">
+          {{ 'vennix-logo.svg' | inline_asset_content }}
+          <span class="visually-hidden">{{ shop.name | escape }}</span>
         {%- endif -%}
       </a>
       {%- if request.page_type == 'index' -%}
@@ -215,7 +216,8 @@
             }}
           </div>
         {%- else -%}
-          <img src="{{ 'vennix-logo.svg' | asset_url }}" alt="{{ shop.name | escape }}" width="184" height="39" class="header__heading-logo">
+          {{ 'vennix-logo.svg' | inline_asset_content }}
+          <span class="visually-hidden">{{ shop.name | escape }}</span>
         {%- endif -%}
       </a>
       {%- if request.page_type == 'index' -%}
@@ -248,6 +250,10 @@
         {%- endif -%}
       </div>
       {% render 'header-search', input_id: 'Search-In-Modal' %}
+
+      {%- if settings.enable_dark_mode != false -%}
+        {% render 'dark-mode-toggle' %}
+      {%- endif -%}
 
       {%- if shop.customer_accounts_enabled -%}
         <a

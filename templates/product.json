@@ -4,9 +4,8 @@
       "type": "main-product",
       "blocks": {
         "vendor": {
-          "type": "text",
+          "type": "vennix_brand",
           "settings": {
-            "text": "{{ product.vendor }}",
             "text_style": "uppercase"
           }
         },
@@ -21,8 +20,15 @@
         "variant_picker": {
           "type": "variant_picker",
           "settings": {
-            "picker_type": "dropdown",
+            "picker_type": "button",
             "swatch_shape": "circle"
+          }
+        },
+        "size_guide": {
+          "type": "size_guide",
+          "settings": {
+            "text": "Size guide",
+            "page": ""
           }
         },
         "quantity_selector": {
@@ -98,7 +104,7 @@
           "settings": {
             "heading": "Returns",
             "icon": "return",
-            "content": "<p>Eligible items can be returned within 30 days. Review our refund policy for conditions and return instructions.</p>",
+            "content": "<p>Review our refund policy for the return window, conditions, and return instructions.</p>",
             "page": ""
           }
         }
@@ -110,6 +116,7 @@
         "price",
         "inventory",
         "variant_picker",
+        "size_guide",
         "quantity_selector",
         "buy_buttons",
         "description",
@@ -149,7 +156,7 @@
     "related-products": {
       "type": "related-products",
       "settings": {
-        "heading": "More to explore",
+        "heading": "You May Also Like",
         "heading_size": "h2",
         "products_to_show": 4,
         "columns_desktop": 4,
@@ -163,10 +170,20 @@
         "padding_top": 64,
         "padding_bottom": 72
       }
+    },
+    "reviews": {
+      "type": "vennix-product-reviews",
+      "settings": {
+        "heading": "Customer reviews",
+        "color_scheme": "scheme-1",
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
     }
   },
   "order": [
     "main",
+    "reviews",
     "disclosures",
     "related-products"
   ]

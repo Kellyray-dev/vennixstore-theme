@@ -260,6 +260,8 @@
       <img class="vennix-hero__image"
            src="{{ hero_image }}"
            alt="{{ collection.title | escape }}"
+           width="1920"
+           height="1080"
            loading="eager"
            fetchpriority="high"
            onload="this.parentElement.classList.add('vennix-hero__background--loaded'); this.parentElement.classList.remove('vennix-hero__background--loading');"
@@ -394,8 +396,7 @@
       "type": "text",
       "id": "unsplash_keywords",
       "label": "Unsplash search keywords (optional)",
-      "info": "Leave empty to use collection handle. Example: 'fashion,luxury,minimal'",
-      "default": ""
+      "info": "Leave empty to use collection handle. Example: 'fashion,luxury,minimal'"
     },
     {
       "type": "header",

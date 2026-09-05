@@ -1,0 +1,84 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "settings": {
+        "padding_top": 52,
+        "padding_bottom": 20
+      }
+    },
+    "brand_story": {
+      "type": "vennix-brand-story",
+      "settings": {
+        "image": "",
+        "image_asset": "editorial-hero-desktop.jpg",
+        "eyebrow": "Our story",
+        "heading": "Modern clothing, made for movement",
+        "text": "<p>PLACEHOLDER — replace with your own brand story in the Theme Editor. Describe what VennixStore is, who it is for, and how you choose the pieces you sell. Only include facts you can support.</p>",
+        "button_label": "Shop all",
+        "button_link": "shopify://collections/all",
+        "color_scheme": "scheme-2",
+        "padding_top": 80,
+        "padding_bottom": 80,
+        "enable_entrance_animation": true,
+        "motion_duration": 560,
+        "enable_parallax": true
+      }
+    },
+    "values": {
+      "type": "vennix-why-us",
+      "settings": {
+        "eyebrow": "What we stand for",
+        "heading": "What VennixStore stands for",
+        "text": "<p>PLACEHOLDER — replace with the values that genuinely describe how you run the store.</p>",
+        "link_label": "Shop all",
+        "link": "shopify://collections/all",
+        "color_scheme": "scheme-2"
+      },
+      "blocks": {
+        "value_1": {
+          "type": "reason",
+          "settings": {
+            "title": "Premium essentials",
+            "description": "PLACEHOLDER — describe your product point of view."
+          }
+        },
+        "value_2": {
+          "type": "reason",
+          "settings": {
+            "title": "Clear product details",
+            "description": "PLACEHOLDER — describe how you present product information."
+          }
+        },
+        "value_3": {
+          "type": "reason",
+          "settings": {
+            "title": "Support when you need it",
+            "description": "PLACEHOLDER — describe how customers can reach you."
+          }
+        }
+      },
+      "block_order": [
+        "value_1",
+        "value_2",
+        "value_3"
+      ]
+    },
+    "policies": {
+      "type": "vennix-policy-links",
+      "settings": {
+        "heading": "Shopping with us",
+        "text": "<p>Everything you need before you order.</p>",
+        "color_scheme": "scheme-1",
+        "padding_top": 64,
+        "padding_bottom": 72
+      }
+    }
+  },
+  "order": [
+    "main",
+    "brand_story",
+    "values",
+    "policies"
+  ]
+}

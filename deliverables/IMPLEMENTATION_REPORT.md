@@ -1,7 +1,7 @@
 # VennixStore Rebuild — Implementation Report
 
 Date: 2026-08-30
-Branch: arena/01a050aa-vennixstore-theme
+Branch: main (after phase 2 alignment)
 Theme version: 2.0.0 (updated from 1.0.0)
 
 ---

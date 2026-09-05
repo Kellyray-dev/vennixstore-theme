@@ -12,6 +12,11 @@
   if sizing == blank
     assign sizing = product.metafields.custom.sizing_info
   endif
+  assign fit = product.metafields.custom.fit
+  if fit == blank
+    assign fit = product.metafields.custom.fit_type
+  endif
+  assign stretch = product.metafields.custom.stretch
   assign included = product.metafields.custom.whats_included
   assign warranty = product.metafields.custom.warranty
   assign origin = product.metafields.custom.country_of_origin
@@ -19,17 +24,8 @@
     assign origin = product.metafields.custom.made_in
   endif
 
-  assign product_type = product.type | default: ''
-  assign is_apparel = false
-  if product_type contains "Women's" or product_type contains "Men's" or product_type contains 'Active'
-    assign is_apparel = true
-  endif
-
   assign has_specs = false
-  if materials != blank or dimensions != blank or compatibility != blank or included != blank or warranty != blank or origin != blank
-    assign has_specs = true
-  endif
-  if is_apparel and sizing != blank
+  if materials != blank or dimensions != blank or compatibility != blank or sizing != blank or included != blank or warranty != blank or origin != blank or fit != blank or stretch != blank
     assign has_specs = true
   endif
 -%}
@@ -40,14 +36,14 @@
       <summary>
         <div class="summary__title">
           {% render 'icon-accordion', icon: 'clipboard' %}
-          <h2 class="h4 accordion__title">Details &amp; specifications</h2>
+          <h2 class="h4 accordion__title">Materials, fit &amp; features</h2>
         </div>
         {{- 'icon-caret.svg' | inline_asset_content -}}
       </summary>
       <div class="accordion__content rte vx-product-details" id="VennixProductDetailsContent-{{ section.id }}">
         {%- if key_features != blank -%}
           <div class="vx-product-details__features">
-            <h3>Highlights</h3>
+            <h3>Key features</h3>
             <ul role="list">
               {%- for feature in key_features -%}
                 <li>
@@ -70,7 +66,13 @@
             {%- if compatibility != blank -%}
               <div><dt>Compatibility</dt><dd>{{ compatibility | metafield_tag }}</dd></div>
             {%- endif -%}
-            {%- if is_apparel and sizing != blank -%}
+            {%- if fit != blank -%}
+              <div><dt>Fit</dt><dd>{{ fit | metafield_tag }}</dd></div>
+            {%- endif -%}
+            {%- if stretch != blank -%}
+              <div><dt>Stretch</dt><dd>{{ stretch | metafield_tag }}</dd></div>
+            {%- endif -%}
+            {%- if sizing != blank -%}
               <div><dt>Sizing &amp; fit</dt><dd>{{ sizing | metafield_tag }}</dd></div>
             {%- endif -%}
             {%- if included != blank -%}

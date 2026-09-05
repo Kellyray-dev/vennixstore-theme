@@ -1,0 +1,38 @@
+{% comment %}
+  Renders a customer-facing brand line for a product.
+
+  VennixStore imports products from fulfilment partners, so `product.vendor` can hold a
+  supplier name (for example a dropship partner) rather than the brand the customer is
+  buying from. This snippet is the single presentation-layer gate for vendor output:
+  the underlying Shopify vendor data is never modified, it is simply not shown to
+  customers while `settings.hide_supplier_vendor` is enabled.
+
+  Behaviour:
+  - `settings.hide_supplier_vendor` on  -> renders `settings.storefront_brand_name`
+    (falling back to `shop.name`) when the product's vendor is NOT already that brand,
+    and renders the vendor untouched when it already matches the brand.
+  - `settings.hide_supplier_vendor` off -> renders `product.vendor` as-is.
+  - Renders nothing when there is nothing safe to show.
+
+  Accepts:
+  - product: {Object} Product Liquid object (required)
+  - fallback_to_brand: {Boolean} When false, renders nothing instead of substituting the
+    brand name for a supplier vendor. Default: true (optional)
+
+  Usage:
+  {%- render 'vennix-vendor', product: card_product -%}
+  {%- capture vendor_name -%}{%- render 'vennix-vendor', product: product -%}{%- endcapture -%}
+{% endcomment %}
+
+{%- liquid
+  assign vx_vendor = product.vendor | strip
+  assign vx_brand = settings.storefront_brand_name | default: shop.name | strip
+  assign vendor_compare = vx_vendor | downcase
+  assign brand_compare = vx_brand | downcase
+
+  if settings.hide_supplier_vendor == false or vendor_compare == brand_compare
+    echo vx_vendor
+  elsif fallback_to_brand != false
+    echo vx_brand
+  endif
+-%}
