@@ -471,6 +471,15 @@
   display: block;
 }
 
+@media screen and (max-width: 749px) {
+  .policies li a {
+    min-height: 2.4rem;
+    padding: 1rem 0.2rem;
+    display: inline-flex;
+    align-items: center;
+  }
+}
+
 @media screen and (min-width: 750px) {
   .policies li a {
     padding: 0;
