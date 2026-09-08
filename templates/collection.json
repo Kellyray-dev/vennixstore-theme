@@ -1,41 +1,50 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
-    "collection-hero": {
-      "type": "collection-hero",
+    "banner": {
+      "type": "main-collection-banner",
       "settings": {
-        "show_title": true,
-        "show_description": true,
-        "show_cta": false,
-        "enable_unsplash_fallback": true,
-        "text_alignment": "center",
-        "animation_style": "parallax",
-        "overlay_opacity": 30,
-        "text_color": "#FFFFFF"
+        "show_collection_description": true,
+        "show_collection_image": false,
+        "color_scheme": "scheme-1"
       }
     },
     "product-grid": {
       "type": "main-collection-product-grid",
+      "custom_css": [
+        "/* Product grid responsive layout */@media (min-width: 0px) {.collection-grid, [class*=\"grid\"], [class*=\"product-list\"] {display: grid !important; grid-template-columns: repeat(1, 1fr) !important; gap: 16px !important; }}",
+        "/* Tablet: 2 columns */@media (min-width: 768px) {.collection-grid, [class*=\"grid\"], [class*=\"product-list\"] {grid-template-columns: repeat(2, 1fr) !important; }}",
+        "/* Desktop: 3+ columns */@media (min-width: 1024px) {.collection-grid, [class*=\"grid\"], [class*=\"product-list\"] {grid-template-columns: repeat(3, 1fr) !important; }}"
+      ],
       "settings": {
         "products_per_page": 24,
         "columns_desktop": 4,
+        "columns_mobile": "2",
         "color_scheme": "scheme-1",
         "image_ratio": "square",
         "image_shape": "default",
         "show_secondary_image": true,
         "show_vendor": false,
         "show_rating": true,
-        "quick_add": "standard",
+        "quick_add": "bulk",
         "enable_filtering": true,
-        "filter_type": "horizontal",
+        "filter_type": "drawer",
         "enable_sorting": true,
-        "columns_mobile": "2",
         "padding_top": 52,
-        "padding_bottom": 84
+        "padding_bottom": 0
       }
     }
   },
   "order": [
-    "collection-hero",
+    "banner",
     "product-grid"
   ]
 }
