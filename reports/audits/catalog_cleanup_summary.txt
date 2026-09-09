@@ -1,0 +1,17 @@
+VennixStore catalog cleanup read-only audit
+Store: f09ye1-zj.myshopify.com
+API version: 2026-04
+Product pages fetched: 5
+Collection pages fetched: 1
+Products inspected: 210
+Products to remove/review: 12
+Electronics products: 1
+Home products: 1
+Pet products: 0
+Other non-fashion/non-fitness products: 11
+Old-brand tags: 5
+Old-brand tag names: DY-N, Gaze, home, home decor, Spellbinding Glitterstone
+Old-brand collections: 0
+Old-brand collection names: 
+Pagination completed: true
+No mutations executed

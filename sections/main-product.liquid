@@ -531,32 +531,34 @@
                     </button>
                   </modal-opener>
                 {%- when 'size_guide' -%}
-                  <modal-opener
-                    class="product-popup-modal__opener quick-add-hidden vx-size-guide__opener"
-                    data-modal="#PopupModal-{{ block.id }}"
-                    {{ block.shopify_attributes }}
-                  >
-                    <button
-                      id="ProductSizeGuide-{{ block.id }}"
-                      class="product-popup-modal__button link vx-size-guide__button"
-                      type="button"
-                      aria-haspopup="dialog"
+                  {%- if is_apparel -%}
+                    <modal-opener
+                      class="product-popup-modal__opener quick-add-hidden vx-size-guide__opener"
+                      data-modal="#PopupModal-{{ block.id }}"
+                      {{ block.shopify_attributes }}
                     >
-                      <svg
-                        class="vx-size-guide__icon"
-                        aria-hidden="true"
-                        focusable="false"
-                        viewBox="0 0 18 18"
-                        width="16"
-                        height="16"
-                        fill="none"
+                      <button
+                        id="ProductSizeGuide-{{ block.id }}"
+                        class="product-popup-modal__button link vx-size-guide__button"
+                        type="button"
+                        aria-haspopup="dialog"
                       >
-                        <path d="M2.25 6.75 6.75 2.25l9 9-4.5 4.5-9-9Z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
-                        <path d="M5.25 4.5l1.5 1.5M7.5 2.25 9 3.75M10.5 6.75l1.5 1.5M12.75 9l1.5 1.5M2.25 6.75 3.75 8.25" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/>
-                      </svg>
-                      {{- block.settings.text | default: 'Size guide' | escape -}}
-                    </button>
-                  </modal-opener>
+                        <svg
+                          class="vx-size-guide__icon"
+                          aria-hidden="true"
+                          focusable="false"
+                          viewBox="0 0 18 18"
+                          width="16"
+                          height="16"
+                          fill="none"
+                        >
+                          <path d="M2.25 6.75 6.75 2.25l9 9-4.5 4.5-9-9Z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+                          <path d="M5.25 4.5l1.5 1.5M7.5 2.25 9 3.75M10.5 6.75l1.5 1.5M12.75 9l1.5 1.5M2.25 6.75 3.75 8.25" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/>
+                        </svg>
+                        {{- block.settings.text | default: 'Size guide' | escape -}}
+                      </button>
+                    </modal-opener>
+                  {%- endif -%}
                 {%- when 'share' -%}
                   {% liquid
                     assign share_url = product.selected_variant.url | default: product.url | prepend: request.origin
@@ -828,29 +830,31 @@
       {%- endfor -%}
 
       {% assign size_guides = section.blocks | where: 'type', 'size_guide' %}
-      {%- for block in size_guides -%}
-        <modal-dialog id="PopupModal-{{ block.id }}" class="product-popup-modal" {{ block.shopify_attributes }}>
-          <div
-            role="dialog"
-            aria-label="{{ block.settings.text | default: 'Size guide' | escape }}"
-            aria-modal="true"
-            class="product-popup-modal__content"
-            tabindex="-1"
-          >
-            <button
-              id="ModalClose-{{ block.id }}"
-              type="button"
-              class="product-popup-modal__toggle"
-              aria-label="{{ 'accessibility.close' | t }}"
+      {%- if is_apparel -%}
+        {%- for block in size_guides -%}
+          <modal-dialog id="PopupModal-{{ block.id }}" class="product-popup-modal" {{ block.shopify_attributes }}>
+            <div
+              role="dialog"
+              aria-label="{{ block.settings.text | default: 'Size guide' | escape }}"
+              aria-modal="true"
+              class="product-popup-modal__content"
+              tabindex="-1"
             >
-              {{- 'icon-close.svg' | inline_asset_content -}}
-            </button>
-            <div class="product-popup-modal__content-info">
-              {% render 'vennix-size-guide', block: block, product: product %}
+              <button
+                id="ModalClose-{{ block.id }}"
+                type="button"
+                class="product-popup-modal__toggle"
+                aria-label="{{ 'accessibility.close' | t }}"
+              >
+                {{- 'icon-close.svg' | inline_asset_content -}}
+              </button>
+              <div class="product-popup-modal__content-info">
+                {% render 'vennix-size-guide', block: block, product: product %}
+              </div>
             </div>
-          </div>
-        </modal-dialog>
-      {%- endfor -%}
+          </modal-dialog>
+        {%- endfor -%}
+      {%- endif -%}
 
       {%- if product.media.size > 0 -%}
         <script src="{{ 'product-modal.js' | asset_url }}" defer="defer"></script>

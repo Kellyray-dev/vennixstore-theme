@@ -1,0 +1,10 @@
+Product image alt text audit
+Store: f09ye1-zj.myshopify.com
+API version: 2026-04
+Pagination completed: true
+Pages fetched: 5
+Total products checked: 210
+Total images checked: 2068
+Missing alt text count: 468
+Generic alt text count: 0
+Good alt text count: 1600
