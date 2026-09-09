@@ -1,0 +1,212 @@
+{
+  "version": "1.0",
+  "source": "catalog/vennix-products-cleaned.csv",
+  "rules": {
+    "minimumCharacters": 50,
+    "maximumCharacters": 160,
+    "preferredRange": "120-155",
+    "guidance": [
+      "Replace only variables supported by the product data.",
+      "Remove unused variables and adjust punctuation so the description reads naturally.",
+      "Do not add unsupported materials, performance claims, colors, sizing, or occasions."
+    ]
+  },
+  "templates": [
+    {
+      "productType": "Bath Mats & Rugs",
+      "template": "{title} adds {visibleStyleOrPattern} to bathrooms and living spaces, with {feature} for practical everyday use.",
+      "variables": ["title", "visibleStyleOrPattern", "feature"],
+      "examples": ["Memory Foam Non-Slip Bath Mat adds a soft textured look to bathrooms, with a non-slip design for practical everyday use."],
+      "characterLimit": {"min": 50, "max": 160, "preferred": "120-155"}
+    },
+    {
+      "productType": "Face Covers & Balaclavas",
+      "template": "{title} features {visiblePatternOrStyle} in a full-face design for {supportedUse}, layering, or outdoor wear.",
+      "variables": ["title", "visiblePatternOrStyle", "supportedUse"],
+      "examples": ["Skull-Print Motorcycle Balaclava features a skull print in a full-face design for motorcycle riding, layering, or outdoor wear."],
+      "characterLimit": {"min": 50, "max": 160, "preferred": "120-155"}
+    },
+    {
+      "productType": "Fitness Accessories",
+      "template": "{title} features {visibleDesign} for training, cycling, and active routines where {supportedBenefit} is useful.",
+      "variables": ["title", "visibleDesign", "supportedBenefit"],
+      "examples": ["Go Love Joy Half-Finger Training Gloves feature a half-finger design for training, cycling, and active routines needing palm coverage."],
+      "characterLimit": {"min": 50, "max": 160, "preferred": "120-155"}
+    },
+    {
+      "productType": "Hair Clippers & Trimmers",
+      "template": "{title} is a {visibleFormFactor} with {includedOrVisibleFeature} for convenient at-home grooming and detail work.",
+      "variables": ["title", "visibleFormFactor", "includedOrVisibleFeature"],
+      "examples": ["T9 Cordless Hair Trimmer & Clipper is a cordless grooming tool with a compact design for convenient at-home detail work."],
+      "characterLimit": {"min": 50, "max": 160, "preferred": "120-155"}
+    },
+    {
+      "productType": "Hats & Headwear",
+      "template": "{title} features {visibleStyleOrDetail}, adding a distinctive finishing touch to seasonal and everyday outfits.",
+      "variables": ["title", "visibleStyleOrDetail"],
+      "examples": ["Fluffy Cat-Ear Braided Y2K Hat features cat ears and braided detail, adding a distinctive finishing touch to everyday outfits."],
+      "characterLimit": {"min": 50, "max": 160, "preferred": "120-155"}
+    },
+    {
+      "productType": "Humidifiers & Diffusers",
+      "template": "{title} brings {supportedFunction} to bedrooms, offices, or other spaces with a compact design for everyday use.",
+      "variables": ["title", "supportedFunction"],
+      "examples": ["180ml USB Aroma Humidifier brings aroma diffusion to bedrooms and offices with a compact design for everyday use."],
+      "characterLimit": {"min": 50, "max": 160, "preferred": "120-155"}
+    },
+    {
+      "productType": "LED Lighting",
+      "template": "{title} provides {visibleLightingStyle} for {supportedLocation}, with {supportedControlOrFeature} for convenient everyday lighting.",
+      "variables": ["title", "visibleLightingStyle", "supportedLocation", "supportedControlOrFeature"],
+      "examples": ["Rechargeable Motion Sensor Night Light provides soft accent lighting for halls and bedrooms, with motion activation for everyday convenience."],
+      "characterLimit": {"min": 50, "max": 160, "preferred": "120-155"}
+    },
+    {
+      "productType": "Maternity Bras",
+      "template": "{title} features {visibleConstruction} and {visibleDetail} for nursing-friendly everyday wear.",
+      "variables": ["title", "visibleConstruction", "visibleDetail"],
+      "examples": ["Wire-Free Maternity Nursing Bra features a wire-free construction and nursing detail for everyday maternity wear."],
+      "characterLimit": {"min": 50, "max": 160, "preferred": "120-155"}
+    },
+    {
+      "productType": "Men's Jackets",
+      "template": "{title} combines a {visibleSilhouette} with {visibleFeature}, making it a versatile layer for {supportedOccasion}.",
+      "variables": ["title", "visibleSilhouette", "visibleFeature", "supportedOccasion"],
+      "examples": ["Men's Reflective Hooded Windbreaker combines a hooded silhouette with reflective detail, making it a versatile layer for outdoor activities."],
+      "characterLimit": {"min": 50, "max": 160, "preferred": "120-155"}
+    },
+    {
+      "productType": "Men's Jeans",
+      "template": "{title} features a {visibleFit} silhouette with {visibleDetail}, suited to casual streetwear and everyday outfits.",
+      "variables": ["title", "visibleFit", "visibleDetail"],
+      "examples": ["Men's Wide-Leg Streetwear Jeans feature a wide-leg silhouette with classic denim styling, suited to casual streetwear outfits."],
+      "characterLimit": {"min": 50, "max": 160, "preferred": "120-155"}
+    },
+    {
+      "productType": "Men's Joggers",
+      "template": "{title} features a {visibleFit} shape and {visibleWaistDetail} for relaxed everyday outfits and casual activewear styling.",
+      "variables": ["title", "visibleFit", "visibleWaistDetail"],
+      "examples": ["Men's Loose-Fit Streetwear Joggers feature a loose-fit shape and elastic waist for relaxed everyday outfits."],
+      "characterLimit": {"min": 50, "max": 160, "preferred": "120-155"}
+    },
+    {
+      "productType": "Men's Pants",
+      "template": "{title} combines a {visibleFitOrCut} silhouette with {supportedFeature}, making it an easy choice for everyday wear.",
+      "variables": ["title", "visibleFitOrCut", "supportedFeature"],
+      "examples": ["Men's Quick-Dry Stretch Casual Pants combine a straight-leg silhouette with stretch fabric, making them an easy choice for everyday wear."],
+      "characterLimit": {"min": 50, "max": 160, "preferred": "120-155"}
+    },
+    {
+      "productType": "Men's Polo Shirts",
+      "template": "{title} features a {visibleSleeveOrCollar} design with {visibleDetail}, suited to casual outfits and smart-casual occasions.",
+      "variables": ["title", "visibleSleeveOrCollar", "visibleDetail"],
+      "examples": ["Men's Breathable Short-Sleeve Polo Shirt features a short-sleeve collared design, suited to casual and smart-casual outfits."],
+      "characterLimit": {"min": 50, "max": 160, "preferred": "120-155"}
+    },
+    {
+      "productType": "Men's Shirts",
+      "template": "{title} offers a {visibleSilhouette} with {visibleDetail}, creating a polished option for workwear and everyday outfits.",
+      "variables": ["title", "visibleSilhouette", "visibleDetail"],
+      "examples": ["Men's Wrinkle-Resistant Business Shirt offers a long-sleeve silhouette with a button-front design for polished workwear outfits."],
+      "characterLimit": {"min": 50, "max": 160, "preferred": "120-155"}
+    },
+    {
+      "productType": "Men's Shorts",
+      "template": "{title} features {visibleWaistDetail} and a {visibleLengthOrCut} design for warm-weather outfits, training, and everyday wear.",
+      "variables": ["title", "visibleWaistDetail", "visibleLengthOrCut"],
+      "examples": ["Men's Elastic-Waist Sports Shorts feature an elastic waistband and short cut for warm-weather outfits and training."],
+      "characterLimit": {"min": 50, "max": 160, "preferred": "120-155"}
+    },
+    {
+      "productType": "Men's Suits",
+      "template": "{title} includes {includedPieces}, with a {visibleSilhouette} suited to weddings, business events, and formal occasions.",
+      "variables": ["title", "includedPieces", "visibleSilhouette"],
+      "examples": ["Men's 3-Piece Slim-Fit Business Suit includes a jacket, vest, and trousers, with a slim-fit silhouette for formal occasions."],
+      "characterLimit": {"min": 50, "max": 160, "preferred": "120-155"}
+    },
+    {
+      "productType": "Men's Sweaters",
+      "template": "{title} features a {visibleNeckline} and {visibleTextureOrKnit}, creating a versatile layer for cool-weather outfits.",
+      "variables": ["title", "visibleNeckline", "visibleTextureOrKnit"],
+      "examples": ["Men's Turtleneck Knit Sweater features a turtleneck and knit texture, creating a versatile layer for cool-weather outfits."],
+      "characterLimit": {"min": 50, "max": 160, "preferred": "120-155"}
+    },
+    {
+      "productType": "Men's T-Shirts",
+      "template": "{title} features a {visibleNeckline} with {visibleTextureOrGraphic}, suited to casual layering and everyday outfits.",
+      "variables": ["title", "visibleNeckline", "visibleTextureOrGraphic"],
+      "examples": ["Men's Waffle-Knit Crew-Neck T-Shirt features a crew neckline with waffle-knit texture, suited to casual everyday outfits."],
+      "characterLimit": {"min": 50, "max": 160, "preferred": "120-155"}
+    },
+    {
+      "productType": "Men's Tank Tops",
+      "template": "{title} features a {visibleCut} silhouette with {visibleFabricOrDetail}, suited to warm-weather and active outfits.",
+      "variables": ["title", "visibleCut", "visibleFabricOrDetail"],
+      "examples": ["Men's Lightweight Mesh Tank Top features a sleeveless silhouette with mesh texture, suited to warm-weather active outfits."],
+      "characterLimit": {"min": 50, "max": 160, "preferred": "120-155"}
+    },
+    {
+      "productType": "Men's Underwear",
+      "template": "{title} features a {visibleSilhouette} with {visibleDetail}, designed for everyday essentials and comfortable layering.",
+      "variables": ["title", "visibleSilhouette", "visibleDetail"],
+      "examples": ["Hanes Cool Comfort Cotton Boxer Briefs feature a boxer-brief silhouette with a visible waistband for everyday essentials."],
+      "characterLimit": {"min": 50, "max": 160, "preferred": "120-155"}
+    },
+    {
+      "productType": "Pet Hair Removers",
+      "template": "{title} features a {visibleDesign} for removing pet hair from clothing, upholstery, and other household surfaces.",
+      "variables": ["title", "visibleDesign"],
+      "examples": ["Reusable Double-Sided Pet Hair Brush features a double-sided design for removing pet hair from clothing and upholstery."],
+      "characterLimit": {"min": 50, "max": 160, "preferred": "120-155"}
+    },
+    {
+      "productType": "Phone Cases",
+      "template": "{title} provides a {visibleCaseStyle} for compatible phones, with {visibleFeature} suited to everyday protection and use.",
+      "variables": ["title", "visibleCaseStyle", "visibleFeature"],
+      "examples": ["MagSafe Silicone iPhone Case provides a silicone case style for compatible iPhones, with MagSafe compatibility for everyday use."],
+      "characterLimit": {"min": 50, "max": 160, "preferred": "120-155"}
+    },
+    {
+      "productType": "Screen Protectors",
+      "template": "{title} is a phone screen accessory with {supportedFeature}, designed for compatible devices and everyday use.",
+      "variables": ["title", "supportedFeature"],
+      "examples": ["iPhone Privacy Screen Protector is a phone screen accessory with privacy viewing, designed for compatible devices and everyday use."],
+      "characterLimit": {"min": 50, "max": 160, "preferred": "120-155"}
+    },
+    {
+      "productType": "USB Hubs & Adapters",
+      "template": "{title} expands device connectivity with {visiblePortsOrFeature}, helping organize compatible peripherals for work and travel.",
+      "variables": ["title", "visiblePortsOrFeature"],
+      "examples": ["8-in-1 USB-C Hub for MacBook and iPad expands device connectivity with multiple ports for compatible peripherals."],
+      "characterLimit": {"min": 50, "max": 160, "preferred": "120-155"}
+    },
+    {
+      "productType": "Women's Bras",
+      "template": "{title} features a {visibleConstruction} with {visibleDetail}, creating an everyday foundation layer for varied outfits.",
+      "variables": ["title", "visibleConstruction", "visibleDetail"],
+      "examples": ["Women's Wire-Free Full-Cup Support Bra features a wire-free full-cup construction with supportive coverage for everyday outfits."],
+      "characterLimit": {"min": 50, "max": 160, "preferred": "120-155"}
+    },
+    {
+      "productType": "Women's Dresses",
+      "template": "{title} features a {visibleSilhouette} with {visiblePatternOrDetail}, suited to warm-weather outings and occasion dressing.",
+      "variables": ["title", "visibleSilhouette", "visiblePatternOrDetail"],
+      "examples": ["Floral Sleeveless A-Line Mini Dress features an A-line silhouette with floral print, suited to warm-weather outings."],
+      "characterLimit": {"min": 50, "max": 160, "preferred": "120-155"}
+    },
+    {
+      "productType": "Women's Sets",
+      "template": "{title} pairs a {visibleTopStyle} with a matching {visibleBottomStyle}, creating a coordinated look for {supportedOccasion}.",
+      "variables": ["title", "visibleTopStyle", "visibleBottomStyle", "supportedOccasion"],
+      "examples": ["Cream Textured Tie-Front Top and Mini Skirt Set pairs a tie-front crop top with a matching mini skirt for resort wear."],
+      "characterLimit": {"min": 50, "max": 160, "preferred": "120-155"}
+    },
+    {
+      "productType": "Women's Tops",
+      "template": "{title} features a {visibleNeckline} with {visibleDetail}, creating a polished option for work, weekends, and occasions.",
+      "variables": ["title", "visibleNeckline", "visibleDetail"],
+      "examples": ["Women's V-Neck Ruffle Tie-Waist Blouse features a V-neckline with ruffle and tie-waist details for polished outfits."],
+      "characterLimit": {"min": 50, "max": 160, "preferred": "120-155"}
+    }
+  ]
+}
