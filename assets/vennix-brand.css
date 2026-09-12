@@ -1258,6 +1258,16 @@ body {
   gap: 3rem;
 }
 
+.vx-mega-menu__header {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 1.6rem;
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
 .vx-mega-menu__column {
   min-width: 0;
 }
@@ -1281,6 +1291,12 @@ body {
 
 .vx-mega-menu__column:hover .vx-mega-menu__media img {
   transform: scale(1.035);
+}
+
+.menu-drawer__menu-item--shop-all {
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 0.35rem;
 }
 
 .mega-menu__link--level-2 {

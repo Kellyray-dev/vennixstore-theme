@@ -50,6 +50,14 @@
                             {{ link.title | escape }}
                           </button>
                           <ul class="menu-drawer__menu list-menu" role="list" tabindex="-1">
+                            <li>
+                              <a
+                                href="{{ link.url }}"
+                                class="menu-drawer__menu-item menu-drawer__menu-item--shop-all link link--text list-menu__item focus-inset"
+                              >
+                                Shop all {{ link.title | escape }}
+                              </a>
+                            </li>
                             {%- for childlink in link.links -%}
                               <li>
                                 {%- if childlink.links == blank -%}
@@ -95,6 +103,14 @@
                                         role="list"
                                         tabindex="-1"
                                       >
+                                        <li>
+                                          <a
+                                            href="{{ childlink.url }}"
+                                            class="menu-drawer__menu-item menu-drawer__menu-item--shop-all link link--text list-menu__item focus-inset"
+                                          >
+                                            Shop all {{ childlink.title | escape }}
+                                          </a>
+                                        </li>
                                         {%- for grandchildlink in childlink.links -%}
                                           <li>
                                             <a
