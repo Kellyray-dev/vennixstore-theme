@@ -1109,6 +1109,21 @@ textarea {
   row-gap: clamp(3.5rem, 5vw, 6rem);
 }
 
+.template-collection .product-grid--deemphasize-sold-out .product-grid__item--sold-out {
+  opacity: 0.68;
+}
+
+.template-collection .product-grid--deemphasize-sold-out .product-grid__item--sold-out:hover,
+.template-collection .product-grid--deemphasize-sold-out .product-grid__item--sold-out:focus-within {
+  opacity: 1;
+}
+
+.vx-product-badge--low-stock {
+  color: #5d3b00;
+  border-color: #e4bd70;
+  background: #fff3d8;
+}
+
 .quick-add__submit {
   min-height: 4.8rem;
 }

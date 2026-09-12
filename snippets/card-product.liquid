@@ -60,6 +60,12 @@
     elsif card_product.tags contains 'best-seller'
       assign prestige_badge = 'Best seller'
     endif
+
+    assign card_low_stock = false
+    assign card_variant = card_product.selected_or_first_available_variant
+    if settings.product_card_low_stock_threshold > 0 and card_product.available and card_variant.inventory_management == 'shopify' and card_variant.inventory_policy != 'continue' and card_variant.inventory_quantity > 0 and card_variant.inventory_quantity <= settings.product_card_low_stock_threshold
+      assign card_low_stock = true
+    endif
   -%}
 
   <product-component view-event-payload="{{ card_product | standard_event_data: 'view', context: product_view_context | escape }}">
@@ -198,6 +204,11 @@
                   class="badge badge--bottom-left color-{{ settings.sale_badge_color_scheme }}"
                 >
                   {{- 'products.product.on_sale' | t -}}
+                </span>
+              {%- endif -%}
+              {%- if card_low_stock -%}
+                <span class="badge vx-product-badge vx-product-badge--low-stock">
+                  {{- 'products.product.inventory_low_stock' | t -}}
                 </span>
               {%- endif -%}
             </div>

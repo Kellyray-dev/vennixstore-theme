@@ -107,6 +107,7 @@
     "badge_corner_radius": 40,
     "sale_badge_color_scheme": "scheme-5",
     "sold_out_badge_color_scheme": "scheme-3",
+    "product_card_low_stock_threshold": 5,
     "brand_headline": "",
     "brand_description": "<p></p>",
     "brand_image_width": 100,
