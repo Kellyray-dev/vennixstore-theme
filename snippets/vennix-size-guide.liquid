@@ -9,8 +9,15 @@
   The built-in chart uses the product context supplied by main-product so a
   women's item never displays a men's chart (and vice versa).
 
+  Accepts:
+    - block:    {Object} The `size_guide` block from main-product (its `page` setting wins).
+    - product:  {Object} Product used to read the `custom.size_chart` metafield.
+    - audience: {String} 'women', 'men' or 'unisex'. Decided by main-product from the
+                product type/title/tags; when omitted the chart falls back to 'unisex'
+                and shows both tables.
+
   Usage:
-    {% render 'vennix-size-guide', block: block, product: product %}
+    {% render 'vennix-size-guide', block: block, product: product, audience: size_guide_audience %}
 {%- endcomment -%}
 
 {%- liquid
