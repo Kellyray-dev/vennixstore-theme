@@ -8,8 +8,9 @@
 
 Verdict: **no merge blockers found.** The theme is lint-clean at error level, structurally
 consistent, and free of undefined translations, missing assets, unknown filters and syntax
-errors. Four defects were fixed in this commit (§2); the rest of this document records what
-was verified and what is still open.
+errors. Four defects were fixed in the first commit (§2) and four storefront-correctness
+issues from code review in the second (§4); the rest of this document records what was
+verified and what is still open.
 
 ---
 
@@ -157,19 +158,19 @@ So the ignore rule does not blind the script to real drift.
 
 ## 3. Known gaps, left open on purpose
 
-### 3.1 844 missing translations (Medium — cosmetic, not breaking)
+### 3.1 874 missing translations (Medium — cosmetic, not breaking)
 
 | Group | Files | Missing keys each | Findings |
 |---|---|---|---|
-| Storefront locales | 30 non-English | 19 (identical set) | 540 |
+| Storefront locales | 30 non-English | 20 (identical set) | 570 |
 | Schema locales | 19 non-English `*.schema.json` | 16 (identical set) | 304 |
-| | | **theme-check total** | **844** |
+| | | **theme-check total** | **874** |
 
-A direct key-parity count gives 874, not 844: the difference is `sections.footer.phone`,
+A direct key-parity count gives 904, not 874: the difference is `sections.footer.phone`,
 which theme-check treats as a schema key and therefore does not compare inside the
 storefront files. Both numbers are correct for what they measure.
 
-The 19 storefront keys are shopper-visible:
+The 20 storefront keys are shopper-visible:
 
 ```
 customer.account.contact_support            templates.contact.info_heading
@@ -178,11 +179,16 @@ sections.faq.placeholder_text               templates.contact.info_text
 sections.footer.address                     templates.contact.phone_label
 sections.footer.contact_info                vennix.dark_mode.switch_to_dark
 sections.footer.email                       vennix.dark_mode.switch_to_light
-sections.footer.phone                       vennix.shipping_progress.label
-templates.contact.email_label               vennix.shipping_progress.remaining_html
-templates.contact.form.optional             vennix.shipping_progress.unlocked_html
-templates.contact.form.response_note
+sections.footer.phone                       vennix.navigation.shop_all
+templates.contact.email_label               vennix.shipping_progress.label
+templates.contact.form.optional             vennix.shipping_progress.remaining_html
+templates.contact.form.response_note        vennix.shipping_progress.unlocked_html
 ```
+
+`vennix.navigation.shop_all` was added by the review fixes in §4.4: the "Shop all" labels
+were hardcoded English before, so they were untranslatable. They are now a locale key, which
+trades a certain English string for one that Translate & Adapt can fill in — the right
+trade, but it does widen this gap by one key per locale until translations land.
 
 Shopify falls back to the default locale, so the practical effect is that a non-English
 shopper sees the dark-mode toggle label, the free-shipping progress bar and the contact-page
@@ -280,7 +286,95 @@ jsdom suite described in that audit was never committed, so
 
 ---
 
-## 4. Not verified here
+## 4. Code-review follow-ups (second commit, same day)
+
+An external review raised four storefront-correctness issues. All four were reproduced in
+the source before being fixed; none were speculative.
+
+### 4.1 A disabled free-shipping promotion kept being advertised
+
+`settings.free_shipping_enabled` existed and was honoured by three components
+(`vennix-announcement-bar`, `vennix-product-assurances`, `vennix-shipping-progress`) and
+ignored by three others. Switching the promotion off therefore left the promise live on the
+product page and the homepage:
+
+| Location | Before | After |
+|---|---|---|
+| `sections/main-product.liquid` shipping accordion | always printed `free_shipping_message` | prints it only when enabled, otherwise "Available shipping options are shown at checkout." |
+| `sections/vennix-trust-bar.liquid` | badge rendered regardless | badge skipped, matching the announcement bar's existing `unless` |
+| `sections/vennix-product-showcase.liquid` | point rendered regardless | point skipped, same condition |
+
+Hiding a list item can leave an empty container behind, which would have been a new visual
+regression, so both sections now count the badges/points that will actually render and skip
+the whole shell at zero. The count condition
+(`use_free_shipping_message == false or free_shipping_enabled != false`) is the exact
+negation of the skip condition
+(`use_free_shipping_message and free_shipping_enabled == false`); the test suite in §4.5
+asserts both over the full truth table so they cannot drift apart.
+
+### 4.2 The size guide vanished on non-English size labels
+
+`has_size_option` matched only the English substring `size`, and it gates **both** the opener
+and the modal — so an apparel product whose option is named `Dimensions`, `Talla`, `Taille`,
+`Größe` or `Maat` lost the guide entirely. Option names are merchant-controlled, so this was
+a real silent failure, not a theoretical one.
+
+Now matches a label set across languages (`size, talla, taille, taglia, größe, groesse, maat,
+ukuran, tamanho, tamano, dimensions, dimension, размер, サイズ, 尺寸, 사이즈, fit`), **and**
+the `size_guide` block gained a `size_option` text setting that overrides the guess
+outright when a merchant's label is something no list could anticipate. Blank falls back to
+the heuristic, so existing themes are unaffected.
+
+### 4.3 The low-stock badge described the whole product using one variant
+
+`snippets/card-product.liquid` derived a product-wide badge from
+`selected_or_first_available_variant.inventory_quantity`. On a listing page that is just
+whichever variant Shopify resolves first, so a single nearly-empty size shouted "Low stock"
+over fully-stocked sizes — and a well-stocked first size hid a size about to sell out.
+
+Now aggregates: the badge appears only when the **best-stocked** variant is itself at or
+below the threshold, and variants that are not inventory-managed or that allow overselling
+are excluded (they never run out, so they cannot justify a scarcity claim). The
+`product_card_low_stock_threshold` setting's help text was updated to match the new meaning.
+
+### 4.4 "Shop all" navigation labels were hardcoded English
+
+`snippets/header-drawer.liquid` (twice — top level and nested) and
+`snippets/header-mega-menu.liquid` all emitted `Shop all {{ link.title }}`. With the default
+header enabling the language selector, non-English shoppers got mixed-language primary
+navigation. Added `vennix.navigation.shop_all` = `"Shop all {{ title }}"` to
+`locales/en.default.json` and routed all three through `| t: title: …`, which escapes the
+interpolated value itself.
+
+### 4.5 How these were verified
+
+Static checks alone would not have caught a wrong-but-parsable condition, so the shipped
+Liquid was executed. The first `{% liquid %}` block of each changed file was extracted
+verbatim and rendered with `liquidjs` against mocked Shopify objects — **35 assertions, all
+passing**:
+
+- Size guide: 15 cases, including `Dimensions`/`Talla`/`Taille`/`Größe`/`Maat` (all `true`
+  now, all `false` before), `Color`-only (`false`), and every override path.
+- Low stock: 12 cases, including `[2, 50] → false` (the exact bug the review described),
+  `[50, 1] → false`, `[2, 3] → true`, untracked and oversell variants, unavailable product,
+  and the threshold boundaries.
+- Free shipping: the full 4-row truth table for both sections.
+
+Two notes on honesty here. First, the harness initially reported 2 failures in the
+free-shipping group; the expectations were wrong (both mocked blocks were free-shipping
+blocks, so 0 survivors was correct), not the implementation. Second, `liquidjs` cannot
+tokenize prose inside a liquid-tag `comment` block, so the harness strips comments; the
+shipped files were confirmed parseable by Shopify's own parser
+(`@shopify/liquid-html-parser`) instead, and the comment style matches the three existing
+`comment`/`endcomment` precedents in this repo.
+
+Re-ran after the changes: theme-check **0 errors** (3 `LiquidComplexity` suggestions),
+`validate_theme.py` **exit 0**, all six edited files parse, JSON valid. The two
+already-over-limit Dawn files grew slightly as a result — `card-product` 139 → 142 and
+`main-product` 131 → 136 — which is the expected cost of adding conditionals to files that
+were already flagged as advisory debt.
+
+## 5. Not verified here
 
 - **Nothing was rendered against a live store.** No `shopify theme dev`, no preview deploy.
   Liquid output, real visual layout and the `card-product` render inside the product rail all

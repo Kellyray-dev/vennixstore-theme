@@ -31,7 +31,7 @@
                 tabindex="-1"
               >
                 <div class="vx-mega-menu__header page-width">
-                  <a class="link underlined-link" href="{{ link.url }}">Shop all {{ link.title | escape }}</a>
+                  <a class="link underlined-link" href="{{ link.url }}">{{ 'vennix.navigation.shop_all' | t: title: link.title }}</a>
                 </div>
                 <ul
                   class="mega-menu__list page-width{% if link.levels == 1 %} mega-menu__list--condensed{% endif %}"

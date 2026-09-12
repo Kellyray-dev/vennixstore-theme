@@ -55,7 +55,7 @@
                                 href="{{ link.url }}"
                                 class="menu-drawer__menu-item menu-drawer__menu-item--shop-all link link--text list-menu__item focus-inset"
                               >
-                                Shop all {{ link.title | escape }}
+                                {{ 'vennix.navigation.shop_all' | t: title: link.title }}
                               </a>
                             </li>
                             {%- for childlink in link.links -%}
@@ -108,7 +108,7 @@
                                             href="{{ childlink.url }}"
                                             class="menu-drawer__menu-item menu-drawer__menu-item--shop-all link link--text list-menu__item focus-inset"
                                           >
-                                            Shop all {{ childlink.title | escape }}
+                                            {{ 'vennix.navigation.shop_all' | t: title: childlink.title }}
                                           </a>
                                         </li>
                                         {%- for grandchildlink in childlink.links -%}

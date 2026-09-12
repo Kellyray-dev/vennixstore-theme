@@ -1,12 +1,36 @@
 {%- liquid
   assign free_shipping_amount = settings.free_shipping_threshold | times: 100 | money_without_trailing_zeros
   assign product_context = product.type | append: ' ' | append: product.title | append: ' ' | append: product.tags | downcase
+
+  comment
+    Option names are merchant-controlled, so matching the single English word "size" hid
+    the guide from perfectly sized products labelled "Dimensions", "Talla", "Taille",
+    "Größe" or "Maat" — taking the opener AND its modal with it. Match common size labels
+    across languages instead, and let the block's own setting override the guess outright.
+  endcomment
+  assign size_option_labels = 'size,talla,taille,taglia,größe,groesse,maat,ukuran,tamanho,tamano,dimensions,dimension,размер,サイズ,尺寸,사이즈,fit' | split: ','
+  assign size_guide_blocks = section.blocks | where: 'type', 'size_guide'
+  assign size_guide_block = size_guide_blocks | first
+  assign size_option_override = size_guide_block.settings.size_option | downcase | strip
+
   assign has_size_option = false
   for option in product.options_with_values
-    assign option_name = option.name | downcase
-    if option_name contains 'size'
-      assign has_size_option = true
-      break
+    assign option_name = option.name | downcase | strip
+    if size_option_override != blank
+      if option_name == size_option_override
+        assign has_size_option = true
+        break
+      endif
+    else
+      for size_label in size_option_labels
+        if option_name contains size_label
+          assign has_size_option = true
+          break
+        endif
+      endfor
+      if has_size_option
+        break
+      endif
     endif
   endfor
 
@@ -276,8 +300,12 @@
                         {%- assign block_heading = block.settings.heading | downcase -%}
                         {%- if block_heading == 'shipping' -%}
                           <p>
-                            {{ settings.free_shipping_message | escape | replace: '[threshold]', free_shipping_amount }}.
-                            Other available shipping options are shown at checkout.
+                            {%- if settings.free_shipping_enabled -%}
+                              {{ settings.free_shipping_message | escape | replace: '[threshold]', free_shipping_amount }}.
+                              Other available shipping options are shown at checkout.
+                            {%- else -%}
+                              Available shipping options are shown at checkout.
+                            {%- endif -%}
                           </p>
                           {%- if shop.shipping_policy.body != blank -%}
                             <p>{{ 'products.product.shipping_policy_html' | t: link: shop.shipping_policy.url }}</p>
@@ -1419,6 +1447,12 @@
           "id": "page",
           "type": "page",
           "label": "Size chart page (optional)"
+        },
+        {
+          "type": "text",
+          "id": "size_option",
+          "label": "Size option name (optional)",
+          "info": "Show the guide only on products whose option is named exactly this, e.g. \"Dimensions\" or \"Talla\". Leave blank to auto-detect common size labels in any language."
         }
       ]
     },
