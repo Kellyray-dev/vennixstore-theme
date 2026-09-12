@@ -65,7 +65,7 @@
         "sort_by": "collection_default",
         "product_filter": "exclude",
         "filter_terms": "tech, usb, humidifier, case, gadget, electronics, phone, cable, charger, trimmer, clipper",
-        "hide_unavailable": false,
+        "hide_unavailable": true,
         "show_secondary_image": true,
         "enable_quick_add": false,
         "auto_open_delay": 0,
