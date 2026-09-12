@@ -1,9 +1,20 @@
 {%- liquid
   assign free_shipping_amount = settings.free_shipping_threshold | times: 100 | money_without_trailing_zeros
-  assign product_type = product.type | default: ''
-  assign is_apparel = false
-  if product_type contains "Women's" or product_type contains "Men's" or product_type contains 'Active'
-    assign is_apparel = true
+  assign product_context = product.type | append: ' ' | append: product.title | append: ' ' | append: product.tags | downcase
+  assign has_size_option = false
+  for option in product.options_with_values
+    assign option_name = option.name | downcase
+    if option_name contains 'size'
+      assign has_size_option = true
+      break
+    endif
+  endfor
+
+  assign size_guide_audience = 'unisex'
+  if product_context contains 'women' or product_context contains 'female' or product_context contains 'ladies'
+    assign size_guide_audience = 'women'
+  elsif product_context contains "men's" or product_context contains ' mens ' or product_context contains 'male'
+    assign size_guide_audience = 'men'
   endif
 -%}
 
@@ -531,7 +542,7 @@
                     </button>
                   </modal-opener>
                 {%- when 'size_guide' -%}
-                  {%- if is_apparel -%}
+                  {%- if has_size_option -%}
                     <modal-opener
                       class="product-popup-modal__opener quick-add-hidden vx-size-guide__opener"
                       data-modal="#PopupModal-{{ block.id }}"
@@ -578,12 +589,8 @@
                   {% render 'product-variant-picker',
                     product: product,
                     block: block,
-                    product_form_id: product_form_id,
-                    is_apparel: is_apparel
+                    product_form_id: product_form_id
                   %}
-                  {%- if is_apparel -%}
-                    {%- render 'vennix-size-guide', product: product -%}
-                  {%- endif -%}
                 {%- when 'buy_buttons' -%}
                   {%- render 'buy-buttons',
                     block: block,
@@ -679,6 +686,7 @@
                             >
                               {% assign skip_card_product_styles = false %}
                               {%- for i in (1..number_of_slides) -%}
+                                {%- assign slide_offset = forloop.index0 | times: block.settings.products_per_page -%}
                                 <div
                                   id="Slide-{{ block.id }}-{{ forloop.index }}"
                                   class="complementary-slide complementary-slide--{{ settings.card_style }} grid__item slider__slide slideshow__slide"
@@ -692,7 +700,7 @@
                                   <ul class="list-unstyled" role="list">
                                     {%- for product in recommendations.products
                                       limit: block.settings.products_per_page
-                                      offset: continue
+                                      offset: slide_offset
                                     -%}
                                       <li>
                                         {%- if block.settings.enable_quick_add -%}
@@ -830,7 +838,7 @@
       {%- endfor -%}
 
       {% assign size_guides = section.blocks | where: 'type', 'size_guide' %}
-      {%- if is_apparel -%}
+      {%- if has_size_option -%}
         {%- for block in size_guides -%}
           <modal-dialog id="PopupModal-{{ block.id }}" class="product-popup-modal" {{ block.shopify_attributes }}>
             <div
@@ -849,7 +857,7 @@
                 {{- 'icon-close.svg' | inline_asset_content -}}
               </button>
               <div class="product-popup-modal__content-info">
-                {% render 'vennix-size-guide', block: block, product: product %}
+                {% render 'vennix-size-guide', block: block, product: product, audience: size_guide_audience %}
               </div>
             </div>
           </modal-dialog>

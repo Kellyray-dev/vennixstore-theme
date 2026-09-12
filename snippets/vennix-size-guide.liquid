@@ -6,6 +6,9 @@
     2. The product's `custom.size_chart` page-reference metafield
     3. Built-in default apparel chart (works with zero setup)
 
+  The built-in chart uses the product context supplied by main-product so a
+  women's item never displays a men's chart (and vice versa).
+
   Usage:
     {% render 'vennix-size-guide', block: block, product: product %}
 {%- endcomment -%}
@@ -13,6 +16,7 @@
 {%- liquid
   assign chart_page = block.settings.page
   assign chart_source = 'default'
+  assign chart_audience = audience | default: 'unisex'
 
   if chart_page != blank
     assign chart_source = 'page'
@@ -36,10 +40,19 @@
     margin: 0;
   }
 
+  .vx-size-chart__tables--single {
+    max-width: 64rem;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
   @media screen and (min-width: 990px) {
     .vx-size-chart__tables {
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 3.2rem;
+    }
+
+    .vx-size-chart__tables--single {
+      grid-template-columns: minmax(0, 1fr);
     }
   }
 
@@ -104,8 +117,9 @@
 
 <div class="vx-size-chart rte">
   {%- if chart_source == 'default' -%}
-    <h3>Size guide</h3>
-    <div class="vx-size-chart__tables">
+    <h3>{% if chart_audience == 'women' %}Women&rsquo;s {% elsif chart_audience == 'men' %}Men&rsquo;s {% endif %}size guide</h3>
+    <div class="vx-size-chart__tables{% unless chart_audience == 'unisex' %} vx-size-chart__tables--single{% endunless %}">
+      {%- unless chart_audience == 'men' -%}
       <figure class="vx-size-chart__table-wrap">
         <table>
           <caption>Women&rsquo;s sizing (US)</caption>
@@ -128,7 +142,9 @@
           </tbody>
         </table>
       </figure>
+      {%- endunless -%}
 
+      {%- unless chart_audience == 'women' -%}
       <figure class="vx-size-chart__table-wrap">
         <table>
           <caption>Men&rsquo;s sizing (US)</caption>
@@ -150,6 +166,7 @@
           </tbody>
         </table>
       </figure>
+      {%- endunless -%}
     </div>
 
     <ul class="vx-size-chart__tips">

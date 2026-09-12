@@ -42,6 +42,19 @@
             "show_gift_card_recipient": true
           }
         },
+        "complete_the_look": {
+          "type": "complementary",
+          "settings": {
+            "block_heading": "Complete the look",
+            "make_collapsible_row": true,
+            "icon": "price_tag",
+            "product_list_limit": 4,
+            "products_per_page": 2,
+            "pagination_style": "counter",
+            "image_ratio": "square",
+            "enable_quick_add": true
+          }
+        },
         "description": {
           "type": "description",
           "settings": {}
@@ -119,6 +132,7 @@
         "size_guide",
         "quantity_selector",
         "buy_buttons",
+        "complete_the_look",
         "description",
         "metafields_guru_text_7kprja",
         "shipping",
@@ -179,12 +193,22 @@
         "padding_top": 64,
         "padding_bottom": 64
       }
+    },
+    "recently-viewed": {
+      "type": "vennix-recently-viewed",
+      "settings": {
+        "heading": "Recently viewed",
+        "color_scheme": "scheme-1",
+        "padding_top": 48,
+        "padding_bottom": 64
+      }
     }
   },
   "order": [
     "main",
     "reviews",
     "disclosures",
-    "related-products"
+    "related-products",
+    "recently-viewed"
   ]
 }
