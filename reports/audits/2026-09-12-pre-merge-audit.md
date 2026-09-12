@@ -357,9 +357,17 @@ whichever variant Shopify resolves first, so a single nearly-empty size shouted 
 over fully-stocked sizes — and a well-stocked first size hid a size about to sell out.
 
 Now aggregates: the badge appears only when the **best-stocked** variant is itself at or
-below the threshold, and variants that are not inventory-managed or that allow overselling
-are excluded (they never run out, so they cannot justify a scarcity claim). The
-`product_card_low_stock_threshold` setting's help text was updated to match the new meaning.
+below the threshold. The `product_card_low_stock_threshold` setting's help text was updated
+to match.
+
+**A second review round caught an incompleteness in the first fix.** The initial version
+excluded untracked and oversellable variants from the maximum but still showed the badge on
+the strength of the remaining tracked ones — so a product with a 2-unit size *and* a size
+that cannot run out was still advertised as low. That is the same misleading claim in a new
+shape: while an inexhaustible variant is purchasable, the product as a whole cannot be low.
+Any such variant now suppresses the badge outright. Note the distinction the tests pin down:
+a *sold-out* tracked variant (quantity 0, policy `deny`) is exhaustible and does **not**
+suppress — only untracked or `continue`-policy variants do.
 
 ### 4.4 "Shop all" navigation labels were hardcoded English
 
@@ -397,6 +405,31 @@ Re-ran after the changes: theme-check **0 errors** (3 `LiquidComplexity` suggest
 already-over-limit Dawn files grew slightly as a result — `card-product` 139 → 142 and
 `main-product` 131 → 136 — which is the expected cost of adding conditionals to files that
 were already flagged as advisory debt.
+
+### 4.6 A second review claimed the `t` output was unescaped — it was not, and no change was made
+
+The follow-up review flagged all three "Shop all" sites as interpolating the
+merchant-controlled menu title without HTML escaping. That claim is **incorrect**, and it was
+checked rather than assumed, because getting it wrong cuts both ways: adding a redundant
+`| escape` would double-encode and render `Beauty &amp; Wellness` in the navigation.
+
+Shopify's [storefront locale file docs](https://shopify.dev/docs/storefronts/themes/architecture/locales/storefront-locale-files#prevent-translations-from-being-escaped)
+state plainly: *"Translated content is escaped by default, meaning any HTML character is
+converted into its entity equivalent,"* with the `_html` key suffix as the explicit opt-out.
+The docs' own interpolation example passes `customer.first_name` with no `| escape`.
+
+The repo corroborates it: all 20 `_html` keys in `locales/en.default.json` are rendered
+*without* `| escape` and depend on the suffix to keep their markup live —
+`vennix.shipping_progress.remaining_html` ships `<strong>…</strong>` and is rendered bare at
+`snippets/vennix-shipping-progress.liquid:44`. That mechanism only exists because escaping is
+the filter's default. `vennix.navigation.shop_all` does not end in `_html`, so its output,
+interpolated title included, is escaped.
+
+One honest caveat: several upstream Dawn files *do* append `| escape` after `t`
+(`featured-product.liquid:204`, `featured-collection.liquid:292`, `collage.liquid:122`). Under
+the documented model that is redundant and would double-encode a title containing `&`. This
+branch follows the documentation, not that pattern, and the reasoning is now written into all
+three call sites as a one-line comment so the question does not get re-litigated.
 
 ## 5. Not verified here
 

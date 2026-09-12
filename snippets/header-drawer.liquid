@@ -55,6 +55,7 @@
                                 href="{{ link.url }}"
                                 class="menu-drawer__menu-item menu-drawer__menu-item--shop-all link link--text list-menu__item focus-inset"
                               >
+                                {%- comment -%} `t` escapes its output unless the key ends in `_html`, so the merchant-controlled title needs no explicit `escape`. {%- endcomment -%}
                                 {{ 'vennix.navigation.shop_all' | t: title: link.title }}
                               </a>
                             </li>
@@ -108,6 +109,7 @@
                                             href="{{ childlink.url }}"
                                             class="menu-drawer__menu-item menu-drawer__menu-item--shop-all link link--text list-menu__item focus-inset"
                                           >
+                                            {%- comment -%} `t` escapes its output unless the key ends in `_html`, so the merchant-controlled title needs no explicit `escape`. {%- endcomment -%}
                                             {{ 'vennix.navigation.shop_all' | t: title: childlink.title }}
                                           </a>
                                         </li>

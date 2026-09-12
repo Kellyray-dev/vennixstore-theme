@@ -1284,7 +1284,7 @@
         "step": 1,
         "label": "Product-card low-stock threshold",
         "default": 5,
-        "info": "Show a Low stock badge when every inventory-tracked variant is at or below this quantity. Set to 0 to disable."
+        "info": "Show a Low stock badge when every inventory-tracked variant is at or below this quantity. Never shown if any variant is untracked or allows overselling. Set to 0 to disable."
       }
     ]
   },
