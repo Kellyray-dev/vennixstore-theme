@@ -1,4 +1,26 @@
+# MatchingTranslations is off because the non-English locales have never been topped up
+# after the Vennix strings were added to locales/en.default.json. Measured 2026-09-12:
+#
+#   30 non-English storefront locales, each missing the same 20 keys  (600 findings)
+#   19 non-English *.schema.json locales, each missing the same 16    (304 findings)
+#
+# theme-check reports 874 rather than 904 because it classifies `sections.*` keys as
+# schema keys and so does not compare them inside the storefront files; the single-key
+# difference is `sections.footer.phone`.
+#
+# Impact is cosmetic, not breaking: Shopify falls back to the default locale, so a
+# non-English shopper sees those strings in English. The affected storefront strings are
+# the dark-mode toggle labels, the free-shipping progress bar, the "Shop all" navigation
+# links, the contact page blocks and `customer.account.contact_support`; the schema keys
+# only affect editor labels for the faq / footer / contact-form / main-404 sections.
+#
+# Fixing it means adding translations (Translate & Adapt or a translation vendor) — not
+# copying English into ja.json. Re-enable this check once that work lands so the gap
+# cannot grow again. The full list is in reports/audits/2026-09-12-pre-merge-audit.md.
 MatchingTranslations:
   enabled: false
+
+# TemplateLength fires on the single-file gift_card template, which Shopify itself ships
+# as one long Liquid file; there is nothing to split.
 TemplateLength:
   enabled: false

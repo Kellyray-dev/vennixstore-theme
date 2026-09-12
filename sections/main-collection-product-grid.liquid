@@ -154,6 +154,7 @@
                   grid product-grid grid--{{ section.settings.columns_mobile }}-col-tablet-down
                   grid--{{ section.settings.columns_desktop }}-col-desktop
                   {% if section.settings.quick_add == 'bulk' %} collection-quick-add-bulk{% endif %}
+                  {% if section.settings.deemphasize_sold_out %} product-grid--deemphasize-sold-out{% endif %}
                 "
               >
                 {% assign skip_card_product_styles = false %}
@@ -163,7 +164,7 @@
                     {%- assign lazy_load = true -%}
                   {%- endif -%}
                   <li
-                    class="grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+                    class="grid__item{% unless product.available %} product-grid__item--sold-out{% endunless %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
                     {% if settings.animations_reveal_on_scroll %}
                       data-cascade
                       style="--animation-order: {{ forloop.index }};"
@@ -355,6 +356,10 @@
       "content": "t:sections.main-collection-product-grid.settings.header__1.content"
     },
     {
+      "type": "paragraph",
+      "content": "Use Shopify Search & Discovery to publish Availability, Price, Product type, Size and Color filters. This section displays all filters enabled for the store."
+    },
+    {
       "type": "checkbox",
       "id": "enable_filtering",
       "default": true,
@@ -386,6 +391,13 @@
       "id": "enable_sorting",
       "default": true,
       "label": "t:sections.main-collection-product-grid.settings.enable_sorting.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "deemphasize_sold_out",
+      "default": true,
+      "label": "De-emphasize sold-out products",
+      "info": "Keeps sold-out products accessible to filters while visually prioritizing available items."
     },
     {
       "type": "header",

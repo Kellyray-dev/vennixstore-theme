@@ -17,7 +17,8 @@
         "message_rLkwnm": {
           "type": "message",
           "settings": {
-            "text": "Free Shipping on Orders Over $50 | 30-Day Easy Returns"
+            "text": "Free shipping on orders over [threshold]",
+            "use_free_shipping_message": true
           }
         }
       },
@@ -37,7 +38,7 @@
         "logo_position": "middle-center",
         "mobile_logo_position": "left",
         "menu": "main-menu",
-        "menu_type_desktop": "drawer",
+        "menu_type_desktop": "mega",
         "sticky_header_type": "always",
         "show_line_separator": true,
         "color_scheme": "scheme-2",
@@ -64,7 +65,7 @@
         "sort_by": "collection_default",
         "product_filter": "exclude",
         "filter_terms": "tech, usb, humidifier, case, gadget, electronics, phone, cable, charger, trimmer, clipper",
-        "hide_unavailable": false,
+        "hide_unavailable": true,
         "show_secondary_image": true,
         "enable_quick_add": false,
         "auto_open_delay": 0,

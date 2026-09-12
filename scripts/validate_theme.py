@@ -25,6 +25,12 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 
+# Directories that are not part of the theme. `node_modules` matters because the CI
+# workflow installs @shopify/prettier-plugin-liquid in the step before this script runs,
+# and the packages it pulls in ship JSONC fixtures/tsconfigs that are not valid strict
+# JSON — scanning them made this script report 7 phantom failures on a clean theme.
+IGNORED_PARTS = {".git", "node_modules"}
+
 SCHEMA_RE = re.compile(r"\{%-?\s*schema\s*-?%\}(.*?)\{%-?\s*endschema\s*-?%\}", re.S)
 ASSET_RE = re.compile(r"'([A-Za-z0-9_.-]+\.(?:css|js|jpg|jpeg|png|webp|svg|woff2?))'\s*\|\s*asset_url")
 RENDER_RE = re.compile(r"\{%-?\s*(?:render|include)\s+'([a-zA-Z0-9_-]+)'")
@@ -69,7 +75,7 @@ def check_json_files() -> list[tuple[Path, dict]]:
     """Parse every theme JSON file; return the template/section-group descriptors."""
     descriptors: list[tuple[Path, dict]] = []
     for path in sorted(ROOT.rglob("*.json")):
-        if ".git" in path.parts:
+        if IGNORED_PARTS & set(path.parts):
             continue
         try:
             data = json.loads(strip_editor_header(read(path)))

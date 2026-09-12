@@ -142,6 +142,9 @@
         {%- endunless -%}
         {%- if search.results_count == 0 and search.filters == empty -%}
           <p role="status">{{ 'templates.search.no_results' | t: terms: search.terms }}</p>
+          <a class="button button--secondary" href="{{ routes.all_products_collection_url }}">
+            {{- 'general.continue_shopping' | t -}}
+          </a>
         {%- endif -%}
       {%- endif -%}
     </div>

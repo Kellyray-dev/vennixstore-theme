@@ -147,7 +147,7 @@ template.
 | `catalog/` | Catalog audit, recommendations, and the cleaned product CSV |
 | `docs/` | Product/catalog SEO guide, admin and security checklists |
 | `deliverables/` | Implementation report and deployment/import checklist |
-| `scripts/` | Catalog-cleaning helpers and `validate_theme.py` (template JSON + section-schema drift) |
+| `scripts/` | Catalog-cleaning helpers, `validate_theme.py` (template JSON + section-schema drift), and `test_validate_theme.py` (its regression suite — `python3 scripts/test_validate_theme.py`) |
 | `ci/` | The `Theme Check` GitHub Actions workflow, parked here until it can be moved into `.github/workflows/` — see the install note at the top of the file |
 | `reports/` | Alt-text/SEO audit exports and `reports/audits/` theme audit write-ups |
 | `.github/` | Contribution guidance, issue/PR templates, and dependabot |

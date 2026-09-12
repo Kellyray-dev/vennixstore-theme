@@ -56,3 +56,10 @@ jobs:
 
       - name: Validate template JSON and section-schema drift
         run: python3 scripts/validate_theme.py
+
+      # Self-test for the step above: injects one fault of each class the checker claims to
+      # catch, runs the real script against it, and asserts it is reported. Without this the
+      # gate could quietly stop catching anything — which is how the node_modules bug that
+      # made it scan npm fixtures went unnoticed.
+      - name: Test the validator
+        run: python3 scripts/test_validate_theme.py

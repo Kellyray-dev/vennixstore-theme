@@ -22,6 +22,18 @@
   assign rendered_count = 0
   assign rendered_handles = ''
   assign skip_card_product_styles = false
+  assign free_shipping_amount = settings.free_shipping_threshold | times: 100 | money_without_trailing_zeros
+
+  comment
+    A point bound to the global free-shipping message disappears when the merchant turns
+    the promotion off, so count what survives before deciding whether to render the list.
+  endcomment
+  assign visible_points = 0
+  for block in section.blocks
+    if block.settings.use_free_shipping_message == false or settings.free_shipping_enabled != false
+      assign visible_points = visible_points | plus: 1
+    endif
+  endfor
 -%}
 
 <div
@@ -177,17 +189,25 @@
           <div class="vx-showcase__text rte vx-rise" style="--vx-index: 2">{{ section.settings.text }}</div>
         {%- endif -%}
 
-        {%- if section.blocks.size > 0 -%}
+        {%- if visible_points > 0 -%}
           <ul class="vx-showcase__points list-unstyled vx-rise" style="--vx-index: 3">
             {%- for block in section.blocks -%}
+              {%- unless block.settings.use_free_shipping_message and settings.free_shipping_enabled == false -%}
               <li class="vx-showcase__point" {{ block.shopify_attributes }}>
                 <span class="vx-showcase__point-mark" aria-hidden="true">
                   <svg viewBox="0 0 16 16" fill="none" focusable="false">
                     <path d="M3 8.5l3.2 3.2L13 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
                   </svg>
                 </span>
-                <span>{{ block.settings.text | escape }}</span>
+                <span>
+                  {%- if block.settings.use_free_shipping_message -%}
+                    {{ settings.free_shipping_message | escape | replace: '[threshold]', free_shipping_amount }}
+                  {%- else -%}
+                    {{ block.settings.text | escape | replace: '[threshold]', free_shipping_amount }}
+                  {%- endif -%}
+                </span>
               </li>
+              {%- endunless -%}
             {%- endfor -%}
           </ul>
         {%- endif -%}
@@ -357,7 +377,13 @@
           "type": "text",
           "id": "text",
           "label": "Text",
-          "default": "Free shipping over $50"
+          "default": "Free shipping on orders over [threshold]"
+        },
+        {
+          "type": "checkbox",
+          "id": "use_free_shipping_message",
+          "label": "Use global free-shipping message",
+          "default": false
         }
       ]
     }
@@ -367,7 +393,7 @@
     {
       "name": "Vennix product showcase",
       "blocks": [
-        { "type": "point", "settings": { "text": "Free shipping over $50" } },
+        { "type": "point", "settings": { "text": "Free shipping on orders over [threshold]", "use_free_shipping_message": true } },
         { "type": "point", "settings": { "text": "30-day easy returns" } },
         { "type": "point", "settings": { "text": "Movement-first fabrics" } }
       ]

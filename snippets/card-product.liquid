@@ -60,6 +60,39 @@
     elsif card_product.tags contains 'best-seller'
       assign prestige_badge = 'Best seller'
     endif
+
+    comment
+      The badge is product-wide, so it must not be derived from a single variant.
+      `selected_or_first_available_variant` on a listing page is just whichever variant
+      Shopify resolves first, so one nearly-empty size could shout "Low stock" over sizes
+      that are fully stocked — and a well-stocked first size could hide a size that is
+      about to sell out. Aggregate instead: claim low stock only when the BEST-stocked
+      variant is itself at or below the threshold.
+
+      A variant that is not inventory-managed, or that allows overselling, can never run
+      out. Excluding it from the maximum is not enough: while such a variant is still
+      purchasable the product as a whole cannot be low, so any inexhaustible variant
+      suppresses the badge outright rather than being silently skipped.
+    endcomment
+    assign card_low_stock = false
+    assign card_best_stock = 0
+    assign card_tracked_stock = false
+    assign card_inexhaustible = false
+    if settings.product_card_low_stock_threshold > 0 and card_product.available
+      for card_stock_variant in card_product.variants
+        if card_stock_variant.inventory_management == 'shopify' and card_stock_variant.inventory_policy != 'continue'
+          assign card_tracked_stock = true
+          if card_stock_variant.inventory_quantity > card_best_stock
+            assign card_best_stock = card_stock_variant.inventory_quantity
+          endif
+        else
+          assign card_inexhaustible = true
+        endif
+      endfor
+      if card_inexhaustible == false and card_tracked_stock and card_best_stock > 0 and card_best_stock <= settings.product_card_low_stock_threshold
+        assign card_low_stock = true
+      endif
+    endif
   -%}
 
   <product-component view-event-payload="{{ card_product | standard_event_data: 'view', context: product_view_context | escape }}">
@@ -198,6 +231,11 @@
                   class="badge badge--bottom-left color-{{ settings.sale_badge_color_scheme }}"
                 >
                   {{- 'products.product.on_sale' | t -}}
+                </span>
+              {%- endif -%}
+              {%- if card_low_stock -%}
+                <span class="badge vx-product-badge vx-product-badge--low-stock">
+                  {{- 'products.product.inventory_low_stock' | t -}}
                 </span>
               {%- endif -%}
             </div>
