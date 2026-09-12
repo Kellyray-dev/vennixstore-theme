@@ -13,7 +13,7 @@
   assign size_guide_audience = 'unisex'
   if product_context contains 'women' or product_context contains 'female' or product_context contains 'ladies'
     assign size_guide_audience = 'women'
-  elsif product_context contains "men's" or product_context contains ' mens ' or product_context contains 'male'
+  elsif product_context contains "men's" or product_context contains ' men ' or product_context contains 'men ' or product_context contains ' mens ' or product_context contains 'mens ' or product_context contains 'male'
     assign size_guide_audience = 'men'
   endif
 -%}
