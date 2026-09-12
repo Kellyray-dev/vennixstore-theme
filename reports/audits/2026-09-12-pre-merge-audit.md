@@ -259,12 +259,26 @@ here and passes — theme-check at `--fail-level error` (0 errors), `scripts/val
 (exit 0, including with `node_modules` present), and the Prettier step (non-blocking by
 design). Without §2.4 it would have failed on the first run.
 
-### 3.5 The test suite from the last audit is not in the repo (Medium)
+### 3.5 The jsdom suite from the last audit is not in the repo (Medium — partly closed)
 
 `reports/audits/2026-09-11-theme-audit.md:245` tells you to run `node test-rail.js`. No such
-file is tracked — `git ls-files | grep -iE 'test|spec'` returns nothing. The 50-assertion
-jsdom suite described in that audit was never committed, so
-`assets/vennix-product-rail.js` (11,824 bytes) currently has no regression test in the repo.
+file is tracked — before this branch, `git ls-files | grep -iE 'test|spec'` returned nothing.
+The 50-assertion jsdom suite described in that audit was never committed, so
+`assets/vennix-product-rail.js` (11,824 bytes) still has no regression test.
+
+The Python gate is now covered: `scripts/test_validate_theme.py` (16 checks, stdlib only, no
+new tooling) copies the real theme to a temp directory, injects one fault of each class the
+checker claims to catch, runs the real script as a subprocess, and asserts both exit code and
+message — including a regression guard for the `node_modules` bug in §2.4. The workflow in
+`ci/` runs it as its own step. It was mutation-tested: reverting the §2.4 fix makes exactly
+the two `node_modules` checks fail (14/16), and restoring it returns 16/16.
+
+Two things it does not cover, stated plainly. First, `validate_theme.py` only parses a
+section's `{% schema %}` while checking the descriptors that place it, so a broken schema in
+a section no template references is out of reach by design — the test suite targets
+`sections/main-page.liquid` for that reason, and an earlier attempt to use
+`sections/page.liquid` (placed in no template) silently passed until the target was fixed.
+Second, nothing here executes JavaScript, so `assets/vennix-product-rail.js` remains untested.
 
 ### 3.6 Minor, not worth a commit each
 
@@ -280,9 +294,19 @@ jsdom suite described in that audit was never committed, so
 - **`/pages/contact` hardcoded** in `snippets/vennix-size-guide.liquid`. Shopify exposes no
   route object for an arbitrary page, so this is normal practice — but it 404s if the
   merchant's contact page has a different handle.
-- **Hardcoded English in the custom sections** (size-guide table headers and measurement
-  tips, `aria-label="Store announcements"`). These are not `| t` lookups, so they will never
-  translate regardless of §3.1.
+- **Hardcoded English in the custom sections.** §4.4 covered the visible "Shop all"
+  navigation labels; the same class of string remains in 9 `aria-label` attributes across 6
+  Vennix-authored files, plus the size-guide table headers and measurement tips. Screen-reader
+  users on a non-English store hear these in English, and none of them are `| t` lookups, so
+  they cannot translate regardless of §3.1. Full list:
+  `vennix-announcement-bar.liquid:8` "Store announcements",
+  `vennix-trust-bar.liquid:22` and `vennix-hero.liquid:121` "Shopping benefits",
+  `vennix-product-assurances.liquid:25` "Purchase benefits",
+  `vennix-product-rail.liquid:59/180/191` "Close product showcase" / "Previous slide" / "Next slide",
+  `vennix-product-showcase.liquid:154/165` "Previous product" / "Next product".
+  Converting them is mechanical but adds ~7 keys per locale to the §3.1 gap, and only pays off
+  once translations actually land — so it is left as an owner decision rather than folded in
+  here.
 
 ---
 
