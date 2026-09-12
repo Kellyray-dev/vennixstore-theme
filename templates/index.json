@@ -108,7 +108,7 @@
       "settings": {
         "title": "New in Apparel",
         "heading_size": "h2",
-        "description": "<p>Fresh clothing and active essentials — movement-first pieces for modern life.</p>",
+        "description": "<p>Fresh clothing and active essentials \u2014 movement-first pieces for modern life.</p>",
         "show_description": false,
         "description_style": "body",
         "collection": "all",
@@ -140,7 +140,7 @@
         "image_asset": "activewear.jpg",
         "eyebrow": "The Vennix difference",
         "heading": "Why VennixStore",
-        "text": "<p>Performance inspired everyday pieces built for modern movement — from morning runs to evening plans.</p>",
+        "text": "<p>Performance inspired everyday pieces built for modern movement \u2014 from morning runs to evening plans.</p>",
         "button_label": "Shop Active Wear",
         "button_link": "shopify://collections/all",
         "color_scheme": "scheme-2",
@@ -160,11 +160,61 @@
         "disclaimer": "Unsubscribe at any time.",
         "color_scheme": "scheme-3"
       }
+    },
+    "vennix_showcase": {
+      "type": "vennix-product-showcase",
+      "blocks": {
+        "shipping": {
+          "type": "point",
+          "settings": {
+            "text": "Free shipping over $50"
+          }
+        },
+        "returns": {
+          "type": "point",
+          "settings": {
+            "text": "30-day easy returns"
+          }
+        },
+        "fabric": {
+          "type": "point",
+          "settings": {
+            "text": "Movement-first fabrics"
+          }
+        }
+      },
+      "block_order": [
+        "shipping",
+        "returns",
+        "fabric"
+      ],
+      "settings": {
+        "eyebrow": "Customer favourites",
+        "heading": "Best Sellers",
+        "text": "<p>The pieces our customers keep coming back for. Slide through the edit and add your favourites.</p>",
+        "products_to_show": 6,
+        "sort_by": "collection_default",
+        "slide_height": 85,
+        "image_ratio": "portrait",
+        "product_filter": "exclude",
+        "filter_terms": "tech, usb, humidifier, case, gadget, electronics, phone, cable, charger, trimmer, clipper",
+        "hide_unavailable": false,
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_rating": false,
+        "enable_quick_add": true,
+        "button_label": "Shop best sellers",
+        "secondary_label": "Browse the full collection",
+        "color_scheme": "scheme-1",
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
     }
   },
   "order": [
     "vennix_hero",
     "vennix_trust",
+    "vennix_showcase",
     "shop_by_category",
     "new_in_apparel",
     "brand_story",

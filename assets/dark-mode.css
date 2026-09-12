@@ -725,6 +725,77 @@ html[data-theme='dark'] .list-payment__item {
   filter: brightness(0) invert(1) opacity(0.75);
 }
 
+/* ==========================================================================
+   Product rail + homepage showcase
+   (assets/component-vennix-rail.css, assets/component-vennix-showcase.css)
+   ========================================================================== */
+
+/* The edge tab is the one rail surface that cannot ride the `--v-*` remap:
+   it pairs `--v-ink` as a *fill* with `--v-white` as text, and `--v-ink` flips
+   to off-white in dark mode. Invert the pairing explicitly. */
+html[data-theme='dark'] .vx-rail__tab {
+  background: var(--v-surface-raised);
+  color: var(--v-ink);
+  border: 1px solid var(--v-border);
+  border-left: 0;
+}
+
+html[data-theme='dark'] .vx-rail__tab:hover {
+  background: var(--v-gold-deep);
+  color: var(--v-on-inverse);
+}
+
+html[data-theme='dark'] .vx-rail__tab-icon {
+  color: var(--v-gold);
+}
+
+html[data-theme='dark'] .vx-rail__panel {
+  background: var(--v-cream);
+  border-right-color: var(--v-border);
+}
+
+html[data-theme='dark'] .vx-rail__header,
+html[data-theme='dark'] .vx-rail__footer {
+  border-color: var(--v-border);
+}
+
+html[data-theme='dark'] .vx-rail__overlay {
+  background: rgba(0, 0, 0, 0.65);
+}
+
+html[data-theme='dark'] .vx-rail__track {
+  scrollbar-color: var(--v-border) transparent;
+}
+
+html[data-theme='dark'] .vx-rail__track::-webkit-scrollbar-thumb {
+  background: var(--v-border);
+}
+
+html[data-theme='dark'] .vx-rail__button,
+html[data-theme='dark'] .vx-rail__close {
+  border-color: var(--v-border);
+  color: var(--v-ink);
+}
+
+html[data-theme='dark'] .vx-rail__button:hover:not(:disabled),
+html[data-theme='dark'] .vx-rail__close:hover {
+  border-color: var(--v-ink);
+  background: var(--v-surface-raised);
+}
+
+html[data-theme='dark'] .vx-rail-dot {
+  background: var(--v-border);
+}
+
+html[data-theme='dark'] .vx-rail-dot.is-active {
+  background: var(--v-gold);
+}
+
+html[data-theme='dark'] .vx-showcase__point-mark {
+  background: var(--v-surface-raised);
+  color: var(--v-gold);
+}
+
 /* Respect the OS-level "reduce transparency" setting */
 @media (prefers-contrast: more) {
   html[data-theme='dark'] .header-wrapper,

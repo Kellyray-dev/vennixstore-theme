@@ -79,20 +79,24 @@ Centralized in `assets/vennix-brand-2.css`:
 | Order | Section ID | Section type | Purpose |
 |---|---|---|---|
 | 1 | `vennix_hero` | `vennix-hero` | Editorial hero with desktop/mobile imagery, overlay, CTAs |
-| 2 | `brand_intro` | `rich-text` | Brand introduction |
-| 3 | `vennix_trust` | `vennix-trust-bar` | Shipping, returns, secure checkout, quality |
-| 4 | `new_arrivals` | `featured-collection` | New Arrivals grid |
-| 5 | `featured_collection` | `featured-collection` | Best Sellers grid |
-| 6 | `editorial_image_text` | `image-with-text` | Active Essentials editorial block |
-| 7 | `collection_list` | `collection-list` | Shop by category (Women's, Men's, Activewear, Essentials) |
-| 8 | `social_proof` | `multicolumn` | Why VennixStore (modern design, built for movement, quality) |
-| 9 | `vennix_newsletter` | `vennix-newsletter` | Email signup |
+| 2 | `vennix_trust` | `vennix-trust-bar` | Free shipping, 30-day returns, secure checkout |
+| 3 | `vennix_showcase` | `vennix-product-showcase` | Slide-style best-seller rail (left) with editorial copy (right) |
+| 4 | `shop_by_category` | `vennix-category-grid` | Shop by category (Women's, Men's, Active Essentials) |
+| 5 | `new_in_apparel` | `featured-collection` | New in Apparel product grid |
+| 6 | `brand_story` | `vennix-brand-story` | Why VennixStore editorial block |
+| 7 | `vennix_newsletter` | `vennix-newsletter` | Email signup |
+
+The header group (`sections/header-group.json`) additionally carries a store-wide
+`vennix-product-rail` — an off-canvas best-seller panel docked to the left edge of every
+template.
 
 ### Custom theme components
 
 **Sections**
 
 - `vennix-hero.liquid` — editorial hero (desktop/mobile image, focus, overlay, scroll cue, benefits)
+- `vennix-product-rail.liquid` — store-wide left-edge off-canvas best-seller rail (header group)
+- `vennix-product-showcase.liquid` — two-column best-seller showcase, slide rail on the left
 - `vennix-trust-bar.liquid` — trust/value bar
 - `vennix-announcement-bar.liquid` — rotating announcement bar
 - `vennix-newsletter.liquid` — newsletter signup
@@ -122,6 +126,12 @@ Centralized in `assets/vennix-brand-2.css`:
 - Storefront events support for app/agent/AI cart interactions (see `release-notes.md`)
 - Mega menu with hover-intent opening and automatic collection imagery (collection image → first product image → bundled lifestyle photo matched on the link title)
 - Site-wide dark mode: follows the visitor's OS preference, overridable with the header toggle and remembered per visitor (`dark-mode.css`, `dark-mode.js`, `header-menu-hover.js`)
+- Slide-style product showcase in two forms: a store-wide off-canvas rail docked to the left edge, and a two-column homepage section with the rail on the left (`vennix-product-rail.liquid`, `vennix-product-showcase.liquid`, `vennix-product-rail.js`)
+
+> **Best-seller ordering:** both showcase surfaces default to `sort_by: collection_default`, which
+> keeps whatever order the Shopify admin set on the source collection. The Liquid `sort` filter
+> cannot sort by sales volume — products expose no units-sold property — so for true best sellers
+> set **Collections → [collection] → Sort order → Best selling** in the admin.
 
 ## Repository Structure
 
@@ -137,7 +147,9 @@ Centralized in `assets/vennix-brand-2.css`:
 | `catalog/` | Catalog audit, recommendations, and the cleaned product CSV |
 | `docs/` | Product/catalog SEO guide, admin and security checklists |
 | `deliverables/` | Implementation report and deployment/import checklist |
-| `scripts/` | Catalog-cleaning helper script |
+| `scripts/` | Catalog-cleaning helpers and `validate_theme.py` (template JSON + section-schema drift) |
+| `ci/` | The `Theme Check` GitHub Actions workflow, parked here until it can be moved into `.github/workflows/` — see the install note at the top of the file |
+| `reports/` | Alt-text/SEO audit exports and `reports/audits/` theme audit write-ups |
 | `.github/` | Contribution guidance, issue/PR templates, and dependabot |
 
 ## Catalog & Merchant Guidance
