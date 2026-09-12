@@ -17,7 +17,8 @@
         "message_rLkwnm": {
           "type": "message",
           "settings": {
-            "text": "Free Shipping on Orders Over $50 | 30-Day Easy Returns"
+            "text": "Free shipping on orders over [threshold]",
+            "use_free_shipping_message": true
           }
         }
       },

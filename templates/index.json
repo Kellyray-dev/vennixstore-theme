@@ -26,8 +26,9 @@
           "type": "badge",
           "settings": {
             "icon": "delivery",
-            "title": "Free shipping over $50",
-            "description": "Delivered to your door"
+            "title": "Free shipping on orders over [threshold]",
+            "use_free_shipping_message": true,
+            "description": ""
           }
         },
         "returns": {
@@ -167,7 +168,8 @@
         "shipping": {
           "type": "point",
           "settings": {
-            "text": "Free shipping over $50"
+            "text": "Free shipping on orders over [threshold]",
+            "use_free_shipping_message": true
           }
         },
         "returns": {

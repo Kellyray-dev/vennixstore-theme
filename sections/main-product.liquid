@@ -265,7 +265,7 @@
                         {%- assign block_heading = block.settings.heading | downcase -%}
                         {%- if block_heading == 'shipping' -%}
                           <p>
-                            Free shipping is available on orders over {{ free_shipping_amount }}.
+                            {{ settings.free_shipping_message | escape | replace: '[threshold]', free_shipping_amount }}.
                             Other available shipping options are shown at checkout.
                           </p>
                           {%- if shop.shipping_policy.body != blank -%}

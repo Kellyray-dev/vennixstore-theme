@@ -22,6 +22,7 @@
   assign rendered_count = 0
   assign rendered_handles = ''
   assign skip_card_product_styles = false
+  assign free_shipping_amount = settings.free_shipping_threshold | times: 100 | money_without_trailing_zeros
 -%}
 
 <div
@@ -186,7 +187,13 @@
                     <path d="M3 8.5l3.2 3.2L13 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
                   </svg>
                 </span>
-                <span>{{ block.settings.text | escape }}</span>
+                <span>
+                  {%- if block.settings.use_free_shipping_message -%}
+                    {{ settings.free_shipping_message | escape | replace: '[threshold]', free_shipping_amount }}
+                  {%- else -%}
+                    {{ block.settings.text | escape | replace: '[threshold]', free_shipping_amount }}
+                  {%- endif -%}
+                </span>
               </li>
             {%- endfor -%}
           </ul>
@@ -357,7 +364,13 @@
           "type": "text",
           "id": "text",
           "label": "Text",
-          "default": "Free shipping over $50"
+          "default": "Free shipping on orders over [threshold]"
+        },
+        {
+          "type": "checkbox",
+          "id": "use_free_shipping_message",
+          "label": "Use global free-shipping message",
+          "default": false
         }
       ]
     }
@@ -367,7 +380,7 @@
     {
       "name": "Vennix product showcase",
       "blocks": [
-        { "type": "point", "settings": { "text": "Free shipping over $50" } },
+        { "type": "point", "settings": { "text": "Free shipping on orders over [threshold]", "use_free_shipping_message": true } },
         { "type": "point", "settings": { "text": "30-day easy returns" } },
         { "type": "point", "settings": { "text": "Movement-first fabrics" } }
       ]

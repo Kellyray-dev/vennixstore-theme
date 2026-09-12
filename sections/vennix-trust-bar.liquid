@@ -30,7 +30,13 @@
           {%- endcase -%}
         </span>
         <span class="vx-trust__copy">
-          <strong>{{ block.settings.title | escape | replace: '[threshold]', free_shipping_amount }}</strong>
+          <strong>
+            {%- if block.settings.use_free_shipping_message -%}
+              {{ settings.free_shipping_message | escape | replace: '[threshold]', free_shipping_amount }}
+            {%- else -%}
+              {{ block.settings.title | escape | replace: '[threshold]', free_shipping_amount }}
+            {%- endif -%}
+          </strong>
           {%- if block.settings.description != blank -%}<small>{{ block.settings.description | escape | replace: '[threshold]', free_shipping_amount }}</small>{%- endif -%}
         </span>
       </li>
@@ -98,6 +104,12 @@
           "default": "Secure checkout",
           "info": "Use [threshold] to insert the free-shipping threshold from Theme settings > Cart."
         },
+        {
+          "type": "checkbox",
+          "id": "use_free_shipping_message",
+          "label": "Use global free-shipping message",
+          "default": false
+        },
         { "type": "text", "id": "description", "label": "Description" }
       ]
     }
@@ -106,7 +118,7 @@
     {
       "name": "Vennix trust bar",
       "blocks": [
-        { "type": "badge", "settings": { "icon": "delivery", "title": "Free shipping", "description": "On orders over [threshold]" } },
+        { "type": "badge", "settings": { "icon": "delivery", "title": "Free shipping on orders over [threshold]", "use_free_shipping_message": true, "description": "" } },
         { "type": "badge", "settings": { "icon": "returns", "title": "30-day returns", "description": "Clear return window" } },
         { "type": "badge", "settings": { "icon": "secure", "title": "Secure checkout", "description": "Protected payments" } }
       ]
