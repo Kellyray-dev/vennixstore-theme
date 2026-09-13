@@ -1,0 +1,535 @@
+{{ 'component-collection-hero.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .vx-collection-hero-{{ section.id }} {
+    --vx-hero-bg: rgb(var(--color-background));
+    --vx-hero-ink: rgb(var(--color-foreground));
+    --vx-hero-muted: rgba(var(--color-foreground), 0.68);
+    --vx-hero-line: rgba(var(--color-foreground), 0.12);
+    background: var(--vx-hero-bg);
+  }
+
+  .vx-collection-hero-{{ section.id }}__inner {
+    display: grid;
+    grid-template-columns: 1fr;
+    align-items: stretch;
+    gap: 0;
+    max-width: none;
+    margin: 0 auto;
+    padding: 0;
+    min-height: 0;
+  }
+
+  .vx-collection-hero-{{ section.id }}__copy {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: clamp(3.2rem, 6vw, 5.6rem) clamp(2rem, 4vw, 5rem) clamp(3.6rem, 6vw, 5.6rem);
+    order: 2;
+  }
+
+  .vx-collection-hero-{{ section.id }}__eyebrow {
+    margin: 0 0 1.8rem;
+    color: var(--vx-hero-ink);
+    font-size: 1.12rem;
+    font-weight: 550;
+    letter-spacing: 0.22em;
+    line-height: 1;
+    text-transform: uppercase;
+    opacity: 0.9;
+  }
+
+  .vx-collection-hero-{{ section.id }}__heading {
+    margin: 0;
+    color: var(--vx-hero-ink);
+    font-family: var(--font-heading-family);
+    font-style: var(--font-heading-style);
+    font-weight: var(--font-heading-weight);
+    font-size: clamp(4.2rem, 8vw, 8.4rem);
+    letter-spacing: -0.04em;
+    line-height: 0.95;
+    text-wrap: balance;
+  }
+
+  .vx-collection-hero-{{ section.id }}__desc {
+    max-width: 42rem;
+    margin: 1.8rem 0 0;
+    color: var(--vx-hero-muted);
+    font-size: clamp(1.4rem, 1.45vw, 1.6rem);
+    line-height: 1.65;
+  }
+
+  .vx-collection-hero-{{ section.id }}__desc p {
+    margin: 0;
+    color: inherit;
+  }
+
+  .vx-collection-hero-{{ section.id }}__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.2rem;
+    margin-top: 2.6rem;
+  }
+
+  .vx-collection-hero-{{ section.id }}__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 4.6rem;
+    padding: 0 2.6rem;
+    border: 1px solid transparent;
+    border-radius: 0;
+    font-size: 1.25rem;
+    font-weight: 650;
+    letter-spacing: 0.12em;
+    line-height: 1;
+    text-decoration: none;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+  }
+
+  .vx-collection-hero-{{ section.id }}__btn--primary {
+    background: var(--vx-hero-ink);
+    border-color: var(--vx-hero-ink);
+    color: rgb(var(--color-background));
+  }
+
+  .vx-collection-hero-{{ section.id }}__btn--primary:hover,
+  .vx-collection-hero-{{ section.id }}__btn--primary:focus-visible {
+    background: #000;
+    border-color: #000;
+    color: #fff;
+    transform: translateY(-1px);
+  }
+
+  .vx-collection-hero-{{ section.id }}__btn--secondary {
+    background: transparent;
+    border-color: var(--vx-hero-ink);
+    color: var(--vx-hero-ink);
+  }
+
+  .vx-collection-hero-{{ section.id }}__btn--secondary:hover,
+  .vx-collection-hero-{{ section.id }}__btn--secondary:focus-visible {
+    background: var(--vx-hero-ink);
+    color: rgb(var(--color-background));
+    transform: translateY(-1px);
+  }
+
+  .vx-collection-hero-{{ section.id }}__features {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(1.2rem, 2vw, 2.4rem);
+    margin-top: clamp(3rem, 5vw, 4.6rem);
+    padding-top: clamp(2.2rem, 3vw, 2.8rem);
+    border-top: 1px solid var(--vx-hero-line);
+    list-style: none;
+  }
+
+  .vx-collection-hero-{{ section.id }}__feature {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1rem;
+    min-width: 0;
+  }
+
+  .vx-collection-hero-{{ section.id }}__feature-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 3.2rem;
+    height: 3.2rem;
+    color: var(--vx-hero-ink);
+  }
+
+  .vx-collection-hero-{{ section.id }}__feature-icon svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  .vx-collection-hero-{{ section.id }}__feature-title {
+    margin: 0;
+    color: var(--vx-hero-ink);
+    font-size: 1.05rem;
+    font-weight: 650;
+    letter-spacing: 0.14em;
+    line-height: 1.35;
+    text-transform: uppercase;
+    text-wrap: balance;
+  }
+
+  .vx-collection-hero-{{ section.id }}__media {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    background: #efede8;
+    min-height: 42rem;
+    order: 1;
+  }
+
+  .vx-collection-hero-{{ section.id }}__media img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    object-position: center top;
+  }
+
+  .vx-collection-hero-{{ section.id }}__media-placeholder {
+    width: 100%;
+    height: 100%;
+    min-height: 42rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #efede8;
+  }
+
+  @media screen and (min-width: 750px) {
+    .vx-collection-hero-{{ section.id }}__inner {
+      grid-template-columns: 1.05fr 1.15fr;
+      min-height: clamp(56rem, 62vh, 72rem);
+    }
+
+    .vx-collection-hero-{{ section.id }}__copy {
+      order: 1;
+      padding-right: clamp(2.4rem, 4vw, 6rem);
+      padding-left: clamp(3.2rem, 5vw, 6rem);
+    }
+
+    .vx-collection-hero-{{ section.id }}__media {
+      order: 2;
+      min-height: 0;
+    }
+
+    .vx-collection-hero-{{ section.id }}__media-placeholder {
+      min-height: 0;
+    }
+  }
+
+  @media screen and (min-width: 990px) {
+    .vx-collection-hero-{{ section.id }}__copy {
+      padding-left: max(5rem, calc((100vw - var(--page-width)) / 2 + 5rem));
+    }
+  }
+
+  @media screen and (min-width: 990px) {
+    .vx-collection-hero-{{ section.id }}__heading {
+      font-size: clamp(5.2rem, 6.2vw, 8.8rem);
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .vx-collection-hero-{{ section.id }}__actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .vx-collection-hero-{{ section.id }}__btn {
+      width: 100%;
+    }
+
+    .vx-collection-hero-{{ section.id }}__features {
+      gap: 1rem;
+    }
+
+    .vx-collection-hero-{{ section.id }}__feature-icon {
+      width: 2.8rem;
+      height: 2.8rem;
+    }
+
+    .vx-collection-hero-{{ section.id }}__feature-title {
+      font-size: 0.95rem;
+      letter-spacing: 0.12em;
+    }
+
+    .vx-collection-hero-{{ section.id }}__media {
+      min-height: 0;
+      aspect-ratio: 4 / 5.2;
+    }
+
+    .vx-collection-hero-{{ section.id }}__media-placeholder {
+      min-height: 0;
+      aspect-ratio: 4 / 5.2;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .vx-collection-hero-{{ section.id }}__btn {
+      transition: none;
+    }
+  }
+{%- endstyle -%}
+
+{%- liquid
+  assign hero_image = section.settings.image
+  if hero_image == blank and collection.featured_image != blank
+    assign hero_image = collection.featured_image
+  elsif hero_image == blank and collection.image != blank
+    assign hero_image = collection.image
+  endif
+
+  assign hero_heading = section.settings.heading
+  if hero_heading == blank
+    assign hero_heading = collection.title | default: 'Apparel'
+  endif
+
+  assign hero_desc = section.settings.description
+  if hero_desc == blank and collection.description != blank
+    assign hero_desc = collection.description
+  elsif hero_desc == blank
+    assign hero_desc = '<p>Shop men&apos;s and women&apos;s clothing, from everyday essentials to polished styles. Easy-to-browse fashion for every occasion.</p>'
+  endif
+
+  assign hero_eyebrow = section.settings.eyebrow | default: 'The Vennix Edit'
+  assign primary_label = section.settings.primary_label
+  assign primary_link = section.settings.primary_link | default: routes.all_products_collection_url
+  assign secondary_label = section.settings.secondary_label
+  assign secondary_link = section.settings.secondary_link | default: routes.all_products_collection_url
+-%}
+
+<section
+  class="vx-collection-hero-{{ section.id }} color-{{ section.settings.color_scheme }} gradient"
+  aria-labelledby="VennixCollectionHeroHeading-{{ section.id }}"
+>
+  <div class="vx-collection-hero-{{ section.id }}__inner">
+    <div class="vx-collection-hero-{{ section.id }}__copy">
+      {%- if hero_eyebrow != blank -%}
+        <p class="vx-collection-hero-{{ section.id }}__eyebrow">{{ hero_eyebrow | escape }}</p>
+      {%- endif -%}
+
+      <h1 id="VennixCollectionHeroHeading-{{ section.id }}" class="vx-collection-hero-{{ section.id }}__heading">
+        {{ hero_heading | escape }}
+      </h1>
+
+      {%- if hero_desc != blank -%}
+        <div class="vx-collection-hero-{{ section.id }}__desc rte">{{ hero_desc }}</div>
+      {%- endif -%}
+
+      {%- if primary_label != blank or secondary_label != blank -%}
+        <div class="vx-collection-hero-{{ section.id }}__actions">
+          {%- if primary_label != blank -%}
+            <a class="vx-collection-hero-{{ section.id }}__btn vx-collection-hero-{{ section.id }}__btn--primary" href="{{ primary_link }}">
+              {{ primary_label | escape }}
+            </a>
+          {%- endif -%}
+          {%- if secondary_label != blank -%}
+            <a class="vx-collection-hero-{{ section.id }}__btn vx-collection-hero-{{ section.id }}__btn--secondary" href="{{ secondary_link }}">
+              {{ secondary_label | escape }}
+            </a>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+
+      {%- if section.blocks.size > 0 -%}
+        <ul class="vx-collection-hero-{{ section.id }}__features" role="list">
+          {%- for block in section.blocks -%}
+            <li class="vx-collection-hero-{{ section.id }}__feature" {{ block.shopify_attributes }}>
+              <span class="vx-collection-hero-{{ section.id }}__feature-icon" aria-hidden="true">
+                {%- case block.settings.icon -%}
+                  {%- when 'leaf' -%}
+                    <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M16 28 C 16 28 8 23 8 15 C 8 10 11.5 6 16 5 C 20.5 6 24 10 24 15 C 24 23 16 28 16 28 Z" />
+                      <path d="M16 5 L16 28" />
+                      <path d="M12 11 C 12 11 13.5 13 16 14 C 18.5 13 20 11 20 11" />
+                      <path d="M11 17 C 11 17 13 19 16 19.5 C 19 19 21 17 21 17" />
+                    </svg>
+                  {%- when 'hanger' -%}
+                    <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M16 7 L16 7 C 16 7 16 7 16 7 C 16 7 13 10 11 12 L5 19 L6.5 20.5 L8 19 L24 19 L25.5 20.5 L27 19 L21 12 C 19 10 16 7 16 7 Z" />
+                      <path d="M5 19 L5 25 L8 25 L8 19" />
+                      <path d="M24 19 L24 25 L27 25 L27 19" />
+                      <circle cx="16" cy="7.5" r="2.2" />
+                    </svg>
+                  {%- when 'circle' -%}
+                    <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.35" aria-hidden="true">
+                      <circle cx="16" cy="16" r="10" />
+                    </svg>
+                  {%- when 'truck' -%}
+                    <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M6 10 H20 V24 H6 Z M20 14 H25 L28 17 V24 H20" />
+                      <circle cx="11" cy="27" r="2" />
+                      <circle cx="24" cy="27" r="2" />
+                    </svg>
+                  {%- when 'return' -%}
+                    <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M11 10 H6 V5" />
+                      <path d="M7 10 A11 11 0 1 0 9.5 7" />
+                    </svg>
+                  {%- when 'shield' -%}
+                    <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M16 27 C 16 27 26 21 26 13 V7 L16 3 L6 7 V13 C 6 21 16 27 16 27 Z" />
+                      <path d="M12 16 L15 19 L20 13" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                  {%- else -%}
+                    <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.35" aria-hidden="true">
+                      <circle cx="16" cy="16" r="10" />
+                    </svg>
+                {%- endcase -%}
+              </span>
+              <p class="vx-collection-hero-{{ section.id }}__feature-title">{{ block.settings.title | escape }}</p>
+            </li>
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+    </div>
+
+    <div class="vx-collection-hero-{{ section.id }}__media">
+      {%- if hero_image != blank -%}
+        {%- if hero_image.src -%}
+          {{
+            hero_image
+            | image_url: width: 2000
+            | image_tag:
+              widths: '750, 1100, 1500, 2000',
+              sizes: '(min-width: 750px) 55vw, 100vw',
+              loading: 'eager',
+              fetchpriority: 'high',
+              alt: hero_image.alt | default: hero_heading | escape,
+              class: 'vx-collection-hero__image'
+          }}
+        {%- else -%}
+          <img
+            src="{{ hero_image | image_url: width: 2000 }}"
+            alt="{{ hero_heading | escape }}"
+            loading="eager"
+            fetchpriority="high"
+            width="1200"
+            height="1400"
+          >
+        {%- endif -%}
+      {%- elsif section.settings.image_asset != blank -%}
+        <img
+          src="{{ section.settings.image_asset | asset_url }}"
+          alt="{{ hero_heading | escape }}"
+          loading="eager"
+          fetchpriority="high"
+          width="1200"
+          height="1400"
+        >
+      {%- else -%}
+        <div class="vx-collection-hero-{{ section.id }}__media-placeholder">
+          {{ 'collection-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Vennix collection hero",
+  "tag": "section",
+  "class": "section section--vennix-collection-hero",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Hero content"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "The Vennix Edit"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "info": "Leave blank to use the collection title."
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "info": "Leave blank to use the collection description. Supports rich text."
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image",
+      "info": "Overrides the collection image. Recommended: portrait of apparel models, 1200×1400px or larger. Placeholder — replace with your own photography."
+    },
+    {
+      "type": "text",
+      "id": "image_asset",
+      "label": "Bundled fallback image",
+      "info": "Used when no image or collection image is set. Enter an asset filename from the theme's assets folder. Placeholder — replace with your own photography."
+    },
+    {
+      "type": "header",
+      "content": "Buttons"
+    },
+    {
+      "type": "text",
+      "id": "primary_label",
+      "label": "Primary button label",
+      "default": "Shop Men"
+    },
+    {
+      "type": "url",
+      "id": "primary_link",
+      "label": "Primary button link"
+    },
+    {
+      "type": "text",
+      "id": "secondary_label",
+      "label": "Secondary button label",
+      "default": "Shop Women"
+    },
+    {
+      "type": "url",
+      "id": "secondary_link",
+      "label": "Secondary button link"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Feature",
+      "limit": 3,
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "leaf", "label": "Leaf (Considered Goods)" },
+            { "value": "hanger", "label": "Hanger (Modern Everyday)" },
+            { "value": "circle", "label": "Circle (Designed to Last)" },
+            { "value": "truck", "label": "Truck" },
+            { "value": "return", "label": "Return" },
+            { "value": "shield", "label": "Shield" }
+          ],
+          "default": "leaf"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Feature"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Vennix collection hero",
+      "blocks": [
+        { "type": "feature", "settings": { "icon": "leaf", "title": "Considered Goods" } },
+        { "type": "feature", "settings": { "icon": "hanger", "title": "Modern Everyday" } },
+        { "type": "feature", "settings": { "icon": "circle", "title": "Designed to Last" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -156,6 +156,7 @@
                   {% if section.settings.quick_add == 'bulk' %} collection-quick-add-bulk{% endif %}
                   {% if section.settings.deemphasize_sold_out %} product-grid--deemphasize-sold-out{% endif %}
                 "
+                style="--product-grid-columns-mobile: {{ section.settings.columns_mobile | default: 2 }}; --product-grid-columns-desktop: {{ section.settings.columns_desktop | default: 4 }};"
               >
                 {% assign skip_card_product_styles = false %}
                 {%- for product in collection.products -%}

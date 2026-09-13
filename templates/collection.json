@@ -10,12 +10,46 @@
 {
   "sections": {
     "banner": {
-      "type": "main-collection-banner",
+      "type": "vennix-collection-hero",
       "settings": {
-        "show_collection_description": true,
-        "show_collection_image": true,
+        "eyebrow": "The Vennix Edit",
+        "heading": "",
+        "description": "",
+        "image_asset": "editorial-hero-desktop.jpg",
+        "primary_label": "Shop Men",
+        "primary_link": "shopify://collections/all",
+        "secondary_label": "Shop Women",
+        "secondary_link": "shopify://collections/all",
         "color_scheme": "scheme-1"
-      }
+      },
+      "blocks": {
+        "feature_considered": {
+          "type": "feature",
+          "settings": {
+            "icon": "leaf",
+            "title": "Considered Goods"
+          }
+        },
+        "feature_modern": {
+          "type": "feature",
+          "settings": {
+            "icon": "hanger",
+            "title": "Modern Everyday"
+          }
+        },
+        "feature_lasting": {
+          "type": "feature",
+          "settings": {
+            "icon": "circle",
+            "title": "Designed to Last"
+          }
+        }
+      },
+      "block_order": [
+        "feature_considered",
+        "feature_modern",
+        "feature_lasting"
+      ]
     },
     "product-grid": {
       "type": "main-collection-product-grid",

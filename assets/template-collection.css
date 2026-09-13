@@ -63,6 +63,43 @@
   }
 }
 
+/* --------------------------------------------------------------------------
+   Product grid — harden against narrow-card regression
+   Dawn's flex grid uses calc(50% - gap/2) etc. If any spacing variable is
+   missing or a section class is mis-applied the cards collapse to ~25% width
+   (the screenshot shows 3 ultra-narrow columns on a ~390px viewport instead
+   of the expected 2). Switching the product grid to CSS Grid with explicit
+   column counts makes the layout deterministic and independent of the flex
+   fallbacks. Variables are injected inline by main-collection-product-grid.liquid.
+-------------------------------------------------------------------------- */
+.template-collection .product-grid {
+  display: grid !important;
+  grid-template-columns: repeat(var(--product-grid-columns-mobile, 2), minmax(0, 1fr));
+  column-gap: var(--grid-mobile-horizontal-spacing);
+  row-gap: var(--grid-mobile-vertical-spacing);
+}
+
+.template-collection .product-grid .grid__item {
+  width: auto !important;
+  max-width: none !important;
+  flex: none !important;
+}
+
+@media screen and (min-width: 750px) {
+  .template-collection .product-grid {
+    column-gap: var(--grid-desktop-horizontal-spacing);
+    row-gap: var(--grid-desktop-vertical-spacing);
+  }
+
+  /* Tablet (750–989) keeps the mobile column count; only the gap grows. */
+}
+
+@media screen and (min-width: 990px) {
+  .template-collection .product-grid {
+    grid-template-columns: repeat(var(--product-grid-columns-desktop, 4), minmax(0, 1fr));
+  }
+}
+
 .collection__description > * {
   margin: 0;
 }
