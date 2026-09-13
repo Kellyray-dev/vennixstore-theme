@@ -87,18 +87,14 @@
         {%- if section.settings.primary_label != blank or section.settings.secondary_label != blank -%}
           <div class="vennix-hero__actions">
             {%- if section.settings.primary_label != blank -%}
-              <a class="button button--primary vennix-hero__button" href="{{ section.settings.primary_link | default: routes.all_products_collection_url }}">
-                <span>{{ section.settings.primary_label | escape }}</span>
-                <svg aria-hidden="true" viewBox="0 0 20 20" width="18" height="18" fill="none">
-                  <path d="M4 10h11M11 6l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
+              <a class="vennix-hero__cta vennix-hero__cta--primary" href="{{ section.settings.primary_link | default: routes.all_products_collection_url }}">
+                {{ section.settings.primary_label | escape }}
               </a>
             {%- endif -%}
 
             {%- if section.settings.secondary_label != blank -%}
-              <a class="vennix-hero__text-link link" href="{{ section.settings.secondary_link | default: routes.collections_url }}">
+              <a class="vennix-hero__cta vennix-hero__cta--muted" href="{{ section.settings.secondary_link | default: routes.collections_url }}">
                 {{ section.settings.secondary_label | escape }}
-                <span aria-hidden="true">↗</span>
               </a>
             {%- endif -%}
           </div>
@@ -175,7 +171,7 @@
         { "value": "left", "label": "Left" },
         { "value": "right", "label": "Right" }
       ],
-      "default": "right"
+      "default": "center"
     },
     {
       "type": "range",
@@ -185,7 +181,7 @@
       "step": 20,
       "unit": "px",
       "label": "Desktop height",
-      "default": 720
+      "default": 760
     },
     {
       "type": "range",
@@ -195,7 +191,7 @@
       "step": 5,
       "unit": "%",
       "label": "Image wash",
-      "default": 5
+      "default": 15
     },
     {
       "type": "header",
@@ -240,19 +236,19 @@
     {
       "type": "text",
       "id": "primary_label",
-      "label": "Primary button label",
+      "label": "Primary link label",
       "default": "Shop New Arrivals"
     },
     {
       "type": "url",
       "id": "primary_link",
-      "label": "Primary button link"
+      "label": "Primary link"
     },
     {
       "type": "text",
       "id": "secondary_label",
       "label": "Secondary link label",
-      "default": "Explore Essentials"
+      "info": "Optional. Leave blank for a single, quieter call to action."
     },
     {
       "type": "url",

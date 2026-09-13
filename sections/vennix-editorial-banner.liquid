@@ -1,0 +1,300 @@
+<script src="{{ 'vennix-motion.js' | asset_url }}" defer="defer"></script>
+
+{%- style -%}
+  /* ---- Editorial banner ----------------------------------------------------
+     Naadam-style second act: a full-bleed photograph with a centered serif
+     headline and one quiet uppercase link. Mirrors the hero's centered
+     composition and cream scrim so the two full-bleed moments read as a pair. */
+  .vx-ebanner-{{ section.id }} {
+    --vx-eb-height: {{ section.settings.desktop_height | default: 620 }}px;
+    --vx-eb-overlay: {{ section.settings.overlay_opacity | divided_by: 100.0 }};
+  }
+
+  .vx-ebanner-{{ section.id }}__stage {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: var(--vx-eb-height);
+    overflow: hidden;
+    isolation: isolate;
+    background: #f2ede4;
+  }
+
+  .vx-ebanner-{{ section.id }}__media {
+    position: absolute;
+    z-index: -4;
+    inset: 0;
+  }
+
+  .vx-ebanner-{{ section.id }}__media img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .vx-ebanner-{{ section.id }}__scrim {
+    position: absolute;
+    z-index: -3;
+    inset: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(
+        ellipse 130% 105% at 50% 50%,
+        rgba(242, 237, 228, 0.88) 0%,
+        rgba(242, 237, 228, 0.66) 32%,
+        rgba(242, 237, 228, 0.26) 58%,
+        rgba(242, 237, 228, 0) 78%
+      ),
+      rgba(244, 239, 231, calc(var(--vx-eb-overlay, 0.15) * 0.5));
+  }
+
+  .vx-ebanner-{{ section.id }}__inner {
+    width: 100%;
+    padding-top: clamp(5.6rem, 9vh, 8.4rem);
+    padding-bottom: clamp(5.6rem, 9vh, 8.4rem);
+    text-align: center;
+  }
+
+  .vx-ebanner-{{ section.id }}__heading {
+    max-width: 18ch;
+    margin: 0 auto;
+    color: #191713;
+    font-family: var(--font-heading-family);
+    font-style: var(--font-heading-style);
+    font-weight: var(--font-heading-weight);
+    font-size: clamp(3.4rem, 5.2vw, 6.6rem);
+    letter-spacing: -0.04em;
+    line-height: 1;
+    text-wrap: balance;
+  }
+
+  .vx-ebanner-{{ section.id }}__text {
+    max-width: 52rem;
+    margin: 2.2rem auto 0;
+    color: rgba(25, 23, 19, 0.68);
+    font-size: var(--vennix-type-lead, clamp(1.5rem, 1.4vw, 1.75rem));
+    line-height: 1.6;
+  }
+
+  .vx-ebanner-{{ section.id }}__text p {
+    margin: 0;
+    color: inherit;
+  }
+
+  .vx-ebanner-{{ section.id }}__cta {
+    position: relative;
+    display: inline-flex;
+    align-items: baseline;
+    margin-top: 3rem;
+    padding-block: 0.6rem;
+    color: #191713;
+    font-size: 1.2rem;
+    font-weight: 650;
+    letter-spacing: 0.2em;
+    line-height: 1.2;
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+
+  .vx-ebanner-{{ section.id }}__cta::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 1px;
+    background: currentColor;
+    transform: scaleX(0.35);
+    transform-origin: center;
+    transition: transform var(--vennix-motion-duration-fast, 240ms) var(--vennix-motion-ease, cubic-bezier(0.22, 0.61, 0.36, 1));
+  }
+
+  .vx-ebanner-{{ section.id }}__cta:hover::after,
+  .vx-ebanner-{{ section.id }}__cta:focus-visible::after {
+    transform: scaleX(1);
+  }
+
+  @media screen and (max-width: 749px) {
+    .vx-ebanner-{{ section.id }}__stage {
+      display: block;
+      min-height: 0;
+    }
+
+    .vx-ebanner-{{ section.id }}__media {
+      position: relative;
+      aspect-ratio: 4 / 5;
+    }
+
+    .vx-ebanner-{{ section.id }}__inner {
+      position: relative;
+      padding-top: clamp(4.4rem, 9vh, 6.2rem);
+      padding-bottom: clamp(4.4rem, 9vh, 6.2rem);
+    }
+
+    .vx-ebanner-{{ section.id }}__scrim {
+      background:
+        linear-gradient(
+          180deg,
+          rgba(242, 237, 228, 0) 0%,
+          rgba(242, 237, 228, 0.55) 55%,
+          rgba(242, 237, 228, 0.96) 78%,
+          #f2ede4 100%
+        ),
+        rgba(244, 239, 231, calc(var(--vx-eb-overlay, 0.15) * 0.5));
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .vx-ebanner-{{ section.id }}__cta::after {
+      transition: none;
+    }
+  }
+{%- endstyle -%}
+
+{%- liquid
+  assign eb_image = section.settings.image
+  assign eb_alt = eb_image.alt | default: section.settings.heading | default: 'Editorial lookbook photography'
+-%}
+
+<section
+  class="vx-ebanner-{{ section.id }} color-{{ section.settings.color_scheme }} gradient"
+  {% if section.settings.heading != blank %}aria-labelledby="VennixEditorialBanner-{{ section.id }}"{% endif %}
+  data-vx-motion="{{ section.settings.enable_entrance_animation }}"
+  style="--vennix-motion-duration: {{ section.settings.motion_duration }}ms;"
+>
+  <div class="vx-ebanner-{{ section.id }}__stage">
+    <div class="vx-ebanner-{{ section.id }}__media">
+      {%- if eb_image != blank -%}
+        {{
+          eb_image
+          | image_url: width: 3000
+          | image_tag:
+            widths: '750, 1100, 1500, 2000, 2500, 3000',
+            sizes: '100vw',
+            loading: 'lazy',
+            alt: eb_alt
+        }}
+      {%- elsif section.settings.image_asset != blank -%}
+        <img
+          src="{{ section.settings.image_asset | asset_url }}"
+          alt="{{ eb_alt | escape }}"
+          loading="lazy"
+          width="1408"
+          height="768"
+        >
+      {%- else -%}
+        {{ 'collection-apparel-3' | placeholder_svg_tag: 'placeholder-svg' }}
+      {%- endif -%}
+    </div>
+
+    <div class="vx-ebanner-{{ section.id }}__scrim" aria-hidden="true"></div>
+
+    <div class="vx-ebanner-{{ section.id }}__inner page-width">
+      {%- if section.settings.heading != blank -%}
+        <h2 id="VennixEditorialBanner-{{ section.id }}" class="vx-ebanner-{{ section.id }}__heading vx-rise" style="--vx-index: 0">
+          {{ section.settings.heading }}
+        </h2>
+      {%- endif -%}
+
+      {%- if section.settings.text != blank -%}
+        <div class="vx-ebanner-{{ section.id }}__text rte vx-rise" style="--vx-index: 1">{{ section.settings.text }}</div>
+      {%- endif -%}
+
+      {%- if section.settings.cta_label != blank -%}
+        <a
+          class="vx-ebanner-{{ section.id }}__cta vx-rise"
+          style="--vx-index: 2"
+          href="{{ section.settings.cta_link | default: routes.all_products_collection_url }}"
+        >
+          {{ section.settings.cta_label | escape }}
+        </a>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Vennix editorial banner",
+  "tag": "section",
+  "class": "section section--vennix-editorial-banner",
+  "disabled_on": { "groups": ["header", "footer"] },
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image",
+      "info": "Placeholder — replace with your own photography. Leave blank to use the bundled lookbook image."
+    },
+    {
+      "type": "text",
+      "id": "image_asset",
+      "label": "Bundled image",
+      "default": "lookbook.jpg",
+      "info": "Used when no image is selected. Enter an asset filename from the theme's assets folder. Placeholder — replace with your own photography."
+    },
+    {
+      "type": "range",
+      "id": "desktop_height",
+      "min": 420,
+      "max": 860,
+      "step": 20,
+      "unit": "px",
+      "label": "Desktop height",
+      "default": 620
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "min": 0,
+      "max": 40,
+      "step": 5,
+      "unit": "%",
+      "label": "Image wash",
+      "default": 15
+    },
+    { "type": "header", "content": "Content" },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "The Everyday Edit"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+      "info": "Optional. Leave blank for a single quiet headline over the image."
+    },
+    { "type": "text", "id": "cta_label", "label": "Link label", "default": "Shop the Collection" },
+    { "type": "url", "id": "cta_link", "label": "Link" },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+    { "type": "header", "content": "Motion" },
+    {
+      "type": "checkbox",
+      "id": "enable_entrance_animation",
+      "label": "Enable entrance animation",
+      "default": true,
+      "info": "Fade-and-rise reveal for the headline and link. Disabled automatically for visitors who prefer reduced motion."
+    },
+    {
+      "type": "range",
+      "id": "motion_duration",
+      "min": 300,
+      "max": 800,
+      "step": 50,
+      "unit": "ms",
+      "label": "Animation duration",
+      "default": 550
+    }
+  ],
+  "presets": [
+    {
+      "name": "Vennix editorial banner"
+    }
+  ]
+}
+{% endschema %}

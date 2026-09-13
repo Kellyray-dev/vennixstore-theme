@@ -251,8 +251,14 @@ html[data-theme='dark'] .badge.price__badge-sale {
 
 html[data-theme='dark'] .vx-product-badge {
   color: #14120f;
-  border-color: var(--v-gold);
-  background: var(--v-gold);
+  border-color: var(--v-cream, #faf9f6);
+  background: var(--v-cream, #faf9f6);
+}
+
+html[data-theme='dark'] .vx-product-badge--low-stock {
+  color: var(--v-on-inverse, #fff);
+  border-color: var(--v-ink, #1a1a1a);
+  background: var(--v-ink, #1a1a1a);
 }
 
 html[data-theme='dark'] .skip-to-content-link {
