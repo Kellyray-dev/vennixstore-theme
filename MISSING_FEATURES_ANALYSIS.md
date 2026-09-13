@@ -1,6 +1,6 @@
 # VennixStore Theme Status
 
-**Last updated:** Pre-launch audit fixes complete (2026-09-03)
+**Last updated:** Theme audit + left product rail (2026-09-11)
 
 ## Summary
 
@@ -22,6 +22,14 @@ VennixStore already has a strong Shopify OS 2.0 foundation with premium branding
 - Dark mode with visitor preference persistence
 - Size guide modal on product pages (`size_guide` block in `main-product`, built-in apparel chart with page / `custom.size_chart` metafield overrides)
 - Homepage "Best Sellers" featured collection and category tiles linked to real collections
+- Slide-style product showcase: a store-wide off-canvas rail docked to the left edge
+  (`vennix-product-rail.liquid`, in the header group) and a two-column homepage section with the
+  rail on the left (`vennix-product-showcase.liquid`). Vertical slides on desktop, horizontal
+  swipe strip below 750px.
+- CI pipeline ready at `ci/theme-check.workflow.yml` — runs theme-check, Liquid formatting,
+  and `scripts/validate_theme.py` (template JSON + section-schema drift). It sits outside
+  `.github/workflows/` because the pushing GitHub App lacks the `workflows` permission;
+  move it there (or grant the permission) to switch it on.
 
 ## Partial features
 
@@ -40,7 +48,15 @@ VennixStore already has a strong Shopify OS 2.0 foundation with premium branding
 
 - Phase 1 cleanup complete: header CSS typo and FAQ token issues resolved
 - Brand direction fully aligned: Modern Clothing & Active Essentials
+- 2026-09-11 audit fixed: `.gitignore` Markdown fences, the dead `--media-padding` declaration
+  in `theme.liquid` / `password.liquid` (referenced an undefined setting), the empty
+  `theme-color` in `templates/gift_card.liquid`, and the missing CI pipeline
 - No blocking technical issues remain
+- Advisory only: three Dawn base files exceed the theme-check `LiquidComplexity` suggestion
+  threshold (`card-product`, `main-product`, `facets`); ~357 KB of assets are unreferenced.
+  See `reports/audits/2026-09-11-theme-audit.md`
+- Best-seller ordering for the new showcase surfaces requires the source collection's admin
+  sort order to be set to "Best selling" — the Liquid `sort` filter cannot sort by sales volume
 
 ## Recommended V2 work (future phases)
 
@@ -50,6 +66,6 @@ VennixStore already has a strong Shopify OS 2.0 foundation with premium branding
 4. Wishlist
 5. Recently viewed
 6. Compare products
-8. Back-in-stock alerts
+7. Back-in-stock alerts
 8. Lookbook / shoppable imagery
 9. UGC or social gallery

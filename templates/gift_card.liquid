@@ -7,7 +7,15 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="theme-color" content="{{ settings.color_background }}">
+    {%- comment -%}
+      `settings.color_background` does not exist in settings_schema.json (it was
+      replaced by color schemes), so this rendered an empty theme-color. Read the
+      brand background from the first color scheme instead.
+    {%- endcomment -%}
+    <meta
+      name="theme-color"
+      content="{{ settings.color_schemes.first.settings.background | default: '#1A1A1A' }}"
+    >
     <link rel="canonical" href="{{ canonical_url }}">
 
     {%- if settings.favicon != blank -%}

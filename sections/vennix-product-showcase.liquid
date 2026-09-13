@@ -1,0 +1,403 @@
+{{ 'component-vennix-rail.css' | asset_url | stylesheet_tag }}
+{{ 'component-vennix-showcase.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'vennix-product-rail.js' | asset_url }}" defer="defer"></script>
+{%- if section.settings.enable_quick_add -%}
+  {{ 'quick-add.css' | asset_url | stylesheet_tag }}
+  <script src="{{ 'quick-add.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
+
+{%- liquid
+  assign showcase_collection = section.settings.collection
+  if showcase_collection == blank
+    assign showcase_collection = collections.all
+  endif
+
+  assign filter_mode = section.settings.product_filter | default: 'none'
+  assign filter_terms = section.settings.filter_terms | default: '' | downcase | strip
+  assign has_filter = false
+  if filter_mode != 'none' and filter_terms != blank
+    assign has_filter = true
+  endif
+
+  assign rendered_count = 0
+  assign rendered_handles = ''
+  assign skip_card_product_styles = false
+  assign free_shipping_amount = settings.free_shipping_threshold | times: 100 | money_without_trailing_zeros
+
+  comment
+    A point bound to the global free-shipping message disappears when the merchant turns
+    the promotion off, so count what survives before deciding whether to render the list.
+  endcomment
+  assign visible_points = 0
+  for block in section.blocks
+    if block.settings.use_free_shipping_message == false or settings.free_shipping_enabled != false
+      assign visible_points = visible_points | plus: 1
+    endif
+  endfor
+-%}
+
+<div
+  class="vx-showcase color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-padding"
+  style="--vx-showcase-slide-height: {{ section.settings.slide_height }}%;"
+  {% if section.settings.heading != blank %}aria-labelledby="VennixShowcaseHeading-{{ section.id }}"{% endif %}
+>
+  <div class="page-width">
+    <div class="vx-showcase__grid">
+      <div class="vx-showcase__media">
+        <vennix-rail-slider data-rail-axis="vertical" data-rail-axis-mobile="horizontal">
+          {%- comment -%}
+            Best sellers come from the COLLECTION'S OWN SORT ORDER, not from the Liquid
+            `sort` filter: `sort` only orders by real object properties, and products
+            have no "units sold" property, so `| sort: 'best-selling'` silently does
+            nothing. Shopify exposes best-selling order through the collection itself —
+            set Collections > [collection] > Sort order to "Best selling" in the admin
+            and leave the "Sort by" setting on "Collection default".
+
+            Liquid can only reach the first 50 products of a collection (the storefront
+            paginate maximum), so that is the working window — point the "Collection"
+            setting at a curated collection for tighter control over what ranks highest.
+          {%- endcomment -%}
+          {%- paginate showcase_collection.products by 50 -%}
+            {%- liquid
+              assign showcase_sort = section.settings.sort_by | default: 'collection_default'
+              case showcase_sort
+                when 'price'
+                  assign showcase_products = showcase_collection.products | sort: 'price'
+                when 'price-descending'
+                  assign showcase_products = showcase_collection.products | sort: 'price' | reverse
+                when 'title'
+                  assign showcase_products = showcase_collection.products | sort: 'title'
+                when 'created_at'
+                  assign showcase_products = showcase_collection.products | sort: 'created_at' | reverse
+                else
+                  assign showcase_products = showcase_collection.products
+              endcase
+            -%}
+            <ul class="vx-rail__track vx-showcase__track" data-rail-track role="list">
+              {%- for product in showcase_products -%}
+                {%- comment -%} De-duplicate by handle so a product never renders twice. {%- endcomment -%}
+                {%- assign rendered_needle = ',' | append: product.handle | downcase | append: ',' -%}
+                {%- if rendered_handles contains rendered_needle -%}
+                  {%- continue -%}
+                {%- endif -%}
+
+                {%- comment -%} Brand-alignment filter, matching featured-collection.liquid. {%- endcomment -%}
+                {%- assign matches_filter = true -%}
+                {%- if has_filter -%}
+                  {%- assign product_tags = product.tags | join: ',' | downcase -%}
+                  {%- assign product_searchable = product.type
+                    | downcase
+                    | append: ' '
+                    | append: product.title
+                    | downcase
+                    | append: ' '
+                    | append: product_tags
+                  -%}
+                  {%- assign term_hit = false -%}
+                  {%- assign terms = filter_terms | split: ',' -%}
+                  {%- for term in terms -%}
+                    {%- assign term_clean = term | strip -%}
+                    {%- if term_clean != blank and product_searchable contains term_clean -%}
+                      {%- assign term_hit = true -%}
+                      {%- break -%}
+                    {%- endif -%}
+                  {%- endfor -%}
+                  {%- if filter_mode == 'exclude' -%}
+                    {%- if term_hit -%}{%- assign matches_filter = false -%}{%- endif -%}
+                  {%- elsif filter_mode == 'include' -%}
+                    {%- assign matches_filter = term_hit -%}
+                  {%- endif -%}
+                {%- endif -%}
+
+                {%- if section.settings.hide_unavailable and product.available == false -%}
+                  {%- assign matches_filter = false -%}
+                {%- endif -%}
+
+                {%- if matches_filter == false -%}
+                  {%- continue -%}
+                {%- endif -%}
+
+                {%- comment -%}
+                  Stop before incrementing so `rendered_count` always equals the number
+                  of slides actually rendered — it is printed as the slider total.
+                {%- endcomment -%}
+                {%- if rendered_count >= section.settings.products_to_show -%}
+                  {%- break -%}
+                {%- endif -%}
+                {%- assign rendered_count = rendered_count | plus: 1 -%}
+                {%- assign rendered_handles = rendered_handles | append: ',' | append: product.handle | downcase | append: ',' -%}
+
+                <li class="vx-rail__slide vx-showcase__slide" data-rail-slide>
+                  {%- if section.settings.enable_quick_add -%}
+                    {%- assign quick_add = 'standard' -%}
+                  {%- else -%}
+                    {%- assign quick_add = 'none' -%}
+                  {%- endif -%}
+                  {% render 'card-product',
+                    card_product: product,
+                    media_aspect_ratio: section.settings.image_ratio,
+                    show_secondary_image: section.settings.show_secondary_image,
+                    show_vendor: section.settings.show_vendor,
+                    show_rating: section.settings.show_rating,
+                    lazy_load: true,
+                    skip_styles: skip_card_product_styles,
+                    quick_add: quick_add,
+                    section_id: section.id
+                  %}
+                  {%- assign skip_card_product_styles = true -%}
+                </li>
+              {%- endfor -%}
+            </ul>
+          {%- endpaginate -%}
+
+          <div class="vx-rail__controls vx-showcase__controls">
+            <button type="button" class="vx-rail__button" data-rail-prev aria-label="Previous product">
+              <svg viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false">
+                <path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+            <div class="vx-rail__dots" data-rail-dots></div>
+            <span class="vx-rail__counter" aria-live="polite">
+              <span data-rail-counter-current>1</span>
+              <span aria-hidden="true">&nbsp;/&nbsp;</span>
+              <span data-rail-counter-total>{{ rendered_count }}</span>
+            </span>
+            <button type="button" class="vx-rail__button" data-rail-next aria-label="Next product">
+              <svg viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false">
+                <path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+          </div>
+        </vennix-rail-slider>
+      </div>
+
+      <div class="vx-showcase__content">
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="vx-section-eyebrow vx-rise" style="--vx-index: 0">
+            <span class="vx-section-eyebrow__mark" aria-hidden="true"></span>
+            {{ section.settings.eyebrow | escape }}
+          </p>
+        {%- endif -%}
+
+        {%- if section.settings.heading != blank -%}
+          <h2 id="VennixShowcaseHeading-{{ section.id }}" class="vx-showcase__heading vx-rise" style="--vx-index: 1">
+            {{ section.settings.heading }}
+          </h2>
+        {%- endif -%}
+
+        {%- if section.settings.text != blank -%}
+          <div class="vx-showcase__text rte vx-rise" style="--vx-index: 2">{{ section.settings.text }}</div>
+        {%- endif -%}
+
+        {%- if visible_points > 0 -%}
+          <ul class="vx-showcase__points list-unstyled vx-rise" style="--vx-index: 3">
+            {%- for block in section.blocks -%}
+              {%- unless block.settings.use_free_shipping_message and settings.free_shipping_enabled == false -%}
+              <li class="vx-showcase__point" {{ block.shopify_attributes }}>
+                <span class="vx-showcase__point-mark" aria-hidden="true">
+                  <svg viewBox="0 0 16 16" fill="none" focusable="false">
+                    <path d="M3 8.5l3.2 3.2L13 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
+                <span>
+                  {%- if block.settings.use_free_shipping_message -%}
+                    {{ settings.free_shipping_message | escape | replace: '[threshold]', free_shipping_amount }}
+                  {%- else -%}
+                    {{ block.settings.text | escape | replace: '[threshold]', free_shipping_amount }}
+                  {%- endif -%}
+                </span>
+              </li>
+              {%- endunless -%}
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
+
+        {%- if section.settings.button_label != blank -%}
+          <a
+            class="button button--primary vx-showcase__button vx-rise"
+            style="--vx-index: 4"
+            href="{{ section.settings.button_link | default: routes.all_products_collection_url }}"
+          >
+            <span>{{ section.settings.button_label | escape }}</span>
+            <svg aria-hidden="true" viewBox="0 0 20 20" fill="none">
+              <path d="M4 10h11M11 6l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+        {%- endif -%}
+
+        {%- if section.settings.secondary_label != blank and showcase_collection.url != blank -%}
+          <a class="vx-showcase__link vx-rise" style="--vx-index: 5" href="{{ showcase_collection.url }}">
+            {{ section.settings.secondary_label | escape }}
+          </a>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</div>
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+{% schema %}
+{
+  "name": "Vennix product showcase",
+  "tag": "section",
+  "class": "vennix-product-showcase-section",
+  "disabled_on": { "groups": ["header", "footer"] },
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Customer favourites" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Best Sellers" },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "<p>The pieces our customers keep coming back for. Slide through the edit and add your favourites.</p>"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection",
+      "info": "Leave empty to use All products. For true best sellers, pick a collection whose admin sort order is set to \"Best selling\"."
+    },
+    {
+      "type": "select",
+      "id": "sort_by",
+      "label": "Sort by",
+      "info": "\"Collection default\" keeps the order set in the Shopify admin — the only way to sort by best selling. The Liquid sort filter cannot sort by sales volume.",
+      "options": [
+        { "value": "collection_default", "label": "Collection default (best selling if set in admin)" },
+        { "value": "price", "label": "Price, low to high" },
+        { "value": "price-descending", "label": "Price, high to low" },
+        { "value": "title", "label": "Alphabetically, A-Z" },
+        { "value": "created_at", "label": "Date, new to old" }
+      ],
+      "default": "collection_default"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "label": "Products to show",
+      "min": 2,
+      "max": 12,
+      "step": 1,
+      "default": 6
+    },
+    {
+      "type": "range",
+      "id": "slide_height",
+      "label": "Slide height",
+      "min": 60,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 85,
+      "info": "How much of the showcase column each slide fills on desktop."
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "label": "Image ratio",
+      "options": [
+        { "value": "square", "label": "Square" },
+        { "value": "portrait", "label": "Portrait" },
+        { "value": "adapt", "label": "Adapt to image" }
+      ],
+      "default": "portrait"
+    },
+    {
+      "type": "select",
+      "id": "product_filter",
+      "label": "Product tag filter",
+      "info": "Filters products in the source collection by tags, type and title so the showcase stays on-brand.",
+      "options": [
+        { "value": "none", "label": "None" },
+        { "value": "include", "label": "Only matching" },
+        { "value": "exclude", "label": "Hide matching" }
+      ],
+      "default": "none"
+    },
+    {
+      "type": "text",
+      "id": "filter_terms",
+      "label": "Filter terms",
+      "info": "Comma-separated words matched against tags, product type and title. Example: tech, usb, cable"
+    },
+    { "type": "checkbox", "id": "hide_unavailable", "label": "Hide sold-out products", "default": false },
+    { "type": "checkbox", "id": "show_secondary_image", "label": "Show second image on hover", "default": true },
+    { "type": "checkbox", "id": "show_vendor", "label": "Show vendor", "default": false },
+    { "type": "checkbox", "id": "show_rating", "label": "Show product rating", "default": false },
+    { "type": "checkbox", "id": "enable_quick_add", "label": "Enable quick add", "default": true },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Shop best sellers" },
+    { "type": "url", "id": "button_link", "label": "Button link" },
+    { "type": "text", "id": "secondary_label", "label": "Secondary link label", "default": "Browse the full collection" },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 80
+    }
+  ],
+  "blocks": [
+    {
+      "type": "point",
+      "name": "Selling point",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "Free shipping on orders over [threshold]"
+        },
+        {
+          "type": "checkbox",
+          "id": "use_free_shipping_message",
+          "label": "Use global free-shipping message",
+          "default": false
+        }
+      ]
+    }
+  ],
+  "max_blocks": 5,
+  "presets": [
+    {
+      "name": "Vennix product showcase",
+      "blocks": [
+        { "type": "point", "settings": { "text": "Free shipping on orders over [threshold]", "use_free_shipping_message": true } },
+        { "type": "point", "settings": { "text": "30-day easy returns" } },
+        { "type": "point", "settings": { "text": "Movement-first fabrics" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

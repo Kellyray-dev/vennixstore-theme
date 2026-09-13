@@ -38,9 +38,14 @@
           "type": "policy_links",
           "settings": {
             "heading": "Help",
+            "about_page": "about",
             "about_label": "About us",
+            "contact_page": "contact",
             "contact_label": "Contact us",
-            "faq_label": "FAQ"
+            "faq_page": "faq",
+            "faq_label": "FAQ",
+            "size_guide_page": "size-guide",
+            "size_guide_label": "Size guide"
           }
         }
       },

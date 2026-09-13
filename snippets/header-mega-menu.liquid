@@ -30,6 +30,10 @@
                 class="mega-menu__content color-{{ section.settings.menu_color_scheme }} gradient motion-reduce global-settings-popup"
                 tabindex="-1"
               >
+                <div class="vx-mega-menu__header page-width">
+                  {%- comment -%} `t` escapes its output unless the key ends in `_html`, so the merchant-controlled title needs no explicit `escape`. {%- endcomment -%}
+                  <a class="link underlined-link" href="{{ link.url }}">{{ 'vennix.navigation.shop_all' | t: title: link.title }}</a>
+                </div>
                 <ul
                   class="mega-menu__list page-width{% if link.levels == 1 %} mega-menu__list--condensed{% endif %}"
                   role="list"

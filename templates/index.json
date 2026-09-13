@@ -5,18 +5,18 @@
       "blocks": {},
       "block_order": [],
       "settings": {
-        "image_focus": "right",
-        "desktop_height": 720,
-        "overlay_opacity": 10,
+        "image_focus": "center",
+        "desktop_height": 760,
+        "overlay_opacity": 15,
         "enable_motion": true,
-        "show_scroll_cue": true,
-        "eyebrow": "Modern Clothing & Active Essentials",
+        "show_scroll_cue": false,
+        "eyebrow": "",
         "heading": "Modern Clothing. Made for Movement.",
-        "text": "<p>Elevated everyday pieces and active essentials designed for modern life.</p>",
-        "primary_label": "Shop Active Essentials",
+        "text": "",
+        "primary_label": "Shop New Arrivals",
         "primary_link": "shopify://collections/all",
-        "secondary_label": "Explore Collections",
-        "secondary_link": "shopify://collections"
+        "secondary_label": "",
+        "secondary_link": ""
       }
     },
     "vennix_trust": {
@@ -26,8 +26,9 @@
           "type": "badge",
           "settings": {
             "icon": "delivery",
-            "title": "Free shipping over $50",
-            "description": "Delivered to your door"
+            "title": "Free shipping on orders over [threshold]",
+            "use_free_shipping_message": true,
+            "description": ""
           }
         },
         "returns": {
@@ -56,11 +57,26 @@
         "color_scheme": "scheme-2"
       }
     },
+    "editorial_banner": {
+      "type": "vennix-editorial-banner",
+      "settings": {
+        "image_asset": "lookbook.jpg",
+        "desktop_height": 620,
+        "overlay_opacity": 15,
+        "heading": "The Everyday Edit",
+        "text": "",
+        "cta_label": "Shop the Collection",
+        "cta_link": "shopify://collections/all",
+        "color_scheme": "scheme-1",
+        "enable_entrance_animation": true,
+        "motion_duration": 550
+      }
+    },
     "shop_by_category": {
       "type": "vennix-category-grid",
       "settings": {
-        "eyebrow": "Shop the edit",
-        "heading": "Shop by Category",
+        "eyebrow": "",
+        "heading": "",
         "color_scheme": "scheme-1",
         "padding_top": 80,
         "padding_bottom": 80
@@ -70,9 +86,7 @@
           "type": "category",
           "settings": {
             "image_asset": "womens-fashion.jpg",
-            "title": "Women's Activewear",
-            "tagline": "Movement-first sets, dresses and essentials",
-            "cta_label": "Shop now",
+            "title": "Women",
             "link": "shopify://collections/all"
           }
         },
@@ -80,19 +94,23 @@
           "type": "category",
           "settings": {
             "image_asset": "mens-fashion.jpg",
-            "title": "Men's Essentials",
-            "tagline": "Everyday basics built for modern life",
-            "cta_label": "Shop now",
+            "title": "Men",
             "link": "shopify://collections/all"
           }
         },
         "active": {
           "type": "category",
           "settings": {
-            "image_asset": "active-essentials.jpg",
-            "title": "Active Essentials",
-            "tagline": "Performance layers for every move",
-            "cta_label": "Shop now",
+            "image_asset": "editorial-hero-mobile.jpg",
+            "title": "Active",
+            "link": "shopify://collections/all"
+          }
+        },
+        "essentials": {
+          "type": "category",
+          "settings": {
+            "image_asset": "essentials.jpg",
+            "title": "Essentials",
             "link": "shopify://collections/all"
           }
         }
@@ -100,16 +118,67 @@
       "block_order": [
         "women",
         "men",
-        "active"
+        "active",
+        "essentials"
       ]
+    },
+    "vennix_showcase": {
+      "type": "vennix-product-showcase",
+      "blocks": {
+        "shipping": {
+          "type": "point",
+          "settings": {
+            "text": "Free shipping on orders over [threshold]",
+            "use_free_shipping_message": true
+          }
+        },
+        "returns": {
+          "type": "point",
+          "settings": {
+            "text": "30-day easy returns"
+          }
+        },
+        "fabric": {
+          "type": "point",
+          "settings": {
+            "text": "Movement-first fabrics"
+          }
+        }
+      },
+      "block_order": [
+        "shipping",
+        "returns",
+        "fabric"
+      ],
+      "settings": {
+        "eyebrow": "",
+        "heading": "Best Sellers",
+        "text": "<p>The pieces our customers keep coming back for.</p>",
+        "products_to_show": 6,
+        "sort_by": "collection_default",
+        "slide_height": 85,
+        "image_ratio": "portrait",
+        "product_filter": "exclude",
+        "filter_terms": "tech, usb, humidifier, case, gadget, electronics, phone, cable, charger, trimmer, clipper",
+        "hide_unavailable": true,
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_rating": false,
+        "enable_quick_add": false,
+        "button_label": "",
+        "secondary_label": "Shop all",
+        "color_scheme": "scheme-1",
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
     },
     "new_in_apparel": {
       "type": "featured-collection",
       "settings": {
         "title": "New in Apparel",
         "heading_size": "h2",
-        "description": "<p>Fresh clothing and active essentials — movement-first pieces for modern life.</p>",
-        "show_description": false,
+        "description": "<p>Fresh clothing and active essentials \u2014 movement-first pieces for modern life.</p>",
+        "show_description": true,
         "description_style": "body",
         "collection": "all",
         "products_to_show": 8,
@@ -120,7 +189,7 @@
         "color_scheme": "scheme-1",
         "full_width": false,
         "show_view_all": true,
-        "view_all_style": "solid",
+        "view_all_style": "link",
         "enable_desktop_slider": false,
         "swipe_on_mobile": false,
         "image_ratio": "portrait",
@@ -128,7 +197,7 @@
         "show_secondary_image": true,
         "show_vendor": false,
         "show_rating": false,
-        "quick_add": "standard",
+        "quick_add": "none",
         "padding_top": 80,
         "padding_bottom": 80
       }
@@ -137,11 +206,11 @@
       "type": "vennix-brand-story",
       "settings": {
         "image": "",
-        "image_asset": "activewear.jpg",
-        "eyebrow": "The Vennix difference",
-        "heading": "Why VennixStore",
-        "text": "<p>Performance inspired everyday pieces built for modern movement — from morning runs to evening plans.</p>",
-        "button_label": "Shop Active Wear",
+        "image_asset": "vennix-product-fallback.jpg",
+        "eyebrow": "",
+        "heading": "Really good essentials, fairly priced.",
+        "text": "<p>Honest materials, considered cuts, and prices that make sense \u2014 everyday pieces built to be lived in, from morning runs to evening plans.</p>",
+        "button_label": "Shop Essentials",
         "button_link": "shopify://collections/all",
         "color_scheme": "scheme-2",
         "padding_top": 80,
@@ -165,9 +234,11 @@
   "order": [
     "vennix_hero",
     "vennix_trust",
+    "editorial_banner",
     "shop_by_category",
-    "new_in_apparel",
+    "vennix_showcase",
     "brand_story",
+    "new_in_apparel",
     "vennix_newsletter"
   ]
 }
