@@ -130,17 +130,25 @@
 
     .vx-ebanner-{{ section.id }}__inner {
       position: relative;
+      z-index: 2; /* above the scrim so the copy always paints on top */
       padding-top: clamp(4.4rem, 9vh, 6.2rem);
       padding-bottom: clamp(4.4rem, 9vh, 6.2rem);
     }
 
+    /* The media box is in flow here (no negative z-index), so the scrim must
+       be lifted above it. Confine it to the image area — same width and 4/5
+       aspect as the media box — so the gradient maps onto the photo and
+       completes exactly at the seam with the cream panel the copy sits on. */
     .vx-ebanner-{{ section.id }}__scrim {
+      z-index: 1;
+      bottom: auto;
+      aspect-ratio: 4 / 5;
       background:
         linear-gradient(
           180deg,
-          rgba(242, 237, 228, 0) 0%,
-          rgba(242, 237, 228, 0.55) 55%,
-          rgba(242, 237, 228, 0.96) 78%,
+          rgba(242, 237, 228, 0) 40%,
+          rgba(242, 237, 228, 0.5) 58%,
+          rgba(242, 237, 228, 0.95) 82%,
           #f2ede4 100%
         ),
         rgba(244, 239, 231, calc(var(--vx-eb-overlay, 0.15) * 0.5));

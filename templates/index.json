@@ -166,7 +166,7 @@
         "show_rating": false,
         "enable_quick_add": false,
         "button_label": "",
-        "secondary_label": "Shop best sellers",
+        "secondary_label": "Shop all",
         "color_scheme": "scheme-1",
         "padding_top": 80,
         "padding_bottom": 80
