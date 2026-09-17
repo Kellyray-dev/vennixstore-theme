@@ -345,10 +345,18 @@ class FacetFiltersForm extends HTMLElement {
     } else {
       const forms = [];
       const isMobile = event.target.closest('form').id === 'FacetFiltersFormMobile';
+      // Pro Layout: the mobile toolbar carries its own sort form (ProFacetSortForm).
+      // When the change originates from one sort form, skip the other so the
+      // request never carries two competing sort_by values.
+      const sourceFormId = event.target.closest('form')?.id;
+      const isSortSource = sourceFormId === 'FacetSortForm' || sourceFormId === 'ProFacetSortForm';
 
       sortFilterForms.forEach((form) => {
         if (!isMobile) {
-          if (form.id === 'FacetSortForm' || form.id === 'FacetFiltersForm' || form.id === 'FacetSortDrawerForm') {
+          if (form.id === 'FacetSortForm' || form.id === 'ProFacetSortForm') {
+            if (isSortSource && form.id !== sourceFormId) return;
+            forms.push(this.createSearchParams(form));
+          } else if (form.id === 'FacetFiltersForm' || form.id === 'FacetSortDrawerForm') {
             forms.push(this.createSearchParams(form));
           }
         } else if (form.id === 'FacetFiltersFormMobile') {

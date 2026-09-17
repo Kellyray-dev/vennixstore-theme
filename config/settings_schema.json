@@ -628,6 +628,13 @@
         "unit": "px",
         "label": "t:settings_schema.global.settings.blur.label",
         "default": 0
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_color_swatches_on_cards",
+        "label": "Show color swatches on product cards",
+        "info": "Shows variant color swatches under the card price when a product has a Color option.",
+        "default": true
       }
     ]
   },

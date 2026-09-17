@@ -1,0 +1,53 @@
+{% comment %}
+  Renders color swatches on a product card (visual only — the card itself
+  links to the product page, so swatches are intentionally non-interactive).
+
+  Accepts:
+  - card_product: {Object} Product Liquid object (required)
+
+  Usage:
+  {% render 'card-color-swatches', card_product: card_product %}
+{% endcomment %}
+
+{%- if settings.enable_color_swatches_on_cards != false and card_product.options_with_values != blank -%}
+  {%- for option in card_product.options_with_values -%}
+    {%- assign option_name = option.name | downcase -%}
+    {%- if option_name contains 'color' or option_name contains 'colour' -%}
+      {%- assign swatch_limit = 5 -%}
+      <ul
+        class="card-swatches"
+        role="list"
+        aria-label="{{ option.name | escape }}: {{ option.values.size }} available"
+      >
+        {%- for value in option.values limit: swatch_limit -%}
+          {%- assign value_name = value | escape -%}
+          <li class="card-swatches__item">
+            <span class="card-swatches__swatch" title="{{ value_name }}" aria-hidden="true">
+              {%- if value.swatch.image or value.swatch.color -%}
+                {% render 'swatch', swatch: value.swatch %}
+              {%- else -%}
+                {% comment %}
+                  No Shopify swatch configured: fall back to the color name as
+                  a CSS color (works for standard names like Navy or Black).
+                  Unknown names render as an empty bordered dot rather than
+                  breaking, and the title tooltip still names the color.
+                {% endcomment %}
+                <span
+                  class="swatch swatch--fallback"
+                  style="--swatch--background: {{ value | downcase | escape }};"
+                ></span>
+              {%- endif -%}
+            </span>
+            <span class="visually-hidden">{{ value_name }}</span>
+          </li>
+        {%- endfor -%}
+        {%- if option.values.size > swatch_limit -%}
+          <li class="card-swatches__more" aria-hidden="true">
+            +{{ option.values.size | minus: swatch_limit }}
+          </li>
+        {%- endif -%}
+      </ul>
+      {%- break -%}
+    {%- endif -%}
+  {%- endfor -%}
+{%- endif -%}

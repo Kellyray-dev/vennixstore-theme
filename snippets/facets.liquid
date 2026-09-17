@@ -7,6 +7,10 @@
   - enable_sorting: {Boolean} Show sorting when true
   - filter_type: {String} Type of filter
   - paginate: {Object}
+  - pro_toolbar: {Boolean} Pro Layout mobile toolbar owns filtering (default: false).
+    Hides the stock mobile drawer opener; the drawer still opens via the toolbar.
+  - pro_toolbar_sort: {Boolean} The toolbar also carries the sort control
+    (default: false). Hides the in-drawer sort section on mobile.
 
   Usage:
   {% render 'facets', results: collection, enable_filtering: true, enable_sorting: true, filter_type: 'vertical', paginate: paginate %}
