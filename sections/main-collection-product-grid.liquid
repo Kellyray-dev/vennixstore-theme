@@ -1,6 +1,7 @@
 {{ 'template-collection.css' | asset_url | stylesheet_tag }}
 {{ 'component-card.css' | asset_url | stylesheet_tag }}
 {{ 'component-price.css' | asset_url | stylesheet_tag }}
+{{ 'pro-layout.css' | asset_url | stylesheet_tag }}
 
 {% if section.settings.image_shape == 'blob' %}
   {{ 'mask-blobs.css' | asset_url | stylesheet_tag }}
@@ -117,7 +118,9 @@
               enable_filtering: section.settings.enable_filtering,
               enable_sorting: section.settings.enable_sorting,
               filter_type: section.settings.filter_type,
-              paginate: paginate
+              paginate: paginate,
+              pro_toolbar: section.settings.enable_filtering,
+              pro_toolbar_sort: section.settings.enable_sorting
             %}
           </aside>
         {%- endif -%}
