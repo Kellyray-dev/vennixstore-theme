@@ -8,7 +8,7 @@
     "Größe" or "Maat" — taking the opener AND its modal with it. Match common size labels
     across languages instead, and let the block's own setting override the guess outright.
   endcomment
-  assign size_option_labels = 'size,talla,taille,taglia,größe,groesse,maat,ukuran,tamanho,tamano,dimensions,dimension,размер,サイズ,尺寸,사이즈,fit' | split: ','
+  assign size_option_labels = 'size,talla,taille,taglia,größe,groesse,maat,ukuran,tamanho,tamano,dimensions,dimension,размер,サイズ,尺寸,사이즈' | split: ','
   assign size_guide_blocks = section.blocks | where: 'type', 'size_guide'
   assign size_guide_block = size_guide_blocks | first
   assign size_option_override = size_guide_block.settings.size_option | downcase | strip
@@ -34,6 +34,43 @@
     endif
   endfor
 
+  comment
+    Pro Layout: a size guide must never render for jewelry or accessories, even
+    when such a product technically carries a size-like option (e.g. ring
+    size). Long markers are distinctive enough to match against type + title +
+    tags. Short words (ring/watch/charm) match as whole words against type +
+    tags only — never the title, so a "Charming Tee" keeps its guide — with
+    apparel exceptions so garment types like "Watch Cap" or "Ring Spun Tee"
+    are not mistaken for jewelry. Tags are appended one by one because
+    coercing the tags array to a string would glue adjacent tags together and
+    break the word boundaries.
+  endcomment
+  if has_size_option
+    assign jewelry_markers = 'jewelry,jewellery,jewelery,accessory,accessories,necklace,bracelet,earring,pendant,anklet,brooch,cufflink' | split: ','
+    for marker in jewelry_markers
+      if product_context contains marker
+        assign has_size_option = false
+        break
+      endif
+    endfor
+    if has_size_option
+      assign padded_type = ' ' | append: product.type | append: ' ' | downcase
+      assign type_tag_tokens = padded_type
+      for product_tag in product.tags
+        assign type_tag_tokens = type_tag_tokens | append: ' ' | append: product_tag | downcase | append: ' '
+      endfor
+      assign apparel_type_exception = false
+      if padded_type contains ' cap ' or padded_type contains ' beanie ' or padded_type contains ' hat ' or padded_type contains ' spun ' or padded_type contains ' tee ' or padded_type contains ' shirt ' or padded_type contains ' top ' or padded_type contains ' dress '
+        assign apparel_type_exception = true
+      endif
+      unless apparel_type_exception
+        if type_tag_tokens contains ' ring ' or type_tag_tokens contains ' rings ' or type_tag_tokens contains ' watch ' or type_tag_tokens contains ' watches ' or type_tag_tokens contains ' charm ' or type_tag_tokens contains ' charms '
+          assign has_size_option = false
+        endif
+      endunless
+    endif
+  endif
+
   assign size_guide_audience = 'unisex'
   if product_context contains 'women' or product_context contains 'female' or product_context contains 'ladies'
     assign size_guide_audience = 'women'
@@ -54,6 +91,7 @@
   {% endif %}
 >
   {{ 'section-main-product.css' | asset_url | stylesheet_tag }}
+  {{ 'pro-layout.css' | asset_url | stylesheet_tag }}
   {{ 'component-accordion.css' | asset_url | stylesheet_tag }}
   {{ 'component-price.css' | asset_url | stylesheet_tag }}
   {{ 'component-slider.css' | asset_url | stylesheet_tag }}

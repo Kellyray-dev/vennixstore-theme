@@ -1,5 +1,6 @@
 <link rel="stylesheet" href="{{ 'component-list-menu.css' | asset_url }}" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="{{ 'component-search.css' | asset_url }}" media="print" onload="this.media='all'">
+{{ 'pro-layout.css' | asset_url | stylesheet_tag }}
 <link rel="stylesheet" href="{{ 'component-menu-drawer.css' | asset_url }}" media="print" onload="this.media='all'">
 <link
   rel="stylesheet"
@@ -113,7 +114,12 @@
 {% liquid
   assign header_tag = 'div'
 
-  if section.settings.sticky_header_type != 'none'
+  comment
+    Pro Layout: enable_sticky_header is the master switch. `!= false` (rather
+    than a truthy check) keeps existing installs sticky, where the setting was
+    never saved and therefore reads as nil.
+  endcomment
+  if section.settings.enable_sticky_header != false and section.settings.sticky_header_type != 'none'
     assign header_tag = 'sticky-header'
   endif
 %}
@@ -143,7 +149,7 @@
       endif
 
       if section.settings.logo_position == 'top-center' or section.settings.menu == blank
-        render 'header-search', input_id: 'Search-In-Modal-1'
+        render 'header-search', input_id: 'Search-In-Modal-1', search_style: section.settings.header_search_style
       endif
     -%}
 
@@ -249,7 +255,11 @@
           </localization-form>
         {%- endif -%}
       </div>
-      {% render 'header-search', input_id: 'Search-In-Modal' %}
+      {% render 'header-search',
+        input_id: 'Search-In-Modal',
+        search_style: section.settings.header_search_style,
+        allow_compact: true
+      %}
 
       {%- if settings.enable_dark_mode != false -%}
         {% render 'dark-mode-toggle' %}
@@ -603,8 +613,31 @@
           "label": "t:sections.header.settings.sticky_header_type.options__4.label"
         }
       ],
-      "default": "on-scroll-up",
+      "default": "always",
       "label": "t:sections.header.settings.sticky_header_type.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_sticky_header",
+      "label": "Enable sticky header",
+      "info": "Master switch for the sticky header. When off, the header scrolls away with the page.",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "header_search_style",
+      "label": "Search style",
+      "options": [
+        {
+          "value": "icon_modal",
+          "label": "Search icon (opens modal)"
+        },
+        {
+          "value": "compact",
+          "label": "Compact field on desktop, icon on mobile"
+        }
+      ],
+      "default": "icon_modal"
     },
     {
       "type": "checkbox",

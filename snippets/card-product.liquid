@@ -215,9 +215,11 @@
               </div>
             {%- endif -%}
             <div class="card__badge {{ settings.badge_position }}">
-              {%- if prestige_badge != blank -%}
-                <span class="badge vx-product-badge">{{ prestige_badge | escape }}</span>
-              {%- endif -%}
+              {%- comment -%}
+                Badge priority is availability-first so badges can never
+                contradict each other: a sold-out product shows ONLY the
+                Sold out badge (never Sale, New/Best seller, or Low stock).
+              {%- endcomment -%}
               {%- if card_product.available == false -%}
                 <span
                   id="NoMediaStandardBadge-{{ section_id }}-{{ card_product.id }}"
@@ -225,18 +227,23 @@
                 >
                   {{- 'products.product.sold_out' | t -}}
                 </span>
-              {%- elsif card_on_sale and card_product.available -%}
-                <span
-                  id="NoMediaStandardBadge-{{ section_id }}-{{ card_product.id }}"
-                  class="badge badge--bottom-left color-{{ settings.sale_badge_color_scheme }}"
-                >
-                  {{- 'products.product.on_sale' | t -}}
-                </span>
-              {%- endif -%}
-              {%- if card_low_stock -%}
-                <span class="badge vx-product-badge vx-product-badge--low-stock">
-                  {{- 'products.product.inventory_low_stock' | t -}}
-                </span>
+              {%- else -%}
+                {%- if prestige_badge != blank -%}
+                  <span class="badge vx-product-badge">{{ prestige_badge | escape }}</span>
+                {%- endif -%}
+                {%- if card_on_sale -%}
+                  <span
+                    id="NoMediaStandardBadge-{{ section_id }}-{{ card_product.id }}"
+                    class="badge badge--bottom-left color-{{ settings.sale_badge_color_scheme }}"
+                  >
+                    {{- 'products.product.on_sale' | t -}}
+                  </span>
+                {%- endif -%}
+                {%- if card_low_stock -%}
+                  <span class="badge vx-product-badge vx-product-badge--low-stock">
+                    {{- 'products.product.inventory_low_stock' | t -}}
+                  </span>
+                {%- endif -%}
               {%- endif -%}
             </div>
           </div>
@@ -301,6 +308,7 @@
               {%- endif -%}
 
               {% render 'price', product: card_product, price_class: '', show_compare_at_price: true %}
+              {% render 'card-color-swatches', card_product: card_product %}
               {%- if card_product.quantity_price_breaks_configured? -%}
                 {% if card_product.variants_count == 1 and quick_add == 'bulk' %}
                   {% liquid
