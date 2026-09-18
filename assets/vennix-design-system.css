@@ -72,9 +72,13 @@ textarea {
   font-family: var(--font-body-family, Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif);
 }
 
-/* Wider editorial canvas with deliberate outer whitespace. */
+/* Wider editorial canvas with deliberate outer whitespace. Keep Dawn's
+   narrow modifier intact for article and long-form content. */
 .page-width {
   width: calc(100% - var(--v-page-gutter));
+}
+
+.page-width:not(.page-width--narrow) {
   max-width: min(var(--page-width, var(--v-content-width)), var(--v-content-width));
   padding-inline: 0;
 }
