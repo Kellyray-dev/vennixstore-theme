@@ -1,0 +1,372 @@
+/**
+ * VENNIX Design System — Phase 2
+ *
+ * This layer is loaded after the Dawn base and existing VENNIX compatibility
+ * styles. It is the final shared visual contract for every storefront surface:
+ * editorial typography, warm neutrals, restrained controls, flat product media,
+ * accessible focus states, and quiet motion.
+ */
+
+:root {
+  --v-ink: #1a1a1a;
+  --v-ink-soft: #5a5752;
+  --v-ink-muted: #746f68;
+  --v-gold: #c9a96e;
+  --v-gold-deep: #a6854d;
+  --v-cream: #faf9f6;
+  --v-surface: #f0eeea;
+  --v-line: #d8d5ce;
+  --v-line-strong: #b9b4aa;
+  --v-white: #ffffff;
+
+  --v-radius-control: 2px;
+  --v-radius-media: 0px;
+  --v-radius-badge: 2px;
+  --v-control-height: 4.8rem;
+  --v-page-gutter: clamp(3.2rem, 8vw, 11.2rem);
+  --v-content-width: 140rem;
+
+  --v-shadow-subtle: 0 1px 0 rgba(26, 26, 26, 0.08);
+  --v-shadow-float: 0 1.6rem 4rem rgba(26, 26, 26, 0.08);
+}
+
+/* --------------------------------------------------------------------------
+   Type and page rhythm
+   -------------------------------------------------------------------------- */
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  color: var(--v-ink);
+  background: var(--v-cream);
+  font-family: var(--font-body-family, Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif);
+  line-height: 1.6;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--v-ink);
+  font-family: var(--font-heading-family, "Playfair Display", Georgia, serif);
+  font-style: var(--font-heading-style, normal);
+  font-weight: var(--font-heading-weight, 400);
+  letter-spacing: -0.035em;
+  line-height: 1.05;
+}
+
+p,
+li,
+.rte,
+.field__input,
+.select__select,
+button,
+.button,
+input,
+select,
+textarea {
+  font-family: var(--font-body-family, Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif);
+}
+
+/* Wider editorial canvas with deliberate outer whitespace. */
+.page-width {
+  width: calc(100% - var(--v-page-gutter));
+  max-width: min(var(--page-width, var(--v-content-width)), var(--v-content-width));
+  padding-inline: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Controls
+   -------------------------------------------------------------------------- */
+
+.button,
+.shopify-challenge__button,
+.customer button,
+.product-form__submit,
+.quick-add__submit,
+.shopify-payment-button__button {
+  min-height: var(--v-control-height);
+  padding: 0 2.4rem;
+  border: 1px solid var(--v-ink);
+  border-radius: var(--v-radius-control);
+  box-shadow: none;
+  font-size: 1.1rem;
+  font-weight: 650;
+  letter-spacing: 0.14em;
+  line-height: 1;
+  text-transform: uppercase;
+  transition:
+    background-color 220ms ease,
+    border-color 220ms ease,
+    color 220ms ease,
+    transform 220ms ease;
+}
+
+.button::before,
+.button::after,
+.shopify-challenge__button::before,
+.shopify-challenge__button::after {
+  border-radius: inherit;
+  box-shadow: none;
+}
+
+.button--primary,
+.product-form__submit,
+.quick-add__submit:not([disabled]),
+.shopify-payment-button__button--unbranded {
+  background: var(--v-gold);
+  border-color: var(--v-gold);
+  color: var(--v-ink);
+}
+
+.button--primary:hover,
+.product-form__submit:hover:not([disabled]),
+.quick-add__submit:hover:not([disabled]),
+.shopify-payment-button__button--unbranded:hover:not([disabled]) {
+  background: var(--v-ink);
+  border-color: var(--v-ink);
+  color: var(--v-white);
+  transform: translateY(-1px);
+}
+
+.button--secondary,
+.button.button--tertiary,
+.quick-add__submit[disabled] {
+  background: transparent;
+  border-color: currentColor;
+  color: var(--v-ink);
+}
+
+.button--secondary:hover,
+.button.button--tertiary:hover {
+  background: var(--v-ink);
+  border-color: var(--v-ink);
+  color: var(--v-white);
+}
+
+.field__input,
+.select__select,
+.customer input,
+.customer select,
+.customer textarea,
+textarea {
+  border-radius: var(--v-radius-control);
+  border-color: var(--v-line-strong);
+  box-shadow: none;
+}
+
+/* Keep the editorial system rectangular while preserving a clear selected
+   state for size and color controls. */
+.product-form__input input[type='radio'] + label,
+.product-form__input input[type='radio'] + label.color-swatch,
+.swatch-input__label {
+  border-radius: var(--v-radius-control);
+}
+
+/* --------------------------------------------------------------------------
+   Product, collection, and editorial media
+   -------------------------------------------------------------------------- */
+
+.card-wrapper,
+.card-wrapper .card,
+.card-wrapper .card__inner,
+.card--standard .card__media,
+.card__media .media,
+.collection-list .card__inner,
+.collection-list .card__media {
+  border-radius: var(--v-radius-media);
+  box-shadow: none;
+}
+
+.card-wrapper .card__inner,
+.collection-list .card__inner {
+  border: 0;
+  background: transparent;
+}
+
+.card--standard .card__media,
+.card__media .media {
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  background: var(--v-surface);
+}
+
+.card__media .media img,
+.collection-list .card__media img {
+  transition: transform 500ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.card-wrapper:hover .card__inner,
+.card-wrapper:hover .card--standard .card__inner,
+.collection-list .card-wrapper:hover .card__inner {
+  transform: none;
+  box-shadow: none;
+}
+
+.card-wrapper:hover .card__media .media img,
+.card-wrapper:focus-within .card__media .media img,
+.collection-list .card-wrapper:hover .card__media img,
+.collection-list .card-wrapper:focus-within .card__media img {
+  transform: scale(1.025);
+}
+
+.card__information,
+.collection-list .card__content {
+  padding-inline: 0;
+}
+
+.card__heading {
+  color: var(--v-ink);
+  font-family: var(--font-body-family, Inter, sans-serif);
+  font-size: 1.4rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  line-height: 1.35;
+}
+
+.card__heading a::after {
+  background: var(--v-gold-deep);
+}
+
+.card-information > .price,
+.card-information .price,
+.price {
+  color: var(--v-ink);
+  font-family: var(--font-body-family, Inter, sans-serif);
+  font-size: 1.35rem;
+  letter-spacing: 0.01em;
+}
+
+.badge {
+  border-radius: var(--v-radius-badge);
+  padding: 0.45rem 0.8rem;
+  background: var(--v-ink);
+  border-color: var(--v-ink);
+  color: var(--v-white);
+  font-size: 0.95rem;
+  letter-spacing: 0.1em;
+}
+
+.badge.price__badge-sale {
+  background: var(--v-gold);
+  border-color: var(--v-gold);
+  color: var(--v-ink);
+}
+
+.product-grid,
+.collection .product-grid,
+.featured-collection-grid,
+.template-search .product-grid {
+  column-gap: clamp(1.6rem, 2.6vw, 3.6rem);
+  row-gap: clamp(3.2rem, 4.5vw, 6rem);
+}
+
+/* --------------------------------------------------------------------------
+   Header, footer, and utility surfaces
+   -------------------------------------------------------------------------- */
+
+.header-wrapper {
+  background: var(--v-cream);
+  border-bottom: 1px solid var(--v-line);
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.header__menu-item {
+  color: var(--v-ink);
+  font-family: var(--font-body-family, Inter, sans-serif);
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.header__menu-item:hover,
+.header__menu-item:focus-visible {
+  color: var(--v-gold-deep);
+}
+
+.header__icon {
+  border-radius: var(--v-radius-control);
+}
+
+.header__icon:hover {
+  background: var(--v-surface);
+  color: var(--v-ink);
+}
+
+.footer {
+  background: var(--v-ink);
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.footer-block__heading {
+  color: var(--v-white);
+  font-family: var(--font-body-family, Inter, sans-serif);
+  font-size: 1.05rem;
+  font-weight: 650;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.footer a {
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.footer a:hover,
+.footer a:focus-visible {
+  color: var(--v-gold);
+}
+
+/* --------------------------------------------------------------------------
+   Accessible focus and motion contract
+   -------------------------------------------------------------------------- */
+
+:where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline: 2px solid var(--v-gold);
+  outline-offset: 3px;
+}
+
+@media screen and (max-width: 749px) {
+  .page-width {
+    width: calc(100% - 3.2rem);
+  }
+
+  .button,
+  .shopify-challenge__button,
+  .customer button,
+  .product-form__submit,
+  .quick-add__submit,
+  .shopify-payment-button__button {
+    min-height: 4.8rem;
+    padding-inline: 1.8rem;
+  }
+
+  .product-grid,
+  .collection .product-grid,
+  .featured-collection-grid,
+  .template-search .product-grid {
+    column-gap: 1.2rem;
+    row-gap: 3.2rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
