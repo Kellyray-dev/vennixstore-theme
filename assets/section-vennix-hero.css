@@ -401,7 +401,7 @@
     inset: auto;
     width: 100%;
     height: auto;
-    aspect-ratio: 4 / 5;
+    aspect-ratio: 2 / 3;
   }
 
   .vennix-hero__picture {
@@ -410,7 +410,7 @@
   }
 
   .vennix-hero__image {
-    object-position: center;
+    object-position: var(--hero-focus, center) center;
   }
 
   .vennix-hero__wash,
