@@ -50,6 +50,15 @@
                             {{ link.title | escape }}
                           </button>
                           <ul class="menu-drawer__menu list-menu" role="list" tabindex="-1">
+                            <li>
+                              <a
+                                href="{{ link.url }}"
+                                class="menu-drawer__menu-item menu-drawer__menu-item--shop-all link link--text list-menu__item focus-inset"
+                              >
+                                {%- comment -%} `t` escapes its output unless the key ends in `_html`, so the merchant-controlled title needs no explicit `escape`. {%- endcomment -%}
+                                {{ 'vennix.navigation.shop_all' | t: title: link.title }}
+                              </a>
+                            </li>
                             {%- for childlink in link.links -%}
                               <li>
                                 {%- if childlink.links == blank -%}
@@ -95,6 +104,15 @@
                                         role="list"
                                         tabindex="-1"
                                       >
+                                        <li>
+                                          <a
+                                            href="{{ childlink.url }}"
+                                            class="menu-drawer__menu-item menu-drawer__menu-item--shop-all link link--text list-menu__item focus-inset"
+                                          >
+                                            {%- comment -%} `t` escapes its output unless the key ends in `_html`, so the merchant-controlled title needs no explicit `escape`. {%- endcomment -%}
+                                            {{ 'vennix.navigation.shop_all' | t: title: childlink.title }}
+                                          </a>
+                                        </li>
                                         {%- for grandchildlink in childlink.links -%}
                                           <li>
                                             <a

@@ -1,7 +1,7 @@
 [
   {
     "name": "theme_info",
-    "theme_name": "VennixStore — Modern Clothing & Active Essentials",
+    "theme_name": "VENNIX Modern Apparel",
     "theme_version": "2.0.0",
     "theme_author": "Kelly Ray",
     "theme_documentation_url": "https://help.shopify.com/manual/online-store/themes",
@@ -123,7 +123,7 @@
       {
         "type": "font_picker",
         "id": "type_header_font",
-        "default": "assistant_n4",
+        "default": "playfair_display_n4",
         "label": "t:settings_schema.typography.settings.type_header_font.label"
       },
       {
@@ -143,7 +143,7 @@
       {
         "type": "font_picker",
         "id": "type_body_font",
-        "default": "assistant_n4",
+        "default": "inter_n4",
         "label": "t:settings_schema.typography.settings.type_body_font.label"
       },
       {
@@ -628,6 +628,13 @@
         "unit": "px",
         "label": "t:settings_schema.global.settings.blur.label",
         "default": 0
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_color_swatches_on_cards",
+        "label": "Show color swatches on product cards",
+        "info": "Shows variant color swatches under the card price when a product has a Color option.",
+        "default": true
       }
     ]
   },
@@ -1275,6 +1282,16 @@
         "id": "sold_out_badge_color_scheme",
         "label": "t:settings_schema.badges.settings.sold_out_badge_color_scheme.label",
         "default": "scheme-3"
+      },
+      {
+        "type": "range",
+        "id": "product_card_low_stock_threshold",
+        "min": 0,
+        "max": 20,
+        "step": 1,
+        "label": "Product-card low-stock threshold",
+        "default": 5,
+        "info": "Show a Low stock badge when every inventory-tracked variant is at or below this quantity. Never shown if any variant is untracked or allows overselling. Set to 0 to disable."
       }
     ]
   },
@@ -1459,6 +1476,17 @@
         "info": "Uses Shopify's own recommendation engine, seeded from the first item in the cart. No products are hardcoded."
       },
       {
+        "type": "header",
+        "content": "Shipping and purchase promises"
+      },
+      {
+        "type": "checkbox",
+        "id": "free_shipping_enabled",
+        "label": "Promote free shipping",
+        "default": true,
+        "info": "Enable only when a matching free-shipping rate is active in Shopify admin."
+      },
+      {
         "type": "checkbox",
         "id": "free_shipping_progress_enabled",
         "label": "Show free-shipping progress in cart drawer",
@@ -1474,6 +1502,37 @@
         "label": "Free-shipping threshold",
         "default": 50,
         "info": "Must match the free-shipping rate configured for the store currency."
+      },
+      {
+        "type": "text",
+        "id": "free_shipping_message",
+        "label": "Free-shipping message",
+        "default": "Free shipping on orders over [threshold]",
+        "info": "Use [threshold] to insert the amount above."
+      },
+      {
+        "type": "text",
+        "id": "returns_message",
+        "label": "Returns message",
+        "default": "30-day returns"
+      },
+      {
+        "type": "text",
+        "id": "returns_detail",
+        "label": "Returns detail",
+        "default": "Simple and straightforward"
+      },
+      {
+        "type": "text",
+        "id": "secure_checkout_message",
+        "label": "Secure-checkout message",
+        "default": "Secure checkout"
+      },
+      {
+        "type": "text",
+        "id": "secure_checkout_detail",
+        "label": "Secure-checkout detail",
+        "default": "Payments processed by Shopify"
       },
       {
         "type": "checkbox",

@@ -11,10 +11,16 @@
   <div class="vx-announcement__viewport">
     <ul class="vx-announcement__track" role="list">
       {%- for block in section.blocks -%}
-        <li {{ block.shopify_attributes }}>
-          <span class="vx-announcement__dot" aria-hidden="true"></span>
-          {{ block.settings.text | escape | replace: '[threshold]', free_shipping_amount }}
-        </li>
+        {%- unless block.settings.use_free_shipping_message and settings.free_shipping_enabled == false -%}
+          <li {{ block.shopify_attributes }}>
+            <span class="vx-announcement__dot" aria-hidden="true"></span>
+            {%- if block.settings.use_free_shipping_message -%}
+              {{ settings.free_shipping_message | escape | replace: '[threshold]', free_shipping_amount }}
+            {%- else -%}
+              {{ block.settings.text | escape | replace: '[threshold]', free_shipping_amount }}
+            {%- endif -%}
+          </li>
+        {%- endunless -%}
       {%- endfor -%}
     </ul>
   </div>
@@ -44,6 +50,13 @@
           "label": "Text",
           "default": "Free shipping on orders over [threshold]",
           "info": "Use [threshold] to insert the free-shipping threshold from Theme settings > Cart."
+        },
+        {
+          "type": "checkbox",
+          "id": "use_free_shipping_message",
+          "label": "Use global free-shipping message",
+          "default": false,
+          "info": "Uses Theme settings > Cart and hides this item when free-shipping promotion is disabled."
         }
       ]
     }
@@ -52,7 +65,7 @@
     {
       "name": "Vennix announcement bar",
       "blocks": [
-        { "type": "message", "settings": { "text": "Free shipping on orders over [threshold]" } },
+        { "type": "message", "settings": { "text": "Free shipping on orders over [threshold]", "use_free_shipping_message": true } },
         { "type": "message", "settings": { "text": "30-day returns" } },
         { "type": "message", "settings": { "text": "Secure checkout" } }
       ]

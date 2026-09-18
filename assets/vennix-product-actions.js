@@ -8,7 +8,9 @@ if (!customElements.get('vennix-sticky-atc')) {
       this.price = this.querySelector('[data-sticky-atc-price]');
       this.label = this.querySelector('[data-sticky-atc-label]');
 
-      if (!this.mainButton || !this.stickyButton) return;
+      if (!this.stickyButton) return;
+      this.setVisible(false);
+      if (!this.mainButton) return;
 
       this.handleStickyClick = () => {
         if (this.mainButton.disabled || this.mainButton.getAttribute('aria-disabled') === 'true') return;

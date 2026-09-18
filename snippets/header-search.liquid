@@ -3,12 +3,87 @@
 
   Accepts:
   - input_id: {String} Id for the search input element (required)
+  - search_style: {String} 'icon_modal' (default) or 'compact'. Compact renders
+    a small inline field on desktop (>= 990px) while keeping the icon modal
+    for mobile. Only honoured when allow_compact is true.
+  - allow_compact: {Boolean} Set true only for the icons-area instance so a
+    second compact field is never rendered in left-icon layouts.
 
   Usage:
   {% render 'header-search', input_id: 'My-Id'%}
 {% endcomment %}
 
-<details-modal class="header__search">
+{%- liquid
+  assign search_style = search_style | default: 'icon_modal'
+  assign compact_enabled = false
+  if search_style == 'compact' and allow_compact
+    assign compact_enabled = true
+  endif
+-%}
+
+{%- if compact_enabled -%}
+  <div class="header__search-compact small-hide medium-hide">
+    {%- if settings.predictive_search_enabled -%}
+      <predictive-search data-loading-text="{{ 'accessibility.loading' | t }}">
+    {%- else -%}
+      <search-form>
+    {%- endif -%}
+    <form
+      action="{{ routes.search_url }}"
+      method="get"
+      role="search"
+      class="search header__search-compact-form"
+    >
+      <div class="field">
+        <input
+          class="search__input field__input"
+          id="{{ input_id }}-Compact"
+          type="search"
+          name="q"
+          value="{{ search.terms | escape }}"
+          placeholder="{{ 'general.search.search' | t }}"
+          aria-label="{{ 'general.search.search' | t }}"
+          {%- if settings.predictive_search_enabled -%}
+            role="combobox"
+            aria-expanded="false"
+            aria-owns="predictive-search-results"
+            aria-controls="predictive-search-results"
+            aria-haspopup="listbox"
+            aria-autocomplete="list"
+            autocorrect="off"
+            autocomplete="off"
+            autocapitalize="off"
+            spellcheck="false"
+          {%- endif -%}
+        >
+        <label class="field__label visually-hidden" for="{{ input_id }}-Compact">
+          {{- 'general.search.search' | t -}}
+        </label>
+        <input type="hidden" name="options[prefix]" value="last">
+        <button class="search__button field__button" aria-label="{{ 'general.search.search' | t }}">
+          <span class="svg-wrapper">
+            {{- 'icon-search.svg' | inline_asset_content -}}
+          </span>
+        </button>
+      </div>
+
+      {%- if settings.predictive_search_enabled -%}
+        <div class="predictive-search predictive-search--compact" tabindex="-1" data-predictive-search>
+          {%- render 'loading-spinner', class: 'predictive-search__loading-state' -%}
+        </div>
+
+        <span class="predictive-search-status visually-hidden" role="status" aria-hidden="true"></span>
+      {%- endif -%}
+    </form>
+    {%- if settings.predictive_search_enabled -%}
+      </predictive-search>
+    {%- else -%}
+      </search-form>
+    {%- endif -%}
+  </div>
+{%- endif -%}
+
+<details-modal class="header__search{% if compact_enabled %} header__search--compact-mode{% endif %}">
   <details>
     <summary
       class="header__icon header__icon--search header__icon--summary link focus-inset modal__toggle"

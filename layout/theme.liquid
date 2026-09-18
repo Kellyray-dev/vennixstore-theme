@@ -217,7 +217,6 @@
         --font-body-scale: {{ settings.body_scale | divided_by: 100.0 }};
         --font-heading-scale: {{ settings.heading_scale | times: 1.0 | divided_by: settings.body_scale }};
 
-        --media-padding: {{ settings.media_padding }}px;
         --media-border-opacity: {{ settings.media_border_opacity | divided_by: 100.0 }};
         --media-border-width: {{ settings.media_border_thickness }}px;
         --media-radius: {{ settings.media_radius }}px;
@@ -362,6 +361,7 @@
     {{ 'base.css' | asset_url | stylesheet_tag }}
     {{ 'vennix-brand.css' | asset_url | stylesheet_tag }}
     {{ 'vennix-brand-2.css' | asset_url | stylesheet_tag }}
+    {{ 'vennix-design-system.css' | asset_url | stylesheet_tag }}
     {%- if settings.enable_dark_mode != false -%}
       {{ 'dark-mode.css' | asset_url | stylesheet_tag }}
     {%- endif -%}
