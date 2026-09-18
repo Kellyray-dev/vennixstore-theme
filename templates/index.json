@@ -84,57 +84,45 @@
         "women": {
           "type": "category",
           "settings": {
-            "collection": "",
+            "collection": "womens-clothing",
             "image_asset": "womens-fashion.jpg",
             "title": "Women",
             "tagline": "",
             "cta_label": "Shop now",
-            "link": "shopify://collections/all"
+            "link": ""
           }
         },
         "men": {
           "type": "category",
           "settings": {
-            "collection": "",
+            "collection": "mens-clothing",
             "image_asset": "mens-fashion.jpg",
             "title": "Men",
             "tagline": "",
             "cta_label": "Shop now",
-            "link": "shopify://collections/all"
-          }
-        },
-        "active": {
-          "type": "category",
-          "settings": {
-            "collection": "",
-            "image_asset": "editorial-hero-mobile.jpg",
-            "title": "Active",
-            "tagline": "",
-            "cta_label": "Shop now",
-            "link": "shopify://collections/all"
+            "link": ""
           }
         },
         "essentials": {
           "type": "category",
           "settings": {
-            "collection": "",
+            "collection": "apparel",
             "image_asset": "essentials.jpg",
-            "title": "Essentials",
+            "title": "Everyday Essentials",
             "tagline": "",
             "cta_label": "Shop now",
-            "link": "shopify://collections/all"
+            "link": ""
           }
         }
       },
       "block_order": [
         "women",
         "men",
-        "active",
         "essentials"
       ],
       "settings": {
-        "eyebrow": "",
-        "heading": "",
+        "eyebrow": "Shop the edit",
+        "heading": "Shop by Category",
         "color_scheme": "scheme-1",
         "enable_entrance_animation": true,
         "motion_duration": 550,
