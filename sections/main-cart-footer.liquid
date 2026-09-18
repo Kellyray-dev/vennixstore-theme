@@ -2,6 +2,7 @@
 {{ 'component-totals.css' | asset_url | stylesheet_tag }}
 {{ 'component-price.css' | asset_url | stylesheet_tag }}
 {{ 'component-discounts.css' | asset_url | stylesheet_tag }}
+{{ 'vennix-pdp-checkout.css' | asset_url | stylesheet_tag }}
 
 {%- style -%}
   .section-{{ section.id }}-padding {
@@ -130,6 +131,10 @@
               {%- endif -%}
           {%- endcase -%}
         {% endfor %}
+
+        {%- unless cart == empty -%}
+          {%- render 'vennix-checkout-trust' -%}
+        {%- endunless -%}
 
         <div id="cart-errors"></div>
       </div>

@@ -69,7 +69,7 @@
             "product_list_limit": 4,
             "products_per_page": 2,
             "pagination_style": "counter",
-            "image_ratio": "square",
+            "image_ratio": "portrait",
             "enable_quick_add": true
           }
         },
@@ -137,27 +137,27 @@
         "size_guide",
         "quantity_selector",
         "buy_buttons",
-        "complete_the_look",
         "description",
         "metafields_guru_text_7kprja",
         "shipping",
         "returns",
-        "share"
+        "share",
+        "complete_the_look"
       ],
       "settings": {
         "enable_sticky_info": true,
         "enable_sticky_atc": true,
         "color_scheme": "scheme-1",
         "media_size": "large",
-        "constrain_to_viewport": true,
-        "media_fit": "contain",
-        "gallery_layout": "thumbnail_slider",
-        "mobile_thumbnails": "show",
+        "constrain_to_viewport": false,
+        "media_fit": "cover",
+        "gallery_layout": "stacked",
+        "mobile_thumbnails": "hide",
         "media_position": "left",
         "image_zoom": "lightbox",
         "hide_variants": true,
         "enable_video_looping": false,
-        "padding_top": 52,
+        "padding_top": 36,
         "padding_bottom": 40
       }
     },
