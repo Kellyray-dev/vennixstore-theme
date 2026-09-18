@@ -271,7 +271,7 @@
                 <div class="caption-with-letter-spacing light">{%- render 'vennix-vendor', product: card_product -%}</div>
               {%- endif -%}
 
-              {%- if show_rating and card_product.metafields.reviews.rating.value != blank -%}
+              {%- if show_rating and card_product.metafields.reviews.rating.value != blank and card_product.metafields.reviews.rating_count > 0 -%}
                 {% liquid
                   assign rating_decimal = 0
                   assign decimal = card_product.metafields.reviews.rating.value.rating | modulo: 1

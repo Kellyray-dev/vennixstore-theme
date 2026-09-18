@@ -5,7 +5,7 @@
   assign fallback_alt = 'Editorial photography of modern clothing and active essentials'
   assign desktop_image = section.settings.desktop_image
   assign mobile_image = section.settings.mobile_image
-  assign hero_alt = desktop_image.alt | default: mobile_image.alt | default: fallback_alt
+  assign hero_alt = section.settings.image_alt | default: desktop_image.alt | default: mobile_image.alt | default: fallback_alt
   assign hero_loading = 'eager'
   assign hero_priority = 'high'
   assign free_shipping_amount = settings.free_shipping_threshold | times: 100 | money_without_trailing_zeros
@@ -154,13 +154,19 @@
       "type": "image_picker",
       "id": "desktop_image",
       "label": "Desktop image",
-      "info": "Placeholder — replace with your own photography. Leave blank to use the bundled editorial image."
+      "info": "Use clean 2:1 photography with no embedded logo, copy, or buttons. Leave blank to use the bundled fallback."
     },
     {
       "type": "image_picker",
       "id": "mobile_image",
       "label": "Mobile image",
-      "info": "Optional portrait crop for mobile. Placeholder — replace with your own photography."
+      "info": "Optional dedicated 2:3 portrait crop for mobile. Do not bake text or buttons into the image."
+    },
+    {
+      "type": "text",
+      "id": "image_alt",
+      "label": "Image alt text",
+      "info": "Describe the people, clothing, and setting. Do not repeat the hero headline or CTA copy."
     },
     {
       "type": "select",

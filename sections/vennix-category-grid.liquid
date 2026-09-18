@@ -72,7 +72,7 @@
     height: 100%;
     display: block;
     object-fit: cover;
-    object-position: center;
+    object-position: var(--vx-category-focus, center) center;
     transform: scale(1);
     transition: transform 0.55s var(--vennix-motion-ease, cubic-bezier(0.22, 0.61, 0.36, 1));
   }
@@ -246,6 +246,7 @@
             assign tile_title = 'Shop now'
           endif
 
+          assign tile_alt = block.settings.image_alt | default: tile_title
           assign tile_image = block.settings.image
           assign stagger = forloop.index0
           if stagger > 5
@@ -254,7 +255,7 @@
         -%}
         <li class="vx-categories__item vx-rise" style="--vx-index: {{ stagger }}" {{ block.shopify_attributes }}>
           <a class="vx-category" href="{{ block_url }}">
-            <span class="vx-category__media">
+            <span class="vx-category__media" style="--vx-category-focus: {{ block.settings.image_focus }};">
               {%- if tile_image != blank -%}
                 {{
                   tile_image
@@ -263,7 +264,7 @@
                     widths: '400, 600, 800, 1200',
                     sizes: '(min-width: 990px) calc((100vw - 12rem) / 4), (min-width: 750px) calc((100vw - 8rem) / 2), calc((100vw - 4rem) / 2)',
                     loading: 'lazy',
-                    alt: tile_title | escape
+                    alt: tile_alt | escape
                 }}
               {%- elsif tile_collection.featured_image != blank -%}
                 {{
@@ -273,12 +274,12 @@
                     widths: '400, 600, 800, 1200',
                     sizes: '(min-width: 990px) calc((100vw - 12rem) / 4), (min-width: 750px) calc((100vw - 8rem) / 2), calc((100vw - 4rem) / 2)',
                     loading: 'lazy',
-                    alt: tile_title | escape
+                    alt: tile_alt | escape
                 }}
               {%- elsif block.settings.image_asset != blank -%}
                 <img
                   src="{{ block.settings.image_asset | asset_url }}"
-                  alt="{{ tile_title | escape }}"
+                  alt="{{ tile_alt | escape }}"
                   loading="lazy"
                   width="1408"
                   height="768"
@@ -381,7 +382,24 @@
           "type": "image_picker",
           "id": "image",
           "label": "Custom image",
-          "info": "Placeholder — replace with your own photography. Overrides the collection image."
+          "info": "Optional Theme Editor image. Overrides the collection image."
+        },
+        {
+          "type": "text",
+          "id": "image_alt",
+          "label": "Image alt text",
+          "info": "Describe the visible clothing and setting. Leave blank to use the tile title."
+        },
+        {
+          "type": "select",
+          "id": "image_focus",
+          "label": "Image focus",
+          "options": [
+            { "value": "center", "label": "Center" },
+            { "value": "left", "label": "Left" },
+            { "value": "right", "label": "Right" }
+          ],
+          "default": "center"
         },
         {
           "type": "text",

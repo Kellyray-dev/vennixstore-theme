@@ -22,10 +22,6 @@
           "type": "title",
           "settings": {}
         },
-        "rating": {
-          "type": "rating",
-          "settings": {}
-        },
         "price": {
           "type": "price",
           "settings": {}
@@ -135,7 +131,6 @@
       "block_order": [
         "vendor",
         "title",
-        "rating",
         "price",
         "inventory",
         "variant_picker",
@@ -199,7 +194,7 @@
         "image_shape": "default",
         "show_secondary_image": true,
         "show_vendor": false,
-        "show_rating": true,
+        "show_rating": false,
         "padding_top": 0,
         "padding_bottom": 0
       }

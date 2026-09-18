@@ -1,7 +1,7 @@
 /* ==========================================================================
-   Vennix editorial hero — Naadam-style centered composition: full-bleed
-   imagery with the serif headline and a single uppercase link CTA centered
-   over a soft cream scrim. Stacked image-over-copy on mobile.
+   Vennix editorial hero — full-bleed editorial photography with live copy
+   held in the darker left-side negative space. Stacked image-over-copy on
+   mobile so the dedicated portrait crop never has to carry readable text.
 
    Motion contract (see Phase 4 spec):
    - transform/opacity only, no layout shift, nothing animated beyond 800 ms.
@@ -15,10 +15,11 @@
 }
 
 .vennix-hero {
-  --hero-surface: #f2ede4;      /* cream backdrop behind the copy */
-  --hero-ink: #191713;          /* charcoal ink on cream */
-  --hero-ink-soft: rgba(25, 23, 19, 0.68);
-  --hero-line: rgba(25, 23, 19, 0.16);
+  --hero-surface: var(--v-cream, #faf9f6);
+  --hero-ink: var(--v-white, #ffffff);
+  --hero-ink-soft: rgba(255, 255, 255, 0.78);
+  --hero-line: rgba(255, 255, 255, 0.24);
+  --hero-accent: var(--v-gold, #c9a96e);
   display: block;
   color: var(--hero-ink);
 }
@@ -66,15 +67,16 @@
   inset: 0;
   pointer-events: none;
   background:
-    radial-gradient(
-      ellipse 130% 105% at 50% 50%,
-      rgba(242, 237, 228, 0.9) 0%,
-      rgba(242, 237, 228, 0.68) 32%,
-      rgba(242, 237, 228, 0.28) 58%,
-      rgba(242, 237, 228, 0) 78%
+    linear-gradient(
+      90deg,
+      rgba(8, 8, 7, 0.86) 0%,
+      rgba(8, 8, 7, 0.68) 25%,
+      rgba(8, 8, 7, 0.3) 48%,
+      rgba(8, 8, 7, 0.04) 72%,
+      rgba(8, 8, 7, 0.08) 100%
     ),
-    linear-gradient(180deg, rgba(15, 14, 12, 0) 62%, rgba(15, 14, 12, 0.22) 100%),
-    rgba(244, 239, 231, calc(var(--hero-overlay, 0.05) * 0.5));
+    linear-gradient(180deg, rgba(8, 8, 7, 0.04) 58%, rgba(8, 8, 7, 0.3) 100%),
+    rgba(8, 8, 7, calc(var(--hero-overlay, 0.05) * 0.35));
 }
 
 .vennix-hero__grain {
@@ -88,20 +90,21 @@
 }
 
 /* --- Copy column ----------------------------------------------------------
-   Naadam-style centered composition: the headline sits over the middle of
-   the full-bleed imagery, flanked by a soft cream scrim for legibility. */
+   Desktop copy sits in the darker left-side negative space supplied by the
+   clean hero photography. It stays live HTML so the heading and links remain
+   editable, accessible, and functional in the Theme Editor. */
 .vennix-hero__inner {
   width: 100%;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   padding-top: clamp(7rem, 10vh, 10rem);
   padding-bottom: clamp(6rem, 8vh, 9rem);
 }
 
 .vennix-hero__content {
-  max-width: min(76rem, 100%);
-  text-align: center;
+  max-width: min(54rem, 46%);
+  text-align: left;
 }
 
 .vennix-hero__content-body > * {
@@ -111,10 +114,10 @@
 .vennix-hero__eyebrow {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 1.1rem;
   margin-bottom: 2.2rem;
-  color: var(--hero-ink-soft);
+  color: var(--hero-accent);
   font-size: var(--vennix-type-eyebrow, 1.05rem);
   font-weight: 600;
   letter-spacing: 0.22em;
@@ -140,8 +143,8 @@
 }
 
 .vennix-hero__heading {
-  max-width: 20ch;
-  margin-inline: auto;
+  max-width: 13ch;
+  margin-inline: 0;
   margin-bottom: 0;
   color: var(--hero-ink);
   font-family: var(--font-heading-family);
@@ -159,8 +162,8 @@
 }
 
 .vennix-hero__text {
-  max-width: 54rem;
-  margin-inline: auto;
+  max-width: 42rem;
+  margin-inline: 0;
   margin-top: 2.6rem;
   color: var(--hero-ink-soft);
   font-size: var(--vennix-type-lead, clamp(1.55rem, 1.4vw, 1.8rem));
@@ -175,50 +178,60 @@
 .vennix-hero__actions {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   flex-wrap: wrap;
-  gap: 1.2rem 3.6rem;
+  gap: 1.2rem;
   margin-top: 3.6rem;
 }
 
-/* Naadam-style CTA: a quiet uppercase link with an animated hairline rule —
-   no solid button, no arrow, nothing competing with the headline. */
+/* Rectangular live CTAs keep the supplied photography quiet while making the
+   two collection routes obvious and easy to use with keyboard or touch. */
 .vennix-hero__cta {
-  position: relative;
   display: inline-flex;
-  align-items: baseline;
-  padding-block: 0.6rem;
-  color: var(--hero-ink);
-  font-size: 1.2rem;
-  font-weight: 650;
-  letter-spacing: 0.2em;
+  align-items: center;
+  justify-content: center;
+  min-width: 13rem;
+  min-height: 4.8rem;
+  padding: 1.2rem 2rem;
+  border: 1px solid var(--hero-accent);
+  border-radius: var(--v-radius-control, 2px);
+  background: var(--hero-accent);
+  color: var(--v-ink, #1a1a1a);
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
   line-height: 1.2;
+  text-align: center;
   text-decoration: none;
   text-transform: uppercase;
+  transition:
+    background-color var(--vennix-motion-duration-fast, 240ms) var(--vennix-motion-ease),
+    border-color var(--vennix-motion-duration-fast, 240ms) var(--vennix-motion-ease),
+    color var(--vennix-motion-duration-fast, 240ms) var(--vennix-motion-ease);
 }
 
 .vennix-hero__cta::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 1px;
-  background: currentColor;
-  transform: scaleX(0.35);
-  transform-origin: center;
-  transition: transform var(--vennix-motion-duration-fast, 240ms) var(--vennix-motion-ease);
+  display: none;
 }
 
-.vennix-hero__cta:hover::after,
-.vennix-hero__cta:focus-visible::after {
-  transform: scaleX(1);
+.vennix-hero__cta:hover,
+.vennix-hero__cta:focus-visible {
+  border-color: var(--v-white, #ffffff);
+  background: var(--v-white, #ffffff);
+  color: var(--v-ink, #1a1a1a);
 }
 
 .vennix-hero__cta--muted {
-  color: var(--hero-ink-soft);
-  font-size: 1.1rem;
-  letter-spacing: 0.16em;
+  border-color: rgba(255, 255, 255, 0.68);
+  background: transparent;
+  color: var(--v-white, #ffffff);
+}
+
+.vennix-hero__cta--muted:hover,
+.vennix-hero__cta--muted:focus-visible {
+  border-color: var(--v-white, #ffffff);
+  background: var(--v-white, #ffffff);
+  color: var(--v-ink, #1a1a1a);
 }
 
 /* --- Scroll cue (only when assurance blocks exist) ------------------------ */
@@ -231,7 +244,7 @@
   display: inline-flex;
   align-items: center;
   gap: 0.9rem;
-  color: rgba(25, 23, 19, 0.66);
+  color: rgba(255, 255, 255, 0.78);
   font-size: 0.95rem;
   font-weight: 600;
   letter-spacing: 0.18em;
@@ -240,18 +253,21 @@
 }
 
 .vennix-hero__scroll:hover {
-  color: var(--hero-ink);
+  color: var(--v-white, #ffffff);
 }
 
 /* --- Assurance strip (optional blocks at the stage foot) ------------------ */
 .vennix-hero__assurances-wrap {
+  --hero-ink: var(--v-ink, #1a1a1a);
+  --hero-ink-soft: var(--v-ink-soft, #5a5752);
+  --hero-line: var(--v-line, #d8d5ce);
   position: absolute;
   z-index: 2;
   left: 0;
   right: 0;
   bottom: 0;
   border-top: 1px solid var(--hero-line);
-  background: rgba(242, 237, 228, 0.86);
+  background: rgba(250, 249, 246, 0.9);
   -webkit-backdrop-filter: blur(14px) saturate(1.1);
   backdrop-filter: blur(14px) saturate(1.1);
 }
@@ -385,7 +401,7 @@
     inset: auto;
     width: 100%;
     height: auto;
-    aspect-ratio: 4 / 5;
+    aspect-ratio: 2 / 3;
   }
 
   .vennix-hero__picture {
@@ -394,7 +410,7 @@
   }
 
   .vennix-hero__image {
-    object-position: center;
+    object-position: var(--hero-focus, center) center;
   }
 
   .vennix-hero__wash,
@@ -408,30 +424,49 @@
     padding-bottom: clamp(4.6rem, 10vh, 6.4rem);
   }
 
+  .vennix-hero {
+    --hero-ink: var(--v-ink, #1a1a1a);
+    --hero-ink-soft: var(--v-ink-soft, #5a5752);
+    --hero-line: var(--v-line, #d8d5ce);
+    --hero-accent: var(--v-gold, #c9a96e);
+  }
+
+  .vennix-hero__inner {
+    justify-content: flex-start;
+  }
+
   .vennix-hero__content {
     max-width: none;
   }
 
   .vennix-hero__eyebrow {
+    justify-content: flex-start;
     margin-bottom: 1.8rem;
   }
 
   .vennix-hero__heading {
+    max-width: 15ch;
+    margin-inline: 0;
     font-size: clamp(4rem, 13.4vw, 5.8rem);
     line-height: 1;
   }
 
   .vennix-hero__text {
+    margin-inline: 0;
     margin-top: 2.2rem;
     font-size: 1.55rem;
     line-height: 1.58;
   }
 
   .vennix-hero__actions {
-    align-items: center;
+    align-items: stretch;
     flex-direction: column;
     gap: 1.2rem;
     margin-top: 3rem;
+  }
+
+  .vennix-hero__cta {
+    width: 100%;
   }
 
   /* Mobile copy reveals with the same quiet rise as desktop. */

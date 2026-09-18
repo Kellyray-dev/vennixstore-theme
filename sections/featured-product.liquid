@@ -421,7 +421,7 @@
                 {%- when 'custom_liquid' -%}
                   {{ block.settings.custom_liquid }}
                 {%- when 'rating' -%}
-                  {%- if product.metafields.reviews.rating.value != blank -%}
+                  {%- if product.metafields.reviews.rating.value != blank and product.metafields.reviews.rating_count > 0 -%}
                     <div class="rating-wrapper">
                       {% liquid
                         assign rating_decimal = 0

@@ -25,6 +25,7 @@
       type="button"
       class="button button--primary vx-sticky-atc__button"
       data-sticky-atc-button
+      tabindex="-1"
       {% unless product.selected_or_first_available_variant.available %}disabled{% endunless %}
     >
       <span data-sticky-atc-label aria-live="polite">
