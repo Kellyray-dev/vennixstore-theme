@@ -19,11 +19,11 @@
         "show_scroll_cue": false,
         "eyebrow": "",
         "heading": "Modern Clothing. Made for Movement.",
-        "text": "",
-        "primary_label": "Shop New Arrivals",
-        "primary_link": "shopify://collections/all",
-        "secondary_label": "",
-        "secondary_link": ""
+        "text": "<p>Elevated everyday pieces and active essentials designed for modern life.</p>",
+        "primary_label": "SHOP MEN",
+        "primary_link": "shopify://collections/mens-clothing",
+        "secondary_label": "SHOP WOMEN",
+        "secondary_link": "shopify://collections/womens-clothing"
       }
     },
     "vennix_trust": {
