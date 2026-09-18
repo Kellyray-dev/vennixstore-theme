@@ -370,3 +370,53 @@ textarea {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* --------------------------------------------------------------------------
+   Phase 3 — header composition
+   -------------------------------------------------------------------------- */
+
+@media screen and (min-width: 990px) {
+  /* Keep the logo at the left edge, navigation truly centered, and utilities
+     aligned to the right even when the menu labels have different widths. */
+  .header--middle-left {
+    grid-template-areas: 'heading navigation icons';
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    column-gap: clamp(2rem, 3vw, 4.8rem);
+  }
+
+  .header--middle-left .header__heading,
+  .header--middle-left .header__heading-link {
+    justify-self: start;
+  }
+
+  .header--middle-left .header__inline-menu {
+    justify-self: center;
+    margin-left: 0;
+  }
+
+  .header--middle-left .header__inline-menu > .list-menu--inline {
+    justify-content: center;
+  }
+
+  .header--middle-left .header__icons {
+    justify-self: end;
+  }
+}
+
+.cart-count-bubble {
+  background-color: var(--v-gold);
+  color: var(--v-ink);
+  font-weight: 700;
+}
+
+@media screen and (max-width: 989px) {
+  .header__icons {
+    gap: 0.1rem;
+  }
+
+  .header__icon,
+  .header__icon--cart .icon {
+    min-width: 4.4rem;
+    min-height: 4.4rem;
+  }
+}
