@@ -72,7 +72,7 @@
         "heading": "The Everyday Edit",
         "text": "",
         "cta_label": "Shop the Collection",
-        "cta_link": "shopify://collections/all",
+        "cta_link": "shopify://collections/apparel",
         "color_scheme": "scheme-1",
         "enable_entrance_animation": true,
         "motion_duration": 550
@@ -193,7 +193,7 @@
         "heading": "Really good essentials, fairly priced.",
         "text": "<p>Honest materials, considered cuts, and prices that make sense — everyday pieces built to be lived in, from morning runs to evening plans.</p>",
         "button_label": "Shop Essentials",
-        "button_link": "shopify://collections/all",
+        "button_link": "shopify://collections/apparel",
         "color_scheme": "scheme-2",
         "enable_entrance_animation": true,
         "motion_duration": 550,
