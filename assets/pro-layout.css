@@ -68,28 +68,10 @@
 
 /* --------------------------------------------------------------------------
    B) Collection (PLP) — responsive product grid
-   4 cols >= 1200px · 3 cols tablet / small desktop · setting on mobile.
+   Product grids are CSS Grid (see vennix-brand-2.css). Do not reapply Dawn
+   flex percentage widths here — they shrink cards inside each track and
+   were collapsing collection pages to two columns on desktop.
    -------------------------------------------------------------------------- */
-/* Small desktop (990–1199px): a 4-col grid next to a filter sidebar is
-   cramped, so cap it at 3 columns. */
-@media screen and (min-width: 990px) and (max-width: 1199px) {
-  .product-grid.grid--4-col-desktop .grid__item {
-    width: calc(33.33% - var(--grid-desktop-horizontal-spacing) * 2 / 3);
-    max-width: calc(33.33% - var(--grid-desktop-horizontal-spacing) * 2 / 3);
-  }
-}
-
-/* Tablet (750–989px): show 3 columns when the desktop setting calls for a
-   3+ column grid, otherwise keep the merchant's 1–2 column setting. */
-@media screen and (min-width: 750px) and (max-width: 989px) {
-  .product-grid.grid--3-col-desktop .grid__item,
-  .product-grid.grid--4-col-desktop .grid__item,
-  .product-grid.grid--5-col-desktop .grid__item,
-  .product-grid.grid--6-col-desktop .grid__item {
-    width: calc(33.33% - var(--grid-desktop-horizontal-spacing) * 2 / 3);
-    max-width: calc(33.33% - var(--grid-desktop-horizontal-spacing) * 2 / 3);
-  }
-}
 
 /* --------------------------------------------------------------------------
    B) Collection (PLP) — mobile Filter + Sort toolbar
