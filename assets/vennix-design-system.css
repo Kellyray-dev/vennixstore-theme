@@ -420,3 +420,44 @@ textarea {
     min-height: 4.4rem;
   }
 }
+
+/* --------------------------------------------------------------------------
+   Product purchase controls — Phase 5
+   -------------------------------------------------------------------------- */
+
+/* Keep product media and controls rectangular like the rest of the VENNIX
+   system; this intentionally overrides legacy Dawn pill/rounded overrides. */
+.template-product .product__media-wrapper .global-media-settings,
+.template-product .product__media img {
+  border-radius: var(--v-radius-media);
+}
+
+.template-product .thumbnail {
+  border-radius: var(--v-radius-control);
+}
+
+.template-product .product-form__input .select__select,
+.template-product .product-form__input input[type='radio'] + label {
+  border-radius: var(--v-radius-control);
+}
+
+.template-product .product-form__input input[type='radio'] + label {
+  background: var(--v-surface);
+  border-color: var(--v-line-strong);
+  color: var(--v-ink);
+}
+
+.template-product .product-form__input input[type='radio']:checked + label {
+  background: var(--v-ink);
+  border-color: var(--v-ink);
+  color: var(--v-white);
+}
+
+.template-product .product-form__input input[type='radio']:focus-visible + label {
+  outline: 2px solid var(--v-gold);
+  outline-offset: 3px;
+}
+
+.vx-sticky-atc__media {
+  border-radius: var(--v-radius-media);
+}
