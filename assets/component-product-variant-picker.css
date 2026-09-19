@@ -146,7 +146,7 @@ variant-selects {
 
 @media screen and (min-width: 750px) {
   .product-form__input--swatch .swatch-input__input + .swatch-input__label {
-    --swatch-input--size: 2.8rem;
+    --swatch-input--size: 3.6rem;
   }
 }
 /* End custom styles for Swatch display type */
