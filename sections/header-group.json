@@ -27,8 +27,8 @@
       ],
       "name": "Vennix Announcement Bar",
       "settings": {
-        "bg_color": "#1a1a1a",
-        "text_color": "#ffffff",
+        "bg_color": "#1A1A1A",
+        "text_color": "#C9A96E",
         "rotate_speed": 5
       }
     },
@@ -43,14 +43,14 @@
         "enable_sticky_header": true,
         "header_search_style": "icon_modal",
         "show_line_separator": true,
-        "color_scheme": "scheme-2",
-        "menu_color_scheme": "scheme-2",
+        "color_scheme": "scheme-1",
+        "menu_color_scheme": "scheme-1",
         "enable_country_selector": true,
         "enable_language_selector": true,
         "enable_customer_avatar": true,
         "margin_bottom": 0,
-        "padding_top": 0,
-        "padding_bottom": 0
+        "padding_top": 12,
+        "padding_bottom": 12
       }
     },
     "vennix_product_rail": {

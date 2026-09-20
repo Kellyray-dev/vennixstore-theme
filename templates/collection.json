@@ -13,7 +13,7 @@
       "type": "main-collection-banner",
       "settings": {
         "show_collection_description": true,
-        "show_collection_image": true,
+        "show_collection_image": false,
         "color_scheme": "scheme-1"
       }
     },
@@ -32,11 +32,11 @@
         "show_rating": false,
         "quick_add": "standard",
         "enable_filtering": true,
-        "filter_type": "vertical",
+        "filter_type": "horizontal",
         "enable_sorting": true,
-        "deemphasize_sold_out": true,
+        "deemphasize_sold_out": false,
         "padding_top": 52,
-        "padding_bottom": 0
+        "padding_bottom": 84
       }
     }
   },

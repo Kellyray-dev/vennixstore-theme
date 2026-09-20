@@ -12,12 +12,6 @@
     "main": {
       "type": "main-product",
       "blocks": {
-        "vendor": {
-          "type": "vennix_brand",
-          "settings": {
-            "text_style": "uppercase"
-          }
-        },
         "title": {
           "type": "title",
           "settings": {}
@@ -77,38 +71,12 @@
           "type": "description",
           "settings": {}
         },
-        "metafields_guru_text_7kprja": {
-          "type": "shopify://apps/metafields-guru/blocks/text/79c9df68-85d5-4857-a386-0d96fc22b663",
-          "settings": {
-            "title": "",
-            "mn": "metafields_guru",
-            "mk": "text",
-            "from_shop": false,
-            "color": "",
-            "bg": "",
-            "text_style": "default",
-            "design": "ul",
-            "gap": 4,
-            "plv": 0,
-            "plh": 0,
-            "corner_radius": 0,
-            "border_size": 0,
-            "border_style": "solid",
-            "pf": "",
-            "sf": "",
-            "display_units": true,
-            "display_currency": false,
-            "pt": 0,
-            "pb": 0,
-            "cc": ""
-          }
-        },
         "shipping": {
           "type": "collapsible_tab",
           "settings": {
             "heading": "Shipping",
             "icon": "truck",
-            "content": "<p>Free shipping on orders over [threshold]. Other available shipping options are shown at checkout.</p>",
+            "content": "<p>Free shipping is available on orders over $50. Other available shipping options are shown at checkout.</p>",
             "page": ""
           }
         },
@@ -117,7 +85,7 @@
           "settings": {
             "heading": "Returns",
             "icon": "return",
-            "content": "<p>Review our refund policy for the return window, conditions, and return instructions.</p>",
+            "content": "<p>Eligible items can be returned within 30 days. Review our refund policy for conditions and return instructions.</p>",
             "page": ""
           }
         },
@@ -129,7 +97,6 @@
         }
       },
       "block_order": [
-        "vendor",
         "title",
         "price",
         "inventory",
@@ -138,7 +105,6 @@
         "quantity_selector",
         "buy_buttons",
         "description",
-        "metafields_guru_text_7kprja",
         "shipping",
         "returns",
         "share",

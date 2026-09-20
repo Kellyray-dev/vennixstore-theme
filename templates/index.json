@@ -17,13 +17,13 @@
         "overlay_opacity": 15,
         "enable_motion": true,
         "show_scroll_cue": false,
-        "eyebrow": "",
+        "eyebrow": "Modern clothing & active essentials",
         "heading": "Modern Clothing. Made for Movement.",
         "text": "<p>Elevated everyday pieces and active essentials designed for modern life.</p>",
-        "primary_label": "SHOP MEN",
-        "primary_link": "shopify://collections/mens-clothing",
-        "secondary_label": "SHOP WOMEN",
-        "secondary_link": "shopify://collections/womens-clothing"
+        "primary_label": "Shop Women",
+        "primary_link": "shopify://collections/womens-clothing",
+        "secondary_label": "Shop Men",
+        "secondary_link": "shopify://collections/mens-clothing"
       }
     },
     "vennix_trust": {
@@ -235,12 +235,12 @@
     "vennix_newsletter": {
       "type": "vennix-newsletter",
       "settings": {
-        "eyebrow": "",
-        "heading": "STAY UPDATED",
-        "subtext": "Be first to hear about new collections, active essentials, and occasional offers.",
-        "placeholder": "Your email address",
-        "btn_label": "SUBSCRIBE",
-        "success_msg": "Thanks for subscribing.",
+        "eyebrow": "The Vennix list",
+        "heading": "Stay close to what is new",
+        "subtext": "New arrivals, considered edits and occasional offers. No unnecessary noise.",
+        "placeholder": "Email address",
+        "btn_label": "Join the list",
+        "success_msg": "Thanks for joining the Vennix list.",
         "disclaimer": "Unsubscribe at any time.",
         "color_scheme": "scheme-3"
       }
