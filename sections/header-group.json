@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "name": "t:sections.header.name",
   "type": "header",
@@ -31,8 +40,8 @@
       ],
       "name": "Vennix Announcement Bar",
       "settings": {
-        "bg_color": "#20201e",
-        "text_color": "#ffffff",
+        "bg_color": "#1A1A1A",
+        "text_color": "#C9A96E",
         "rotate_speed": 5
       }
     },
