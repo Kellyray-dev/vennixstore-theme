@@ -11,317 +11,95 @@
   "sections": {
     "vennix_hero": {
       "type": "vennix-hero",
-      "blocks": {
-        "shipping": {
-          "type": "assurance",
-          "settings": {
-            "icon": "delivery",
-            "heading": "Free shipping over $50",
-            "text": "On eligible orders"
-          }
-        },
-        "returns": {
-          "type": "assurance",
-          "settings": {
-            "icon": "returns",
-            "heading": "30-day returns",
-            "text": "Simple and straightforward"
-          }
-        },
-        "checkout": {
-          "type": "assurance",
-          "settings": {
-            "icon": "secure",
-            "heading": "Secure checkout",
-            "text": "Protected payments"
-          }
-        }
-      },
-      "block_order": [
-        "shipping",
-        "returns",
-        "checkout"
-      ],
       "settings": {
         "image_focus": "right",
         "desktop_height": 720,
         "overlay_opacity": 5,
         "enable_motion": true,
         "show_scroll_cue": true,
-        "eyebrow": "The Vennix edit",
-        "heading": "Better finds, <em>beautifully chosen.</em>",
-        "text": "<p>A considered mix of style, home, tech and everyday essentials—selected to make the good stuff easier to find.</p>",
-        "primary_label": "Shop the latest edit",
-        "primary_link": "shopify://collections/all",
-        "secondary_label": "Explore collections",
-        "secondary_link": "shopify://collections"
+        "eyebrow": "Modern clothing & active essentials",
+        "heading": "Modern Clothing. Made for Movement.",
+        "text": "<p>Elevated everyday pieces and active essentials designed for modern life.</p>",
+        "primary_label": "Shop Women",
+        "primary_link": "shopify://collections/womens-clothing",
+        "secondary_label": "Shop Men",
+        "secondary_link": "shopify://collections/mens-clothing"
       }
     },
     "featured_collection": {
       "type": "featured-collection",
       "settings": {
-        "collection": "all",
-        "products_to_show": 13,
-        "title": "<strong>New In</strong>",
+        "collection": "active-essentials",
+        "products_to_show": 6,
+        "title": "The pieces to reach for now",
         "heading_size": "h1",
-        "description": "<p>Useful, design-conscious finds selected for everyday life.</p>",
+        "description": "<p>A focused edit of modern essentials selected for movement and everyday wear.</p>",
         "show_description": true,
         "description_style": "body",
-        "columns_desktop": 4,
-        "enable_desktop_slider": true,
-        "full_width": true,
+        "columns_desktop": 3,
+        "enable_desktop_slider": false,
+        "full_width": false,
         "show_view_all": true,
-        "view_all_style": "solid",
-        "color_scheme": "scheme-2",
-        "image_ratio": "adapt",
+        "view_all_style": "link",
+        "color_scheme": "scheme-1",
+        "image_ratio": "portrait",
         "image_shape": "default",
         "show_secondary_image": true,
         "show_vendor": false,
-        "show_rating": true,
+        "show_rating": false,
         "quick_add": "standard",
         "columns_mobile": "2",
-        "swipe_on_mobile": false,
-        "padding_top": 4,
-        "padding_bottom": 0
-      }
-    },
-    "1787528713ec24d91e": {
-      "type": "_blocks",
-      "blocks": {
-        "ai_gen_block_d6093c4_kaaWmw": {
-          "type": "ai_gen_block_d6093c4",
-          "disabled": true,
-          "settings": {
-            "desktop_width_percent": 100,
-            "section_padding": 40,
-            "grid_gap": 20,
-            "mobile_grid_gap": 15,
-            "image_radius": 12,
-            "min_height": 300,
-            "featured_min_height": 600,
-            "card_background": "#f4f4f4",
-            "text_color": "#ffffff",
-            "category_color": "#d4af37",
-            "overlay_opacity": 0.7,
-            "content_padding": 30,
-            "category_size": 12,
-            "title_size": 24,
-            "featured_title_size": 42,
-            "excerpt_size": 16,
-            "meta_size": 13,
-            "show_meta": true,
-            "featured_category": "Featured",
-            "featured_title": "The Art of Modern Living",
-            "featured_excerpt": "Where considered design and everyday living meet — spaces worth lingering in.",
-            "featured_author": "Editorial Team",
-            "featured_date": "August 23, 2026",
-            "featured_link": "",
-            "secondary_1_category": "Lifestyle",
-            "secondary_1_title": "Curated Essentials",
-            "secondary_1_author": "Style Editor",
-            "secondary_1_date": "August 20, 2026",
-            "secondary_1_link": "",
-            "secondary_2_category": "Design",
-            "secondary_2_title": "Minimalist Spaces",
-            "secondary_2_author": "Design Editor",
-            "secondary_2_date": "August 18, 2026",
-            "secondary_2_link": "",
-            "tertiary_1_category": "Trends",
-            "tertiary_1_title": "Summer Palette",
-            "tertiary_1_author": "",
-            "tertiary_1_date": "August 15, 2026",
-            "tertiary_1_link": "",
-            "tertiary_2_category": "Culture",
-            "tertiary_2_title": "Artisan Crafts",
-            "tertiary_2_author": "",
-            "tertiary_2_date": "August 12, 2026",
-            "tertiary_2_link": "",
-            "tertiary_3_category": "Travel",
-            "tertiary_3_title": "Hidden Gems",
-            "tertiary_3_author": "",
-            "tertiary_3_date": "August 10, 2026",
-            "tertiary_3_link": ""
-          },
-          "blocks": {}
-        }
-      },
-      "block_order": [
-        "ai_gen_block_d6093c4_kaaWmw"
-      ],
-      "settings": {}
-    },
-    "vennix_trust": {
-      "type": "vennix-trust-bar",
-      "blocks": {
-        "shipping": {
-          "type": "badge",
-          "settings": {
-            "icon": "delivery",
-            "title": "Free shipping",
-            "description": "On orders over $50"
-          }
-        },
-        "returns": {
-          "type": "badge",
-          "settings": {
-            "icon": "returns",
-            "title": "30-day returns",
-            "description": "Clear return window"
-          }
-        },
-        "secure": {
-          "type": "badge",
-          "settings": {
-            "icon": "secure",
-            "title": "Secure checkout",
-            "description": "Protected payments"
-          }
-        },
-        "support": {
-          "type": "badge",
-          "settings": {
-            "icon": "support",
-            "title": "Customer support",
-            "description": "Here whenever you need us"
-          }
-        }
-      },
-      "block_order": [
-        "shipping",
-        "returns",
-        "secure",
-        "support"
-      ],
-      "disabled": true,
-      "settings": {
-        "color_scheme": "scheme-2"
+        "swipe_on_mobile": true,
+        "padding_top": 24,
+        "padding_bottom": 24
       }
     },
     "vennix_values": {
       "type": "vennix-why-us",
       "blocks": {
-        "useful": {
+        "quality": {
           "type": "reason",
           "settings": {
-            "title": "Useful by design",
-            "description": "Everyday products selected for practical features and considered design."
+            "title": "Considered essentials",
+            "description": "A focused selection of modern clothing and active essentials."
           }
         },
-        "clear": {
+        "clarity": {
           "type": "reason",
           "settings": {
             "title": "Clear product details",
-            "description": "Straightforward information helps you choose with greater confidence."
+            "description": "Straightforward information helps you choose with confidence."
           }
         },
         "support": {
           "type": "reason",
           "settings": {
             "title": "Support when needed",
-            "description": "Questions about an order or product? Our support team is ready to help."
+            "description": "Questions about an order or product? We are here to help."
           }
         }
       },
       "block_order": [
-        "useful",
-        "clear",
+        "quality",
+        "clarity",
         "support"
       ],
       "settings": {
         "eyebrow": "The Vennix approach",
-        "heading": "A simpler way to discover what works",
-        "text": "<ul><li>We bring useful finds across home, technology, style and everyday living into one considered edit.</li></ul>",
-        "link_label": "Explore all products",
-        "link": "shopify://collections/all",
+        "heading": "Designed around modern everyday life",
+        "text": "<p>VENNIX brings modern clothing and active essentials together in a focused, easy-to-shop experience.</p>",
+        "link_label": "Explore the edit",
+        "link": "shopify://collections/featured-essentials",
         "color_scheme": "scheme-4"
       }
-    },
-    "178752782879b7db22": {
-      "type": "_blocks",
-      "blocks": {
-        "ai_gen_block_9b786fb_QNEgY3": {
-          "type": "ai_gen_block_9b786fb",
-          "settings": {
-            "badge_label": "New Arrival",
-            "days_threshold": 30,
-            "badge_position": "top left",
-            "badge_offset": 10,
-            "badge_background_color": "#26332f",
-            "badge_text_color": "#fafafa",
-            "badge_corner_radius": 40,
-            "badge_font_size": 11,
-            "badge_padding_horizontal": 10,
-            "badge_padding_vertical": 4
-          },
-          "blocks": {}
-        }
-      },
-      "block_order": [
-        "ai_gen_block_9b786fb_QNEgY3"
-      ],
-      "settings": {}
-    },
-    "1787528409bc8262fc": {
-      "type": "_blocks",
-      "blocks": {
-        "ai_gen_block_cab1973_eHi3cY": {
-          "type": "ai_gen_block_cab1973",
-          "disabled": true,
-          "settings": {
-            "item_1_enabled": true,
-            "item_1_date": "2024",
-            "item_1_title": "Vennix is born",
-            "item_1_description": "Started with a straightforward idea — make it easier to find products that are actually worth buying.",
-            "item_2_enabled": true,
-            "item_2_date": "Early 2025",
-            "item_2_title": "First collections live",
-            "item_2_description": "Launched our first curated edits across home, tech, and everyday essentials.",
-            "item_3_enabled": true,
-            "item_3_date": "Mid 2025",
-            "item_3_title": "Growing the edit",
-            "item_3_description": "Expanded into apparel and phone accessories, staying true to our considered selection process.",
-            "item_4_enabled": true,
-            "item_4_date": "Late 2025",
-            "item_4_title": "Community building",
-            "item_4_description": "Welcomed our first loyal customers and started listening closely to what they actually need.",
-            "item_5_enabled": true,
-            "item_5_date": "2026",
-            "item_5_title": "Still at it",
-            "item_5_description": "Continuing to find, test, and curate — one useful product at a time.",
-            "desktop_width_percent": 100,
-            "line_position": 40,
-            "line_thickness": 2,
-            "line_color": "#e0e0e0",
-            "active_line_color": "#000000",
-            "dot_size": 16,
-            "dot_border_thickness": 2,
-            "dot_color": "#ffffff",
-            "active_dot_color": "#000000",
-            "card_background": "#ffffff",
-            "card_border_radius": 12,
-            "inactive_opacity": 0.5,
-            "date_font_size": 14,
-            "date_color": "#666666",
-            "title_font_size": 24,
-            "title_color": "#000000",
-            "description_font_size": 16,
-            "description_color": "#333333"
-          },
-          "blocks": {}
-        }
-      },
-      "block_order": [
-        "ai_gen_block_cab1973_eHi3cY"
-      ],
-      "settings": {}
     },
     "vennix_newsletter": {
       "type": "vennix-newsletter",
       "settings": {
         "eyebrow": "The Vennix list",
-        "heading": "New finds, considered updates",
-        "subtext": "Be first to hear about new arrivals, useful guides, and occasional offers.",
-        "placeholder": "Your email address",
+        "heading": "Stay close to what is new",
+        "subtext": "New arrivals, considered edits and occasional offers. No unnecessary noise.",
+        "placeholder": "Email address",
         "btn_label": "Join the list",
         "success_msg": "Thanks for joining the Vennix list.",
         "disclaimer": "Unsubscribe at any time.",
@@ -332,11 +110,7 @@
   "order": [
     "vennix_hero",
     "featured_collection",
-    "1787528713ec24d91e",
-    "vennix_trust",
     "vennix_values",
-    "178752782879b7db22",
-    "1787528409bc8262fc",
     "vennix_newsletter"
   ]
 }
