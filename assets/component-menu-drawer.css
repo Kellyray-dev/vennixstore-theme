@@ -241,3 +241,37 @@ details[open].menu-opening > .menu-drawer__submenu {
     transition: none !important;
   }
 }
+
+
+/* VENNIX editorial mobile navigation refinement */
+.menu-drawer {
+  background: rgb(var(--color-background));
+  border-top: 1px solid rgba(var(--color-foreground), 0.10);
+  box-shadow: 0 1.5rem 3rem rgba(0, 0, 0, 0.08);
+}
+
+.menu-drawer__menu-item {
+  min-height: 5.4rem;
+  padding-left: 1.8rem;
+  padding-right: 1.8rem;
+  border-bottom: 1px solid rgba(var(--color-foreground), 0.08);
+  font-size: 1.35rem;
+  font-weight: 500;
+  letter-spacing: 0.12rem;
+  text-transform: uppercase;
+}
+
+.menu-drawer__menu-item:hover,
+.menu-drawer__menu-item:focus-visible {
+  color: #C9A96E;
+  background: rgba(201, 169, 110, 0.06);
+}
+
+.menu-drawer__close-button {
+  min-height: 5.2rem;
+  letter-spacing: 0.10rem;
+}
+
+.menu-drawer__utility-links {
+  border-top: 1px solid rgba(var(--color-foreground), 0.10);
+}

@@ -412,3 +412,128 @@ cart-drawer-items::-webkit-scrollbar-track-piece {
     margin-left: 0;
   }
 }
+
+
+/* VENNIX editorial cart refinement */
+.drawer__inner {
+  background: rgb(var(--color-background));
+  border-left: 1px solid rgba(var(--color-foreground), 0.12);
+  box-shadow: -1.2rem 0 4rem rgba(0, 0, 0, 0.08);
+}
+
+.drawer__header {
+  min-height: 7.2rem;
+  padding: 1.8rem 0;
+  border-bottom: 1px solid rgba(var(--color-foreground), 0.10);
+}
+
+.drawer__heading {
+  font-size: 1.7rem;
+  letter-spacing: 0.12rem;
+  text-transform: uppercase;
+}
+
+.drawer__close {
+  color: #C9A96E;
+}
+
+.cart-drawer .cart-item {
+  border-bottom-color: rgba(var(--color-foreground), 0.08);
+}
+
+.cart-drawer .cart-item__name {
+  font-weight: 500;
+  letter-spacing: 0.01rem;
+}
+
+.cart-drawer .quantity {
+  border-color: rgba(var(--color-foreground), 0.18);
+  border-radius: 0;
+}
+
+.cart-drawer .quantity__button {
+  color: rgb(var(--color-foreground));
+}
+
+.cart-drawer .cart-remove-button {
+  color: rgba(var(--color-foreground), 0.62);
+}
+
+.cart-drawer .cart-remove-button:hover {
+  color: #C9A96E;
+}
+
+.cart-drawer .drawer__footer {
+  border-top: 1px solid rgba(var(--color-foreground), 0.10);
+  padding-top: 1.6rem;
+}
+
+.cart-drawer .cart__checkout-button {
+  min-height: 5.2rem;
+  letter-spacing: 0.12rem;
+  text-transform: uppercase;
+  border-radius: 0;
+}
+
+.vx-shipping-progress {
+  margin: 0 0 1.6rem;
+  padding: 1.2rem 0 1.5rem;
+  border-bottom: 1px solid rgba(var(--color-foreground), 0.08);
+}
+
+.vx-shipping-progress__message {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 0.9rem;
+  color: rgba(var(--color-foreground), 0.82);
+  font-size: 1.25rem;
+  line-height: 1.4;
+}
+
+.vx-shipping-progress__message svg {
+  width: 1.9rem;
+  height: 1.9rem;
+  flex: 0 0 auto;
+  color: #C9A96E;
+}
+
+.vx-shipping-progress__message strong {
+  color: rgb(var(--color-foreground));
+  font-weight: 600;
+}
+
+.vx-shipping-progress__track {
+  height: 0.4rem;
+  width: 100%;
+  overflow: hidden;
+  background: rgba(var(--color-foreground), 0.10);
+}
+
+.vx-shipping-progress__fill {
+  display: block;
+  height: 100%;
+  background: #C9A96E;
+  transition: width 300ms ease;
+}
+
+.vx-shipping-progress.is-complete .vx-shipping-progress__fill {
+  background: #C9A96E;
+}
+
+@media screen and (max-width: 749px) {
+  .drawer__inner {
+    width: 100%;
+    max-width: 100vw;
+    border-left: 0;
+  }
+
+  .drawer__header {
+    min-height: 6.4rem;
+    padding: 1.5rem 0;
+  }
+
+  .cart-drawer .cart__checkout-button {
+    min-height: 5.4rem;
+  }
+}
