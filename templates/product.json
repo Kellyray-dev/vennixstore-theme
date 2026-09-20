@@ -1,123 +1,39 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main": {
       "type": "main-product",
       "blocks": {
-        "vendor": {
-          "type": "text",
-          "settings": {
-            "text": "{{ product.vendor }}",
-            "text_style": "uppercase"
-          }
-        },
-        "title": {
-          "type": "title",
-          "settings": {}
-        },
-        "price": {
-          "type": "price",
-          "settings": {}
-        },
-        "variant_picker": {
-          "type": "variant_picker",
-          "settings": {
-            "picker_type": "dropdown",
-            "swatch_shape": "circle"
-          }
-        },
-        "quantity_selector": {
-          "type": "quantity_selector",
-          "settings": {}
-        },
-        "buy_buttons": {
-          "type": "buy_buttons",
-          "settings": {
-            "show_dynamic_checkout": true,
-            "show_gift_card_recipient": true
-          }
-        },
-        "description": {
-          "type": "description",
-          "settings": {}
-        },
-        "share": {
-          "type": "share",
-          "settings": {
-            "share_label": "Share"
-          }
-        },
-        "metafields_guru_text_7kprja": {
-          "type": "shopify://apps/metafields-guru/blocks/text/79c9df68-85d5-4857-a386-0d96fc22b663",
-          "settings": {
-            "title": "",
-            "mn": "metafields_guru",
-            "mk": "text",
-            "from_shop": false,
-            "color": "",
-            "bg": "",
-            "text_style": "default",
-            "design": "ul",
-            "gap": 4,
-            "plv": 0,
-            "plh": 0,
-            "corner_radius": 0,
-            "border_size": 0,
-            "border_style": "solid",
-            "pf": "",
-            "sf": "",
-            "display_units": true,
-            "display_currency": false,
-            "pt": 0,
-            "pb": 0,
-            "cc": ""
-          }
-        },
-        "rating": {
-          "type": "rating",
-          "settings": {}
-        },
+        "title": {"type": "title", "settings": {}},
+        "price": {"type": "price", "settings": {}},
+        "rating": {"type": "rating", "settings": {}},
         "inventory": {
           "type": "inventory",
-          "settings": {
-            "text_style": "uppercase",
-            "inventory_threshold": 8,
-            "show_inventory_quantity": false
-          }
+          "settings": {"text_style": "uppercase", "inventory_threshold": 8, "show_inventory_quantity": false}
         },
+        "variant_picker": {"type": "variant_picker", "settings": {"picker_type": "dropdown", "swatch_shape": "circle"}},
+        "quantity_selector": {"type": "quantity_selector", "settings": {}},
+        "buy_buttons": {"type": "buy_buttons", "settings": {"show_dynamic_checkout": true, "show_gift_card_recipient": true}},
+        "description": {"type": "description", "settings": {}},
         "shipping": {
           "type": "collapsible_tab",
-          "settings": {
-            "heading": "Shipping",
-            "icon": "truck",
-            "content": "<p>Free shipping is available on orders over $50. Other available shipping options are shown at checkout.</p>",
-            "page": ""
-          }
+          "settings": {"heading": "Shipping", "icon": "truck", "content": "<p>Free shipping is available on orders over $50. Other available shipping options are shown at checkout.</p>", "page": ""}
         },
         "returns": {
           "type": "collapsible_tab",
-          "settings": {
-            "heading": "Returns",
-            "icon": "return",
-            "content": "<p>Eligible items can be returned within 30 days. Review our refund policy for conditions and return instructions.</p>",
-            "page": ""
-          }
-        }
+          "settings": {"heading": "Returns", "icon": "return", "content": "<p>Eligible items can be returned within 30 days. Review our refund policy for conditions and return instructions.</p>", "page": ""}
+        },
+        "share": {"type": "share", "settings": {"share_label": "Share"}}
       },
-      "block_order": [
-        "vendor",
-        "title",
-        "rating",
-        "price",
-        "inventory",
-        "variant_picker",
-        "quantity_selector",
-        "buy_buttons",
-        "description",
-        "metafields_guru_text_7kprja",
-        "shipping",
-        "returns",
-        "share"
-      ],
+      "block_order": ["title","rating","price","inventory","variant_picker","quantity_selector","buy_buttons","description","shipping","returns","share"],
       "settings": {
         "enable_sticky_info": true,
         "color_scheme": "scheme-1",
@@ -137,37 +53,12 @@
     },
     "disclosures": {
       "type": "disclosures",
-      "settings": {
-        "heading": "Disclosures",
-        "heading_size": "h2",
-        "open_by_default": false,
-        "color_scheme": "",
-        "padding_top": 36,
-        "padding_bottom": 0
-      }
+      "settings": {"heading": "Disclosures","heading_size": "h2","open_by_default": false,"color_scheme":"","padding_top": 36,"padding_bottom": 0}
     },
     "related-products": {
       "type": "related-products",
-      "settings": {
-        "heading": "More to explore",
-        "heading_size": "h2",
-        "products_to_show": 4,
-        "columns_desktop": 4,
-        "columns_mobile": "2",
-        "color_scheme": "scheme-1",
-        "image_ratio": "square",
-        "image_shape": "default",
-        "show_secondary_image": true,
-        "show_vendor": false,
-        "show_rating": true,
-        "padding_top": 64,
-        "padding_bottom": 72
-      }
+      "settings": {"heading": "More to explore","heading_size": "h2","products_to_show": 4,"columns_desktop": 4,"columns_mobile": "2","color_scheme": "scheme-1","image_ratio": "square","image_shape": "default","show_secondary_image": true,"show_vendor": false,"show_rating": true,"padding_top": 64,"padding_bottom": 72}
     }
   },
-  "order": [
-    "main",
-    "disclosures",
-    "related-products"
-  ]
+  "order": ["main","disclosures","related-products"]
 }
