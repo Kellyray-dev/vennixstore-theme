@@ -52,7 +52,16 @@
   }
 
   /* ================================================================ monogram */
+  // The paid value names the feature ("Monogram", "Monogram - gold"), but a
+  // plain value may name it too ("No Monogram", "Without monogram"), so a
+  // negated value never counts as personalisation.
   var MONOGRAM_RE = /monogram/i;
+  var MONOGRAM_NEGATED_RE = /^\s*(?:no|none|non|not|without)\b/i;
+
+  function isMonogramValue(value) {
+    var text = String(value == null ? '' : value);
+    return MONOGRAM_RE.test(text) && !MONOGRAM_NEGATED_RE.test(text);
+  }
 
   class VxMonogram extends HTMLElement {
     connectedCallback() {
@@ -111,21 +120,36 @@
     }
 
     isMonogramVariant(id) {
-      var v = this.findVariant(id);
-      return !!v && MONOGRAM_RE.test(v.title);
+      return this.variantHasMonogram(this.findVariant(id));
     }
 
-    /** Position of the personalisation option, read from a monogram variant. */
+    /**
+     * Position of the personalisation option, read from the variants' option
+     * values. The title cannot be used for this: a plain value can name the
+     * feature as well ("No Monogram"), and then both values would look alike.
+     */
     monogramOptionIndex() {
-      var sample = this.variants.find(function (v) { return MONOGRAM_RE.test(v.title); });
-      if (!sample) return -1;
-      return (sample.options || []).findIndex(function (o) { return MONOGRAM_RE.test(o); });
+      if (this.monoOptionIndex !== undefined) return this.monoOptionIndex;
+      var index = -1;
+      this.variants.forEach(function (variant) {
+        if (index !== -1) return;
+        var at = (variant.options || []).findIndex(isMonogramValue);
+        if (at !== -1) index = at;
+      });
+      this.monoOptionIndex = index;
+      return index;
+    }
+
+    /** Whether a variant opts into personalisation — its value at that option. */
+    variantHasMonogram(variant) {
+      var index = this.monogramOptionIndex();
+      return !!variant && index !== -1 && isMonogramValue((variant.options || [])[index]);
     }
 
     /**
      * Options that are not the personalisation option itself. The position comes
-     * from the monogram variant, so a base variant whose value reads "None"
-     * rather than "No monogram" still lines up with its monogrammed twin.
+     * from the values, so a base variant whose value reads "None" rather than
+     * "No monogram" still lines up with its monogrammed twin.
      */
     plainOptions(variant) {
       var skip = this.monogramOptionIndex();
@@ -141,12 +165,12 @@
 
     baseFor(monoVariant) {
       if (!monoVariant) return null;
-      return this.variants.find((v) => !MONOGRAM_RE.test(v.title) && this.sameOptions(v, monoVariant)) || null;
+      return this.variants.find((v) => !this.variantHasMonogram(v) && this.sameOptions(v, monoVariant)) || null;
     }
 
     monogramFor(baseId) {
       var base = this.findVariant(baseId);
-      var monos = this.variants.filter(function (v) { return MONOGRAM_RE.test(v.title); });
+      var monos = this.variants.filter((v) => this.variantHasMonogram(v));
       if (!monos.length) return null;
       if (!base) return null;
       // Only swap in a monogram variant whose other options match the shopper's
