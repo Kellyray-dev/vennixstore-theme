@@ -86,22 +86,37 @@
   /* --------------------------------------------------------------- wishlist */
   var WISHLIST_KEY = 'vennix:wishlist';
 
+  function cleanWishlist(items) {
+    return Array.isArray(items) ? items.filter(function (h) { return typeof h === 'string' && h; }) : [];
+  }
+
+  // Mirrors storage so the wishlist keeps working when a write fails: with
+  // storage blocked or full, every later read would otherwise fall back to the
+  // stale saved list and the heart/count would snap back to it.
+  var wishlistCache = null;
+
+  function readWishlist() {
+    try {
+      wishlistCache = cleanWishlist(JSON.parse(localStorage.getItem(WISHLIST_KEY) || '[]'));
+    } catch (e) {
+      /* storage unavailable: whatever is already in memory is all we have */
+      if (!wishlistCache) wishlistCache = [];
+    }
+    return wishlistCache;
+  }
+
   var Wishlist = {
     list: function () {
-      try {
-        var items = JSON.parse(localStorage.getItem(WISHLIST_KEY) || '[]');
-        return Array.isArray(items) ? items.filter(function (h) { return typeof h === 'string' && h; }) : [];
-      } catch (e) {
-        return [];
-      }
+      return (wishlistCache || readWishlist()).slice();
     },
     save: function (items) {
+      wishlistCache = cleanWishlist(items);
       try {
-        localStorage.setItem(WISHLIST_KEY, JSON.stringify(items));
+        localStorage.setItem(WISHLIST_KEY, JSON.stringify(wishlistCache));
       } catch (e) {
-        /* storage full or blocked: keep working in-memory for this page */
+        /* storage full or blocked: the in-memory list drives the rest of the page */
       }
-      document.dispatchEvent(new CustomEvent('vennix:wishlist-change', { detail: { items: items } }));
+      document.dispatchEvent(new CustomEvent('vennix:wishlist-change', { detail: { items: wishlistCache.slice() } }));
     },
     has: function (handle) {
       return this.list().indexOf(handle) > -1;
@@ -127,6 +142,7 @@
   // Keep several open tabs in step.
   window.addEventListener('storage', function (event) {
     if (event.key === WISHLIST_KEY) {
+      wishlistCache = null; // re-read what the other tab saved
       document.dispatchEvent(new CustomEvent('vennix:wishlist-change', { detail: { items: Wishlist.list() } }));
     }
   });
@@ -557,7 +573,10 @@
           } else {
             this.trigger.remove();
           }
-          history.replaceState(history.state, '', next);
+          // The address bar keeps the collection's first-page URL: the appended
+          // cards are a progressive enhancement of it, and the later page's URL
+          // only ever renders that later page — rewriting it would point a
+          // refresh, a share or a Back press at a view the shopper never saw.
           // Move focus to the first new product for keyboard and screen reader users.
           var focusTarget = firstNew && firstNew.querySelector('a[href]');
           if (focusTarget) focusTarget.focus({ preventScroll: true });

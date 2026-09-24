@@ -115,11 +115,24 @@
       return !!v && MONOGRAM_RE.test(v.title);
     }
 
-    /** Options that are not the personalisation option itself. */
-    plainOptions(variant) {
-      return (variant.options || []).filter(function (o) { return !MONOGRAM_RE.test(o); });
+    /** Position of the personalisation option, read from a monogram variant. */
+    monogramOptionIndex() {
+      var sample = this.variants.find(function (v) { return MONOGRAM_RE.test(v.title); });
+      if (!sample) return -1;
+      return (sample.options || []).findIndex(function (o) { return MONOGRAM_RE.test(o); });
     }
 
+    /**
+     * Options that are not the personalisation option itself. The position comes
+     * from the monogram variant, so a base variant whose value reads "None"
+     * rather than "No monogram" still lines up with its monogrammed twin.
+     */
+    plainOptions(variant) {
+      var skip = this.monogramOptionIndex();
+      return (variant.options || []).filter(function (o, i) { return i !== skip; });
+    }
+
+    /** Compare two variants option by option, ignoring the personalisation one. */
     sameOptions(a, b) {
       var pa = this.plainOptions(a);
       var pb = this.plainOptions(b);
@@ -136,7 +149,10 @@
       var monos = this.variants.filter(function (v) { return MONOGRAM_RE.test(v.title); });
       if (!monos.length) return null;
       if (!base) return null;
-      return monos.find((v) => this.sameOptions(v, base)) || (monos.length === 1 ? monos[0] : null);
+      // Only swap in a monogram variant whose other options match the shopper's
+      // selection. Falling back to a lone monogram variant would submit it for
+      // whatever size it was built for — the wrong item at the wrong price.
+      return monos.find((v) => this.sameOptions(v, base)) || null;
     }
 
     clean(value) {
@@ -371,6 +387,20 @@
       return match || size;
     }
 
+    /**
+     * Whether the picker marks this value as unavailable. Dawn uses the
+     * `disabled` class for buttons and `visually-disabled` for swatches; every
+     * value also carries `data-option-available` (product-variant-options.liquid),
+     * which is the only signal a dropdown option offers.
+     */
+    isUnavailable(el) {
+      if (!el) return true;
+      if (el.disabled) return true;
+      if (el.getAttribute('aria-disabled') === 'true') return true;
+      if (el.classList.contains('disabled') || el.classList.contains('visually-disabled')) return true;
+      return el.getAttribute('data-option-available') === 'false';
+    }
+
     apply(size) {
       var picker = document.getElementById('variant-selects-' + this.sectionId);
       if (!picker) return;
@@ -380,7 +410,7 @@
       ).filter((el) => el.dataset.optionName === this.optionName && (el.value === label || normal(el.value) === size));
       var el = candidates[0];
       if (!el) return;
-      if (el.classList.contains('disabled')) {
+      if (this.isUnavailable(el)) {
         toast(this.t.unavailable || '');
         return;
       }

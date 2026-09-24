@@ -6,7 +6,9 @@
 
   Accepts:
   - collection: {Object} (required)
-  - products: {Array} products on the current page (optional; defaults to the first 24)
+  - products: {Array} the products shown on the current page (optional; defaults
+    to collection.products). Every listed product is included, and
+    numberOfItems counts exactly those items.
 {%- endcomment -%}
 {%- if collection != blank -%}
   {%- liquid
@@ -29,9 +31,9 @@
       {%- endif %}
       "mainEntity": {
         "@type": "ItemList",
-        "numberOfItems": {{ collection.products_count }},
+        "numberOfItems": {{ jsonld_products.size | default: 0 }},
         "itemListElement": [
-          {%- for item in jsonld_products limit: 24 -%}
+          {%- for item in jsonld_products -%}
             {
               "@type": "ListItem",
               "position": {{ forloop.index }},
