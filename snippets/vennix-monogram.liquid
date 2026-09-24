@@ -10,6 +10,13 @@
                back to the free property automatically — it never advertises a fee
                Shopify would not charge.
 
+  In variant mode the personalisation option is identified by its *name* here and
+  passed to the script as data-monogram-option, because option values alone are
+  ambiguous: a colour called "Monogram gold" also mentions the feature, and if the
+  script mistook it for the personalisation option it would treat plain variants as
+  monogrammed, fail to match the paid variant, and quietly drop the fee. The names
+  are the block's `option_names` setting.
+
   Accepts:
   - block: {Object} the main-product `monogram` block (required)
   - product: {Object} (required)
@@ -51,6 +58,48 @@
   if mono_variant != blank and current_variant
     assign mono_fee = mono_variant.price | minus: current_variant.price
   endif
+
+  # Which option position carries the personalisation, resolved here from the
+  # option's name and handed to the script as an index. Option values cannot
+  # settle it on their own: an unrelated option may mention the feature too (a
+  # "Monogram gold" colour), and then the paid variant is never matched and the
+  # fee is never charged. Positions in product.options_with_values and in a
+  # variant's options array are the same order, so the index travels.
+  assign mono_option_index = -1
+  assign mono_option_names = block.settings.option_names | default: 'Monogram, Personalisation, Personalization, Engraving, Initials' | downcase | split: ','
+  # Prefer an exact option-name match. A loose match is only a fallback, so an
+  # option named "Colour - Monogram Gold" cannot win over an exact
+  # "Personalisation" option that appears later.
+  for mono_option in product.options_with_values
+    assign mono_option_position = forloop.index0
+    assign mono_option_name_down = mono_option.name | downcase | strip
+    for mono_option_name in mono_option_names
+      assign mono_option_name_clean = mono_option_name | strip
+      if mono_option_name_clean != blank and mono_option_name_down == mono_option_name_clean
+        assign mono_option_index = mono_option_position
+        break
+      endif
+    endfor
+    if mono_option_index != -1
+      break
+    endif
+  endfor
+  if mono_option_index == -1
+    for mono_option in product.options_with_values
+      assign mono_option_position = forloop.index0
+      assign mono_option_name_down = mono_option.name | downcase | strip
+      for mono_option_name in mono_option_names
+        assign mono_option_name_clean = mono_option_name | strip
+        if mono_option_name_clean != blank and mono_option_name_down contains mono_option_name_clean
+          assign mono_option_index = mono_option_position
+          break
+        endif
+      endfor
+      if mono_option_index != -1
+        break
+      endif
+    endfor
+  endif
 -%}
 
 {%- if mono_eligible -%}
@@ -58,6 +107,7 @@
     class="vx-monogram"
     data-mode="{% if mono_variant != blank %}variant{% else %}property{% endif %}"
     data-max="{{ mono_max }}"
+    data-monogram-option="{{ mono_option_index }}"
     data-product-form-id="{{ product_form_id }}"
     {{ block.shopify_attributes }}
   >

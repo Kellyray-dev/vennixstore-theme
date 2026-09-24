@@ -63,12 +63,25 @@
     return MONOGRAM_RE.test(text) && !MONOGRAM_NEGATED_RE.test(text);
   }
 
+  /** Which of two candidate option positions looks more like the personalisation one. */
+  function ranksAbove(a, b) {
+    if (a.paired !== b.paired) return a.paired > b.paired;
+    if (a.plain !== b.plain) return a.plain < b.plain;
+    if (a.positive !== b.positive) return a.positive > b.positive;
+    return a.index > b.index;
+  }
+
   class VxMonogram extends HTMLElement {
     connectedCallback() {
       this.mode = this.dataset.mode || 'property';
       this.max = parseInt(this.dataset.max, 10) || 3;
       this.formId = this.dataset.productFormId;
       this.variants = readJson(this, '[data-vx-monogram-variants]') || [];
+      // The position Liquid resolved from the option's name, or -1 when no option
+      // is named for the theme. Validated before it is trusted — see
+      // monogramOptionIndex().
+      this.optionHint = parseInt(this.dataset.monogramOption, 10);
+      if (!Number.isInteger(this.optionHint)) this.optionHint = -1;
       this.toggle = this.querySelector('[data-vx-monogram-toggle]');
       this.body = this.querySelector('[data-vx-monogram-body]');
       this.input = this.querySelector('[data-vx-monogram-input]');
@@ -124,20 +137,80 @@
     }
 
     /**
-     * Position of the personalisation option, read from the variants' option
-     * values. The title cannot be used for this: a plain value can name the
-     * feature as well ("No Monogram"), and then both values would look alike.
+     * Position of the personalisation option.
+     *
+     * Liquid resolves it from the option's *name* (snippets/vennix-monogram.liquid)
+     * and passes it as data-monogram-option, which is the only unambiguous signal.
+     * The name is still checked against the variants before it is trusted, so a
+     * renamed or mis-set option falls back to reading the values instead.
+     *
+     * That fallback is scored across the whole product, never taken from the first
+     * match in the first variant: an unrelated option can mention the feature too
+     * (a "Monogram gold" colour), and if that position won, ordinary variants would
+     * read as monogrammed, the paid variant would never match, and the fee would be
+     * dropped without anything looking broken.
      */
     monogramOptionIndex() {
       if (this.monoOptionIndex !== undefined) return this.monoOptionIndex;
-      var index = -1;
+      var hinted = this.optionHint >= 0 && this.optionScore(this.optionHint) ? this.optionHint : -1;
+      this.monoOptionIndex = hinted !== -1 ? hinted : this.inferMonogramOptionIndex();
+      return this.monoOptionIndex;
+    }
+
+    /**
+     * Fallback for a product whose personalisation option is not named for the
+     * theme: the position that best splits the product into pairs wins. Ties —
+     * which a colour that also pairs exactly will force — go to the later
+     * position, because the add-on option is the one a merchant adds to a product
+     * that already has its colours and sizes.
+     */
+    inferMonogramOptionIndex() {
+      var width = this.variants.reduce(function (count, variant) {
+        return Math.max(count, (variant.options || []).length);
+      }, 0);
+      var best = -1;
+      var bestScore = null;
+      for (var index = 0; index < width; index++) {
+        var score = this.optionScore(index);
+        if (!score) continue;
+        if (!bestScore || ranksAbove(score, bestScore)) {
+          bestScore = score;
+          best = index;
+        }
+      }
+      return best;
+    }
+
+    /**
+     * How well one option position looks like the personalisation option, or null
+     * when no variant opts in there at all. `paired` counts the monogrammed
+     * variants that have a twin with the same values everywhere else, and `plain`
+     * the distinct values on the other side — a personalisation option has one
+     * ("None"), a colour has several.
+     */
+    optionScore(index) {
+      var self = this;
+      var positive = 0;
+      var paired = 0;
+      var plain = {};
       this.variants.forEach(function (variant) {
-        if (index !== -1) return;
-        var at = (variant.options || []).findIndex(isMonogramValue);
-        if (at !== -1) index = at;
+        var value = (variant.options || [])[index];
+        if (!isMonogramValue(value)) {
+          plain[String(value == null ? '' : value)] = true;
+          return;
+        }
+        positive += 1;
+        var hasTwin = self.variants.some(function (other) {
+          return (
+            other !== variant &&
+            !isMonogramValue((other.options || [])[index]) &&
+            self.sameOptionsExcept(variant, other, index)
+          );
+        });
+        if (hasTwin) paired += 1;
       });
-      this.monoOptionIndex = index;
-      return index;
+      if (!positive) return null;
+      return { paired: paired, plain: Object.keys(plain).length, positive: positive, index: index };
     }
 
     /** Whether a variant opts into personalisation — its value at that option. */
@@ -147,20 +220,34 @@
     }
 
     /**
+     * Option values at every position except `skip`. Split out from plainOptions
+     * so a candidate position can be scored before the personalisation option is
+     * known — plainOptions asks for it, and asking twice would recurse.
+     */
+    optionsExcept(variant, skip) {
+      return (variant.options || []).filter(function (o, i) { return i !== skip; });
+    }
+
+    /** Compare two variants option by option, ignoring the position at `skip`. */
+    sameOptionsExcept(a, b, skip) {
+      var pa = this.optionsExcept(a, skip);
+      var pb = this.optionsExcept(b, skip);
+      return pa.length === pb.length && pa.every(function (o, i) { return o === pb[i]; });
+    }
+
+    /**
      * Options that are not the personalisation option itself. The position comes
-     * from the values, so a base variant whose value reads "None" rather than
+     * from the option name where Liquid could resolve it and from the values
+     * otherwise, so a base variant whose value reads "None" rather than
      * "No monogram" still lines up with its monogrammed twin.
      */
     plainOptions(variant) {
-      var skip = this.monogramOptionIndex();
-      return (variant.options || []).filter(function (o, i) { return i !== skip; });
+      return this.optionsExcept(variant, this.monogramOptionIndex());
     }
 
     /** Compare two variants option by option, ignoring the personalisation one. */
     sameOptions(a, b) {
-      var pa = this.plainOptions(a);
-      var pb = this.plainOptions(b);
-      return pa.length === pb.length && pa.every(function (o, i) { return o === pb[i]; });
+      return this.sameOptionsExcept(a, b, this.monogramOptionIndex());
     }
 
     baseFor(monoVariant) {

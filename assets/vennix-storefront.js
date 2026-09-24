@@ -214,8 +214,11 @@
   class VxWishlistGrid extends HTMLElement {
     connectedCallback() {
       if (this.ready) {
-        // Moved rather than recreated: the grid is still bound, and the cards and
-        // their dialogs are still ours.
+        // Moved rather than recreated: the cards and their dialogs are still
+        // ours, but disconnecting unbound the document listener and nothing else
+        // puts it back — without this the grid renders once here and then goes
+        // stale on every later heart click and every change from another tab.
+        document.addEventListener('vennix:wishlist-change', this.render);
         this.render();
         return;
       }
@@ -657,6 +660,16 @@
   // re-renders the cart drawer footer — and with it this component — whenever the
   // cart changes, and a message typed moments earlier must survive that swap.
   var cartAttributeDrafts = Object.create(null);
+  // The write chain, kept outside the element for the same reason. A chain on
+  // `this` only orders one element's own requests, and a footer refresh runs two
+  // elements at once: the outgoing one saves on its way out while the incoming one
+  // restores the draft and saves again. Those are separate chains, so the outgoing
+  // element's request — carrying the older text — can land last and overwrite the
+  // newer message on the cart while the field still displays it.
+  var cartAttributeWrites = Object.create(null);
+  // What the cart is known to hold, so a queued write that would change nothing is
+  // not sent at all.
+  var cartAttributeWritten = Object.create(null);
 
   class VxCartAttribute extends HTMLElement {
     connectedCallback() {
@@ -664,6 +677,9 @@
       if (!this.field) return;
       this.key = this.dataset.attribute || 'Gift message';
       this.sent = this.field.value; // the value the markup was rendered with
+      // The markup is rendered from the cart, so this is what the cart holds —
+      // unless a save has already recorded something newer.
+      if (!(this.key in cartAttributeWritten)) cartAttributeWritten[this.key] = this.field.value;
       this.onInput = this.queue.bind(this);
       this.field.addEventListener('input', this.onInput);
 
@@ -681,7 +697,9 @@
     disconnectedCallback() {
       if (this.field) this.field.removeEventListener('input', this.onInput);
       // The footer is being replaced: save now rather than waiting out the
-      // debounce, which would be dropped along with the element.
+      // debounce, which would be dropped along with the element. The value this
+      // hands over is the one the chain writes when it reaches this link, by which
+      // time the replacement element may have taken the message further.
       clearTimeout(this.timer);
       this.timer = null;
       if (this.field && this.field.value !== this.sent) this.save();
@@ -699,20 +717,27 @@
     save() {
       clearTimeout(this.timer);
       this.timer = null;
-      var value = this.field.value;
-      this.sent = value;
-      cartAttributeDrafts[this.key] = value;
-      var body = {};
-      body[this.key] = value;
+      var key = this.key;
+      var self = this;
       var url = (window.routes && window.routes.cart_update_url) || root + 'cart/update';
-      // Writes are serialised so an earlier, slower request cannot land after a
-      // newer message and overwrite it.
-      this.writes = (this.writes || Promise.resolve())
+      // Serialised per attribute across every instance of this element, and the
+      // value is read when the request runs rather than when it is queued: an
+      // element that has since been replaced then writes the newest draft, so it
+      // cannot land on top of the message the shopper is looking at.
+      cartAttributeWrites[key] = (cartAttributeWrites[key] || Promise.resolve())
         .then(function () {
+          var value = key in cartAttributeDrafts ? cartAttributeDrafts[key] : self.field.value;
+          if (cartAttributeWritten[key] === value) return;
+          var body = {};
+          body[key] = value;
           return fetch(url + '.js', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
             body: JSON.stringify({ attributes: body }),
+          }).then(function (response) {
+            if (!response.ok) throw new Error(response.status);
+            cartAttributeWritten[key] = value;
+            self.sent = value;
           });
         })
         .catch(function () {
