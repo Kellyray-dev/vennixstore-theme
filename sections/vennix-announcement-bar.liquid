@@ -1,30 +1,55 @@
 {%- liquid
   assign free_shipping_amount = settings.free_shipping_threshold | times: 100 | money_without_trailing_zeros
+
+  # The dismissal key covers every value the shopper can read — each
+  # announcement's wording, link and global-message switch, plus the global
+  # free-shipping message and the threshold it prints — so editing any of them
+  # reveals a bar that was dismissed, as the setting's info text promises.
+  assign announcement_fingerprint = settings.free_shipping_message | append: '|' | append: free_shipping_amount | append: '|' | append: settings.free_shipping_enabled
+  for block in section.blocks
+    assign announcement_fingerprint = announcement_fingerprint | append: block.settings.text | append: '|' | append: block.settings.link | append: '|' | append: block.settings.use_free_shipping_message
+  endfor
+  assign announcement_fingerprint = announcement_fingerprint | md5 | slice: 0, 10
 -%}
 
-<div
-  class="vx-announcement"
+<vx-announcement
+  class="vx-announcement vx-announcement--{{ section.settings.layout }}"
   role="region"
-  aria-label="Store announcements"
+  aria-label="{{ 'sections.header.announcement' | t }}"
+  data-mode="{{ section.settings.layout }}"
+  data-rotate-speed="{{ section.settings.rotate_speed | times: 1000 }}"
+  data-fingerprint="{{ announcement_fingerprint }}"
   style="--vx-announcement-bg: {{ section.settings.bg_color }}; --vx-announcement-text: {{ section.settings.text_color }};"
 >
   <div class="vx-announcement__viewport">
     <ul class="vx-announcement__track" role="list">
       {%- for block in section.blocks -%}
         {%- unless block.settings.use_free_shipping_message and settings.free_shipping_enabled == false -%}
-          <li {{ block.shopify_attributes }}>
+          <li class="is-active" data-vx-announcement-item {{ block.shopify_attributes }}>
             <span class="vx-announcement__dot" aria-hidden="true"></span>
-            {%- if block.settings.use_free_shipping_message -%}
-              {{ settings.free_shipping_message | escape | replace: '[threshold]', free_shipping_amount }}
+            {%- capture announcement_text -%}
+              {%- if block.settings.use_free_shipping_message -%}
+                {{ settings.free_shipping_message | escape | replace: '[threshold]', free_shipping_amount }}
+              {%- else -%}
+                {{ block.settings.text | escape | replace: '[threshold]', free_shipping_amount }}
+              {%- endif -%}
+            {%- endcapture -%}
+            {%- if block.settings.link != blank -%}
+              <a class="vx-announcement__link" href="{{ block.settings.link }}">{{ announcement_text }}</a>
             {%- else -%}
-              {{ block.settings.text | escape | replace: '[threshold]', free_shipping_amount }}
+              {{ announcement_text }}
             {%- endif -%}
           </li>
         {%- endunless -%}
       {%- endfor -%}
     </ul>
   </div>
-</div>
+  {%- if section.settings.show_dismiss -%}
+    <button type="button" class="vx-announcement__close" data-vx-announcement-close aria-label="{{ 'vennix.general.dismiss' | t }}">
+      <span class="svg-wrapper" aria-hidden="true">{{- 'icon-close.svg' | inline_asset_content -}}</span>
+    </button>
+  {%- endif -%}
+</vx-announcement>
 
 {% schema %}
 {
@@ -36,7 +61,18 @@
   "settings": [
     { "type": "color", "id": "bg_color", "label": "Background color", "default": "#20201E" },
     { "type": "color", "id": "text_color", "label": "Text color", "default": "#FFFFFF" },
-    { "type": "range", "id": "rotate_speed", "label": "Animation speed", "min": 2, "max": 10, "step": 1, "default": 5, "info": "Reserved for rotating announcement layouts." }
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Layout",
+      "options": [
+        { "value": "inline", "label": "Inline row (rotates on tablet and mobile)" },
+        { "value": "rotate", "label": "Rotate one message at a time" }
+      ],
+      "default": "inline"
+    },
+    { "type": "range", "id": "rotate_speed", "label": "Seconds per message", "min": 2, "max": 10, "step": 1, "unit": "s", "default": 5, "info": "Rotation pauses on hover/focus and is disabled for visitors who prefer reduced motion." },
+    { "type": "checkbox", "id": "show_dismiss", "label": "Allow shoppers to dismiss", "default": false, "info": "Hidden for the rest of the browsing session. Editing the messages shows the bar again." }
   ],
   "blocks": [
     {
@@ -57,7 +93,8 @@
           "label": "Use global free-shipping message",
           "default": false,
           "info": "Uses Theme settings > Cart and hides this item when free-shipping promotion is disabled."
-        }
+        },
+        { "type": "url", "id": "link", "label": "Link" }
       ]
     }
   ],

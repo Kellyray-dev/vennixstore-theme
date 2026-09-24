@@ -1,0 +1,172 @@
+{%- comment -%}
+  Vennix store pulse (ported from the VENNIX storefront theme's `store-pulse`).
+
+  A band of "honest numbers". Each stat can be typed in by the merchant or read
+  live from Shopify (product count, collection count, free-shipping threshold), so
+  no figures are hard-coded. Numbers are rendered server-side at their final value
+  and only animate (count up) when JavaScript runs and reduced motion is off.
+  Stats with no value are skipped; the section hides itself when none remain.
+{%- endcomment -%}
+{{ 'section-vennix-editorial.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'vennix-motion.js' | asset_url }}" defer="defer"></script>
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+{%- capture pulse_items -%}
+  {%- for block in section.blocks -%}
+    {%- liquid
+      assign stat_value = ''
+      assign stat_number = ''
+      assign stat_prefix = block.settings.prefix
+      assign stat_suffix = block.settings.suffix
+      assign stat_decimals = 0
+      assign stat_label = block.settings.label
+
+      case block.settings.source
+        when 'product_count'
+          assign stat_number = collections.all.products_count
+        when 'collection_count'
+          assign stat_number = collections.size
+        when 'free_shipping'
+          if settings.free_shipping_enabled and settings.free_shipping_threshold > 0
+            assign stat_value = settings.free_shipping_threshold | times: 100 | money_without_trailing_zeros
+            assign stat_prefix = ''
+            assign stat_suffix = ''
+            if stat_label == blank
+              assign stat_label = 'vennix.store_pulse.free_shipping_label' | t
+            endif
+          endif
+        else
+          assign stat_raw = block.settings.value | strip
+          assign stat_numeric = stat_raw | remove: ',' | plus: 0
+          assign stat_check = stat_numeric | append: ''
+          assign stat_raw_clean = stat_raw | remove: ','
+          if stat_raw != blank and stat_check == stat_raw_clean
+            assign stat_number = stat_numeric
+            if stat_raw contains '.'
+              assign stat_decimals = stat_raw | split: '.' | last | size
+            endif
+          else
+            assign stat_value = stat_raw
+          endif
+      endcase
+
+      if stat_number != ''
+        if stat_decimals > 0
+          assign stat_value = stat_number | round: stat_decimals
+        else
+          assign stat_value = stat_number | round
+        endif
+        assign stat_value = stat_prefix | append: stat_value | append: stat_suffix
+      endif
+    -%}
+    {%- if stat_value != blank -%}
+      <li class="vx-pulse__stat vx-rise" style="--vx-index: {{ forloop.index0 }}" {{ block.shopify_attributes }}>
+        <span
+          class="vx-pulse__value"
+          {% if stat_number != '' %}
+            data-vx-count-to="{{ stat_number }}"
+            data-vx-count-decimals="{{ stat_decimals }}"
+            data-vx-count-prefix="{{ stat_prefix | escape }}"
+            data-vx-count-suffix="{{ stat_suffix | escape }}"
+          {% endif %}
+          >{{- stat_value | escape -}}</span
+        >
+        {%- if stat_label != blank -%}
+          <span class="vx-pulse__label">{{ stat_label | escape }}</span>
+        {%- endif -%}
+      </li>
+    {%- endif -%}
+  {%- endfor -%}
+{%- endcapture -%}
+
+{%- if pulse_items != blank or request.design_mode -%}
+  <div
+    class="vx-pulse color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-padding"
+    data-vx-motion="{{ section.settings.enable_entrance_animation }}"
+  >
+    <div class="page-width">
+      {%- if section.settings.heading != blank or section.settings.subheading != blank -%}
+        <header class="vx-editorial-head vx-editorial-head--center vx-rise">
+          {%- if section.settings.heading != blank -%}
+            <h2 class="vx-editorial-head__title h2">{{ section.settings.heading | escape }}</h2>
+          {%- endif -%}
+          {%- if section.settings.subheading != blank -%}
+            <p class="vx-editorial-head__sub">{{ section.settings.subheading | escape }}</p>
+          {%- endif -%}
+        </header>
+      {%- endif -%}
+      {%- if pulse_items != blank -%}
+        <ul class="vx-pulse__list" role="list">
+          {{- pulse_items -}}
+        </ul>
+      {%- else -%}
+        <p class="vx-editor-hint">{{ 'vennix.store_pulse.editor_empty' | t }}</p>
+      {%- endif -%}
+    </div>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Vennix store pulse",
+  "tag": "section",
+  "class": "section section--vennix-store-pulse",
+  "disabled_on": { "groups": ["header", "footer"] },
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "The honest numbers" },
+    { "type": "text", "id": "subheading", "label": "Subheading", "default": "Real reviews only. No invented ones." },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-3" },
+    { "type": "checkbox", "id": "enable_entrance_animation", "label": "Animate numbers on scroll", "default": true },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Padding top", "default": 48 },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Padding bottom", "default": 48 }
+  ],
+  "blocks": [
+    {
+      "type": "stat",
+      "name": "Stat",
+      "settings": [
+        {
+          "type": "select",
+          "id": "source",
+          "label": "Source",
+          "options": [
+            { "value": "custom", "label": "Custom value" },
+            { "value": "product_count", "label": "Number of products (live)" },
+            { "value": "collection_count", "label": "Number of collections (live)" },
+            { "value": "free_shipping", "label": "Free-shipping threshold (Theme settings)" }
+          ],
+          "default": "custom"
+        },
+        { "type": "text", "id": "value", "label": "Custom value", "info": "Numbers count up on scroll, e.g. 4.8 or 12000. Text is shown as typed. Leave empty to hide this stat." },
+        { "type": "text", "id": "prefix", "label": "Prefix", "info": "Not used for the free-shipping source." },
+        { "type": "text", "id": "suffix", "label": "Suffix", "info": "e.g. + or %" },
+        { "type": "text", "id": "label", "label": "Label" }
+      ]
+    }
+  ],
+  "max_blocks": 4,
+  "presets": [
+    {
+      "name": "Vennix store pulse",
+      "blocks": [
+        { "type": "stat", "settings": { "source": "product_count", "label": "Pieces in the collection" } },
+        { "type": "stat", "settings": { "source": "collection_count", "label": "Edits to shop" } },
+        { "type": "stat", "settings": { "source": "free_shipping" } },
+        { "type": "stat", "settings": { "source": "custom", "value": "30", "suffix": "-day", "label": "Easy returns window" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

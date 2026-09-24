@@ -332,12 +332,42 @@
               </ul>
 
               {%- if paginate.pages > 1 -%}
-                {% render 'pagination', paginate: paginate, anchor: '' %}
+                {%- if section.settings.pagination_type == 'load_more' -%}
+                  {%- comment -%}
+                    Load more (ported from the VENNIX storefront theme). The trigger is a
+                    real link to the next page, so crawlers and no-JS visitors paginate
+                    normally; vennix-storefront.js appends the next page in place.
+                  {%- endcomment -%}
+                  <vx-load-more
+                    class="vx-load-more"
+                    data-section-id="{{ section.id }}"
+                    data-grid-id="product-grid"
+                    data-total="{{ paginate.items }}"
+                  >
+                    {%- liquid
+                      assign vx_shown = paginate.current_offset | plus: paginate.page_size
+                      if vx_shown > paginate.items
+                        assign vx_shown = paginate.items
+                      endif
+                    -%}
+                    <p class="vx-load-more__status" data-vx-load-more-status aria-live="polite">
+                      {{ 'vennix.collection.showing' | t: shown: vx_shown, total: paginate.items }}
+                    </p>
+                    {%- if paginate.next -%}
+                      <a class="button button--secondary vx-load-more__button" href="{{ paginate.next.url }}" data-vx-load-more-trigger>
+                        {{- 'vennix.collection.load_more' | t -}}
+                      </a>
+                    {%- endif -%}
+                  </vx-load-more>
+                {%- else -%}
+                  {% render 'pagination', paginate: paginate, anchor: '' %}
+                {%- endif -%}
               {%- endif -%}
             </div>
           {%- endif -%}
         </div>
       </div>
+      {%- render 'vennix-collection-jsonld', collection: collection, products: collection.products -%}
     {%- endpaginate -%}
     {% if section.settings.image_shape == 'arch' %}
       {{ 'mask-arch.svg' | inline_asset_content }}
@@ -358,6 +388,23 @@
       "step": 4,
       "default": 16,
       "label": "t:sections.main-collection-product-grid.settings.products_per_page.label"
+    },
+    {
+      "type": "select",
+      "id": "pagination_type",
+      "label": "Pagination",
+      "options": [
+        {
+          "value": "numbered",
+          "label": "Numbered pages"
+        },
+        {
+          "value": "load_more",
+          "label": "Load more button"
+        }
+      ],
+      "default": "numbered",
+      "info": "Load more appends the next page in place. The next-page link stays crawlable."
     },
     {
       "type": "range",

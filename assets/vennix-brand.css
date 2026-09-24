@@ -664,10 +664,6 @@ textarea {
 }
 
 @media screen and (max-width: 989px) {
-  .vx-announcement__track li:nth-child(n + 3) {
-    display: none;
-  }
-
   .vx-trust__item {
     padding-inline: 2rem;
   }
@@ -694,10 +690,6 @@ textarea {
 
   .vx-announcement__track li {
     font-size: 0.9rem;
-  }
-
-  .vx-announcement__track li:nth-child(n + 2) {
-    display: none;
   }
 
   .vx-trust__grid {

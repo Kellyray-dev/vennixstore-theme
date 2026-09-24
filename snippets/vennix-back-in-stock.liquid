@@ -1,0 +1,77 @@
+{%- comment -%}
+  Back-in-stock request (ported from the VENNIX storefront theme).
+
+  Shopify has no native restock alert, so — exactly like the source theme — this
+  posts to Shopify's contact form with the product and variant pre-filled. The
+  merchant receives a real, actionable email; the button never silently does
+  nothing. The form is only visible while the selected variant is sold out and
+  follows variant changes (<vx-back-in-stock> in vennix-storefront.js).
+
+  Accepts:
+  - block: {Object} main-product `back_in_stock` block (required)
+  - product: {Object} (required)
+  - product_form_id: {String} (required)
+{%- endcomment -%}
+{%- liquid
+  assign current_variant = product.selected_or_first_available_variant
+  assign bis_form_id = 'BackInStock-' | append: block.id
+  assign bis_body_template = 'vennix.back_in_stock.body' | t: product: '[product]', variant: '[variant]'
+-%}
+{%- form 'contact', id: bis_form_id, class: 'vx-back-in-stock__form' -%}
+  {%- assign bis_posted = form.posted_successfully? -%}
+  <vx-back-in-stock
+    class="vx-back-in-stock"
+    data-product-form-id="{{ product_form_id }}"
+    data-variant-id="{{ current_variant.id }}"
+    data-product-title="{{ product.title | escape }}"
+    data-body-template="{{ bis_body_template | escape }}"
+    data-posted="{{ bis_posted }}"
+    {% if current_variant.available and bis_posted == false %}
+      hidden
+    {% endif %}
+    {{ block.shopify_attributes }}
+  >
+    {%- if bis_posted -%}
+      <p class="vx-back-in-stock__success" role="status">{{ 'vennix.back_in_stock.success' | t }}</p>
+    {%- else -%}
+      <p class="vx-back-in-stock__lead">
+        <strong>{{ 'vennix.back_in_stock.lead' | t }}</strong>
+        {%- if block.settings.text != blank -%}
+          {{ block.settings.text | escape }}
+        {%- else -%}
+          {{ 'vennix.back_in_stock.text' | t }}
+        {%- endif -%}
+      </p>
+      {%- if form.errors -%}
+        <p class="form__message" role="alert">{{ form.errors | default_errors }}</p>
+      {%- endif -%}
+      <input type="hidden" name="contact[subject]" value="{{ 'vennix.back_in_stock.subject' | t: product: product.title | escape }}">
+      <input type="hidden" name="contact[body]" value="{{ bis_body_template | replace: '[product]', product.title | replace: '[variant]', current_variant.title | escape }}">
+      <input type="hidden" name="contact[tags]" value="back-in-stock">
+      <div class="vx-back-in-stock__row">
+        <div class="field">
+          <input
+            class="field__input"
+            type="email"
+            id="{{ bis_form_id }}-email"
+            name="contact[email]"
+            required
+            autocomplete="email"
+            placeholder="{{ 'vennix.back_in_stock.email' | t }}"
+            value="{{ customer.email }}"
+          >
+          <label class="field__label" for="{{ bis_form_id }}-email">{{ 'vennix.back_in_stock.email' | t }}</label>
+        </div>
+        <button class="button button--secondary" type="submit">{{ 'vennix.back_in_stock.button' | t }}</button>
+      </div>
+    {%- endif -%}
+    <script type="application/json">
+      [
+        {%- for v in product.variants -%}
+          {"id":{{ v.id }},"title":{{ v.title | json }},"available":{{ v.available | json }}}
+          {%- unless forloop.last %},{% endunless -%}
+        {%- endfor -%}
+      ]
+    </script>
+  </vx-back-in-stock>
+{%- endform -%}

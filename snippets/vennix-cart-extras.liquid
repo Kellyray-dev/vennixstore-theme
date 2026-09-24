@@ -1,0 +1,67 @@
+{%- comment -%}
+  Cart extras (ported from the VENNIX storefront theme's cart drawer):
+  - Gift message — saved as the cart attribute "Gift message" so it appears on
+    the order and packing slip (<vx-cart-attribute>, vennix-storefront.js).
+  - Discount code — applied through Shopify's /discount/<code> route and validated
+    by Shopify at checkout. Without JS the form falls back to /checkout?discount=.
+
+  Accepts:
+  - context: {String} 'drawer' or 'page' — only used to build unique ids (required)
+
+  Usage:
+  {% render 'vennix-cart-extras', context: 'drawer' %}
+{%- endcomment -%}
+{%- liquid
+  assign ctx = context | default: 'page'
+  assign gift_attribute = 'Gift message'
+-%}
+{%- if settings.cart_show_gift_note or settings.cart_show_discount_code -%}
+  <div class="vx-cart-extras vx-cart-extras--{{ ctx }}">
+    {%- if settings.cart_show_gift_note -%}
+      <details class="vx-cart-extras__item" {% if cart.attributes[gift_attribute] != blank %}open{% endif %}>
+        <summary class="vx-cart-extras__summary">
+          <span class="svg-wrapper" aria-hidden="true">{{- 'icon-heart.svg' | inline_asset_content -}}</span>
+          {{ 'vennix.cart.gift_note' | t }}
+        </summary>
+        <vx-cart-attribute class="field vx-cart-extras__field" data-attribute="{{ gift_attribute }}">
+          <textarea
+            class="text-area field__input"
+            id="CartGiftNote-{{ ctx }}"
+            name="attributes[{{ gift_attribute }}]"
+            maxlength="250"
+            rows="3"
+            placeholder="{{ 'vennix.cart.gift_note_placeholder' | t }}"
+            form="{% if ctx == 'drawer' %}CartDrawer-Form{% else %}cart{% endif %}"
+          >{{ cart.attributes[gift_attribute] }}</textarea>
+          <label class="visually-hidden" for="CartGiftNote-{{ ctx }}">{{ 'vennix.cart.gift_note' | t }}</label>
+        </vx-cart-attribute>
+      </details>
+    {%- endif -%}
+
+    {%- if settings.cart_show_discount_code -%}
+      <details class="vx-cart-extras__item">
+        <summary class="vx-cart-extras__summary">
+          <span class="svg-wrapper" aria-hidden="true">{{- 'icon-discount.svg' | inline_asset_content -}}</span>
+          {{ 'vennix.cart.discount' | t }}
+        </summary>
+        <form class="vx-cart-extras__discount" action="{{ routes.root_url | append: '/checkout' | replace: '//', '/' }}" method="get" data-vx-discount-form>
+          <div class="field">
+            <input
+              class="field__input"
+              type="text"
+              id="CartDiscount-{{ ctx }}"
+              name="discount"
+              autocomplete="off"
+              autocapitalize="characters"
+              spellcheck="false"
+              placeholder="{{ 'vennix.cart.discount_placeholder' | t }}"
+            >
+            <label class="field__label" for="CartDiscount-{{ ctx }}">{{ 'vennix.cart.discount_placeholder' | t }}</label>
+          </div>
+          <button class="button button--secondary" type="submit">{{ 'vennix.cart.discount_apply' | t }}</button>
+        </form>
+        <p class="vx-cart-extras__help">{{ 'vennix.cart.discount_help' | t }}</p>
+      </details>
+    {%- endif -%}
+  </div>
+{%- endif -%}

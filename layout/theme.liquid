@@ -33,6 +33,8 @@
 
     {%- if settings.favicon != blank -%}
       <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
+    {%- else -%}
+      <link rel="icon" type="image/svg+xml" href="{{ 'vennix-favicon.svg' | asset_url }}">
     {%- endif -%}
 
     {%- unless settings.type_header_font.system? and settings.type_body_font.system? -%}
@@ -87,6 +89,7 @@
       <script src="{{ 'dark-mode.js' | asset_url }}" defer="defer"></script>
     {%- endif -%}
     <script src="{{ 'header-menu-hover.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'vennix-storefront.js' | asset_url }}" defer="defer"></script>
 
     {%- if settings.animations_reveal_on_scroll -%}
       {%- comment -%}
@@ -362,6 +365,7 @@
     {{ 'vennix-brand.css' | asset_url | stylesheet_tag }}
     {{ 'vennix-brand-2.css' | asset_url | stylesheet_tag }}
     {{ 'vennix-design-system.css' | asset_url | stylesheet_tag }}
+    {{ 'vennix-storefront.css' | asset_url | stylesheet_tag }}
     {%- if settings.enable_dark_mode != false -%}
       {{ 'dark-mode.css' | asset_url | stylesheet_tag }}
     {%- endif -%}
@@ -411,6 +415,10 @@
     <a class="skip-to-content-link button visually-hidden" href="#MainContent">
       {{ 'accessibility.skip_to_text' | t }}
     </a>
+
+    {%- if settings.show_scroll_progress -%}
+      <div class="vx-scroll-progress" data-vx-scroll-progress aria-hidden="true"></div>
+    {%- endif -%}
 
     {%- if settings.cart_type == 'drawer' -%}
       {%- render 'cart-drawer' -%}
@@ -467,6 +475,15 @@
         min_error: `{{- 'sections.quick_order_list.min_error' | t: min: '[min]' }}`,
         max_error: `{{- 'sections.quick_order_list.max_error' | t: max: '[max]' }}`,
         step_error: `{{- 'sections.quick_order_list.step_error' | t: step: '[step]' }}`,
+      };
+
+      window.vennixStrings = {
+        wishlistAdded: {{ 'vennix.wishlist.added_toast' | t | json }},
+        wishlistRemoved: {{ 'vennix.wishlist.removed_toast' | t | json }},
+        wishlistView: {{ 'vennix.wishlist.view' | t | json }},
+        loading: {{ 'vennix.collection.loading' | t | json }},
+        loadError: {{ 'vennix.collection.load_error' | t | json }},
+        showing: {{ 'vennix.collection.showing' | t: shown: '[shown]', total: '[total]' | json }},
       };
 
       window.accessibilityStrings = {

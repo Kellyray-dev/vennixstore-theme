@@ -1,0 +1,37 @@
+{%- comment -%}
+  Vennix product card — Section Rendering API endpoint (no preset; not addable).
+
+  Fetched by the wishlist grid (vennix-storefront.js) as
+  /products/<handle>?section_id=vennix-product-card so saved items always show
+  live Shopify data (price, availability, images) through the canonical
+  `card-product` snippet — the same card used on collections and search.
+  Scroll-reveal classes are stripped because the markup is injected after load.
+{%- endcomment -%}
+{%- if product != blank -%}
+  {%- capture vx_card -%}
+    {%- render 'card-product',
+      card_product: product,
+      media_aspect_ratio: 'portrait',
+      image_shape: 'default',
+      show_secondary_image: true,
+      show_vendor: false,
+      show_rating: false,
+      lazy_load: false,
+      quick_add: 'standard',
+      section_id: 'vx-wishlist',
+      product_view_context: 'recommendation'
+    -%}
+  {%- endcapture -%}
+  <div data-vx-product-card>
+    {{ vx_card | remove: 'scroll-trigger animate--slide-in' | remove: 'scroll-trigger animate--fade-in' }}
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Vennix product card",
+  "tag": "div",
+  "class": "vx-product-card-endpoint",
+  "settings": []
+}
+{% endschema %}

@@ -100,4 +100,14 @@
       </a>
     </li>
   {%- endif -%}
+  {%- if settings.social_linkedin_link != blank -%}
+    <li class="list-social__item">
+      <a href="{{ settings.social_linkedin_link }}" class="link list-social__link">
+        <span class="svg-wrapper">
+          {{- 'icon-linkedin.svg' | inline_asset_content -}}
+        </span>
+        <span class="visually-hidden">{{ 'general.social.links.linkedin' | t }}</span>
+      </a>
+    </li>
+  {%- endif -%}
 </ul>

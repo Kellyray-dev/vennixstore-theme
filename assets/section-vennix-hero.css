@@ -523,3 +523,59 @@
     transition: none;
   }
 }
+
+/* --- Background video (ported from the VENNIX storefront hero) ------------
+   Sits over the picture, which stays as the poster / reduced-motion fallback. */
+.vennix-hero__video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: var(--hero-focus, center) center;
+  pointer-events: none;
+}
+
+.vennix-hero__video-toggle {
+  position: absolute;
+  z-index: 3;
+  right: 1.6rem;
+  bottom: 1.6rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 4.4rem;
+  height: 4.4rem;
+  padding: 0;
+  border: 1px solid rgba(26, 26, 26, 0.16);
+  border-radius: 50%;
+  background: rgba(250, 249, 246, 0.86);
+  color: #1a1a1a;
+  cursor: pointer;
+}
+
+.vennix-hero__video-icon {
+  width: 1.2rem;
+  height: 1.2rem;
+  border-left: 0.35rem solid currentColor;
+  border-right: 0.35rem solid currentColor;
+  box-sizing: border-box;
+  padding-inline: 0.25rem;
+}
+
+.vennix-hero__video-toggle[aria-pressed='true'] .vennix-hero__video-icon {
+  width: 0;
+  height: 0;
+  padding: 0;
+  border-style: solid;
+  border-width: 0.65rem 0 0.65rem 1.1rem;
+  border-color: transparent transparent transparent currentColor;
+  margin-left: 0.3rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vennix-hero__video,
+  .vennix-hero__video-toggle {
+    display: none;
+  }
+}

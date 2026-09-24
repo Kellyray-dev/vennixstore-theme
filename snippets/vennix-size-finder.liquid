@@ -1,0 +1,121 @@
+{%- comment -%}
+  Size finder (ported from the VENNIX storefront theme).
+
+  Height + weight + fit preference → a suggested size, restricted to the sizes this
+  product actually sells, then selected in Dawn's variant picker. Renders nothing
+  on products without a size option. Behaviour: assets/vennix-product-extras.js.
+
+  Accepts:
+  - block: {Object} main-product `size_finder` block (required)
+  - product: {Object} (required)
+  - section_id: {String} main-product section id (required)
+{%- endcomment -%}
+{%- liquid
+  assign size_option = blank
+  assign size_names = block.settings.option_names | default: 'Size' | downcase | split: ','
+  for option in product.options_with_values
+    assign option_name_down = option.name | downcase | strip
+    for size_name in size_names
+      assign size_name_clean = size_name | strip
+      if size_name_clean != blank and option_name_down == size_name_clean
+        assign size_option = option
+        break
+      endif
+    endfor
+    if size_option != blank
+      break
+    endif
+  endfor
+-%}
+
+{%- if size_option != blank -%}
+  <vx-size-finder
+    class="vx-size-finder"
+    data-option-name="{{ size_option.name | escape }}"
+    data-section-id="{{ section_id }}"
+    {{ block.shopify_attributes }}
+  >
+    <button type="button" class="vx-size-finder__open link" data-vx-size-finder-open aria-haspopup="dialog">
+      <svg aria-hidden="true" focusable="false" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="8" rx="1.5" transform="rotate(-45 12 12)"/><path d="M9.5 8.5l1.5 1.5M12 11l1.5 1.5M14.5 13.5l1.5 1.5"/></svg>
+      <span>
+        {%- if block.settings.label != blank -%}
+          {{ block.settings.label | escape }}
+        {%- else -%}
+          {{ 'vennix.size_finder.open' | t }}
+        {%- endif -%}
+      </span>
+    </button>
+    {%- if product.metafields.custom.fit_notes != blank -%}
+      <span class="vx-size-finder__fit">{{ product.metafields.custom.fit_notes }}</span>
+    {%- endif -%}
+
+    <dialog class="vx-size-finder__dialog" aria-labelledby="SizeFinderTitle-{{ block.id }}">
+      <div class="vx-size-finder__panel">
+        <button type="button" class="vx-size-finder__close" data-vx-size-finder-close aria-label="{{ 'vennix.size_finder.close' | t }}">
+          <span class="svg-wrapper">{{- 'icon-close.svg' | inline_asset_content -}}</span>
+        </button>
+        <p class="vx-section-eyebrow">{{ 'vennix.size_finder.open' | t }}</p>
+        <h2 id="SizeFinderTitle-{{ block.id }}" class="vx-size-finder__title h3">{{ 'vennix.size_finder.title' | t }}</h2>
+        <p class="vx-size-finder__intro">{{ 'vennix.size_finder.intro' | t }}</p>
+
+        <form class="vx-size-finder__form" data-vx-size-finder-form novalidate>
+          <div class="vx-size-finder__group">
+            <span class="vx-size-finder__label" id="SizeFinderHeight-{{ block.id }}">{{ 'vennix.size_finder.height' | t }}</span>
+            <div class="vx-size-finder__pair" role="group" aria-labelledby="SizeFinderHeight-{{ block.id }}">
+              <label class="field">
+                <input class="field__input" type="number" name="heightFt" min="4" max="7" value="5" inputmode="numeric" id="SizeFinderFt-{{ block.id }}" placeholder="5">
+                <span class="field__label">{{ 'vennix.size_finder.feet' | t }}</span>
+              </label>
+              <label class="field">
+                <input class="field__input" type="number" name="heightIn" min="0" max="11" value="9" inputmode="numeric" id="SizeFinderIn-{{ block.id }}" placeholder="9">
+                <span class="field__label">{{ 'vennix.size_finder.inches' | t }}</span>
+              </label>
+            </div>
+          </div>
+          <label class="field">
+            <input class="field__input" type="number" name="weight" min="70" max="450" value="165" inputmode="numeric" id="SizeFinderWeight-{{ block.id }}" placeholder="165">
+            <span class="field__label">{{ 'vennix.size_finder.weight' | t }}</span>
+          </label>
+          <fieldset class="vx-size-finder__pref">
+            <legend class="vx-size-finder__label">{{ 'vennix.size_finder.preference' | t }}</legend>
+            <label><input type="radio" name="preference" value="snug"> <span>{{ 'vennix.size_finder.snug' | t }}</span></label>
+            <label><input type="radio" name="preference" value="true" checked> <span>{{ 'vennix.size_finder.true' | t }}</span></label>
+            <label><input type="radio" name="preference" value="relaxed"> <span>{{ 'vennix.size_finder.relaxed' | t }}</span></label>
+          </fieldset>
+          <button class="button button--full-width" type="submit">{{ 'vennix.size_finder.submit' | t }}</button>
+        </form>
+
+        <div class="vx-size-finder__result" data-vx-size-finder-result aria-live="polite" hidden></div>
+
+        <p class="vx-size-finder__disclaimer">
+          {{ 'vennix.size_finder.disclaimer' | t }}
+          {%- if block.settings.size_guide_page != blank %}
+            <a href="{{ block.settings.size_guide_page.url }}">{{ block.settings.size_guide_page.title | escape }}</a>
+          {%- endif -%}
+        </p>
+      </div>
+    </dialog>
+
+    <script type="application/json" data-vx-size-values>
+      {{ size_option.values | map: 'name' | json }}
+    </script>
+    <script type="application/json" data-vx-size-strings>
+      {
+        "suggest_html": {{ 'vennix.size_finder.suggest_html' | t: size: '[size]' | json }},
+        "select": {{ 'vennix.size_finder.select' | t: size: '[size]' | json }},
+        "selected": {{ 'vennix.size_finder.select' | t: size: '[size]' | append: ' ✓' | json }},
+        "also": {{ 'vennix.size_finder.also' | t: sizes: '[sizes]' | json }},
+        "reason_band": {{ 'vennix.size_finder.reason_band' | t: size: '[size]' | json }},
+        "reason_relaxed": {{ 'vennix.size_finder.reason_relaxed' | t | json }},
+        "reason_snug": {{ 'vennix.size_finder.reason_snug' | t | json }},
+        "reason_true": {{ 'vennix.size_finder.reason_true' | t | json }},
+        "out_of_range": {{ 'vennix.size_finder.out_of_range' | t | json }},
+        "unavailable": {{ 'vennix.size_finder.unavailable' | t | json }}
+      }
+    </script>
+  </vx-size-finder>
+{%- elsif request.design_mode -%}
+  <p class="vx-editor-hint" {{ block.shopify_attributes }}>
+    Size finder: this product has no option named {{ block.settings.option_names | default: 'Size' }}, so the finder is hidden on the storefront.
+  </p>
+{%- endif -%}
