@@ -240,6 +240,13 @@
         "default": "default",
         "label": "t:settings_schema.animations.settings.animations_hover_elements.label",
         "info": "t:settings_schema.animations.settings.animations_hover_elements.info"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_scroll_progress",
+        "label": "Show scroll progress line",
+        "default": true,
+        "info": "A thin accent line at the top of the page that tracks scroll position and shows while the next page loads. Hidden for visitors who prefer reduced motion."
       }
     ]
   },
@@ -1402,6 +1409,12 @@
         "id": "social_vimeo_link",
         "label": "t:settings_schema.social-media.settings.social_vimeo_link.label",
         "placeholder": "t:settings_schema.social-media.settings.social_vimeo_link.info"
+      },
+      {
+        "type": "text",
+        "id": "social_linkedin_link",
+        "label": "LinkedIn",
+        "placeholder": "https://www.linkedin.com/company/vennixstore"
       }
     ]
   },
@@ -1442,6 +1455,39 @@
         "id": "currency_code_enabled",
         "label": "t:settings_schema.currency_format.settings.currency_code_enabled.label",
         "default": true
+      }
+    ]
+  },
+  {
+    "name": "Wishlist",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "Shoppers can save products with the heart button. Saved items are kept in the shopper's browser (no account needed) and shown on the page that uses the \"page.wishlist\" template."
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_wishlist",
+        "label": "Enable wishlist",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "card_show_wishlist",
+        "label": "Show heart button on product cards",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "header_show_wishlist",
+        "label": "Show wishlist icon in header",
+        "default": true
+      },
+      {
+        "type": "page",
+        "id": "wishlist_page",
+        "label": "Wishlist page",
+        "info": "Create a page in Online Store > Pages, assign it the \"wishlist\" template, and select it here. Defaults to /pages/wishlist."
       }
     ]
   },
@@ -1545,6 +1591,20 @@
         "id": "show_cart_note",
         "label": "t:settings_schema.cart.settings.show_cart_note.label",
         "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "cart_show_gift_note",
+        "label": "Show gift message field",
+        "default": true,
+        "info": "Saved to the order as the cart attribute \"Gift message\" so it appears on the order and packing slip."
+      },
+      {
+        "type": "checkbox",
+        "id": "cart_show_discount_code",
+        "label": "Show discount code field",
+        "default": true,
+        "info": "Applies a Shopify discount code before checkout. Codes are validated by Shopify; invalid codes are ignored at checkout."
       },
       {
         "type": "header",

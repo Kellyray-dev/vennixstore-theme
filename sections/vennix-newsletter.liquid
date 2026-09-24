@@ -24,7 +24,14 @@
 
     <div class="vx-newsletter__form-wrap vx-rise" style="--vx-index: 1">
       {% form 'customer', class: 'vx-newsletter__form' %}
-        <input type="hidden" name="contact[tags]" value="newsletter">
+        {%- liquid
+          assign newsletter_tags = 'newsletter'
+          assign newsletter_extra_tag = section.settings.tag | strip | remove: ','
+          if newsletter_extra_tag != blank
+            assign newsletter_tags = newsletter_tags | append: ',' | append: newsletter_extra_tag
+          endif
+        -%}
+        <input type="hidden" name="contact[tags]" value="{{ newsletter_tags | escape }}">
         <div class="vx-newsletter__field">
           <label class="visually-hidden" for="VennixNewsletter-{{ section.id }}">Email address</label>
           <input
@@ -75,6 +82,7 @@
     { "type": "text", "id": "btn_label", "label": "Button label", "default": "Join the list" },
     { "type": "text", "id": "success_msg", "label": "Success message", "default": "Thanks for joining the Vennix list." },
     { "type": "text", "id": "disclaimer", "label": "Disclaimer", "default": "Unsubscribe at any time." },
+    { "type": "text", "id": "tag", "label": "Extra customer tag", "info": "Added alongside \"newsletter\" so you can segment sign-ups from this form, e.g. homepage." },
     { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-3" },
     {
       "type": "header",
@@ -95,7 +103,7 @@
       "step": 50,
       "unit": "ms",
       "label": "Animation duration",
-      "default": 560
+      "default": 550
     }
   ],
   "presets": [

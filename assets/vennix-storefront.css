@@ -1,0 +1,460 @@
+/**
+ * VENNIX storefront layer — global UI for features ported from the VENNIX
+ * storefront theme: toasts, wishlist, scroll progress, announcement rotation,
+ * collection "load more", cart extras and theme-editor hints.
+ *
+ * Loaded after vennix-design-system.css. Uses the shared `--v-*` tokens and
+ * Dawn colour-scheme variables so it follows every scheme and dark mode.
+ * Behaviour lives in vennix-storefront.js.
+ */
+
+/* ---------------------------------------------------------------- toasts */
+.vx-toasts {
+  position: fixed;
+  z-index: 1001;
+  right: 1.6rem;
+  bottom: 1.6rem;
+  left: 1.6rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem;
+  pointer-events: none;
+}
+
+@media screen and (min-width: 750px) {
+  .vx-toasts {
+    left: auto;
+    right: 2.4rem;
+    bottom: 2.4rem;
+    align-items: flex-end;
+  }
+}
+
+.vx-toast {
+  display: flex;
+  align-items: center;
+  gap: 1.6rem;
+  max-width: 42rem;
+  padding: 1.2rem 1.6rem;
+  color: var(--v-cream);
+  background: var(--v-ink);
+  border-radius: var(--v-radius-control);
+  box-shadow: var(--v-shadow-float);
+  font-size: 1.3rem;
+  letter-spacing: 0.02em;
+  line-height: 1.4;
+  opacity: 0;
+  transform: translateY(0.8rem);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  pointer-events: auto;
+}
+
+.vx-toast.is-in {
+  opacity: 1;
+  transform: none;
+}
+
+.vx-toast__link {
+  flex: none;
+  color: var(--v-gold);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 1.1rem;
+  text-underline-offset: 0.3rem;
+}
+
+.vx-toast__link:hover {
+  color: var(--v-cream);
+}
+
+/* -------------------------------------------------------------- wishlist */
+vx-wishlist-button {
+  display: inline-flex;
+}
+
+.vx-wishlist-button__control {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: rgb(var(--color-foreground));
+  font: inherit;
+  cursor: pointer;
+}
+
+.vx-wishlist-button__icon {
+  width: 1.8rem;
+  height: 1.8rem;
+  flex: none;
+  fill: none;
+  transition: fill 0.2s ease, transform 0.2s ease;
+}
+
+.vx-wishlist-button.is-saved .vx-wishlist-button__icon {
+  fill: currentColor;
+}
+
+.vx-wishlist-button__control:active .vx-wishlist-button__icon {
+  transform: scale(0.88);
+}
+
+.vx-wishlist-button__control:focus-visible {
+  outline: 0.2rem solid rgba(var(--color-foreground), 0.6);
+  outline-offset: 0.3rem;
+}
+
+/* Floating heart on product cards — sits above the card's full-cover link. */
+.vx-wishlist-button--icon.card__wishlist {
+  position: absolute;
+  z-index: 3;
+  top: 1rem;
+  right: 1rem;
+}
+
+.vx-wishlist-button--icon .vx-wishlist-button__control {
+  width: 3.8rem;
+  height: 3.8rem;
+  color: var(--v-ink);
+  background: rgba(250, 249, 246, 0.9);
+  border-radius: 50%;
+  box-shadow: var(--v-shadow-subtle);
+  backdrop-filter: blur(4px);
+}
+
+.vx-wishlist-button--icon .vx-wishlist-button__control:hover {
+  background: var(--v-cream);
+}
+
+.vx-wishlist-button--icon.is-saved .vx-wishlist-button__control {
+  color: var(--v-gold-deep);
+}
+
+/* Labelled variant (product page). */
+.vx-wishlist-button__control--labelled {
+  min-height: 4.4rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 0.4rem;
+  transition: text-decoration-color 0.2s ease;
+}
+
+.vx-wishlist-button__control--labelled:hover {
+  text-decoration-color: currentColor;
+}
+
+.vx-wishlist-button--button.is-saved .vx-wishlist-button__icon {
+  color: var(--v-gold-deep);
+}
+
+/* Header count bubble — reuses Dawn's cart bubble shape. */
+.header__icon--wishlist {
+  position: relative;
+}
+
+.header__icon--wishlist .vx-wishlist-count[hidden] {
+  display: none;
+}
+
+/* Wishlist page grid */
+.vx-wishlist__toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.2rem;
+  margin-bottom: 2.4rem;
+  padding-bottom: 1.6rem;
+  border-bottom: 1px solid rgba(var(--color-foreground), 0.12);
+  font-size: 1.3rem;
+  color: rgba(var(--color-foreground), 0.72);
+}
+
+.vx-wishlist__toolbar[hidden],
+.vx-wishlist__empty[hidden],
+.vx-wishlist__loading[hidden] {
+  display: none;
+}
+
+.vx-wishlist__clear {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.3rem;
+  cursor: pointer;
+}
+
+.vx-wishlist__empty {
+  max-width: 52rem;
+  margin: 0 auto;
+  padding: 4.8rem 0;
+  text-align: center;
+}
+
+.vx-wishlist__empty .button {
+  margin-top: 2.4rem;
+}
+
+.vx-wishlist__loading {
+  padding: 4.8rem 0;
+  text-align: center;
+  color: rgba(var(--color-foreground), 0.62);
+}
+
+.vx-wishlist__note {
+  margin-top: 3.2rem;
+  font-size: 1.2rem;
+  text-align: center;
+  color: rgba(var(--color-foreground), 0.62);
+}
+
+/* ------------------------------------------------------- scroll progress */
+.vx-scroll-progress {
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--v-gold);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  pointer-events: none;
+}
+
+.vx-scroll-progress.is-loading {
+  animation: vx-progress-pulse 1s ease-in-out infinite;
+}
+
+@keyframes vx-progress-pulse {
+  50% {
+    opacity: 0.4;
+  }
+}
+
+/* ---------------------------------------------------------- announcement */
+vx-announcement {
+  display: block;
+  position: relative;
+}
+
+.vx-announcement__link {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 0.3rem;
+}
+
+.vx-announcement__link:hover,
+.vx-announcement__link:focus-visible {
+  text-decoration-color: currentColor;
+}
+
+.vx-announcement__close {
+  position: absolute;
+  top: 50%;
+  right: 0.8rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.2rem;
+  height: 3.2rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+  opacity: 0.8;
+  transform: translateY(-50%);
+}
+
+.vx-announcement__close:hover {
+  opacity: 1;
+}
+
+.vx-announcement__close .svg-wrapper,
+.vx-announcement__close svg {
+  width: 1.2rem;
+  height: 1.2rem;
+}
+
+.vx-announcement:has(.vx-announcement__close) .vx-announcement__track {
+  padding-inline-end: 4.8rem;
+}
+
+/* Rotation: JS adds .is-rotating; one message is visible at a time. Without JS
+   (or with reduced motion) every message stays visible in a scrollable row. */
+.vx-announcement.is-rotating .vx-announcement__track {
+  justify-content: center;
+  overflow: hidden;
+}
+
+.vx-announcement.is-rotating [data-vx-announcement-item]:not(.is-active) {
+  display: none;
+}
+
+.vx-announcement.is-rotating [data-vx-announcement-item].is-active {
+  animation: vx-announcement-in 0.4s ease both;
+}
+
+@keyframes vx-announcement-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.4rem);
+  }
+}
+
+@media screen and (max-width: 749px) {
+  .vx-announcement.is-rotating [data-vx-announcement-item] {
+    white-space: normal;
+  }
+}
+
+/* -------------------------------------------------- collection load more */
+.vx-load-more {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.2rem;
+  margin-top: 4rem;
+  text-align: center;
+}
+
+.vx-load-more__status {
+  margin: 0;
+  font-size: 1.2rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(var(--color-foreground), 0.62);
+}
+
+.vx-load-more__button {
+  min-width: 22rem;
+}
+
+.vx-load-more__button.loading {
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+/* ------------------------------------------------------------ cart extras */
+.vx-cart-extras {
+  display: grid;
+  gap: 0;
+  margin-top: 1.2rem;
+  border-top: 1px solid rgba(var(--color-foreground), 0.1);
+}
+
+.vx-cart-extras__item {
+  border-bottom: 1px solid rgba(var(--color-foreground), 0.1);
+}
+
+.vx-cart-extras__summary {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.2rem 0;
+  font-size: 1.3rem;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  list-style: none;
+}
+
+.vx-cart-extras__summary::-webkit-details-marker {
+  display: none;
+}
+
+.vx-cart-extras__summary::after {
+  content: '+';
+  margin-left: auto;
+  font-size: 1.6rem;
+  line-height: 1;
+  color: rgba(var(--color-foreground), 0.62);
+}
+
+.vx-cart-extras__item[open] > .vx-cart-extras__summary::after {
+  content: '\2212';
+}
+
+.vx-cart-extras__summary .svg-wrapper,
+.vx-cart-extras__summary svg {
+  width: 1.6rem;
+  height: 1.6rem;
+}
+
+.vx-cart-extras__field,
+.vx-cart-extras__discount {
+  display: block;
+  padding-bottom: 1.4rem;
+}
+
+.vx-cart-extras__discount {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.8rem;
+  align-items: stretch;
+}
+
+.vx-cart-extras__discount .button {
+  min-width: 0;
+  padding-inline: 2rem;
+}
+
+.vx-cart-extras__help {
+  grid-column: 1 / -1;
+  margin: 0;
+  font-size: 1.2rem;
+  color: rgba(var(--color-foreground), 0.62);
+}
+
+.vx-cart-extras--drawer {
+  text-align: left;
+}
+
+.vx-cart-footer__aside {
+  display: grid;
+  gap: 1.2rem;
+  align-content: start;
+}
+
+@media screen and (min-width: 750px) {
+  .vx-cart-footer__aside {
+    flex: 0 1 35rem;
+  }
+}
+
+/* --------------------------------------------------------- editor hints */
+.vx-editor-hint {
+  margin: 1.2rem 0;
+  padding: 1.2rem 1.6rem;
+  border: 1px dashed rgba(var(--color-foreground), 0.35);
+  border-radius: var(--v-radius-control);
+  background: rgba(var(--color-foreground), 0.04);
+  color: rgba(var(--color-foreground), 0.8);
+  font-size: 1.3rem;
+  line-height: 1.5;
+}
+
+/* --------------------------------------------------------- reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .vx-toast,
+  .vx-wishlist-button__icon {
+    transition: none;
+  }
+
+  .vx-scroll-progress,
+  .vx-announcement.is-rotating [data-vx-announcement-item].is-active {
+    animation: none;
+  }
+}

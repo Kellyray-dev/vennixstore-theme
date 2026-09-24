@@ -109,6 +109,39 @@
     transform: scaleX(1);
   }
 
+  /* Optional stat row (ported from the VENNIX storefront brand story). */
+  .vx-story__stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+    gap: 2.4rem;
+    margin: 4rem auto 0;
+    padding: 2.8rem 0 0;
+    border-top: 1px solid rgba(var(--color-foreground), 0.14);
+    list-style: none;
+  }
+
+  .vx-story__stat {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .vx-story__stat-value {
+    font-family: var(--font-heading-family);
+    font-size: clamp(2.8rem, 3.4vw, 4rem);
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    color: rgb(var(--color-foreground));
+  }
+
+  .vx-story__stat-label {
+    font-size: 1.1rem;
+    font-weight: 650;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(var(--color-foreground), 0.68);
+  }
+
   @media screen and (max-width: 749px) {
     .vx-story__grid {
       gap: 3rem;
@@ -182,6 +215,45 @@
           >
             {{ section.settings.button_label | escape }}
           </a>
+        {%- endif -%}
+        {%- capture story_stats -%}
+          {%- for block in section.blocks -%}
+            {%- if block.settings.value != blank -%}
+              {%- liquid
+                assign stat_raw = block.settings.value | strip
+                assign stat_clean = stat_raw | remove: ','
+                assign stat_number = stat_clean | plus: 0
+                assign stat_check = stat_number | append: ''
+                assign stat_decimals = 0
+                if stat_clean contains '.'
+                  assign stat_decimals = stat_clean | split: '.' | last | size
+                endif
+              -%}
+              <li class="vx-story__stat" {{ block.shopify_attributes }}>
+                <span
+                  class="vx-story__stat-value"
+                  {% if stat_check == stat_clean %}
+                    data-vx-count-to="{{ stat_number }}"
+                    data-vx-count-decimals="{{ stat_decimals }}"
+                    data-vx-count-prefix="{{ block.settings.prefix | escape }}"
+                    data-vx-count-suffix="{{ block.settings.suffix | escape }}"
+                  {% endif %}
+                >
+                  {{- block.settings.prefix | escape -}}
+                  {{- stat_raw | escape -}}
+                  {{- block.settings.suffix | escape -}}
+                </span>
+                {%- if block.settings.label != blank -%}
+                  <span class="vx-story__stat-label">{{ block.settings.label | escape }}</span>
+                {%- endif -%}
+              </li>
+            {%- endif -%}
+          {%- endfor -%}
+        {%- endcapture -%}
+        {%- if story_stats != blank -%}
+          <ul class="vx-story__stats vx-rise" style="--vx-index: 4" role="list">
+            {{- story_stats -}}
+          </ul>
         {%- endif -%}
       </div>
     </div>
@@ -272,6 +344,19 @@
       "default": 80
     }
   ],
+  "blocks": [
+    {
+      "type": "stat",
+      "name": "Stat",
+      "settings": [
+        { "type": "text", "id": "value", "label": "Value", "info": "Numbers count up on scroll, e.g. 2019 or 4.8. Leave empty to hide." },
+        { "type": "text", "id": "prefix", "label": "Prefix" },
+        { "type": "text", "id": "suffix", "label": "Suffix", "info": "e.g. + or %" },
+        { "type": "text", "id": "label", "label": "Label" }
+      ]
+    }
+  ],
+  "max_blocks": 4,
   "presets": [
     {
       "name": "Vennix brand story"

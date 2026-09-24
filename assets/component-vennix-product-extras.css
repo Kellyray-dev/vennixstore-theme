@@ -1,0 +1,401 @@
+/**
+ * VENNIX product-page extras — monogram, size finder, delivery estimate,
+ * back-in-stock and the labelled wishlist toggle (main-product blocks).
+ * Behaviour: vennix-product-extras.js and vennix-storefront.js.
+ */
+
+.vx-product-wishlist,
+.vx-size-finder,
+.vx-monogram,
+.vx-delivery,
+.vx-back-in-stock {
+  margin: 1.6rem 0;
+}
+
+.product__info-container > .vx-product-wishlist:first-child {
+  margin-top: 0;
+}
+
+/* ---------------------------------------------------------------- monogram */
+vx-monogram {
+  display: block;
+}
+
+.vx-monogram__fieldset {
+  margin: 0;
+  padding: 1.6rem;
+  border: 1px solid rgba(var(--color-foreground), 0.14);
+  border-radius: var(--v-radius-control, 2px);
+  background: rgba(var(--color-foreground), 0.02);
+}
+
+.vx-monogram__toggle {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.2rem;
+  cursor: pointer;
+  font-size: 1.4rem;
+  line-height: 1.4;
+}
+
+.vx-monogram__checkbox {
+  flex: none;
+  width: 1.8rem;
+  height: 1.8rem;
+  margin: 0.1rem 0 0;
+  accent-color: rgb(var(--color-foreground));
+}
+
+.vx-monogram__toggle-text {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.4rem 1rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.vx-monogram__fee {
+  font-style: normal;
+  font-weight: 500;
+  color: var(--v-gold-deep, #a6854d);
+}
+
+.vx-monogram__fee[hidden],
+.vx-monogram__body[hidden],
+.vx-monogram__error[hidden] {
+  display: none;
+}
+
+.vx-monogram__body {
+  margin-top: 1.6rem;
+}
+
+.vx-monogram__intro,
+.vx-monogram__help {
+  margin: 0 0 1.2rem;
+  font-size: 1.3rem;
+  line-height: 1.5;
+  color: rgba(var(--color-foreground), 0.72);
+}
+
+.vx-monogram__help {
+  margin: 1.2rem 0 0;
+}
+
+.vx-monogram__row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 1.2rem;
+  align-items: stretch;
+}
+
+.vx-monogram__field .field__input {
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+}
+
+.vx-monogram__preview {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 9rem;
+  padding: 0 1.6rem;
+  border: 1px solid rgba(var(--color-foreground), 0.14);
+  background: var(--v-cream, #faf9f6);
+  color: var(--v-ink, #1a1a1a);
+}
+
+.vx-monogram__stitch {
+  font-family: var(--font-heading-family, 'Playfair Display', Georgia, serif);
+  font-size: 2rem;
+  letter-spacing: 0.24em;
+  color: var(--v-gold-deep, #a6854d);
+}
+
+.vx-monogram__stitch.is-empty {
+  color: rgba(26, 26, 26, 0.3);
+}
+
+.vx-monogram__error {
+  margin: 1rem 0 0;
+  font-size: 1.3rem;
+  color: rgb(var(--color-foreground));
+}
+
+.vx-monogram__error::before {
+  content: '! ';
+  font-weight: 700;
+  color: #b3261e;
+}
+
+/* ------------------------------------------------------------- size finder */
+vx-size-finder {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem 1.6rem;
+}
+
+.vx-size-finder__open {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  min-height: 4.4rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: rgb(var(--color-foreground));
+  font: inherit;
+  font-size: 1.3rem;
+  letter-spacing: 0.06em;
+  text-decoration: underline;
+  text-underline-offset: 0.4rem;
+  cursor: pointer;
+}
+
+.vx-size-finder__fit {
+  font-size: 1.3rem;
+  color: rgba(var(--color-foreground), 0.72);
+}
+
+.vx-size-finder__dialog {
+  width: min(52rem, calc(100vw - 2.4rem));
+  max-height: calc(100dvh - 2.4rem);
+  padding: 0;
+  border: 0;
+  border-radius: var(--v-radius-control, 2px);
+  background: var(--v-cream, #faf9f6);
+  color: var(--v-ink, #1a1a1a);
+  box-shadow: var(--v-shadow-float);
+  overflow: auto;
+}
+
+.vx-size-finder__dialog::backdrop {
+  background: rgba(26, 26, 26, 0.5);
+}
+
+.vx-size-finder__panel {
+  position: relative;
+  padding: 3.2rem 2.4rem 2.4rem;
+}
+
+@media screen and (min-width: 750px) {
+  .vx-size-finder__panel {
+    padding: 4rem;
+  }
+}
+
+.vx-size-finder__close {
+  position: absolute;
+  top: 1.2rem;
+  right: 1.2rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 4.4rem;
+  height: 4.4rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+.vx-size-finder__close .svg-wrapper,
+.vx-size-finder__close svg {
+  width: 1.6rem;
+  height: 1.6rem;
+}
+
+.vx-size-finder__title {
+  margin: 0 0 0.8rem;
+}
+
+.vx-size-finder__intro {
+  margin: 0 0 2.4rem;
+  font-size: 1.4rem;
+  color: #5a5752;
+}
+
+.vx-size-finder__form {
+  display: grid;
+  gap: 1.6rem;
+}
+
+.vx-size-finder__label {
+  display: block;
+  margin-bottom: 0.8rem;
+  padding: 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.vx-size-finder__pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.2rem;
+}
+
+.vx-size-finder__pref {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.vx-size-finder__pref legend {
+  width: 100%;
+}
+
+.vx-size-finder__pref label {
+  position: relative;
+  cursor: pointer;
+}
+
+.vx-size-finder__pref input {
+  position: absolute;
+  opacity: 0;
+  inset: 0;
+  cursor: pointer;
+}
+
+.vx-size-finder__pref span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 4rem;
+  padding: 0 1.6rem;
+  border: 1px solid var(--v-line, #d8d5ce);
+  font-size: 1.3rem;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.vx-size-finder__pref input:checked + span {
+  border-color: var(--v-ink, #1a1a1a);
+  background: var(--v-ink, #1a1a1a);
+  color: var(--v-cream, #faf9f6);
+}
+
+.vx-size-finder__pref input:focus-visible + span {
+  outline: 0.2rem solid var(--v-ink, #1a1a1a);
+  outline-offset: 0.2rem;
+}
+
+.vx-size-finder__result {
+  margin-top: 2.4rem;
+}
+
+.vx-size-finder__result[hidden] {
+  display: none;
+}
+
+.vx-size-finder__verdict {
+  padding: 2rem;
+  border-left: 2px solid var(--v-gold, #c9a96e);
+  background: var(--v-surface, #f0eeea);
+}
+
+.vx-size-finder__size {
+  margin: 0 0 1rem;
+  font-family: var(--font-heading-family, 'Playfair Display', Georgia, serif);
+  font-size: 2.2rem;
+}
+
+.vx-size-finder__reasons {
+  margin: 0 0 1.6rem;
+  padding-left: 1.8rem;
+  font-size: 1.3rem;
+  line-height: 1.5;
+}
+
+.vx-size-finder__also,
+.vx-size-finder__warn {
+  margin: 1.2rem 0 0;
+  font-size: 1.3rem;
+}
+
+.vx-size-finder__disclaimer {
+  margin: 2rem 0 0;
+  font-size: 1.2rem;
+  line-height: 1.5;
+  color: #746f68;
+}
+
+/* -------------------------------------------------------- delivery estimate */
+.vx-delivery {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.2rem;
+  padding: 1.2rem 1.4rem;
+  border: 1px solid rgba(var(--color-foreground), 0.12);
+  font-size: 1.3rem;
+  line-height: 1.5;
+}
+
+.vx-delivery__icon {
+  flex: none;
+  width: 2rem;
+  height: 2rem;
+  margin-top: 0.1rem;
+}
+
+.vx-delivery__text {
+  margin: 0;
+}
+
+.vx-delivery__countdown {
+  display: block;
+  color: rgba(var(--color-foreground), 0.72);
+}
+
+.vx-delivery__countdown[hidden] {
+  display: none;
+}
+
+/* ----------------------------------------------------------- back in stock */
+.vx-back-in-stock {
+  padding: 1.6rem;
+  background: rgba(var(--color-foreground), 0.04);
+}
+
+.vx-back-in-stock[hidden] {
+  display: none;
+}
+
+.vx-back-in-stock__lead,
+.vx-back-in-stock__success {
+  margin: 0 0 1.2rem;
+  font-size: 1.4rem;
+  line-height: 1.5;
+}
+
+.vx-back-in-stock__success {
+  margin: 0;
+}
+
+.vx-back-in-stock__row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.8rem;
+}
+
+@media screen and (max-width: 420px) {
+  .vx-back-in-stock__row,
+  .vx-monogram__row {
+    grid-template-columns: 1fr;
+  }
+
+  .vx-monogram__preview {
+    min-height: 4.8rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vx-size-finder__pref span {
+    transition: none;
+  }
+}

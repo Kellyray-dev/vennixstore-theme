@@ -43,6 +43,49 @@
             "size_option": ""
           }
         },
+        "size_finder": {
+          "type": "size_finder",
+          "settings": {
+            "label": "What's my size?",
+            "option_names": "Size",
+            "size_guide_page": ""
+          }
+        },
+        "monogram": {
+          "type": "monogram",
+          "settings": {
+            "product_tag": "monogram",
+            "label": "Monogramming",
+            "mode": "variant",
+            "max_characters": 3,
+            "placement": "Left cuff",
+            "placeholder": "ABC",
+            "intro": "Letters, stitched in our studio.",
+            "help": "Monogrammed pieces are personalised for you and cannot be returned."
+          }
+        },
+        "back_in_stock": {
+          "type": "back_in_stock",
+          "settings": {
+            "text": "Leave your email and we will let you know when it is back."
+          }
+        },
+        "wishlist": {
+          "type": "wishlist",
+          "settings": {}
+        },
+        "delivery_estimate": {
+          "type": "delivery_estimate",
+          "disabled": true,
+          "settings": {
+            "label": "Estimated delivery",
+            "min_days": 3,
+            "max_days": 6,
+            "skip_weekends": true,
+            "cutoff_hour": 0,
+            "fallback_text": "3–6 business days"
+          }
+        },
         "quantity_selector": {
           "type": "quantity_selector",
           "settings": {}
@@ -102,8 +145,13 @@
         "inventory",
         "variant_picker",
         "size_guide",
+        "size_finder",
+        "monogram",
         "quantity_selector",
         "buy_buttons",
+        "back_in_stock",
+        "wishlist",
+        "delivery_estimate",
         "description",
         "shipping",
         "returns",

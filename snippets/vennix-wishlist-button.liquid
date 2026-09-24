@@ -1,0 +1,51 @@
+{%- comment -%}
+  Wishlist toggle (ported from the VENNIX storefront theme).
+
+  Saved handles live in the shopper's browser (localStorage key `vennix:wishlist`),
+  so no account or app is needed. Behaviour: assets/vennix-storefront.js (<vx-wishlist-button>).
+
+  Accepts:
+  - product: {Object} product (required)
+  - style: {String} 'icon' (floating heart on product cards) or 'button' (labelled, PDP). Default 'icon'
+  - class: {String} extra classes (optional)
+
+  Usage:
+  {% render 'vennix-wishlist-button', product: card_product %}
+  {% render 'vennix-wishlist-button', product: product, style: 'button' %}
+{%- endcomment -%}
+{%- if settings.enable_wishlist and product != blank and product.handle != blank -%}
+  {%- liquid
+    assign vx_style = style | default: 'icon'
+    assign vx_wishlist_url = routes.root_url | append: '/pages/wishlist' | replace: '//', '/'
+    if settings.wishlist_page != blank
+      assign vx_wishlist_url = settings.wishlist_page.url
+    endif
+    assign vx_label_add = 'vennix.wishlist.add' | t
+    assign vx_label_remove = 'vennix.wishlist.remove' | t
+  -%}
+  <vx-wishlist-button
+    class="vx-wishlist-button vx-wishlist-button--{{ vx_style }}{% if class %} {{ class }}{% endif %}"
+    data-handle="{{ product.handle | escape }}"
+    data-title="{{ product.title | escape }}"
+    data-label-add="{{ vx_label_add | escape }}"
+    data-label-remove="{{ vx_label_remove | escape }}"
+    data-wishlist-url="{{ vx_wishlist_url }}"
+    data-icon-only="{% if vx_style == 'icon' %}true{% else %}false{% endif %}"
+  >
+    <button
+      type="button"
+      class="vx-wishlist-button__control{% if vx_style == 'button' %} vx-wishlist-button__control--labelled{% endif %}"
+      aria-pressed="false"
+      {% if vx_style == 'icon' %}
+        aria-label="{{ vx_label_add | escape }}"
+      {% endif %}
+    >
+      <svg class="vx-wishlist-button__icon" aria-hidden="true" focusable="false" width="18" height="18" viewBox="0 0 24 24">
+        <path d="M12 20s-7-4.4-7-9.3A4 4 0 0 1 12 7.6a4 4 0 0 1 7 3.1C19 15.6 12 20 12 20z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+      </svg>
+      {%- if vx_style == 'button' -%}
+        <span data-vx-wishlist-label>{{ vx_label_add }}</span>
+      {%- endif -%}
+    </button>
+  </vx-wishlist-button>
+{%- endif -%}

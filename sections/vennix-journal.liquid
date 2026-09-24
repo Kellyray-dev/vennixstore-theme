@@ -1,0 +1,123 @@
+{%- comment -%}
+  Vennix journal (ported from the VENNIX storefront theme's `journal`).
+
+  Editorial blog teaser: eyebrow, tag + date meta, excerpt. Uses the selected blog,
+  falling back to the store's default "news" blog. Hidden on the storefront when
+  there are no published articles; guidance is shown in the theme editor instead.
+{%- endcomment -%}
+{{ 'section-vennix-editorial.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'vennix-motion.js' | asset_url }}" defer="defer"></script>
+
+{%- liquid
+  assign journal_blog = section.settings.blog
+  if journal_blog == blank
+    assign journal_blog = blogs.news
+  endif
+  assign has_articles = false
+  if journal_blog != blank and journal_blog.articles_count > 0
+    assign has_articles = true
+  endif
+-%}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+{%- if has_articles or request.design_mode -%}
+  <div
+    class="vx-journal color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-padding"
+    data-vx-motion="{{ section.settings.enable_entrance_animation }}"
+  >
+    <div class="page-width">
+      <header class="vx-editorial-head vx-editorial-head--split vx-rise">
+        <div>
+          {%- if section.settings.eyebrow != blank -%}
+            <p class="vx-section-eyebrow">
+              <span class="vx-section-eyebrow__mark" aria-hidden="true"></span>
+              {{ section.settings.eyebrow | escape }}
+            </p>
+          {%- endif -%}
+          {%- if section.settings.heading != blank -%}
+            <h2 class="vx-editorial-head__title h1">{{ section.settings.heading | escape }}</h2>
+          {%- endif -%}
+        </div>
+        {%- if has_articles -%}
+          <a class="vx-editorial-head__link link" href="{{ journal_blog.url }}">
+            {{ 'vennix.journal.read_all' | t }} <span aria-hidden="true">→</span>
+          </a>
+        {%- endif -%}
+      </header>
+
+      {%- if has_articles -%}
+        <ul class="vx-journal__list vx-journal__list--{{ section.settings.posts_to_show }}" role="list">
+          {%- for article in journal_blog.articles limit: section.settings.posts_to_show -%}
+            <li class="vx-post-card vx-rise" style="--vx-index: {{ forloop.index0 }}">
+              <a class="vx-post-card__link" href="{{ article.url }}">
+                <span class="vx-post-card__media">
+                  {%- if article.image -%}
+                    {{
+                      article.image
+                      | image_url: width: 1200
+                      | image_tag:
+                        loading: 'lazy',
+                        widths: '360, 540, 720, 900, 1200',
+                        sizes: '(min-width: 990px) 33vw, (min-width: 750px) 50vw, 90vw',
+                        alt: article.image.alt,
+                        class: 'vx-post-card__image'
+                    }}
+                  {%- else -%}
+                    {{ 'lifestyle-1' | placeholder_svg_tag: 'vx-post-card__placeholder placeholder-svg' }}
+                  {%- endif -%}
+                </span>
+                <span class="vx-post-card__body">
+                  <span class="vx-post-card__meta">
+                    <span class="vx-post-card__tag">{{ article.tags.first | default: section.settings.default_tag | escape }}</span>
+                    {{ article.published_at | time_tag: format: 'date' }}
+                  </span>
+                  <span class="vx-post-card__title h4">{{ article.title | escape }}</span>
+                  {%- if section.settings.show_excerpt -%}
+                    <span class="vx-post-card__excerpt">{{ article.excerpt_or_content | strip_html | truncatewords: 22 }}</span>
+                  {%- endif -%}
+                  <span class="vx-post-card__more">{{ 'vennix.journal.read_more' | t }} <span aria-hidden="true">→</span></span>
+                </span>
+              </a>
+            </li>
+          {%- endfor -%}
+        </ul>
+      {%- else -%}
+        <p class="vx-editor-hint">{{ 'vennix.journal.editor_empty' | t }}</p>
+      {%- endif -%}
+    </div>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Vennix journal",
+  "tag": "section",
+  "class": "section section--vennix-journal",
+  "disabled_on": { "groups": ["header", "footer"] },
+  "settings": [
+    { "type": "blog", "id": "blog", "label": "Blog", "info": "Defaults to the store's \"News\" blog." },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "The journal" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Notes from the studio" },
+    { "type": "text", "id": "default_tag", "label": "Label when a post has no tags", "default": "Journal" },
+    { "type": "range", "id": "posts_to_show", "min": 1, "max": 6, "step": 1, "label": "Posts to show", "default": 3 },
+    { "type": "checkbox", "id": "show_excerpt", "label": "Show excerpt", "default": true },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+    { "type": "checkbox", "id": "enable_entrance_animation", "label": "Animate on scroll", "default": true },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Padding top", "default": 64 },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Padding bottom", "default": 64 }
+  ],
+  "presets": [{ "name": "Vennix journal" }]
+}
+{% endschema %}

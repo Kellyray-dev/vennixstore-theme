@@ -1,0 +1,46 @@
+{%- comment -%}
+  CollectionPage structured data (ported from the VENNIX storefront theme's
+  main-collection). Lists the products on the current page as an ItemList so
+  search engines can associate them with the collection. All values are live
+  Shopify data.
+
+  Accepts:
+  - collection: {Object} (required)
+  - products: {Array} products on the current page (optional; defaults to the first 24)
+{%- endcomment -%}
+{%- if collection != blank -%}
+  {%- liquid
+    assign jsonld_products = products
+    if jsonld_products == blank
+      assign jsonld_products = collection.products
+    endif
+  -%}
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      "name": {{ collection.title | json }},
+      "url": {{ request.origin | append: collection.url | json }},
+      {%- if collection.description != blank %}
+        "description": {{ collection.description | strip_html | strip_newlines | truncate: 300 | json }},
+      {%- endif %}
+      {%- if collection.image %}
+        "image": {{ collection.image | image_url: width: 1200 | prepend: 'https:' | json }},
+      {%- endif %}
+      "mainEntity": {
+        "@type": "ItemList",
+        "numberOfItems": {{ collection.products_count }},
+        "itemListElement": [
+          {%- for item in jsonld_products limit: 24 -%}
+            {
+              "@type": "ListItem",
+              "position": {{ forloop.index }},
+              "url": {{ request.origin | append: item.url | json }},
+              "name": {{ item.title | json }}
+            }{% unless forloop.last %},{% endunless %}
+          {%- endfor -%}
+        ]
+      }
+    }
+  </script>
+{%- endif -%}

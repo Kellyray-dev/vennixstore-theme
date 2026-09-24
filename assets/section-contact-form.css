@@ -120,3 +120,7 @@
 .contact__info-item a {
   word-break: break-word;
 }
+
+.contact__address {
+  font-style: normal;
+}

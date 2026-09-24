@@ -62,6 +62,20 @@
     endif
 
     comment
+      Custom badge via product tag, e.g. "badge: Limited run" (ported from the VENNIX
+      storefront theme). Only used when no built-in prestige badge applies.
+    endcomment
+    if prestige_badge == blank
+      for card_tag in card_product.tags
+        assign card_tag_prefix = card_tag | slice: 0, 6 | downcase
+        if card_tag_prefix == 'badge:'
+          assign prestige_badge = card_tag | slice: 6, 60 | strip
+          break
+        endif
+      endfor
+    endif
+
+    comment
       The badge is product-wide, so it must not be derived from a single variant.
       `selected_or_first_available_variant` on a listing page is just whichever variant
       Shopify resolves first, so one nearly-empty size could shout "Low stock" over sizes
@@ -247,6 +261,9 @@
               {%- endif -%}
             </div>
           </div>
+          {%- if settings.card_show_wishlist -%}
+            {%- render 'vennix-wishlist-button', product: card_product, class: 'card__wishlist' -%}
+          {%- endif -%}
         </div>
         <div class="card__content">
           <div class="card__information">

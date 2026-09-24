@@ -25,7 +25,8 @@
         "snapchat": "Snapchat",
         "youtube": "YouTube",
         "vimeo": "Vimeo",
-        "tiktok": "TikTok"
+        "tiktok": "TikTok",
+        "linkedin": "LinkedIn"
       }
     },
     "continue_shopping": "Continue shopping",
@@ -281,7 +282,6 @@
       "announcement": "Announcement",
       "announcement_bar": "Announcement bar"
     },
-
     "header": {
       "announcement": "Announcement",
       "menu": "Menu",
@@ -541,6 +541,110 @@
     },
     "navigation": {
       "shop_all": "Shop all {{ title }}"
+    },
+    "wishlist": {
+      "title": "Wishlist",
+      "add": "Save to wishlist",
+      "remove": "Remove from wishlist",
+      "saved": "Saved",
+      "count": "{{ count }} saved items",
+      "added_toast": "Saved to your wishlist",
+      "removed_toast": "Removed from your wishlist",
+      "view": "View wishlist",
+      "empty_heading": "Your wishlist is empty",
+      "empty_text": "Tap the heart on any piece to keep it here for later. Saved items stay on this device.",
+      "empty_cta": "Start shopping",
+      "loading": "Loading your saved pieces…",
+      "clear": "Clear wishlist",
+      "storage_note": "Saved on this device only.",
+      "editor_disabled": "The wishlist is turned off. Enable it under Theme settings > Wishlist."
+    },
+    "monogram": {
+      "field_label": "Your letters",
+      "preview_caption": "{{ placement }} — as stitched",
+      "free_note": "Personalisation is recorded on your order at no extra charge.",
+      "required": "Enter your letters, or untick personalisation.",
+      "editor_hint": "Monogramming is limited to products tagged \"{{ tag }}\". Tag this product in Shopify admin, or clear the tag setting to offer it on every product."
+    },
+    "size_finder": {
+      "open": "What's my size?",
+      "title": "Find your size",
+      "intro": "Two measurements and a fit preference. We suggest a size — you make the call.",
+      "height": "Height",
+      "feet": "Feet",
+      "inches": "Inches",
+      "weight": "Weight (lb)",
+      "preference": "How do you like it to fit?",
+      "snug": "Close",
+      "true": "True to size",
+      "relaxed": "Relaxed",
+      "submit": "Show my size",
+      "suggest_html": "We suggest <strong>{{ size }}</strong>",
+      "select": "Select {{ size }}",
+      "also": "Also worth trying: {{ sizes }}",
+      "reason_band": "At your height and weight you sit closest to our {{ size }} band.",
+      "reason_relaxed": "You asked for room, so we moved up a size.",
+      "reason_snug": "You asked for a close fit, so we moved down a size.",
+      "reason_true": "Sized true, with no adjustment for preference.",
+      "out_of_range": "Check those numbers — we size between 4′0″ and 7′6″, and 70–450 lb.",
+      "unavailable": "That size is sold out in this style. Try the size guide for full measurements.",
+      "disclaimer": "A suggestion based on typical proportions, not a guarantee of fit. Cross-check the size guide before you commit.",
+      "close": "Close size finder"
+    },
+    "delivery": {
+      "label": "Estimated delivery",
+      "order_within": "Order within {{ time }} for dispatch today"
+    },
+    "back_in_stock": {
+      "lead": "This option is sold out.",
+      "text": "Leave your email and we will let you know when it is back.",
+      "email": "Email",
+      "button": "Notify me",
+      "success": "Thanks — we will email you when it is back in stock.",
+      "subject": "Back in stock request: {{ product }}",
+      "body": "Please tell me when {{ product }} ({{ variant }}) is back in stock."
+    },
+    "journal": {
+      "read_all": "Read the journal",
+      "read_more": "Read more",
+      "editor_empty": "Select a blog with published articles. This section stays hidden on the storefront until it has posts to show."
+    },
+    "testimonials": {
+      "verified": "Verified buyer",
+      "editor_empty": "Add a testimonial block with a real customer quote. Empty testimonials never render on the storefront."
+    },
+    "lookbook": {
+      "editor_empty": "Add images to the tiles. Tiles without an image are hidden on the storefront."
+    },
+    "store_pulse": {
+      "free_shipping_label": "Free shipping over",
+      "editor_empty": "Add a stat and give it a value or a live source. Stats without a value are hidden."
+    },
+    "cart": {
+      "gift_note": "Gift message",
+      "gift_note_placeholder": "Add a note for the recipient (optional)",
+      "discount": "Discount code",
+      "discount_placeholder": "Enter code",
+      "discount_apply": "Apply",
+      "discount_help": "Shopify validates the code at checkout."
+    },
+    "collection": {
+      "load_more": "Load more",
+      "loading": "Loading…",
+      "showing": "Showing {{ shown }} of {{ total }} products",
+      "load_error": "Could not load more products. Please try again."
+    },
+    "general": {
+      "added": "Added",
+      "close": "Close",
+      "dismiss": "Dismiss announcement",
+      "pause_video": "Pause background video",
+      "play_video": "Play background video"
+    },
+    "contact": {
+      "order_number": "Order number",
+      "hours": "Hours",
+      "address": "Address"
     }
   },
   "recipient": {

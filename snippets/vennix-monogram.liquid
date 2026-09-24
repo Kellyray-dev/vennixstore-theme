@@ -1,0 +1,151 @@
+{%- comment -%}
+  Monogramming (ported from the VENNIX storefront theme's main-product).
+
+  Data model — unchanged from the source theme, both Shopify-native:
+    property : the letters are a free line item property, properties[<label>].
+    variant  : a variant whose title contains "Monogram" carries the fee. When the
+               shopper opts in, vennix-product-extras.js swaps the product form's
+               variant id to the matching monogrammed variant, so the charge is real
+               and travels with the order. Without such a variant the block falls
+               back to the free property automatically — it never advertises a fee
+               Shopify would not charge.
+
+  Accepts:
+  - block: {Object} the main-product `monogram` block (required)
+  - product: {Object} (required)
+  - product_form_id: {String} id of the Dawn product form (required)
+
+  Usage:
+  {% render 'vennix-monogram', block: block, product: product, product_form_id: product_form_id %}
+{%- endcomment -%}
+{%- liquid
+  assign mono_tag = block.settings.product_tag | strip | downcase
+  assign mono_eligible = true
+  if mono_tag != blank
+    assign mono_eligible = false
+    for mono_product_tag in product.tags
+      assign mono_product_tag_down = mono_product_tag | downcase
+      if mono_product_tag_down == mono_tag
+        assign mono_eligible = true
+        break
+      endif
+    endfor
+  endif
+
+  assign mono_label = block.settings.label | default: 'Monogramming' | strip
+  assign mono_max = block.settings.max_characters | default: 3
+  assign current_variant = product.selected_or_first_available_variant
+
+  assign mono_variant = blank
+  if block.settings.mode == 'variant'
+    for mono_candidate in product.variants
+      assign mono_candidate_title = mono_candidate.title | downcase
+      if mono_candidate_title contains 'monogram'
+        assign mono_variant = mono_candidate
+        break
+      endif
+    endfor
+  endif
+
+  assign mono_fee = 0
+  if mono_variant != blank and current_variant
+    assign mono_fee = mono_variant.price | minus: current_variant.price
+  endif
+-%}
+
+{%- if mono_eligible -%}
+  <vx-monogram
+    class="vx-monogram"
+    data-mode="{% if mono_variant != blank %}variant{% else %}property{% endif %}"
+    data-max="{{ mono_max }}"
+    data-product-form-id="{{ product_form_id }}"
+    {{ block.shopify_attributes }}
+  >
+    <fieldset class="vx-monogram__fieldset">
+      <legend class="visually-hidden">{{ mono_label | escape }}</legend>
+      <label class="vx-monogram__toggle">
+        <input
+          type="checkbox"
+          class="vx-monogram__checkbox"
+          data-vx-monogram-toggle
+          aria-controls="Monogram-{{ block.id }}"
+          aria-expanded="false"
+        >
+        <span class="vx-monogram__toggle-text">
+          {{ mono_label | escape }}
+          <em class="vx-monogram__fee" data-vx-monogram-fee {% if mono_fee <= 0 %}hidden{% endif %}>
+            {%- if mono_fee > 0 -%}+{{ mono_fee | money }}{%- endif -%}
+          </em>
+        </span>
+      </label>
+
+      <div class="vx-monogram__body" id="Monogram-{{ block.id }}" data-vx-monogram-body hidden>
+        {%- if block.settings.intro != blank -%}
+          <p class="vx-monogram__intro">{{ block.settings.intro | escape }}</p>
+        {%- endif -%}
+        <div class="vx-monogram__row">
+          <div class="field vx-monogram__field">
+            <input
+              class="field__input"
+              type="text"
+              id="MonogramInput-{{ block.id }}"
+              name="properties[{{ mono_label | escape }}]"
+              form="{{ product_form_id }}"
+              maxlength="{{ mono_max }}"
+              autocomplete="off"
+              autocapitalize="characters"
+              spellcheck="false"
+              placeholder="{{ block.settings.placeholder | escape }}"
+              aria-describedby="MonogramHelp-{{ block.id }}"
+              data-vx-monogram-input
+              disabled
+            >
+            <label class="field__label" for="MonogramInput-{{ block.id }}">
+              {{- 'vennix.monogram.field_label' | t -}}
+            </label>
+          </div>
+          {%- if block.settings.placement != blank -%}
+            <input
+              type="hidden"
+              name="properties[_{{ mono_label | escape }} placement]"
+              value="{{ block.settings.placement | escape }}"
+              form="{{ product_form_id }}"
+              data-vx-monogram-extra
+              disabled
+            >
+          {%- endif -%}
+          <div class="vx-monogram__preview" aria-hidden="true">
+            <span class="vx-monogram__stitch is-empty" data-vx-monogram-preview>···</span>
+            {%- if block.settings.placement != blank -%}
+              <small>{{ 'vennix.monogram.preview_caption' | t: placement: block.settings.placement }}</small>
+            {%- endif -%}
+          </div>
+        </div>
+        <p class="vx-monogram__error" role="alert" data-vx-monogram-error hidden>
+          {{- 'vennix.monogram.required' | t -}}
+        </p>
+        <p class="vx-monogram__help" id="MonogramHelp-{{ block.id }}">
+          {%- if block.settings.help != blank -%}
+            {{ block.settings.help | escape }}
+          {%- endif %}
+          <em data-vx-monogram-free-note {% if mono_variant != blank %}hidden{% endif %}>
+            {{- 'vennix.monogram.free_note' | t -}}
+          </em>
+        </p>
+      </div>
+    </fieldset>
+
+    <script type="application/json" data-vx-monogram-variants>
+      [
+        {%- for v in product.variants -%}
+          {"id":{{ v.id }},"title":{{ v.title | json }},"options":{{ v.options | json }},"price":{{ v.price }},"available":{{ v.available | json }}}
+          {%- unless forloop.last %},{% endunless -%}
+        {%- endfor -%}
+      ]
+    </script>
+  </vx-monogram>
+{%- elsif request.design_mode -%}
+  <p class="vx-editor-hint" {{ block.shopify_attributes }}>
+    {{ 'vennix.monogram.editor_hint' | t: tag: block.settings.product_tag }}
+  </p>
+{%- endif -%}

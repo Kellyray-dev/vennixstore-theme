@@ -59,7 +59,34 @@
           >
         {%- endif -%}
       </picture>
+      {%- if section.settings.video != blank -%}
+        {{
+          section.settings.video
+          | video_tag:
+            class: 'vennix-hero__video',
+            autoplay: true,
+            loop: true,
+            muted: true,
+            playsinline: true,
+            controls: false,
+            preload: 'metadata',
+            image_size: '1600x'
+        }}
+      {%- endif -%}
     </div>
+    {%- if section.settings.video != blank -%}
+      <button
+        type="button"
+        class="vennix-hero__video-toggle"
+        data-vx-video-toggle
+        aria-pressed="false"
+        aria-label="{{ 'vennix.general.pause_video' | t }}"
+        data-label-pause="{{ 'vennix.general.pause_video' | t }}"
+        data-label-play="{{ 'vennix.general.play_video' | t }}"
+      >
+        <span class="vennix-hero__video-icon" aria-hidden="true"></span>
+      </button>
+    {%- endif -%}
 
     <div class="vennix-hero__wash" aria-hidden="true"></div>
     <div class="vennix-hero__grain" aria-hidden="true"></div>
@@ -161,6 +188,12 @@
       "id": "mobile_image",
       "label": "Mobile image",
       "info": "Optional dedicated 2:3 portrait crop for mobile. Do not bake text or buttons into the image."
+    },
+    {
+      "type": "video",
+      "id": "video",
+      "label": "Background video",
+      "info": "Optional muted, looping video shown over the image on all devices. The image is used as the poster and for visitors who prefer reduced motion. Keep it short and under 10 MB."
     },
     {
       "type": "text",

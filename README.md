@@ -78,13 +78,18 @@ Centralized in `assets/vennix-brand-2.css`:
 
 | Order | Section ID | Section type | Purpose |
 |---|---|---|---|
-| 1 | `vennix_hero` | `vennix-hero` | Editorial hero with desktop/mobile imagery, overlay, CTAs |
+| 1 | `vennix_hero` | `vennix-hero` | Editorial hero: desktop/mobile imagery, optional background video, CTAs |
 | 2 | `vennix_trust` | `vennix-trust-bar` | Free shipping, 30-day returns, secure checkout |
-| 3 | `vennix_showcase` | `vennix-product-showcase` | Slide-style best-seller rail (left) with editorial copy (right) |
-| 4 | `shop_by_category` | `vennix-category-grid` | Shop by category (Women's, Men's, Active Essentials) |
-| 5 | `new_in_apparel` | `featured-collection` | New in Apparel product grid |
-| 6 | `brand_story` | `vennix-brand-story` | Why VennixStore editorial block |
-| 7 | `vennix_newsletter` | `vennix-newsletter` | Email signup |
+| 3 | `editorial_banner` | `vennix-editorial-banner` | Editorial campaign banner |
+| 4 | `shop_by_category` | `vennix-category-grid` | Shop by category |
+| 5 | `vennix_showcase` | `vennix-product-showcase` | Slide-style best-seller rail with editorial copy |
+| 6 | `brand_story` | `vennix-brand-story` | Brand story with optional count-up stats |
+| 7 | `vennix_store_pulse` | `vennix-store-pulse` | "Honest numbers" band — live product/collection counts, free-shipping threshold |
+| 8 | `new_in_apparel` | `featured-collection` | New in Apparel product grid |
+| 9 | `vennix_testimonials` | `vennix-testimonials` | Merchant-entered customer quotes (hidden until a quote is added) |
+| 10 | `vennix_journal` | `vennix-journal` | Latest blog posts (hidden when the blog is empty) |
+| 11 | `vennix_lookbook` | `vennix-lookbook` | "Worn in the wild" social/UGC grid (hidden until images are added) |
+| 12 | `vennix_newsletter` | `vennix-newsletter` | Email signup with optional segment tag |
 
 The header group (`sections/header-group.json`) additionally carries a store-wide
 `vennix-product-rail` — an off-canvas best-seller panel docked to the left edge of every
@@ -102,6 +107,8 @@ template.
 - `vennix-newsletter.liquid` — newsletter signup
 - `vennix-why-us.liquid` — values/why-us section
 - `faq.liquid` — accordion FAQ with `FAQPage` structured data
+- `vennix-store-pulse.liquid`, `vennix-testimonials.liquid`, `vennix-journal.liquid`, `vennix-lookbook.liquid` — editorial homepage sections (`section-vennix-editorial.css`)
+- `vennix-wishlist.liquid` — wishlist page (`templates/page.wishlist.json`); `vennix-product-card.liquid` is its Section Rendering endpoint
 
 **Snippets**
 
@@ -111,6 +118,10 @@ template.
 - `vennix-shipping-progress.liquid` — free-shipping progress
 - `vennix-sticky-atc.liquid` — mobile sticky Add to Cart
 - `dark-mode-toggle.liquid` — header sun/moon button for the dark theme override
+- `vennix-wishlist-button.liquid` — heart toggle for cards, PDP and quick add
+- `vennix-monogram.liquid`, `vennix-size-finder.liquid`, `vennix-delivery-estimate.liquid`, `vennix-back-in-stock.liquid` — product page blocks
+- `vennix-cart-extras.liquid` — gift message + discount code (drawer and cart page)
+- `vennix-collection-jsonld.liquid` — `CollectionPage` / `ItemList` structured data
 
 ### Commerce & UX features
 
@@ -126,6 +137,10 @@ template.
 - Storefront events support for app/agent/AI cart interactions (see `release-notes.md`)
 - Mega menu with hover-intent opening and automatic collection imagery (collection image → first product image → bundled lifestyle photo matched on the link title)
 - Site-wide dark mode: follows the visitor's OS preference, overridable with the header toggle and remembered per visitor (`dark-mode.css`, `dark-mode.js`, `header-menu-hover.js`)
+- Wishlist (browser-stored, no app/account) with header count, card hearts and a wishlist page
+- Product page blocks: monogramming (variant or line-item-property mode), size finder, delivery estimate, back-in-stock request
+- Collection "Load more" pagination option, cart gift message and discount code, scroll progress line, dismissible rotating announcement bar
+- See `docs/VENNIX-STOREFRONT-MIGRATION.md` for the full migration notes and merchant setup
 - Slide-style product showcase in two forms: a store-wide off-canvas rail docked to the left edge, and a two-column homepage section with the rail on the left (`vennix-product-rail.liquid`, `vennix-product-showcase.liquid`, `vennix-product-rail.js`)
 
 > **Best-seller ordering:** both showcase surfaces default to `sort_by: collection_default`, which

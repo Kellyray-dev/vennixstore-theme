@@ -244,6 +244,77 @@
         "disclaimer": "Unsubscribe at any time.",
         "color_scheme": "scheme-3"
       }
+    },
+    "vennix_store_pulse": {
+      "type": "vennix-store-pulse",
+      "blocks": {
+        "stat_products": { "type": "stat", "settings": { "source": "product_count", "value": "", "prefix": "", "suffix": "", "label": "Pieces in the collection" } },
+        "stat_collections": { "type": "stat", "settings": { "source": "collection_count", "value": "", "prefix": "", "suffix": "", "label": "Edits to shop" } },
+        "stat_shipping": { "type": "stat", "settings": { "source": "free_shipping", "value": "", "prefix": "", "suffix": "", "label": "" } },
+        "stat_returns": { "type": "stat", "settings": { "source": "custom", "value": "30", "prefix": "", "suffix": "-day", "label": "Easy returns window" } }
+      },
+      "block_order": ["stat_products", "stat_collections", "stat_shipping", "stat_returns"],
+      "settings": {
+        "heading": "The honest numbers",
+        "subheading": "Real reviews only. No invented ones.",
+        "color_scheme": "scheme-3",
+        "enable_entrance_animation": true,
+        "padding_top": 48,
+        "padding_bottom": 48
+      }
+    },
+    "vennix_testimonials": {
+      "type": "vennix-testimonials",
+      "blocks": {
+        "quote_1": { "type": "quote", "settings": { "rating": 5, "quote": "", "author": "", "detail": "", "verified": false } },
+        "quote_2": { "type": "quote", "settings": { "rating": 5, "quote": "", "author": "", "detail": "", "verified": false } },
+        "quote_3": { "type": "quote", "settings": { "rating": 5, "quote": "", "author": "", "detail": "", "verified": false } }
+      },
+      "block_order": ["quote_1", "quote_2", "quote_3"],
+      "settings": {
+        "eyebrow": "Reviews",
+        "heading": "What customers actually say",
+        "color_scheme": "scheme-2",
+        "enable_entrance_animation": true,
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
+    },
+    "vennix_journal": {
+      "type": "vennix-journal",
+      "settings": {
+        "eyebrow": "The journal",
+        "heading": "Notes from the studio",
+        "default_tag": "Journal",
+        "posts_to_show": 3,
+        "show_excerpt": true,
+        "color_scheme": "scheme-1",
+        "enable_entrance_animation": true,
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
+    },
+    "vennix_lookbook": {
+      "type": "vennix-lookbook",
+      "blocks": {
+        "tile_1": { "type": "tile", "settings": { "caption": "6am loop", "link": "" } },
+        "tile_2": { "type": "tile", "settings": { "caption": "Studio day", "link": "" } },
+        "tile_3": { "type": "tile", "settings": { "caption": "Washed in fog", "link": "" } },
+        "tile_4": { "type": "tile", "settings": { "caption": "Rest day", "link": "" } }
+      },
+      "block_order": ["tile_1", "tile_2", "tile_3", "tile_4"],
+      "settings": {
+        "eyebrow": "@vennixstore",
+        "heading": "Worn in the wild",
+        "subheading": "Tag us and you might land here.",
+        "platform": "tiktok",
+        "cta_label": "Follow along",
+        "columns": "4",
+        "color_scheme": "scheme-1",
+        "enable_entrance_animation": true,
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
     }
   },
   "order": [
@@ -253,7 +324,11 @@
     "shop_by_category",
     "vennix_showcase",
     "brand_story",
+    "vennix_store_pulse",
     "new_in_apparel",
+    "vennix_testimonials",
+    "vennix_journal",
+    "vennix_lookbook",
     "vennix_newsletter"
   ]
 }
