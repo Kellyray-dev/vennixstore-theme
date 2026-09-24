@@ -1,5 +1,6 @@
 <link rel="stylesheet" href="{{ 'component-list-menu.css' | asset_url }}" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="{{ 'component-search.css' | asset_url }}" media="print" onload="this.media='all'">
+{{ 'pro-layout.css' | asset_url | stylesheet_tag }}
 <link rel="stylesheet" href="{{ 'component-menu-drawer.css' | asset_url }}" media="print" onload="this.media='all'">
 <link
   rel="stylesheet"
@@ -113,7 +114,12 @@
 {% liquid
   assign header_tag = 'div'
 
-  if section.settings.sticky_header_type != 'none'
+  comment
+    Pro Layout: enable_sticky_header is the master switch. `!= false` (rather
+    than a truthy check) keeps existing installs sticky, where the setting was
+    never saved and therefore reads as nil.
+  endcomment
+  if section.settings.enable_sticky_header != false and section.settings.sticky_header_type != 'none'
     assign header_tag = 'sticky-header'
   endif
 %}
@@ -143,7 +149,7 @@
       endif
 
       if section.settings.logo_position == 'top-center' or section.settings.menu == blank
-        render 'header-search', input_id: 'Search-In-Modal-1'
+        render 'header-search', input_id: 'Search-In-Modal-1', search_style: section.settings.header_search_style
       endif
     -%}
 
@@ -249,7 +255,11 @@
           </localization-form>
         {%- endif -%}
       </div>
-      {% render 'header-search', input_id: 'Search-In-Modal' %}
+      {% render 'header-search',
+        input_id: 'Search-In-Modal',
+        search_style: section.settings.header_search_style,
+        allow_compact: true
+      %}
 
       {%- if settings.enable_dark_mode != false -%}
         {% render 'dark-mode-toggle' %}
@@ -258,7 +268,7 @@
       {%- if shop.customer_accounts_enabled -%}
         <a
           href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}"
-          class="header__icon header__icon--account link focus-inset{% if section.settings.menu != blank %} small-hide{% endif %}"
+          class="header__icon header__icon--account link focus-inset"
           rel="nofollow"
         >
           {%- if section.settings.enable_customer_avatar -%}
@@ -290,6 +300,26 @@
             {% render block %}
         {%- endcase -%}
       {%- endfor -%}
+
+      {%- if settings.enable_wishlist and settings.header_show_wishlist -%}
+        {%- liquid
+          assign vx_wishlist_url = routes.root_url | append: '/pages/wishlist' | replace: '//', '/'
+          if settings.wishlist_page != blank
+            assign vx_wishlist_url = settings.wishlist_page.url
+          endif
+        -%}
+        <a href="{{ vx_wishlist_url }}" class="header__icon header__icon--wishlist link focus-inset" rel="nofollow">
+          <span class="svg-wrapper">
+            <svg aria-hidden="true" focusable="false" width="20" height="20" viewBox="0 0 24 24" fill="none">
+              <path d="M12 20s-7-4.4-7-9.3A4 4 0 0 1 12 7.6a4 4 0 0 1 7 3.1C19 15.6 12 20 12 20z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+            </svg>
+          </span>
+          <span class="visually-hidden">{{ 'vennix.wishlist.title' | t }}</span>
+          <span class="cart-count-bubble vx-wishlist-count" data-vx-wishlist-count hidden>
+            <span aria-hidden="true" data-vx-wishlist-count-number>0</span>
+          </span>
+        </a>
+      {%- endif -%}
 
       <a href="{{ routes.cart_url }}" class="header__icon header__icon--cart link focus-inset" id="cart-icon-bubble">
         {% if cart == empty %}
@@ -487,6 +517,11 @@
         {{ settings.social_vimeo_link | json }}
         {%- assign first_social = false -%}
       {%- endif -%}
+      {%- if settings.social_linkedin_link != blank -%}
+        {%- unless first_social -%},{%- endunless -%}
+        {{ settings.social_linkedin_link | json }}
+        {%- assign first_social = false -%}
+      {%- endif -%}
     ],
     "url": {{ request.origin | append: page.url | json }}
   }
@@ -603,8 +638,31 @@
           "label": "t:sections.header.settings.sticky_header_type.options__4.label"
         }
       ],
-      "default": "on-scroll-up",
+      "default": "always",
       "label": "t:sections.header.settings.sticky_header_type.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_sticky_header",
+      "label": "Enable sticky header",
+      "info": "Master switch for the sticky header. When off, the header scrolls away with the page.",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "header_search_style",
+      "label": "Search style",
+      "options": [
+        {
+          "value": "icon_modal",
+          "label": "Search icon (opens modal)"
+        },
+        {
+          "value": "compact",
+          "label": "Compact field on desktop, icon on mobile"
+        }
+      ],
+      "default": "icon_modal"
     },
     {
       "type": "checkbox",

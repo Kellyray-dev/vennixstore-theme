@@ -32,21 +32,21 @@
 
   .vx-categories {
     display: grid;
-    grid-template-columns: 1fr;
-    gap: clamp(2.4rem, 4vw, 4rem);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(1.6rem, 3vw, 2.4rem);
     margin: var(--vennix-space-opener, 4rem) 0 0;
     list-style: none;
   }
 
-  @media screen and (min-width: 750px) {
+  @media screen and (min-width: 990px) {
     .vx-categories {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: clamp(2.4rem, 3vw, 3.6rem);
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: clamp(1.8rem, 2.2vw, 3rem);
     }
   }
 
-  /* Tile: sharp editorial image with a quiet caption below — no overlay
-     gradient, no heavy shadow, no rounded container clutter. */
+  /* Tile: sharp editorial image with a short centered label — Naadam-style
+     category tile. No overlay gradient, no buttons, no border clutter. */
   .vx-category {
     display: block;
     text-decoration: none;
@@ -56,7 +56,7 @@
   .vx-category__media {
     position: relative;
     display: block;
-    aspect-ratio: 16 / 11;
+    aspect-ratio: 4 / 5;
     overflow: hidden;
     background: var(--v-neutral-warm);
   }
@@ -72,7 +72,7 @@
     height: 100%;
     display: block;
     object-fit: cover;
-    object-position: center;
+    object-position: var(--vx-category-focus, center) center;
     transform: scale(1);
     transition: transform 0.55s var(--vennix-motion-ease, cubic-bezier(0.22, 0.61, 0.36, 1));
   }
@@ -84,16 +84,16 @@
 
   .vx-category__body {
     display: block;
-    padding-top: 1.9rem;
-    border-top: 1px solid rgba(var(--color-foreground), 0.14);
-    margin-top: 2rem;
+    padding-top: 1.4rem;
+    margin-top: 1.6rem;
+    text-align: center;
   }
 
   .vx-category__title {
     margin: 0;
     color: rgb(var(--color-foreground));
     font-family: var(--font-heading-family);
-    font-size: clamp(1.9rem, 1.6vw, 2.3rem);
+    font-size: clamp(1.7rem, 1.3vw, 2.1rem);
     font-weight: 400;
     letter-spacing: -0.02em;
     line-height: 1.2;
@@ -101,7 +101,8 @@
 
   .vx-category__tagline {
     display: block;
-    margin: 0.7rem 0 0;
+    margin: 0.7rem auto 0;
+    max-width: 30ch;
     color: rgba(var(--color-foreground), 0.6);
     font-size: 1.3rem;
     line-height: 1.55;
@@ -158,8 +159,8 @@
 
   @media screen and (max-width: 749px) {
     .vx-category__body {
-      margin-top: 1.6rem;
-      padding-top: 1.5rem;
+      margin-top: 1.2rem;
+      padding-top: 1.2rem;
     }
   }
 
@@ -245,6 +246,7 @@
             assign tile_title = 'Shop now'
           endif
 
+          assign tile_alt = block.settings.image_alt | default: tile_title
           assign tile_image = block.settings.image
           assign stagger = forloop.index0
           if stagger > 5
@@ -253,16 +255,16 @@
         -%}
         <li class="vx-categories__item vx-rise" style="--vx-index: {{ stagger }}" {{ block.shopify_attributes }}>
           <a class="vx-category" href="{{ block_url }}">
-            <span class="vx-category__media">
+            <span class="vx-category__media" style="--vx-category-focus: {{ block.settings.image_focus }};">
               {%- if tile_image != blank -%}
                 {{
                   tile_image
                   | image_url: width: 1200
                   | image_tag:
                     widths: '400, 600, 800, 1200',
-                    sizes: '(min-width: 990px) calc((100vw - 12rem) / 3), (min-width: 750px) calc((100vw - 10rem) / 3), 100vw',
+                    sizes: '(min-width: 990px) calc((100vw - 12rem) / 4), (min-width: 750px) calc((100vw - 8rem) / 2), calc((100vw - 4rem) / 2)',
                     loading: 'lazy',
-                    alt: tile_title | escape
+                    alt: tile_alt | escape
                 }}
               {%- elsif tile_collection.featured_image != blank -%}
                 {{
@@ -270,14 +272,14 @@
                   | image_url: width: 1200
                   | image_tag:
                     widths: '400, 600, 800, 1200',
-                    sizes: '(min-width: 990px) calc((100vw - 12rem) / 3), (min-width: 750px) calc((100vw - 10rem) / 3), 100vw',
+                    sizes: '(min-width: 990px) calc((100vw - 12rem) / 4), (min-width: 750px) calc((100vw - 8rem) / 2), calc((100vw - 4rem) / 2)',
                     loading: 'lazy',
-                    alt: tile_title | escape
+                    alt: tile_alt | escape
                 }}
               {%- elsif block.settings.image_asset != blank -%}
                 <img
                   src="{{ block.settings.image_asset | asset_url }}"
-                  alt="{{ tile_title | escape }}"
+                  alt="{{ tile_alt | escape }}"
                   loading="lazy"
                   width="1408"
                   height="768"
@@ -368,7 +370,7 @@
     {
       "type": "category",
       "name": "Category tile",
-      "limit": 3,
+      "limit": 4,
       "settings": [
         {
           "type": "collection",
@@ -380,7 +382,24 @@
           "type": "image_picker",
           "id": "image",
           "label": "Custom image",
-          "info": "Placeholder — replace with your own photography. Overrides the collection image."
+          "info": "Optional Theme Editor image. Overrides the collection image."
+        },
+        {
+          "type": "text",
+          "id": "image_alt",
+          "label": "Image alt text",
+          "info": "Describe the visible clothing and setting. Leave blank to use the tile title."
+        },
+        {
+          "type": "select",
+          "id": "image_focus",
+          "label": "Image focus",
+          "options": [
+            { "value": "center", "label": "Center" },
+            { "value": "left", "label": "Left" },
+            { "value": "right", "label": "Right" }
+          ],
+          "default": "center"
         },
         {
           "type": "text",
@@ -408,27 +427,28 @@
           "type": "category",
           "settings": {
             "image_asset": "womens-fashion.jpg",
-            "title": "Women's Activewear",
-            "tagline": "Movement-first sets, dresses and essentials",
-            "cta_label": "Shop now"
+            "title": "Women"
           }
         },
         {
           "type": "category",
           "settings": {
             "image_asset": "mens-fashion.jpg",
-            "title": "Men's Essentials",
-            "tagline": "Everyday basics built for modern life",
-            "cta_label": "Shop now"
+            "title": "Men"
           }
         },
         {
           "type": "category",
           "settings": {
-            "image_asset": "active-essentials.jpg",
-            "title": "Active Essentials",
-            "tagline": "Performance layers for every move",
-            "cta_label": "Shop now"
+            "image_asset": "editorial-hero-mobile.jpg",
+            "title": "Active"
+          }
+        },
+        {
+          "type": "category",
+          "settings": {
+            "image_asset": "essentials.jpg",
+            "title": "Essentials"
           }
         }
       ]

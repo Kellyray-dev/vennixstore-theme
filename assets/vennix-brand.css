@@ -297,34 +297,21 @@ textarea {
 /* --------------------------------------------------------------------------
    Vennix custom storefront sections
 ---------------------------------------------------------------------------- */
-/* Section opener eyebrow — editorial kicker with a muted-gold rule.
+/* Section opener eyebrow — editorial kicker with a muted ink rule.
    Used by the homepage opener pattern (categories / story / newsletter).
-   Colours are scheme-aware so the small caps always clear WCAG AA. */
+   Colour follows the section's color scheme so the small caps always clear
+   WCAG AA; no accent colour — the serif headlines carry the design. */
 .vx-section-eyebrow {
   display: flex;
   align-items: center;
   gap: 1rem;
   margin: 0 0 1.8rem;
-  color: var(--v-gold-deep);
+  color: rgba(var(--color-foreground), 0.62);
   font-size: var(--vennix-type-eyebrow, 1.05rem);
   font-weight: 650;
   letter-spacing: 0.2em;
   line-height: 1.5;
   text-transform: uppercase;
-}
-
-.color-scheme-1 .vx-section-eyebrow,
-.color-scheme-2 .vx-section-eyebrow {
-  color: #83612c; /* deep muted gold — AA on the cream bands */
-}
-
-.color-scheme-3 .vx-section-eyebrow,
-.color-scheme-4 .vx-section-eyebrow {
-  color: var(--v-gold); /* lighter gold — AA on near-black bands */
-}
-
-.color-scheme-5 .vx-section-eyebrow {
-  color: var(--v-ink); /* ink — AA on the gold band */
 }
 
 .vx-section-eyebrow__mark {
@@ -677,10 +664,6 @@ textarea {
 }
 
 @media screen and (max-width: 989px) {
-  .vx-announcement__track li:nth-child(n + 3) {
-    display: none;
-  }
-
   .vx-trust__item {
     padding-inline: 2rem;
   }
@@ -707,10 +690,6 @@ textarea {
 
   .vx-announcement__track li {
     font-size: 0.9rem;
-  }
-
-  .vx-announcement__track li:nth-child(n + 2) {
-    display: none;
   }
 
   .vx-trust__grid {
@@ -1109,6 +1088,21 @@ textarea {
   row-gap: clamp(3.5rem, 5vw, 6rem);
 }
 
+.template-collection .product-grid--deemphasize-sold-out .product-grid__item--sold-out {
+  opacity: 0.68;
+}
+
+.template-collection .product-grid--deemphasize-sold-out .product-grid__item--sold-out:hover,
+.template-collection .product-grid--deemphasize-sold-out .product-grid__item--sold-out:focus-within {
+  opacity: 1;
+}
+
+.vx-product-badge--low-stock {
+  color: var(--v-white, #fff);
+  border-color: var(--v-ink, #1a1a1a);
+  background: var(--v-ink, #1a1a1a);
+}
+
 .quick-add__submit {
   min-height: 4.8rem;
 }
@@ -1225,10 +1219,10 @@ body {
 }
 
 .vx-product-badge {
-  color: #fff;
-  border-color: #C9A96E;
-  background: #C9A96E;
-  box-shadow: 0 4px 14px rgba(9, 18, 15, 0.14);
+  color: var(--v-ink, #1a1a1a);
+  border-color: rgba(26, 26, 26, 0.18);
+  background: rgba(250, 249, 246, 0.96);
+  box-shadow: none;
 }
 
 .card__badge {
@@ -1258,6 +1252,16 @@ body {
   gap: 3rem;
 }
 
+.vx-mega-menu__header {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 1.6rem;
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
 .vx-mega-menu__column {
   min-width: 0;
 }
@@ -1281,6 +1285,12 @@ body {
 
 .vx-mega-menu__column:hover .vx-mega-menu__media img {
   transform: scale(1.035);
+}
+
+.menu-drawer__menu-item--shop-all {
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 0.35rem;
 }
 
 .mega-menu__link--level-2 {

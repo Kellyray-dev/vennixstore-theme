@@ -1,0 +1,321 @@
+{%- liquid
+  assign rail_collection = section.settings.collection
+  if rail_collection == blank
+    assign rail_collection = collections.all
+  endif
+
+  assign filter_mode = section.settings.product_filter | default: 'none'
+  assign filter_terms = section.settings.filter_terms | default: '' | downcase | strip
+  assign has_filter = false
+  if filter_mode != 'none' and filter_terms != blank
+    assign has_filter = true
+  endif
+
+  assign rendered_count = 0
+  assign rendered_handles = ''
+  assign skip_card_product_styles = false
+-%}
+
+{%- if section.settings.enabled -%}
+  {{ 'component-vennix-rail.css' | asset_url | stylesheet_tag }}
+  <script src="{{ 'vennix-product-rail.js' | asset_url }}" defer="defer"></script>
+  {%- if section.settings.enable_quick_add -%}
+    {{ 'quick-add.css' | asset_url | stylesheet_tag }}
+    <script src="{{ 'quick-add.js' | asset_url }}" defer="defer"></script>
+  {%- endif -%}
+
+  <vennix-product-rail data-auto-open="{{ section.settings.auto_open_delay | times: 1 }}">
+    <button
+      type="button"
+      class="vx-rail__tab"
+      data-rail-tab
+      aria-expanded="false"
+      aria-controls="VennixRail-{{ section.id }}"
+    >
+      <span class="vx-rail__tab-label">{{ section.settings.tab_label | escape }}</span>
+      <svg class="vx-rail__tab-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false">
+        <path d="M2 8h12M9 3l5 5-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+
+    <div class="vx-rail__overlay" data-rail-overlay tabindex="-1"></div>
+
+    <aside
+      id="VennixRail-{{ section.id }}"
+      class="vx-rail__panel"
+      data-rail-panel
+      role="dialog"
+      aria-modal="true"
+      aria-label="{{ section.settings.heading | escape }}"
+      aria-hidden="true"
+    >
+      <div class="vx-rail__header">
+        <div>
+          {%- if section.settings.eyebrow != blank -%}
+            <span class="vx-rail__eyebrow">{{ section.settings.eyebrow | escape }}</span>
+          {%- endif -%}
+          <h2 class="vx-rail__title">{{ section.settings.heading | escape }}</h2>
+        </div>
+        <button type="button" class="vx-rail__close" data-rail-close data-rail-initial-focus aria-label="Close product showcase">
+          <svg viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false">
+            <path d="M3 3l10 10M13 3L3 13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="vx-rail__body">
+        {%- if section.settings.note != blank -%}
+          <p class="vx-rail__note">{{ section.settings.note | escape }}</p>
+        {%- endif -%}
+
+        <vennix-rail-slider data-rail-axis="vertical">
+          {%- comment -%}
+            Best sellers come from the COLLECTION'S OWN SORT ORDER, not from the Liquid
+            `sort` filter: `sort` only orders by real object properties, and products
+            have no "units sold" property, so `| sort: 'best-selling'` silently does
+            nothing. Shopify exposes best-selling order through the collection itself —
+            set Collections > [collection] > Sort order to "Best selling" in the admin
+            and leave the "Sort by" setting on "Collection default".
+
+            Liquid can only reach the first 50 products of a collection (the storefront
+            paginate maximum), so that is the working window — point the "Collection"
+            setting at a curated collection for tighter control over what ranks highest.
+          {%- endcomment -%}
+          {%- paginate rail_collection.products by 50 -%}
+            {%- liquid
+              assign rail_sort = section.settings.sort_by | default: 'collection_default'
+              case rail_sort
+                when 'price'
+                  assign rail_products = rail_collection.products | sort: 'price'
+                when 'price-descending'
+                  assign rail_products = rail_collection.products | sort: 'price' | reverse
+                when 'title'
+                  assign rail_products = rail_collection.products | sort: 'title'
+                when 'created_at'
+                  assign rail_products = rail_collection.products | sort: 'created_at' | reverse
+                else
+                  assign rail_products = rail_collection.products
+              endcase
+            -%}
+            <ul class="vx-rail__track" data-rail-track role="list">
+              {%- for product in rail_products -%}
+                {%- comment -%} De-duplicate by handle so a product never renders twice. {%- endcomment -%}
+                {%- assign rendered_needle = ',' | append: product.handle | downcase | append: ',' -%}
+                {%- if rendered_handles contains rendered_needle -%}
+                  {%- continue -%}
+                {%- endif -%}
+
+                {%- comment -%} Brand-alignment filter, matching featured-collection.liquid. {%- endcomment -%}
+                {%- assign matches_filter = true -%}
+                {%- if has_filter -%}
+                  {%- assign product_tags = product.tags | join: ',' | downcase -%}
+                  {%- assign product_searchable = product.type
+                    | downcase
+                    | append: ' '
+                    | append: product.title
+                    | downcase
+                    | append: ' '
+                    | append: product_tags
+                  -%}
+                  {%- assign term_hit = false -%}
+                  {%- assign terms = filter_terms | split: ',' -%}
+                  {%- for term in terms -%}
+                    {%- assign term_clean = term | strip -%}
+                    {%- if term_clean != blank and product_searchable contains term_clean -%}
+                      {%- assign term_hit = true -%}
+                      {%- break -%}
+                    {%- endif -%}
+                  {%- endfor -%}
+                  {%- if filter_mode == 'exclude' -%}
+                    {%- if term_hit -%}{%- assign matches_filter = false -%}{%- endif -%}
+                  {%- elsif filter_mode == 'include' -%}
+                    {%- assign matches_filter = term_hit -%}
+                  {%- endif -%}
+                {%- endif -%}
+
+                {%- if section.settings.hide_unavailable and product.available == false -%}
+                  {%- assign matches_filter = false -%}
+                {%- endif -%}
+
+                {%- if matches_filter == false -%}
+                  {%- continue -%}
+                {%- endif -%}
+
+                {%- comment -%}
+                  Stop before incrementing so `rendered_count` always equals the number
+                  of slides actually rendered — it is printed as the slider total.
+                {%- endcomment -%}
+                {%- if rendered_count >= section.settings.products_to_show -%}
+                  {%- break -%}
+                {%- endif -%}
+                {%- assign rendered_count = rendered_count | plus: 1 -%}
+                {%- assign rendered_handles = rendered_handles | append: ',' | append: product.handle | downcase | append: ',' -%}
+
+                <li class="vx-rail__slide" data-rail-slide>
+                  {%- if section.settings.enable_quick_add -%}
+                    {%- assign quick_add = 'standard' -%}
+                  {%- else -%}
+                    {%- assign quick_add = 'none' -%}
+                  {%- endif -%}
+                  {% render 'card-product',
+                    card_product: product,
+                    media_aspect_ratio: 'square',
+                    show_secondary_image: section.settings.show_secondary_image,
+                    show_vendor: false,
+                    show_rating: false,
+                    lazy_load: true,
+                    skip_styles: skip_card_product_styles,
+                    quick_add: quick_add,
+                    horizontal_class: true,
+                    horizontal_quick_add: true,
+                    section_id: section.id
+                  %}
+                  {%- assign skip_card_product_styles = true -%}
+                </li>
+              {%- endfor -%}
+            </ul>
+          {%- endpaginate -%}
+
+          <div class="vx-rail__controls">
+            <button type="button" class="vx-rail__button" data-rail-prev aria-label="Previous slide">
+              <svg viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false">
+                <path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+            <div class="vx-rail__dots" data-rail-dots></div>
+            <span class="vx-rail__counter" aria-live="polite">
+              <span data-rail-counter-current>1</span>
+              <span aria-hidden="true">&nbsp;/&nbsp;</span>
+              <span data-rail-counter-total>{{ rendered_count }}</span>
+            </span>
+            <button type="button" class="vx-rail__button" data-rail-next aria-label="Next slide">
+              <svg viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false">
+                <path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+          </div>
+        </vennix-rail-slider>
+      </div>
+
+      {%- if section.settings.link_label != blank and rail_collection.url != blank -%}
+        <div class="vx-rail__footer">
+          <a class="vx-rail__link" href="{{ rail_collection.url }}">
+            <span>{{ section.settings.link_label | escape }}</span>
+            <svg class="vx-rail__link-arrow" viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false">
+              <path d="M2 8h12M9 3l5 5-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+        </div>
+      {%- endif -%}
+    </aside>
+  </vennix-product-rail>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Vennix product rail",
+  "tag": "div",
+  "class": "vennix-product-rail-section",
+  "limit": 1,
+  "enabled_on": { "groups": ["header"] },
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enabled",
+      "label": "Show the left product rail",
+      "default": true,
+      "info": "Docked to the left edge on screens 750px and wider. Hidden on mobile, where the menu drawer and cart drawer already own the off-canvas space."
+    },
+    { "type": "text", "id": "tab_label", "label": "Edge tab label", "default": "Best sellers" },
+    { "type": "text", "id": "eyebrow", "label": "Panel eyebrow", "default": "Loved by our customers" },
+    { "type": "text", "id": "heading", "label": "Panel heading", "default": "Best Sellers" },
+    {
+      "type": "text",
+      "id": "note",
+      "label": "Panel note",
+      "default": "The pieces our customers keep coming back for."
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection",
+      "info": "Leave empty to use All products. For true best sellers, pick a collection whose admin sort order is set to \"Best selling\"."
+    },
+    {
+      "type": "select",
+      "id": "sort_by",
+      "label": "Sort by",
+      "info": "\"Collection default\" keeps the order set in the Shopify admin — the only way to sort by best selling. The Liquid sort filter cannot sort by sales volume.",
+      "options": [
+        { "value": "collection_default", "label": "Collection default (best selling if set in admin)" },
+        { "value": "price", "label": "Price, low to high" },
+        { "value": "price-descending", "label": "Price, high to low" },
+        { "value": "title", "label": "Alphabetically, A-Z" },
+        { "value": "created_at", "label": "Date, new to old" }
+      ],
+      "default": "collection_default"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "label": "Products to show",
+      "min": 2,
+      "max": 12,
+      "step": 1,
+      "default": 6
+    },
+    {
+      "type": "select",
+      "id": "product_filter",
+      "label": "Product tag filter",
+      "info": "Filters products in the source collection by tags, type and title so the rail stays on-brand.",
+      "options": [
+        { "value": "none", "label": "None" },
+        { "value": "include", "label": "Only matching" },
+        { "value": "exclude", "label": "Hide matching" }
+      ],
+      "default": "none"
+    },
+    {
+      "type": "text",
+      "id": "filter_terms",
+      "label": "Filter terms",
+      "info": "Comma-separated words matched against tags, product type and title. Example: tech, usb, cable"
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_unavailable",
+      "label": "Hide sold-out products",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_secondary_image",
+      "label": "Show second image on hover",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_quick_add",
+      "label": "Enable quick add",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "auto_open_delay",
+      "label": "Auto-open after (seconds)",
+      "min": 0,
+      "max": 30,
+      "step": 1,
+      "default": 0,
+      "info": "0 keeps the rail closed until the visitor taps the edge tab. Auto-open runs once per session and is skipped for visitors who prefer reduced motion."
+    },
+    { "type": "text", "id": "link_label", "label": "Footer link label", "default": "Shop all best sellers" }
+  ],
+  "presets": [
+    {
+      "name": "Vennix product rail"
+    }
+  ]
+}
+{% endschema %}

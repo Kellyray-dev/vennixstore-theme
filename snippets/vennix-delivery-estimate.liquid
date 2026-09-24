@@ -1,0 +1,39 @@
+{%- comment -%}
+  Delivery estimate (ported from the VENNIX storefront theme).
+
+  The source theme hard-coded "+3 to +6 days". Here the window is merchant-configured
+  (business days, optional weekend skipping and same-day dispatch cut-off) so the
+  promise always matches the store's real shipping rates. The fallback text renders
+  server-side; <vx-delivery-estimate> (vennix-storefront.js) replaces it with dates.
+
+  Accepts:
+  - block: {Object} main-product `delivery_estimate` block (required)
+{%- endcomment -%}
+<vx-delivery-estimate
+  class="vx-delivery"
+  data-min="{{ block.settings.min_days }}"
+  data-max="{{ block.settings.max_days }}"
+  data-skip-weekends="{{ block.settings.skip_weekends }}"
+  data-cutoff="{{ block.settings.cutoff_hour }}"
+  {{ block.shopify_attributes }}
+>
+  <span class="svg-wrapper vx-delivery__icon" aria-hidden="true">{{- 'icon-truck.svg' | inline_asset_content -}}</span>
+  <p class="vx-delivery__text">
+    <span>
+      {%- if block.settings.label != blank -%}
+        {{ block.settings.label | escape }}
+      {%- else -%}
+        {{ 'vennix.delivery.label' | t }}
+      {%- endif -%}
+    </span>
+    <strong data-vx-delivery-window>{{ block.settings.fallback_text | escape }}</strong>
+    {%- if block.settings.cutoff_hour > 0 %}
+      <small
+        class="vx-delivery__countdown"
+        data-vx-delivery-countdown
+        data-template="{{ 'vennix.delivery.order_within' | t: time: '[time]' | escape }}"
+        hidden
+      ></small>
+    {%- endif -%}
+  </p>
+</vx-delivery-estimate>

@@ -1,6 +1,7 @@
 /* ==========================================================================
-   Vennix editorial hero — Phase 4 (split hero: image right / text left on
-   desktop, stacked image-over-copy on mobile).
+   Vennix editorial hero — full-bleed editorial photography with live copy
+   held in the darker left-side negative space. Stacked image-over-copy on
+   mobile so the dedicated portrait crop never has to carry readable text.
 
    Motion contract (see Phase 4 spec):
    - transform/opacity only, no layout shift, nothing animated beyond 800 ms.
@@ -14,12 +15,11 @@
 }
 
 .vennix-hero {
-  --hero-surface: #f2ede4;      /* cream backdrop behind the copy column */
-  --hero-ink: #191713;          /* charcoal ink on cream */
-  --hero-ink-soft: rgba(25, 23, 19, 0.68);
-  --hero-line: rgba(25, 23, 19, 0.16);
-  --hero-gold: var(--v-gold-deep, #a6854d);
-  --hero-cta-surface: var(--v-ink, #1a1a1a);
+  --hero-surface: var(--v-cream, #faf9f6);
+  --hero-ink: var(--v-white, #ffffff);
+  --hero-ink-soft: rgba(255, 255, 255, 0.78);
+  --hero-line: rgba(255, 255, 255, 0.24);
+  --hero-accent: var(--v-gold, #c9a96e);
   display: block;
   color: var(--hero-ink);
 }
@@ -58,8 +58,9 @@
 }
 
 /* --- Wash ----------------------------------------------------------------
-   Cream scrim from the text side; fades to nothing over the image. The flat
-   `--hero-overlay` layer keeps the merchant's "Image wash" control working. */
+   Center-focused cream scrim so the centered copy stays legible while the
+   edges of the photography stay clear. The flat `--hero-overlay` layer keeps
+   the merchant's "Image wash" control working. */
 .vennix-hero__wash {
   position: absolute;
   z-index: -3;
@@ -68,15 +69,14 @@
   background:
     linear-gradient(
       90deg,
-      rgba(242, 237, 228, 0.97) 0%,
-      rgba(242, 237, 228, 0.94) 22%,
-      rgba(242, 237, 228, 0.9) 42%,
-      rgba(242, 237, 228, 0.62) 54%,
-      rgba(242, 237, 228, 0.24) 64%,
-      rgba(242, 237, 228, 0) 74%
+      rgba(8, 8, 7, 0.86) 0%,
+      rgba(8, 8, 7, 0.68) 25%,
+      rgba(8, 8, 7, 0.3) 48%,
+      rgba(8, 8, 7, 0.04) 72%,
+      rgba(8, 8, 7, 0.08) 100%
     ),
-    linear-gradient(180deg, rgba(15, 14, 12, 0) 62%, rgba(15, 14, 12, 0.22) 100%),
-    rgba(244, 239, 231, calc(var(--hero-overlay, 0.05) * 0.5));
+    linear-gradient(180deg, rgba(8, 8, 7, 0.04) 58%, rgba(8, 8, 7, 0.3) 100%),
+    rgba(8, 8, 7, calc(var(--hero-overlay, 0.05) * 0.35));
 }
 
 .vennix-hero__grain {
@@ -89,17 +89,22 @@
   mix-blend-mode: multiply;
 }
 
-/* --- Copy column ---------------------------------------------------------- */
+/* --- Copy column ----------------------------------------------------------
+   Desktop copy sits in the darker left-side negative space supplied by the
+   clean hero photography. It stays live HTML so the heading and links remain
+   editable, accessible, and functional in the Theme Editor. */
 .vennix-hero__inner {
   width: 100%;
   display: flex;
   align-items: center;
+  justify-content: flex-start;
   padding-top: clamp(7rem, 10vh, 10rem);
   padding-bottom: clamp(6rem, 8vh, 9rem);
 }
 
 .vennix-hero__content {
-  max-width: min(56rem, 46vw);
+  max-width: min(54rem, 46%);
+  text-align: left;
 }
 
 .vennix-hero__content-body > * {
@@ -109,9 +114,10 @@
 .vennix-hero__eyebrow {
   display: flex;
   align-items: center;
+  justify-content: flex-start;
   gap: 1.1rem;
   margin-bottom: 2.2rem;
-  color: var(--hero-ink-soft);
+  color: var(--hero-accent);
   font-size: var(--vennix-type-eyebrow, 1.05rem);
   font-weight: 600;
   letter-spacing: 0.22em;
@@ -119,15 +125,26 @@
   text-transform: uppercase;
 }
 
+/* Flank the eyebrow text with a hairline on each side (the mark spans the
+   left, this pseudo-element mirrors it on the right). */
+.vennix-hero__eyebrow::after {
+  content: '';
+  width: 3.2rem;
+  height: 1px;
+  flex: none;
+  background: var(--hero-ink-soft);
+}
+
 .vennix-hero__eyebrow-mark {
   width: 3.2rem;
   height: 1px;
   flex: none;
-  background: var(--hero-gold);
+  background: var(--hero-ink-soft);
 }
 
 .vennix-hero__heading {
-  max-width: 12ch;
+  max-width: 13ch;
+  margin-inline: 0;
   margin-bottom: 0;
   color: var(--hero-ink);
   font-family: var(--font-heading-family);
@@ -140,12 +157,13 @@
 }
 
 .vennix-hero__heading em {
-  color: var(--hero-gold);
+  color: inherit;
   font-weight: inherit;
 }
 
 .vennix-hero__text {
-  max-width: 48rem;
+  max-width: 42rem;
+  margin-inline: 0;
   margin-top: 2.6rem;
   color: var(--hero-ink-soft);
   font-size: var(--vennix-type-lead, clamp(1.55rem, 1.4vw, 1.8rem));
@@ -160,75 +178,73 @@
 .vennix-hero__actions {
   display: flex;
   align-items: center;
+  justify-content: flex-start;
   flex-wrap: wrap;
-  gap: 1.2rem 2.4rem;
+  gap: 1.2rem;
   margin-top: 3.6rem;
 }
 
-.vennix-hero__button {
-  min-height: 5.4rem;
-  padding-inline: 3rem;
-  gap: 1.1rem;
-}
-
-.vennix-hero__button svg {
-  transition: transform var(--vennix-motion-duration-fast, 240ms) var(--vennix-motion-ease);
-}
-
-.vennix-hero__button:hover svg,
-.vennix-hero__button:focus-visible svg {
-  transform: translateX(4px);
-}
-
-.vennix-hero__text-link {
-  position: relative;
+/* Rectangular live CTAs keep the supplied photography quiet while making the
+   two collection routes obvious and easy to use with keyboard or touch. */
+.vennix-hero__cta {
   display: inline-flex;
   align-items: center;
-  gap: 0.9rem;
-  min-height: 4.4rem;
-  padding-block: 0.4rem;
-  color: var(--hero-ink);
-  font-size: 1.1rem;
-  font-weight: 650;
-  letter-spacing: 0.14em;
+  justify-content: center;
+  min-width: 13rem;
+  min-height: 4.8rem;
+  padding: 1.2rem 2rem;
+  border: 1px solid var(--hero-accent);
+  border-radius: var(--v-radius-control, 2px);
+  background: var(--hero-accent);
+  color: var(--v-ink, #1a1a1a);
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  line-height: 1.2;
+  text-align: center;
   text-decoration: none;
   text-transform: uppercase;
+  transition:
+    background-color var(--vennix-motion-duration-fast, 240ms) var(--vennix-motion-ease),
+    border-color var(--vennix-motion-duration-fast, 240ms) var(--vennix-motion-ease),
+    color var(--vennix-motion-duration-fast, 240ms) var(--vennix-motion-ease);
 }
 
-.vennix-hero__text-link::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0.3rem;
-  height: 1px;
-  background: var(--hero-gold);
-  transform: scaleX(0.4);
-  transform-origin: left;
-  transition: transform var(--vennix-motion-duration-fast, 240ms) var(--vennix-motion-ease);
+.vennix-hero__cta::after {
+  display: none;
 }
 
-.vennix-hero__text-link:hover::after,
-.vennix-hero__text-link:focus-visible::after {
-  transform: scaleX(1);
+.vennix-hero__cta:hover,
+.vennix-hero__cta:focus-visible {
+  border-color: var(--v-white, #ffffff);
+  background: var(--v-white, #ffffff);
+  color: var(--v-ink, #1a1a1a);
 }
 
-.vennix-hero__text-link span[aria-hidden='true'] {
-  color: var(--hero-gold);
-  font-size: 1.3em;
-  line-height: 1;
+.vennix-hero__cta--muted {
+  border-color: rgba(255, 255, 255, 0.68);
+  background: transparent;
+  color: var(--v-white, #ffffff);
+}
+
+.vennix-hero__cta--muted:hover,
+.vennix-hero__cta--muted:focus-visible {
+  border-color: var(--v-white, #ffffff);
+  background: var(--v-white, #ffffff);
+  color: var(--v-ink, #1a1a1a);
 }
 
 /* --- Scroll cue (only when assurance blocks exist) ------------------------ */
 .vennix-hero__scroll {
   position: absolute;
   z-index: 1;
-  left: 4.5rem;
+  left: 50%;
   bottom: 3.6rem;
+  transform: translateX(-50%);
   display: inline-flex;
   align-items: center;
   gap: 0.9rem;
-  color: rgba(25, 23, 19, 0.66);
+  color: rgba(255, 255, 255, 0.78);
   font-size: 0.95rem;
   font-weight: 600;
   letter-spacing: 0.18em;
@@ -237,18 +253,21 @@
 }
 
 .vennix-hero__scroll:hover {
-  color: var(--hero-ink);
+  color: var(--v-white, #ffffff);
 }
 
 /* --- Assurance strip (optional blocks at the stage foot) ------------------ */
 .vennix-hero__assurances-wrap {
+  --hero-ink: var(--v-ink, #1a1a1a);
+  --hero-ink-soft: var(--v-ink-soft, #5a5752);
+  --hero-line: var(--v-line, #d8d5ce);
   position: absolute;
   z-index: 2;
   left: 0;
   right: 0;
   bottom: 0;
   border-top: 1px solid var(--hero-line);
-  background: rgba(242, 237, 228, 0.86);
+  background: rgba(250, 249, 246, 0.9);
   -webkit-backdrop-filter: blur(14px) saturate(1.1);
   backdrop-filter: blur(14px) saturate(1.1);
 }
@@ -288,7 +307,7 @@
   height: 3.2rem;
   display: grid;
   place-items: center;
-  color: var(--hero-gold);
+  color: var(--hero-ink-soft);
 }
 
 .vennix-hero__assurance-icon svg {
@@ -357,27 +376,10 @@
 }
 
 /* ==========================================================================
-   Tablet (750 - 989): widen the cream scrim so copy never touches imagery.
+   Tablet (750 - 989): hide the scroll cue; the centered composition and
+   center scrim from the base styles already adapt to the narrower stage.
    ========================================================================== */
 @media screen and (min-width: 750px) and (max-width: 989px) {
-  .vennix-hero__content {
-    max-width: min(56rem, 62vw);
-  }
-
-  .vennix-hero__wash {
-    background:
-      linear-gradient(
-        90deg,
-        rgba(242, 237, 228, 0.97) 0%,
-        rgba(242, 237, 228, 0.9) 34%,
-        rgba(242, 237, 228, 0.66) 52%,
-        rgba(242, 237, 228, 0.28) 68%,
-        rgba(242, 237, 228, 0) 82%
-      ),
-      linear-gradient(180deg, rgba(15, 14, 12, 0) 62%, rgba(15, 14, 12, 0.22) 100%),
-      rgba(244, 239, 231, calc(var(--hero-overlay, 0.05) * 0.5));
-  }
-
   .vennix-hero__scroll {
     display: none;
   }
@@ -399,7 +401,7 @@
     inset: auto;
     width: 100%;
     height: auto;
-    aspect-ratio: 4 / 5;
+    aspect-ratio: 2 / 3;
   }
 
   .vennix-hero__picture {
@@ -408,7 +410,7 @@
   }
 
   .vennix-hero__image {
-    object-position: center;
+    object-position: var(--hero-focus, center) center;
   }
 
   .vennix-hero__wash,
@@ -422,20 +424,35 @@
     padding-bottom: clamp(4.6rem, 10vh, 6.4rem);
   }
 
+  .vennix-hero {
+    --hero-ink: var(--v-ink, #1a1a1a);
+    --hero-ink-soft: var(--v-ink-soft, #5a5752);
+    --hero-line: var(--v-line, #d8d5ce);
+    --hero-accent: var(--v-gold, #c9a96e);
+  }
+
+  .vennix-hero__inner {
+    justify-content: flex-start;
+  }
+
   .vennix-hero__content {
     max-width: none;
   }
 
   .vennix-hero__eyebrow {
+    justify-content: flex-start;
     margin-bottom: 1.8rem;
   }
 
   .vennix-hero__heading {
+    max-width: 15ch;
+    margin-inline: 0;
     font-size: clamp(4rem, 13.4vw, 5.8rem);
     line-height: 1;
   }
 
   .vennix-hero__text {
+    margin-inline: 0;
     margin-top: 2.2rem;
     font-size: 1.55rem;
     line-height: 1.58;
@@ -444,16 +461,12 @@
   .vennix-hero__actions {
     align-items: stretch;
     flex-direction: column;
-    gap: 1rem;
+    gap: 1.2rem;
     margin-top: 3rem;
   }
 
-  .vennix-hero__actions .vennix-hero__button {
+  .vennix-hero__cta {
     width: 100%;
-  }
-
-  .vennix-hero__actions .vennix-hero__text-link {
-    align-self: flex-start;
   }
 
   /* Mobile copy reveals with the same quiet rise as desktop. */
@@ -508,5 +521,61 @@
 
   .vennix-hero__media-frame {
     transition: none;
+  }
+}
+
+/* --- Background video (ported from the VENNIX storefront hero) ------------
+   Sits over the picture, which stays as the poster / reduced-motion fallback. */
+.vennix-hero__video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: var(--hero-focus, center) center;
+  pointer-events: none;
+}
+
+.vennix-hero__video-toggle {
+  position: absolute;
+  z-index: 3;
+  right: 1.6rem;
+  bottom: 1.6rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 4.4rem;
+  height: 4.4rem;
+  padding: 0;
+  border: 1px solid rgba(26, 26, 26, 0.16);
+  border-radius: 50%;
+  background: rgba(250, 249, 246, 0.86);
+  color: #1a1a1a;
+  cursor: pointer;
+}
+
+.vennix-hero__video-icon {
+  width: 1.2rem;
+  height: 1.2rem;
+  border-left: 0.35rem solid currentColor;
+  border-right: 0.35rem solid currentColor;
+  box-sizing: border-box;
+  padding-inline: 0.25rem;
+}
+
+.vennix-hero__video-toggle[aria-pressed='true'] .vennix-hero__video-icon {
+  width: 0;
+  height: 0;
+  padding: 0;
+  border-style: solid;
+  border-width: 0.65rem 0 0.65rem 1.1rem;
+  border-color: transparent transparent transparent currentColor;
+  margin-left: 0.3rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vennix-hero__video,
+  .vennix-hero__video-toggle {
+    display: none;
   }
 }

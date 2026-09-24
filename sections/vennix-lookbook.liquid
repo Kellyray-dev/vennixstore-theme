@@ -1,0 +1,201 @@
+{%- comment -%}
+  Vennix lookbook (ported from the VENNIX storefront theme's `instagram` section,
+  "Worn in the wild"). Social / UGC image grid with captions and an optional
+  follow button that uses the store's social links (Theme settings > Social media).
+
+  Tiles without an image render a placeholder in the theme editor only; on the
+  storefront they are skipped, and the section hides itself when no tile has an image.
+  On mobile the grid becomes a swipeable row instead of hiding tiles.
+{%- endcomment -%}
+{{ 'section-vennix-editorial.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'vennix-motion.js' | asset_url }}" defer="defer"></script>
+
+{%- liquid
+  assign image_count = 0
+  for block in section.blocks
+    if block.settings.image != blank
+      assign image_count = image_count | plus: 1
+    endif
+  endfor
+
+  case section.settings.platform
+    when 'instagram'
+      assign follow_url = settings.social_instagram_link
+      assign follow_icon = 'icon-instagram.svg'
+    when 'pinterest'
+      assign follow_url = settings.social_pinterest_link
+      assign follow_icon = 'icon-pinterest.svg'
+    else
+      assign follow_url = settings.social_tiktok_link
+      assign follow_icon = 'icon-tiktok.svg'
+  endcase
+-%}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+{%- if image_count > 0 or request.design_mode -%}
+  <div
+    class="vx-lookbook color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-padding"
+    data-vx-motion="{{ section.settings.enable_entrance_animation }}"
+  >
+    <div class="page-width">
+      <header class="vx-editorial-head vx-editorial-head--center vx-rise">
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="vx-section-eyebrow">
+            <span class="vx-section-eyebrow__mark" aria-hidden="true"></span>
+            {{ section.settings.eyebrow | escape }}
+          </p>
+        {%- endif -%}
+        {%- if section.settings.heading != blank -%}
+          <h2 class="vx-editorial-head__title h1">{{ section.settings.heading | escape }}</h2>
+        {%- endif -%}
+        {%- if section.settings.subheading != blank -%}
+          <p class="vx-editorial-head__sub">{{ section.settings.subheading | escape }}</p>
+        {%- endif -%}
+      </header>
+
+      <ul class="vx-lookbook__grid vx-lookbook__grid--{{ section.settings.columns }}" role="list">
+        {%- for block in section.blocks -%}
+          {%- if block.settings.image != blank or request.design_mode -%}
+            {%- liquid
+              assign tile_link = block.settings.link
+              assign tile_external = false
+              if tile_link == blank and follow_url != blank
+                assign tile_link = follow_url
+                assign tile_external = true
+              endif
+              assign tile_alt = block.settings.image.alt | default: block.settings.caption
+            -%}
+            <li class="vx-lookbook__tile vx-rise" style="--vx-index: {{ forloop.index0 }}" {{ block.shopify_attributes }}>
+              {%- if tile_link != blank -%}
+                <a
+                  class="vx-lookbook__link"
+                  href="{{ tile_link }}"
+                  {% if tile_external %}
+                    target="_blank" rel="noopener"
+                  {% endif %}
+                >
+              {%- else -%}
+                <div class="vx-lookbook__link">
+              {%- endif -%}
+              {%- if block.settings.image != blank -%}
+                {{
+                  block.settings.image
+                  | image_url: width: 900
+                  | image_tag:
+                    loading: 'lazy',
+                    widths: '300, 450, 600, 900',
+                    sizes: '(min-width: 990px) 25vw, (min-width: 750px) 33vw, 70vw',
+                    alt: tile_alt,
+                    class: 'vx-lookbook__image'
+                }}
+              {%- else -%}
+                {{ 'lifestyle-2' | placeholder_svg_tag: 'vx-lookbook__image placeholder-svg' }}
+              {%- endif -%}
+              {%- if block.settings.caption != blank -%}
+                <span class="vx-lookbook__caption">
+                  <span class="svg-wrapper" aria-hidden="true">{{- follow_icon | inline_asset_content -}}</span>
+                  {{ block.settings.caption | escape }}
+                </span>
+              {%- endif -%}
+              {%- if tile_link != blank -%}
+                </a>
+              {%- else -%}
+                </div>
+              {%- endif -%}
+            </li>
+          {%- endif -%}
+        {%- endfor -%}
+      </ul>
+
+      {%- if image_count == 0 and request.design_mode -%}
+        <p class="vx-editor-hint">{{ 'vennix.lookbook.editor_empty' | t }}</p>
+      {%- endif -%}
+
+      {%- if follow_url != blank and section.settings.cta_label != blank -%}
+        <p class="vx-lookbook__cta vx-rise">
+          <a class="button button--secondary" href="{{ follow_url }}" target="_blank" rel="noopener">
+            <span class="svg-wrapper" aria-hidden="true">{{- follow_icon | inline_asset_content -}}</span>
+            {{ section.settings.cta_label | escape }}
+          </a>
+        </p>
+      {%- endif -%}
+    </div>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Vennix lookbook",
+  "tag": "section",
+  "class": "section section--vennix-lookbook",
+  "disabled_on": { "groups": ["header", "footer"] },
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "@vennixstore" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Worn in the wild" },
+    { "type": "text", "id": "subheading", "label": "Subheading", "default": "Tag us and you might land here." },
+    {
+      "type": "select",
+      "id": "platform",
+      "label": "Social platform",
+      "options": [
+        { "value": "tiktok", "label": "TikTok" },
+        { "value": "instagram", "label": "Instagram" },
+        { "value": "pinterest", "label": "Pinterest" }
+      ],
+      "default": "tiktok",
+      "info": "Uses the link from Theme settings > Social media."
+    },
+    { "type": "text", "id": "cta_label", "label": "Follow button label", "default": "Follow along" },
+    {
+      "type": "select",
+      "id": "columns",
+      "label": "Columns on desktop",
+      "options": [
+        { "value": "3", "label": "3" },
+        { "value": "4", "label": "4" },
+        { "value": "6", "label": "6" }
+      ],
+      "default": "4"
+    },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+    { "type": "checkbox", "id": "enable_entrance_animation", "label": "Animate on scroll", "default": true },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Padding top", "default": 64 },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Padding bottom", "default": 64 }
+  ],
+  "blocks": [
+    {
+      "type": "tile",
+      "name": "Tile",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "text", "id": "caption", "label": "Caption", "default": "6am loop" },
+        { "type": "url", "id": "link", "label": "Link", "info": "Defaults to the social profile above." }
+      ]
+    }
+  ],
+  "max_blocks": 12,
+  "presets": [
+    {
+      "name": "Vennix lookbook",
+      "blocks": [
+        { "type": "tile", "settings": { "caption": "6am loop" } },
+        { "type": "tile", "settings": { "caption": "Studio day" } },
+        { "type": "tile", "settings": { "caption": "Washed in fog" } },
+        { "type": "tile", "settings": { "caption": "Rest day" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

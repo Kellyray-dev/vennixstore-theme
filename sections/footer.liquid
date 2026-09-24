@@ -152,6 +152,7 @@
                       or block.settings.about_page != blank
                       or block.settings.contact_page != blank
                       or block.settings.faq_page != blank
+                      or block.settings.size_guide_page != blank
                     -%}
                       <ul class="footer-block__details-content list-unstyled">
                         {%- if block.settings.about_page != blank -%}
@@ -181,6 +182,16 @@
                               class="link link--text list-menu__item list-menu__item--link"
                             >
                               {{ block.settings.faq_label | default: block.settings.faq_page.title | escape }}
+                            </a>
+                          </li>
+                        {%- endif -%}
+                        {%- if block.settings.size_guide_page != blank -%}
+                          <li>
+                            <a
+                              href="{{ block.settings.size_guide_page.url }}"
+                              class="link link--text list-menu__item list-menu__item--link"
+                            >
+                              {{ block.settings.size_guide_label | default: block.settings.size_guide_page.title | escape }}
                             </a>
                           </li>
                         {%- endif -%}
@@ -498,7 +509,9 @@
         { "type": "page", "id": "contact_page", "label": "Contact page" },
         { "type": "text", "id": "contact_label", "label": "Contact link label", "default": "Contact us" },
         { "type": "page", "id": "faq_page", "label": "FAQ page" },
-        { "type": "text", "id": "faq_label", "label": "FAQ link label", "default": "FAQ" }
+        { "type": "text", "id": "faq_label", "label": "FAQ link label", "default": "FAQ" },
+        { "type": "page", "id": "size_guide_page", "label": "Size guide page" },
+        { "type": "text", "id": "size_guide_label", "label": "Size guide link label", "default": "Size guide" }
       ]
     },
     {

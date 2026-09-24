@@ -1,0 +1,377 @@
+/**
+ * VennixStore — slide-style product rail
+ *
+ * Styles for:
+ *  - <vennix-product-rail>  the store-wide off-canvas panel (sections/vennix-product-rail.liquid)
+ *  - <vennix-rail-slider>   the vertical "slide" rail, also used inline by
+ *                           sections/vennix-product-showcase.liquid
+ *
+ * Colors come from the brand tokens in assets/vennix-brand-2.css so dark mode
+ * keeps working; the dark overrides live in assets/dark-mode.css alongside every
+ * other component's.
+ */
+
+/* ==========================================================================
+   Shared: vertical slide rail
+   ========================================================================== */
+
+vennix-rail-slider {
+  --vx-rail-slide-gap: 1.6rem;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  gap: var(--space-sm, 1.2rem);
+}
+
+.vx-rail__track {
+  /* min-height: 0 lets the track shrink inside a flex column instead of
+     forcing the panel to grow past the viewport. */
+  min-height: 0;
+  flex: 1 1 auto;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scroll-snap-type: y proximity;
+  scrollbar-width: thin;
+  scrollbar-color: var(--v-line, #d8d5ce) transparent;
+  list-style: none;
+  margin: 0;
+  padding: 0 0.4rem 0 0;
+}
+
+.vx-rail__track::-webkit-scrollbar {
+  width: 4px;
+}
+
+.vx-rail__track::-webkit-scrollbar-thumb {
+  background: var(--v-line, #d8d5ce);
+  border-radius: 999px;
+}
+
+.vx-rail__slide {
+  scroll-snap-align: start;
+  scroll-margin-top: 0.4rem;
+  padding-bottom: var(--vx-rail-slide-gap);
+}
+
+.vx-rail__slide:last-child {
+  padding-bottom: 0.4rem;
+}
+
+/* Compact product card treatment for the narrow rail column. */
+.vx-rail__slide .card-wrapper {
+  width: 100%;
+}
+
+.vx-rail__slide .card--horizontal .card__inner {
+  gap: 1.2rem;
+}
+
+.vx-rail__slide .card__heading {
+  font-size: 1.4rem;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+}
+
+.vx-rail__slide .card__content {
+  padding: 0.4rem 0;
+}
+
+/* Controls */
+.vx-rail__controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding-top: 0.4rem;
+}
+
+.vx-rail__button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.6rem;
+  height: 3.6rem;
+  padding: 0;
+  border: 1px solid var(--v-line, #d8d5ce);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--v-ink, #1a1a1a);
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.vx-rail__button:hover:not(:disabled) {
+  border-color: var(--v-ink, #1a1a1a);
+  background: var(--v-neutral-warm, #f0eeea);
+}
+
+.vx-rail__button:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.vx-rail__button svg {
+  width: 1.4rem;
+  height: 1.4rem;
+}
+
+.vx-rail__dots {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 0 auto;
+}
+
+.vx-rail-dot {
+  width: 0.7rem;
+  height: 0.7rem;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: var(--v-line, #d8d5ce);
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.vx-rail-dot.is-active {
+  background: var(--v-gold-deep, #a6854d);
+  transform: scale(1.35);
+}
+
+.vx-rail__counter {
+  font-size: 1.1rem;
+  letter-spacing: 0.08em;
+  color: var(--v-ink-soft, #5a5a5a);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* ==========================================================================
+   Store-wide off-canvas panel
+   ========================================================================== */
+
+vennix-product-rail {
+  --vx-rail-width: min(40rem, 90vw);
+  --vx-rail-transition: 0.32s cubic-bezier(0.32, 0.72, 0, 1);
+  position: fixed;
+  inset: 0;
+  z-index: 6;
+  pointer-events: none;
+}
+
+/* Edge tab */
+.vx-rail__tab {
+  position: fixed;
+  left: 0;
+  top: 50%;
+  z-index: 7;
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 1.8rem 0.9rem;
+  border: 0;
+  border-radius: 0 var(--radius-sm, 4px) var(--radius-sm, 4px) 0;
+  background: var(--v-ink, #1a1a1a);
+  color: var(--v-white, #fff);
+  font-family: var(--font-body, sans-serif);
+  font-size: 1.15rem;
+  font-weight: 650;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  cursor: pointer;
+  pointer-events: auto;
+  transform: translateY(-50%);
+  transition:
+    transform 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.vx-rail__tab:hover {
+  background: var(--v-gold-deep, #a6854d);
+}
+
+.vx-rail__tab:focus-visible {
+  outline: 0.2rem solid var(--v-gold, #c9a96e);
+  outline-offset: 0.2rem;
+}
+
+.vx-rail__tab-label {
+  writing-mode: vertical-rl;
+}
+
+.vx-rail__tab-icon {
+  width: 1.6rem;
+  height: 1.6rem;
+  color: var(--v-gold, #c9a96e);
+  transition: transform 0.2s ease;
+}
+
+vennix-product-rail.is-open .vx-rail__tab {
+  transform: translateY(-50%) translateX(-100%);
+}
+
+/* Overlay */
+.vx-rail__overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 7;
+  background: rgba(19, 18, 17, 0.5);
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity var(--vx-rail-transition),
+    visibility var(--vx-rail-transition);
+}
+
+vennix-product-rail.is-open .vx-rail__overlay {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+/* Panel */
+.vx-rail__panel {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 8;
+  display: flex;
+  flex-direction: column;
+  width: var(--vx-rail-width);
+  max-width: 100vw;
+  background: var(--v-cream, #faf9f6);
+  border-right: 1px solid var(--v-line, #d8d5ce);
+  box-shadow: var(--shadow-float, 0 16px 48px rgba(26, 26, 26, 0.08));
+  transform: translateX(-100%);
+  transition: transform var(--vx-rail-transition);
+  pointer-events: auto;
+}
+
+vennix-product-rail.is-open .vx-rail__panel {
+  transform: translateX(0);
+}
+
+.vx-rail__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1.6rem;
+  padding: 2.4rem 2.4rem 1.6rem;
+  border-bottom: 1px solid var(--v-line, #d8d5ce);
+}
+
+.vx-rail__eyebrow {
+  display: block;
+  margin: 0 0 0.4rem;
+  font-family: var(--font-body, sans-serif);
+  font-size: 1.05rem;
+  font-weight: 650;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--v-gold-deep, #a6854d);
+}
+
+.vx-rail__title {
+  margin: 0;
+  font-size: 2.2rem;
+  line-height: 1.15;
+}
+
+.vx-rail__close {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.6rem;
+  height: 3.6rem;
+  padding: 0;
+  border: 1px solid var(--v-line, #d8d5ce);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--v-ink, #1a1a1a);
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.vx-rail__close:hover {
+  border-color: var(--v-ink, #1a1a1a);
+  background: var(--v-neutral-warm, #f0eeea);
+}
+
+.vx-rail__close svg {
+  width: 1.4rem;
+  height: 1.4rem;
+}
+
+.vx-rail__body {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem 2.4rem;
+}
+
+.vx-rail__note {
+  margin: 0 0 1.6rem;
+  font-size: 1.3rem;
+  color: var(--v-ink-soft, #5a5a5a);
+}
+
+.vx-rail__footer {
+  padding: 1.6rem 2.4rem 2.4rem;
+  border-top: 1px solid var(--v-line, #d8d5ce);
+}
+
+.vx-rail__footer .vx-rail__link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  text-decoration: none;
+  font-size: 1.2rem;
+  font-weight: 650;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--v-ink, #1a1a1a);
+}
+
+.vx-rail__link-arrow {
+  width: 1.6rem;
+  height: 1.6rem;
+  transition: transform 0.2s ease;
+}
+
+.vx-rail__footer .vx-rail__link:hover .vx-rail__link-arrow {
+  transform: translateX(0.4rem);
+}
+
+/* ==========================================================================
+   Responsive
+   ========================================================================== */
+
+/* Mobile: the docked rail is hidden deliberately. A left off-canvas panel would
+   compete with the menu drawer and the cart drawer on a narrow screen, and the
+   same products are already reachable through the homepage showcase, which
+   degrades to a horizontal swipe carousel below. */
+@media screen and (max-width: 749px) {
+  vennix-product-rail {
+    display: none;
+  }
+}
+
+@media screen and (prefers-reduced-motion: reduce) {
+  vennix-product-rail,
+  .vx-rail__overlay,
+  .vx-rail__panel,
+  .vx-rail__tab {
+    transition-duration: 0.01ms;
+  }
+}

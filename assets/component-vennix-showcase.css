@@ -1,0 +1,182 @@
+/**
+ * VennixStore — homepage product showcase
+ *
+ * Two-column editorial layout: a slide-style product rail on the LEFT, copy and
+ * CTA on the right. Pairs with assets/component-vennix-rail.css, which owns the
+ * shared `.vx-rail__*` primitives and the <vennix-rail-slider> behaviour.
+ */
+
+.vx-showcase {
+  position: relative;
+}
+
+.vx-showcase__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+@media screen and (min-width: 990px) {
+  .vx-showcase__grid {
+    grid-template-columns: minmax(0, 46fr) minmax(0, 54fr);
+    gap: 6rem;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Left column — the slide rail
+   -------------------------------------------------------------------------- */
+
+.vx-showcase__media {
+  min-width: 0;
+}
+
+.vx-showcase__track {
+  --vx-showcase-height: 56rem;
+  height: var(--vx-showcase-height);
+}
+
+.vx-showcase__slide {
+  /* One product per slide: the slide is exactly the track height, so the
+     scroll-snap boundaries line up with whole products. */
+  height: 100%;
+  padding-bottom: 0;
+  display: flex;
+}
+
+.vx-showcase__slide > product-component {
+  display: flex;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.vx-showcase__slide .card-wrapper {
+  width: 100%;
+  height: 100%;
+}
+
+.vx-showcase__slide .card {
+  height: 100%;
+}
+
+.vx-showcase__slide .card__inner {
+  height: 100%;
+}
+
+.vx-showcase__controls {
+  padding-top: 1.6rem;
+}
+
+/* --------------------------------------------------------------------------
+   Right column — editorial copy
+   -------------------------------------------------------------------------- */
+
+.vx-showcase__content {
+  min-width: 0;
+  max-width: 56rem;
+}
+
+.vx-showcase__heading {
+  margin: 0 0 1.6rem;
+  font-size: clamp(3rem, 4.4vw, 4.6rem);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+}
+
+.vx-showcase__text {
+  margin: 0 0 2.4rem;
+  font-size: 1.6rem;
+  line-height: 1.7;
+  color: rgba(var(--color-foreground), 0.75);
+}
+
+.vx-showcase__points {
+  display: grid;
+  gap: 1.2rem;
+  margin: 0 0 3.2rem;
+  padding: 0;
+  list-style: none;
+}
+
+.vx-showcase__point {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  font-size: 1.45rem;
+  letter-spacing: 0.02em;
+}
+
+.vx-showcase__point-mark {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.4rem;
+  height: 2.4rem;
+  border-radius: 999px;
+  background: var(--v-neutral-warm, #f0eeea);
+  color: var(--v-gold-deep, #a6854d);
+}
+
+.vx-showcase__point-mark svg {
+  width: 1.2rem;
+  height: 1.2rem;
+}
+
+.vx-showcase__button {
+  margin-bottom: 1.6rem;
+}
+
+.vx-showcase__link {
+  display: inline-block;
+  font-size: 1.3rem;
+  font-weight: 650;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-bottom: 1px solid currentColor;
+  padding-bottom: 0.2rem;
+  color: inherit;
+  transition: opacity 0.2s ease;
+}
+
+.vx-showcase__link:hover {
+  opacity: 0.65;
+}
+
+/* --------------------------------------------------------------------------
+   Mobile — the rail becomes a horizontal swipe strip
+   -------------------------------------------------------------------------- */
+
+@media screen and (max-width: 749px) {
+  .vx-showcase__grid {
+    gap: 3.2rem;
+  }
+
+  .vx-showcase__track {
+    display: flex;
+    height: auto;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 0.8rem;
+  }
+
+  .vx-showcase__slide {
+    flex: 0 0 82%;
+    height: auto;
+    padding-bottom: 0;
+    padding-right: 1.6rem;
+    scroll-snap-align: start;
+  }
+
+  .vx-showcase__slide .card,
+  .vx-showcase__slide .card__inner {
+    height: auto;
+  }
+
+  .vx-showcase__heading {
+    font-size: 3rem;
+  }
+}

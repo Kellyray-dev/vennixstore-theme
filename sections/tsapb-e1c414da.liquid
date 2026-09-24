@@ -1,0 +1,1284 @@
+<!-- --VERSION-45-- -->
+
+{% style %}
+:root {
+--vtl-neutral-100: #222;
+--vtl-neutral-70: #5e5e5e;
+--vtl-neutral-05: #eaeaea;
+--vtl-neutral-01: #fff;
+--vtl-alpha-black-10: rgba(34, 34, 34, 0.1);
+--vtl-red-110: #ce1900;
+--vtl-blue-100: #0071e9;
+--vtl-size-1: 1px;
+--vtl-size-2: 2px;
+--vtl-size-4: 4px;
+--vtl-size-6: 6px;
+--vtl-size-8: 8px;
+--vtl-size-12: 12px;
+--vtl-size-14: 14px;
+--vtl-size-16: 16px;
+--vtl-size-20: 20px;
+--vtl-size-24: 24px;
+--vtl-size-32: 32px;
+--vtl-size-40: 40px;
+--vtl-font-weight-400: 400;
+--vtl-line-height-140: 1.4;
+--vtl-text-decoration-none: none;
+--vtl-text-decoration-underline: underline;
+--vtl-text-decoration-line-through: line-through;
+--vtl-border-radius-4: var(--vtl-size-4);
+--vtl-border-width-1: var(--vtl-size-1);
+--vtl-color-bg-fill-default-on-light: var(--vtl-neutral-100);
+--vtl-color-bg-fill-tertiary-on-light: var(--vtl-neutral-05);
+--vtl-color-bg-fill-inverse-on-light: var(--vtl-neutral-01);
+--vtl-color-text-default-on-light: var(--vtl-neutral-100);
+--vtl-color-text-disable-on-light: var(--vtl-neutral-70);
+--vtl-color-text-on-bg-fill-on-light: var(--vtl-neutral-01);
+--vtl-color-text-critical-on-light: var(--vtl-red-110);
+--vtl-color-border-focus-on-light: var(--vtl-blue-100);
+--vtl-color-border-hover-on-dark: var(--vtl-alpha-black-10);
+--vtl-space-2: var(--vtl-size-2);
+--vtl-space-4: var(--vtl-size-4);
+--vtl-space-6: var(--vtl-size-6);
+--vtl-space-8: var(--vtl-size-8);
+--vtl-space-12: var(--vtl-size-12);
+--vtl-space-16: var(--vtl-size-16);
+--vtl-space-20: var(--vtl-size-20);
+--vtl-space-24: var(--vtl-size-24);
+--vtl-space-32: var(--vtl-size-32);
+--vtl-space-40: var(--vtl-size-40);
+--vtl-font-size-14: var(--vtl-size-14);
+--vtl-font-size-16: var(--vtl-size-16);
+}
+
+
+{% endstyle %}
+
+<!-- --UUID-e1c414da-- -->
+
+<script>
+	if (typeof window.vtlsBreakpoints === 'undefined') {
+		window.vtlsBreakpoints = {
+			mobile: {
+				minWidth: 0,
+				maxWidth: 479,
+			},
+			tablet: {
+				minWidth: 480,
+				maxWidth: 991,
+			},
+			desktop: {
+				minWidth: 992,
+				maxWidth: 10000,
+			},
+		};
+	}
+</script>
+
+{% style %}
+	
+
+@media(max-width: 479px){.VtlsResponsiveness--TabletAndDesktop{display:none}}@media(min-width: 992px){.VtlsResponsiveness--MobileAndTablet{display:none}}@media(min-width: 480px){.VtlsResponsiveness--Mobile{display:none}}@media not ((min-width: 480px) and (max-width: 991px)){.VtlsResponsiveness--Tablet{display:none}}@media(max-width: 991px){.VtlsResponsiveness--Desktop{display:none}}
+
+{% endstyle %}
+
+
+<section class="Vtls-{{ section.id | handle }}" aria-label="Featured Products Carousel">
+	{%- capture card_has_bg_color -%}
+		{%- case section.settings.productCardBackgroundColor -%}
+			{%- when '' or 'rgba(0,0,0,0)' -%}
+				false
+			{%- else -%}
+				true
+		{%- endcase -%}
+	{%- endcapture -%}
+	{%- capture card_has_border_color -%}
+		{%- case section.settings.productCardBorderColor -%}
+			{%- when '' or 'rgba(0,0,0,0)' -%}
+				false
+			{%- else -%}
+				true
+		{%- endcase -%}
+	{%- endcapture -%}
+
+	{%- capture buy_buttons_content -%}{%- render 'buy-buttons' -%}{%- endcapture -%}
+
+	{% for block in section.blocks %}
+		{% case block.type %}
+			{% when "heading" %}
+				{% assign heading_block = block %}
+			{% when "products" %}
+				{% assign products_block = block %}
+		{% endcase %}
+	{% endfor %}
+
+	{% comment %}Choose options text start{% endcomment %}
+	{% capture choose_options_text_capture %}{{ 'products.product.choose_options' | t }}{% endcapture %}
+
+	{% if choose_options_text_capture contains "Translation missing" %}
+		{%- assign choose_options_text = "Choose options" -%}
+	{% else %}
+		{%- assign choose_options_text = choose_options_text_capture -%}
+	{% endif %}
+	{% comment %}Choose options text end{% endcomment %}
+
+	{% comment %}Add to cart text start{% endcomment %}
+	{% capture add_to_cart_text_capture %}{{ 'products.product.add_to_cart' | t }}{% endcapture %}
+
+	{% if add_to_cart_text_capture contains "Translation missing" %}
+		{%- assign add_to_cart_text = "Add to cart" -%}
+	{% else %}
+		{%- assign add_to_cart_text = add_to_cart_text_capture -%}
+	{% endif %}
+	{% comment %}Add to cart text end{% endcomment %}
+
+	{% if products_block.settings.product_list.count > 0 or request.design_mode == true %}
+		<div class="VtlsCarouselContainer">
+			<div class="VtlsCarousel">
+				<header
+					class="VtlsCarousel__Header VtlsCarousel__Header--{{ heading_block.settings.headingAlignment }}"
+					{{ heading_block.shopify_attributes }}
+				>
+					{% if heading_block.settings.label != blank %}
+						<div class="VtlsHeader__Label">{{ heading_block.settings.label }}</div>
+					{% endif %}
+					{% if heading_block.settings.title != blank %}
+						<h2 class="VtlsHeader__Heading">{{ heading_block.settings.title }}</h2>
+					{% endif %}
+					{% if heading_block.settings.description != blank %}
+						<div class="VtlsHeader__Description">
+							{{ heading_block.settings.description }}
+						</div>
+					{% endif %}
+				</header>
+				<div class="VtlsCarousel__Content" role="region" aria-label="Product carousel">
+					<ul 
+						class="VtlsCarouselList" 
+						{{ products_block.shopify_attributes }}
+						aria-label="Featured products list"
+					>
+						{% if products_block.settings.product_list.count > 0 %}
+							{% for product in products_block.settings.product_list %}
+								<li>
+									<article
+										class="
+											VtlsProductCard
+											{% if card_has_border_color == 'true' %}VtlsProductCard--hasBorder{% endif %}
+											{% if card_has_bg_color == 'true' %}VtlsProductCard--hasBackground{% endif %}
+											{% if section.settings.showAddToCartCheckbox == false %}VtlsProductCard--ShowCursorPointer{% endif %}
+										"
+										aria-label="Product: {{ product.title }}"
+										tabindex="0"
+										{%- if section.settings.showSecondImageOnHoverCheckbox and product.images[1] -%}
+											onmouseover="this.querySelector('img').src = '{{ product.images[1].src | image_url }})'"
+											onmouseout="this.querySelector('img').src = '{{ product.images[0].src | image_url }})'"
+										{%- endif -%}
+									>
+										<a href="{{ product.url }}" class="VtlsProductCard__TopContainer">
+											<div class="VtlsProductImageContainer VtlsProductImageContainer--{{ section.settings.imageAspectRatio }}">
+												<figure class="VtlsProductImageContainer__Image">
+													<img
+														src="{{ product.images[0].src | image_url }}"
+														alt="{% if product.images[0].alt != blank %}{{ product.images[0].alt }}{% else %}Product image for {{ product.title }}{% endif %}"
+														width="100%"
+														height="100%"
+														loading="lazy"
+													>
+												</figure>
+											</div>
+											<div class="VtlsProductTextContainer VtlsProductTextContainer--align-{{ section.settings.productTextAlignment }}">
+												{% if section.settings.showVendorCheckbox and product.vendor != blank %}
+													<div class="VtlsProductTextContainer__Vendor">
+														{{ product.vendor }}
+													</div>
+												{% endif %}
+												<h3
+													class="VtlsProductTextContainer__ProductTitle"
+													title="{{ product.title }}"
+												>
+													<span aria-label="View {{ product.title }} details">{{ product.title }}</span>
+												</h3>
+												<div class="VtlsProductTextContainer__Prices">
+													{% if product.compare_at_price > product.price %}
+														<span class="VtlsProductInitialPrice" aria-hidden="true">
+															{{- product.compare_at_price | money -}}
+														</span>
+														<span class="vtlsSrOnly">
+															Original price: {{ product.compare_at_price | money }}
+														</span>
+													{% endif %}
+												
+													<span class="VtlsProductPrice {% if product.compare_at_price > product.price %}price-with-red{% endif %}" aria-hidden="true">
+														{{ product.price | money }}
+													</span>
+													<span class="vtlsSrOnly">
+														{% if product.compare_at_price > product.price %}
+															Sale price: {{ product.price | money }}
+														{% else %}
+															Price: {{ product.price | money }}
+														{% endif %}
+													</span>
+												</div>
+											</div>
+										</a>
+										{% if section.settings.showAddToCartCheckbox %}
+											<div class="VtlsProductCard__ButtonContainer {% if section.settings.addToCartButtonStyle == 'filled' %}VtlsProductCard__ButtonContainer--filled{% endif %} vtls-exclude-atc-injector">
+												{% if product.variants.size == 1 %}
+													{% if buy_buttons_content contains "Could not find asset" %}
+														<form action="/cart/add" method="post" aria-label="Add {{ product.title }} to cart">
+															<input
+																type="hidden"
+																name="id"
+																value="{{ product.variants[0].id }}"
+															>
+															<input type="hidden" name="quantity" value="1">
+															<button
+																type="submit"
+																class="VtlsAddToCartButton"
+																aria-label="Add {{ product.title }} to cart"
+															>
+																{{ add_to_cart_text }}
+															</button>
+														</form>
+													{% else %}
+														{%- render "buy-buttons",
+															block: "buy-buttons",
+															product: product,
+															section_id: section.id
+														-%}
+													{% endif %}
+												{% else %}
+													<a
+														href="{{ product.url }}"
+														class="VtlsAddToCartButton"
+														aria-label="Choose options for {{ product.title }}"
+													>
+														<span class="VtlsResponsiveness--TabletAndDesktop">
+															{{- choose_options_text -}}
+														</span>
+														<span class="VtlsResponsiveness--Mobile">Choose</span>
+													</a>
+												{% endif %}
+											</div>
+										{% endif %}
+									</article>
+								</li>
+							{% endfor %}
+						{% endif %}
+
+						{% comment %}  ***** This block is generated as sample to allow user changes until the products are added to the list ***** {% endcomment %}
+						{% if products_block.settings.product_list.count == 0 %}
+							{% for i in (1..5) %}
+								<article
+									class="
+										VtlsProductCard
+										{% if card_has_border_color == 'true' %}VtlsProductCard--hasBorder{% endif %}
+										{% if card_has_bg_color == 'true' %}VtlsProductCard--hasBackground{% endif %}
+										{% if section.settings.showAddToCartCheckbox == false %}VtlsProductCard--ShowCursorPointer{% endif %}
+									"
+									role="listitem"
+									aria-label="Sample product {{ i }}"
+								>
+									<div class="VtlsProductCard__TopContainer">
+										<div class="VtlsProductImageContainer {{ section.settings.imageAspectRatio }}">
+											<div class="VtlsProductImageContainer--LinkMock" aria-hidden="true">
+												<div class="VtlsProductImageContainer--MockContainer">
+													<img
+														src="data:image/webp;base64,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"
+														alt="Image with an abstract figure"
+														width="580"
+														height="580"
+														loading="lazy"
+														sizes="100vw"
+														fetchpriority="low"
+													>
+												</div>
+											</div>
+										</div>
+										<div class="VtlsProductTextContainer VtlsProductTextContainer--align-{{ section.settings.productTextAlignment }}">
+											{% if section.settings.showVendorCheckbox %}
+												<div class="VtlsProductTextContainer__Vendor">Vendor name</div>
+											{% endif %}
+											<h3
+												class="VtlsProductTextContainer__ProductTitle"
+												title="Product name goes here and it can be short or very long but it is limited to 2 rows of text"
+											>
+												Product name goes here and it can be short or very long but it is
+												limited to 2 rows of text
+											</h3>
+											<div class="VtlsProductTextContainer__Prices" aria-label="Sample product pricing">
+												<span class="VtlsProductInitialPrice" aria-label="Original price">$300.00</span>
+												<span class="VtlsProductPrice price-with-red" aria-label="Sale price">$270.00</span>
+											</div>
+										</div>
+									</div>
+									{% if section.settings.showAddToCartCheckbox %}
+										<div class="VtlsProductCard__ButtonContainer {% if section.settings.addToCartButtonStyle == 'filled' %}VtlsProductCard__ButtonContainer--filled{% endif %}">
+											<button type="button" class="VtlsAddToCartButton" aria-label="Add sample product to cart" disabled>
+												{{ add_to_cart_text }}
+											</button>
+										</div>
+									{% endif %}
+								</article>
+							{% endfor %}
+						{% endif %}
+					</ul>
+				</div>
+				{% if products_block %}
+					<nav
+						class="VtlsCarousel__Navigation"
+						aria-label="Carousel navigation"
+						{% if request.design_mode == false and products_block.settings.product_list.count <= 4 %}
+							style="display: none;"
+						{% endif %}
+					>
+						<div class="VtlsProgressBarContainer">
+							<div class="VtlsProgressBar" role="progressbar" aria-label="Carousel progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+								<div class="VtlsProgressBar__Track" aria-hidden="true">&nbsp;</div>
+								<div class="VtlsProgressBar__Thumb" aria-hidden="true">&nbsp;</div>
+							</div>
+						</div>
+						<div class="VtlsNavigationButtons">
+							<button 
+								class="VtlsNavigationButtons__Button VtlsNavigationButtons__Button--disabled left-chevron"
+								aria-label="Previous products"
+								aria-disabled="true"
+								disabled
+								onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click()}"
+							>
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									width="24"
+									height="24"
+									viewBox="0 0 24 24"
+									fill="none"
+									aria-hidden="true"
+								>
+									<path d="M14 18L8 12L14 6" stroke="{{ section.settings.arrowsAndThumbProgressBarColor }}" stroke-linecap="round"></path>
+								</svg>
+							</button>
+							<button 
+								class="VtlsNavigationButtons__Button right-chevron"
+								aria-label="Next products"
+								aria-disabled="false"
+								onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click()}"
+							>
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									width="24"
+									height="24"
+									viewBox="0 0 24 24"
+									fill="none"
+									aria-hidden="true"
+								>
+									<path d="M9 6L15 12L9 18" stroke="{{ section.settings.arrowsAndThumbProgressBarColor }}" stroke-linecap="round"></path>
+								</svg>
+							</button>
+						</div>
+					</nav>
+				{% endif %}
+			</div>
+		</div>
+	{% endif %}
+</section>
+
+{% schema %}
+{
+	"name": "❤️ Featured Products",
+	"max_blocks": 2,
+	"disabled_on": {
+		"groups": ["header", "footer"]
+	},
+	"settings": [
+		{
+			"type": "header",
+			"content": "Product card"
+		},
+		{
+			"type": "select",
+			"id": "imageAspectRatio",
+			"options": [
+				{
+					"value": "original",
+					"label": "Original"
+				},
+				{
+					"value": "square",
+					"label": "Square"
+				},
+				{
+					"value": "portrait",
+					"label": "Portrait"
+				},
+				{
+					"value": "landscape",
+					"label": "Landscape"
+				}
+			],
+			"default": "square",
+			"label": "Image aspect ratio"
+		},
+		{
+			"type": "select",
+			"id": "productTextAlignment",
+			"options": [
+				{
+					"value": "left",
+					"label": "Left"
+				},
+				{
+					"value": "center",
+					"label": "Center"
+				},
+				{
+					"value": "right",
+					"label": "Right"
+				}
+			],
+			"default": "left",
+			"label": "Alignment"
+		},
+		{
+			"type": "color",
+			"id": "productCardTextColor",
+			"label": "Text color",
+			"default": "#222222"
+		},
+		{
+			"type": "color",
+			"id": "productCardDiscountedPriceColor",
+			"label": "Discounted price color",
+			"default": "#CE1900"
+		},
+		{
+			"type": "color",
+			"id": "productCardBackgroundColor",
+			"label": "Background color"
+		},
+		{
+			"type": "color",
+			"id": "productCardBorderColor",
+			"label": "Border color"
+		},
+		{
+			"type": "range",
+			"id": "productCardRadius",
+			"label": "Product card corner radius",
+			"min": 0,
+			"max": 40,
+			"step": 2,
+			"default": 0,
+			"unit": "px"
+		},
+		{
+			"type": "checkbox",
+			"id": "showSecondImageOnHoverCheckbox",
+			"label": "Show second image on hover",
+			"default": false
+		},
+		{
+			"type": "checkbox",
+			"id": "showVendorCheckbox",
+			"label": "Show vendor",
+			"default": false
+		},
+		{
+			"type": "checkbox",
+			"id": "showProductRatingCheckbox",
+			"label": "Show product rating",
+			"default": false,
+			"info": "Show reviews in the carousel by activating the Product Reviews app from Square.",
+			"visible_if": "{{ false }}"
+		},
+		{
+			"type": "checkbox",
+			"id": "showAddToCartCheckbox",
+			"label": "Show Add to cart button",
+			"default": false
+		},
+		{
+			"type": "select",
+			"id": "addToCartButtonStyle",
+			"options": [
+				{
+					"value": "outline",
+					"label": "Outline"
+				},
+				{
+					"value": "filled",
+					"label": "Filled"
+				}
+			],
+			"default": "outline",
+			"visible_if": "{{ section.settings.showAddToCartCheckbox == true }}",
+			"label": "Button style"
+		},
+		{
+			"type": "color",
+			"id": "addToCartButtonTextColor",
+			"label": "Button text color",
+			"default": "#ffffff",
+			"visible_if": "{{ section.settings.showAddToCartCheckbox == true and section.settings.addToCartButtonStyle == 'filled' }}",
+		},
+		{
+			"type": "color",
+			"id": "addToCartButtonColor",
+			"label": "Button color",
+			"default": "#222222",
+			"visible_if": "{{ section.settings.showAddToCartCheckbox == true }}",
+		},
+		{
+			"type": "range",
+			"id": "addToCartButtonCornerRadius",
+			"label": "Button corner radius",
+			"min": 0,
+			"max": 40,
+			"step": 2,
+			"default": 4,
+			"unit": "px"
+		},
+		{
+			"type": "header",
+			"content": "Layout"
+		},
+		{
+			"type": "select",
+			"id": "visibleItemsDesktop",
+			"options": [
+				{
+					"label": "2",
+					"value": "2"
+				},
+				{
+					"label": "3",
+					"value": "3"
+				},
+				{
+					"label": "4",
+					"value": "4"
+				},
+				{
+					"label": "5",
+					"value": "5"
+				}
+			],
+			"default": "4",
+			"label": "Products per row (desktop)"
+		},
+		{
+			"type": "select",
+			"id": "visibleItemsMobile",
+			"options": [
+				{
+					"label": "1",
+					"value": "1"
+				},
+				{
+					"label": "2",
+					"value": "2"
+				}
+			],
+			"default": "1",
+			"label": "Products per row (mobile)"
+		},
+		{
+			"type": "range",
+			"id": "productCardGapSize",
+			"label": "Space between product cards",
+			"min": 4,
+			"max": 64,
+			"step": 2,
+			"default": 16,
+			"unit": "px"
+		},
+		{
+			"type": "range",
+			"id": "sectionMaxWidth",
+			"label": "Section max width",
+			"min": 1000,
+			"max": 1600,
+			"step": 100,
+			"default": 1200,
+			"unit": "px"
+		},
+		{
+			"type": "checkbox",
+			"id": "sectionMakeFullWidthCheckbox",
+			"label": "Make full width",
+			"default": false
+		},
+		{
+			"type": "range",
+			"id": "sectionPaddingTop",
+			"label": "Padding top",
+			"min": 0,
+			"max": 100,
+			"step": 4,
+			"default": 48,
+			"unit": "px"
+		},
+		{
+			"type": "range",
+			"id": "sectionPaddingBottom",
+			"label": "Padding bottom",
+			"min": 0,
+			"max": 100,
+			"step": 4,
+			"default": 48,
+			"unit": "px"
+		},
+		{
+			"type": "header",
+			"content": "Design"
+		},
+		{
+			"type": "color",
+			"id": "sectionBackgroundColor",
+			"label": "Background color"
+		},
+		{
+			"type": "color",
+			"id": "arrowsAndThumbProgressBarColor",
+			"label": "Arrows and bar color",
+			"default": "#222222"
+		}
+	],
+	"blocks": [
+		{
+			"type": "heading",
+			"limit": 1,
+			"name": "Heading",
+			"settings": [
+				{
+					"type": "inline_richtext",
+					"id": "title",
+					"label": "Heading",
+					"default": "Featured products"
+				},
+				{
+					"type": "inline_richtext",
+					"id": "label",
+					"label": "Label"
+				},
+				{
+					"type": "inline_richtext",
+					"id": "description",
+					"label": "Description"
+				},
+				{
+					"type": "select",
+					"id": "headingTextSize",
+					"options": [
+						{
+							"label": "Extra Small",
+							"value": "24"
+						},
+						{
+							"label": "Small",
+							"value": "32"
+						},
+						{
+							"label": "Medium",
+							"value": "40"
+						},
+						{
+							"label": "Large",
+							"value": "48"
+						},
+						{
+							"label": "Extra Large",
+							"value": "52"
+						},
+						{
+							"label": "Extra Extra Large",
+							"value": "64"
+						}
+					],
+					"default": "40",
+					"label": "Heading size"
+				},
+				{
+					"type": "select",
+					"id": "headingAlignment",
+					"options": [
+						{
+							"value": "left",
+							"label": "Left"
+						},
+						{
+							"value": "center",
+							"label": "Center"
+						},
+						{
+							"value": "right",
+							"label": "Right"
+						}
+					],
+					"default": "left",
+					"label": "Heading alignment"
+				},
+				{
+					"type": "color",
+					"id": "headingTextColor",
+					"label": "Text color",
+					"default": "#222222"
+				}
+			]
+		},
+		{
+			"type": "products",
+			"limit": 1,
+			"name": "Products",
+			"settings": [
+				{
+					"type": "product_list",
+					"id": "product_list",
+					"label": "Products",
+					"limit": 25,
+					"info": "Maximum number of products per carousel is 25."
+				}
+			]
+		}
+	],
+	"presets": [
+		{
+			"name": "❤️ Square: Featured Products Carousel",
+			"category": "Square sections",
+			"blocks": [
+				{
+					"type": "heading",
+					"settings": {
+						"title": "Heading"
+					}
+				},
+				{
+					"type": "products",
+					"settings": {}
+				}
+			]
+		}
+	]
+}
+{% endschema %}
+
+{%- capture productCardBackgroundColor -%} {{ section.settings.productCardBackgroundColor | default: 'transparent' }}; {%- endcapture -%}
+{%- capture productCardBorderColor -%} {{ section.settings.productCardBorderColor | default: 'transparent' }}; {%- endcapture -%}
+{%- capture sectionBackgroundColor -%} {{ section.settings.sectionBackgroundColor | default: 'transparent' }}; {%- endcapture -%}
+
+{% style %}
+	.Vtls-{{ section.id | handle }} {
+		--addToCartButtonColor: {{ section.settings.addToCartButtonColor }};
+		--addToCartButtonCornerRadius: {{ section.settings.addToCartButtonCornerRadius }}px;
+		--addToCartButtonTextColor: {{ section.settings.addToCartButtonTextColor }};
+		--arrowsAndThumbProgressBarColor: {{ section.settings.arrowsAndThumbProgressBarColor }};
+		--headingTextColor: {{ heading_block.settings.headingTextColor }};
+		--headingTextSize: {{ heading_block.settings.headingTextSize }}px;
+		--productCardBackgroundColor: {{ productCardBackgroundColor }};
+		--productCardBorder: var(--vtl-border-width-1) solid {{ productCardBorderColor }};
+		--productCardDiscountedPriceColor: {{ section.settings.productCardDiscountedPriceColor }};
+		--productCardGapSize: {{ section.settings.productCardGapSize }}px;
+		--productCardRadius: {{ section.settings.productCardRadius }}px;
+		--productCardTextColor: {{ section.settings.productCardTextColor }};
+		--sectionBackgroundColor: {{ sectionBackgroundColor }};
+		--sectionPaddingBottom: {{ section.settings.sectionPaddingBottom }}px;
+		--sectionPaddingTop: {{ section.settings.sectionPaddingTop }}px;
+		--visibleItemsDesktop: {{ section.settings.visibleItemsDesktop }}.33;
+		--carouselProductCardWidth: calc(100% / var(--visibleItemsDesktop) - var(--productCardGapSize));
+		--prReviewStarsSnippetContainerDisplay: none;
+		{% comment %} --prReviewStarsSnippetContainerDisplay: {%- if section.settings.showProductRatingCheckbox != true -%}none{%- else -%}block{%- endif -%}; {% endcomment %}
+		--carouselMaxWidth: {%- if section.settings.sectionMakeFullWidthCheckbox == false -%} {{ section.settings.sectionMaxWidth }}px;{%- else -%}auto{%- endif -%}
+	}
+
+	
+
+.Vtls-{{ section.id | handle }} .vtlsSrOnly{position:absolute;width:0;height:0;padding:0;margin:-1px;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border:0}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer{display:flex;flex-direction:column;align-items:center;padding:0 var(--vtl-space-16);background-color:var(--sectionBackgroundColor)}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel{width:100%;display:flex;flex-direction:column;row-gap:var(--vtl-space-8);padding-top:var(--sectionPaddingTop);padding-bottom:var(--sectionPaddingBottom);max-width:var(--carouselMaxWidth)}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Header{display:flex;flex-direction:column;row-gap:var(--vtl-space-8);color:var(--headingTextColor)}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Header--left{text-align:left}[dir=rtl] .Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Header--left,html[dir=rtl] .Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Header--left,body[dir=rtl] .Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Header--left,html[style*="direction: rtl"] .Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Header--left,body[style*="direction: rtl"] .Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Header--left{text-align:right}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Header--center{text-align:center}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Header--right{text-align:right}[dir=rtl] .Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Header--right,html[dir=rtl] .Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Header--right,body[dir=rtl] .Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Header--right,html[style*="direction: rtl"] .Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Header--right,body[style*="direction: rtl"] .Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Header--right{text-align:left}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Header:has(>div:empty+div:empty+div:empty){display:none}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Header .VtlsHeader__Label{font-size:var(--vtl-font-size-14);line-height:var(--vtl-line-height-140);text-transform:uppercase}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Header .VtlsHeader__Label a{color:var(--block-description-color);margin:0;padding:0;text-decoration:underline;text-underline-offset:var(--vtl-space-2);transition:opacity .3s ease-in}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Header .VtlsHeader__Label a:hover{opacity:.85}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Header .VtlsHeader__Label a:focus{outline:var(--vtl-space-2) solid var(--vtl-color-border-focus-on-light);outline-offset:var(--vtl-space-2)}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Header .VtlsHeader__Label a:focus-visible{outline:var(--vtl-space-2) solid var(--vtl-color-border-focus-on-light);outline-offset:var(--vtl-space-2)}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Header .VtlsHeader__Label:empty{display:none}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Header .VtlsHeader__Heading{font-size:var(--headingTextSize);line-height:var(--vtl-line-height-140);margin:0}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Header .VtlsHeader__Heading a{color:var(--block-description-color);margin:0;padding:0;text-decoration:underline;text-underline-offset:var(--vtl-space-2);transition:opacity .3s ease-in}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Header .VtlsHeader__Heading a:hover{opacity:.85}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Header .VtlsHeader__Heading a:focus{outline:var(--vtl-space-2) solid var(--vtl-color-border-focus-on-light);outline-offset:var(--vtl-space-2)}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Header .VtlsHeader__Heading a:focus-visible{outline:var(--vtl-space-2) solid var(--vtl-color-border-focus-on-light);outline-offset:var(--vtl-space-2)}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Header .VtlsHeader__Heading:empty{display:none}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Header .VtlsHeader__Description{font-size:var(--vtl-font-size-16);line-height:var(--vtl-line-height-140)}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Header .VtlsHeader__Description a{color:var(--block-description-color);margin:0;padding:0;text-decoration:underline;text-underline-offset:var(--vtl-space-2);transition:opacity .3s ease-in}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Header .VtlsHeader__Description a:hover{opacity:.85}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Header .VtlsHeader__Description a:focus{outline:var(--vtl-space-2) solid var(--vtl-color-border-focus-on-light);outline-offset:var(--vtl-space-2)}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Header .VtlsHeader__Description a:focus-visible{outline:var(--vtl-space-2) solid var(--vtl-color-border-focus-on-light);outline-offset:var(--vtl-space-2)}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Header .VtlsHeader__Description:empty{display:none}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Header .VtlsHeader__Description:focus{outline:var(--vtl-space-2) solid var(--vtl-color-border-focus-on-light);outline-offset:var(--vtl-space-2)}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Header .VtlsHeader__Description:focus-visible{outline:var(--vtl-space-2) solid var(--vtl-color-border-focus-on-light);outline-offset:var(--vtl-space-2)}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Content{overflow:hidden;padding:var(--vtl-space-24) 0}@media(max-width: 479px){.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Content{overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Content::-webkit-scrollbar{display:none}}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Content .VtlsCarouselList{display:flex;width:auto;transition:.3s;column-gap:var(--productCardGapSize);padding-left:0;padding-inline-start:0;margin:0;list-style:none}@media(max-width: 479px){.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Content .VtlsCarouselList{transition:none}}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Content .VtlsCarouselList::marker{display:none}[dir=rtl] .Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Content .VtlsCarouselList,html[dir=rtl] .Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Content .VtlsCarouselList,body[dir=rtl] .Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Content .VtlsCarouselList,html[style*="direction: rtl"] .Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Content .VtlsCarouselList,body[style*="direction: rtl"] .Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Content .VtlsCarouselList{padding-left:0;padding-right:0;padding-inline-start:0;padding-inline-end:0}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Content .VtlsCarouselList .VtlsProductCard{box-sizing:border-box;padding:0;min-width:var(--carouselProductCardWidth);max-width:var(--carouselProductCardWidth);display:flex;flex-direction:column;justify-content:space-between;background-color:var(--productCardBackgroundColor);border-radius:var(--productCardRadius)}@media(max-width: 479px){.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Content .VtlsCarouselList .VtlsProductCard{min-width:232px;max-width:232px}}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Content .VtlsCarouselList .VtlsProductCard--ShowCursorPointer:hover{cursor:pointer}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Content .VtlsCarouselList .VtlsProductCard__TopContainer{display:block;text-decoration:var(--vtl-text-decoration-none)}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Content .VtlsCarouselList .VtlsProductCard__TopContainer:hover .VtlsProductTextContainer__ProductTitle{text-decoration:var(--vtl-text-decoration-underline)}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Content .VtlsCarouselList .VtlsProductCard__TopContainer:focus{outline:var(--vtl-space-2) solid var(--vtl-color-border-focus-on-light);outline-offset:var(--vtl-space-2)}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Content .VtlsCarouselList .VtlsProductCard__TopContainer:focus-visible{outline:var(--vtl-space-2) solid var(--vtl-color-border-focus-on-light);outline-offset:var(--vtl-space-2)}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Content .VtlsCarouselList .VtlsProductCard__TopContainer .VtlsProductImageContainer--LinkMock{display:flex;width:100%;padding-bottom:var(--vtl-space-16);height:262px;overflow:hidden}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Content .VtlsCarouselList .VtlsProductCard__TopContainer .VtlsProductImageContainer img,.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Content .VtlsCarouselList .VtlsProductCard__TopContainer .VtlsProductImageContainer--MockContainer{border-radius:var(--productCardRadius) var(--productCardRadius) 0 0;width:100%;height:100%;object-fit:cover}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Content .VtlsCarouselList .VtlsProductCard__TopContainer .VtlsProductImageContainer--MockContainer{display:flex;align-items:center;justify-content:center;background-color:var(--vtl-color-bg-fill-tertiary-on-light);width:100%;height:100%}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Content .VtlsCarouselList .VtlsProductCard__TopContainer .VtlsProductImageContainer--original{height:246px;min-height:246px;display:flex;align-items:center;justify-content:center;overflow:hidden}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Content .VtlsCarouselList .VtlsProductCard__TopContainer .VtlsProductImageContainer--original img{max-height:230px}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Content .VtlsCarouselList .VtlsProductCard__TopContainer .VtlsProductImageContainer--original--MockContainer{max-height:246px}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Content .VtlsCarouselList .VtlsProductCard__TopContainer .VtlsProductImageContainer--original img,.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Content .VtlsCarouselList .VtlsProductCard__TopContainer .VtlsProductImageContainer--original--MockContainer{max-width:100%;transition:transform .4s ease}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Content .VtlsCarouselList .VtlsProductCard__TopContainer .VtlsProductImageContainer--square{height:246px}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Content .VtlsCarouselList .VtlsProductCard__TopContainer .VtlsProductImageContainer--square,.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Content .VtlsCarouselList .VtlsProductCard__TopContainer .VtlsProductImageContainer--portrait,.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Content .VtlsCarouselList .VtlsProductCard__TopContainer .VtlsProductImageContainer--landscape{position:relative;overflow:hidden}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Content .VtlsCarouselList .VtlsProductCard__TopContainer .VtlsProductImageContainer--square img,.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Content .VtlsCarouselList .VtlsProductCard__TopContainer .VtlsProductImageContainer--portrait img,.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Content .VtlsCarouselList .VtlsProductCard__TopContainer .VtlsProductImageContainer--landscape img{position:absolute;object-fit:cover;top:0;left:0;width:100%;height:100%}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Content .VtlsCarouselList .VtlsProductCard__TopContainer .VtlsProductImageContainer--square--MockContainer,.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Content .VtlsCarouselList .VtlsProductCard__TopContainer .VtlsProductImageContainer--portrait--MockContainer,.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Content .VtlsCarouselList .VtlsProductCard__TopContainer .VtlsProductImageContainer--landscape--MockContainer{position:absolute;top:0;left:0;height:100%;object-fit:cover;width:100%}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Content .VtlsCarouselList .VtlsProductCard__TopContainer .VtlsProductImageContainer--square{aspect-ratio:1/1;height:auto}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Content .VtlsCarouselList .VtlsProductCard__TopContainer .VtlsProductImageContainer--portrait::before{content:"";display:block;padding-top:150%}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Content .VtlsCarouselList .VtlsProductCard__TopContainer .VtlsProductImageContainer--landscape::before{content:"";display:block;padding-top:75%}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Content .VtlsCarouselList .VtlsProductCard__TopContainer .VtlsProductTextContainer{padding:var(--vtl-space-16) 0;display:flex;flex-direction:column;row-gap:var(--vtl-space-8)}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Content .VtlsCarouselList .VtlsProductCard__TopContainer .VtlsProductTextContainer--align-left{text-align:left}[dir=rtl] .Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Content .VtlsCarouselList .VtlsProductCard__TopContainer .VtlsProductTextContainer--align-left,html[dir=rtl] .Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Content .VtlsCarouselList .VtlsProductCard__TopContainer .VtlsProductTextContainer--align-left,body[dir=rtl] .Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Content .VtlsCarouselList .VtlsProductCard__TopContainer .VtlsProductTextContainer--align-left,html[style*="direction: rtl"] .Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Content .VtlsCarouselList .VtlsProductCard__TopContainer .VtlsProductTextContainer--align-left,body[style*="direction: rtl"] .Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Content .VtlsCarouselList .VtlsProductCard__TopContainer .VtlsProductTextContainer--align-left{text-align:right}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Content .VtlsCarouselList .VtlsProductCard__TopContainer .VtlsProductTextContainer--align-center{text-align:center}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Content .VtlsCarouselList .VtlsProductCard__TopContainer .VtlsProductTextContainer--align-right{text-align:right}[dir=rtl] .Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Content .VtlsCarouselList .VtlsProductCard__TopContainer .VtlsProductTextContainer--align-right,html[dir=rtl] .Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Content .VtlsCarouselList .VtlsProductCard__TopContainer .VtlsProductTextContainer--align-right,body[dir=rtl] .Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Content .VtlsCarouselList .VtlsProductCard__TopContainer .VtlsProductTextContainer--align-right,html[style*="direction: rtl"] .Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Content .VtlsCarouselList .VtlsProductCard__TopContainer .VtlsProductTextContainer--align-right,body[style*="direction: rtl"] .Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Content .VtlsCarouselList .VtlsProductCard__TopContainer .VtlsProductTextContainer--align-right{text-align:left}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Content .VtlsCarouselList .VtlsProductCard__TopContainer .VtlsProductTextContainer__Vendor{font-size:var(--vtl-font-size-14);text-transform:uppercase;line-height:var(--vtl-line-height-140);opacity:.5;color:var(--productCardTextColor)}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Content .VtlsCarouselList .VtlsProductCard__TopContainer .VtlsProductTextContainer__Vendor:empty{display:none}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Content .VtlsCarouselList .VtlsProductCard__TopContainer .VtlsProductTextContainer__ProductTitle{font-size:var(--vtl-font-size-16);line-height:var(--vtl-line-height-140);color:var(--productCardTextColor);margin:0;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Content .VtlsCarouselList .VtlsProductCard__TopContainer .VtlsProductTextContainer__ProductTitle:empty{display:none}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Content .VtlsCarouselList .VtlsProductCard__TopContainer .VtlsProductTextContainer__ProductTitle span{display:block;color:inherit;text-decoration:var(--vtl-text-decoration-none);width:100%}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Content .VtlsCarouselList .VtlsProductCard__TopContainer .VtlsProductTextContainer__Prices{display:flex;column-gap:var(--vtl-space-8);flex-wrap:wrap}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Content .VtlsCarouselList .VtlsProductCard__TopContainer .VtlsProductTextContainer__Prices .VtlsProductPrice{font-size:var(--vtl-font-size-16);line-height:var(--vtl-line-height-140);color:var(--productCardTextColor, var(--vtl-color-text-default-on-light))}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Content .VtlsCarouselList .VtlsProductCard__TopContainer .VtlsProductTextContainer__Prices .VtlsProductPrice.price-with-red{color:var(--productCardDiscountedPriceColor, var(--vtl-color-text-critical-on-light))}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Content .VtlsCarouselList .VtlsProductCard__TopContainer .VtlsProductTextContainer__Prices .VtlsProductPrice:empty{display:none}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Content .VtlsCarouselList .VtlsProductCard__TopContainer .VtlsProductTextContainer__Prices .VtlsProductInitialPrice{font-size:var(--vtl-font-size-16);line-height:var(--vtl-line-height-140);text-decoration:var(--vtl-text-decoration-line-through);opacity:.5;color:var(--productCardTextColor, var(--vtl-color-text-default-on-light))}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Content .VtlsCarouselList .VtlsProductCard__TopContainer .VtlsProductTextContainer__Prices .VtlsProductInitialPrice:empty{display:none}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Content .VtlsCarouselList .VtlsProductCard__TopContainer .VtlsProductTextContainer--align-center .VtlsProductTextContainer__Prices{justify-content:center}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Content .VtlsCarouselList .VtlsProductCard__TopContainer .VtlsProductTextContainer--align-right .VtlsProductTextContainer__Prices{justify-content:flex-end}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Content .VtlsCarouselList .VtlsProductCard__TopContainer .VtlsProductTextContainer--align-left .vtl-pr-review-stars-snippet{justify-content:left}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Content .VtlsCarouselList .VtlsProductCard__TopContainer .VtlsProductTextContainer--align-center .vtl-pr-review-stars-snippet{justify-content:center}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Content .VtlsCarouselList .VtlsProductCard__TopContainer .VtlsProductTextContainer--align-right .vtl-pr-review-stars-snippet{justify-content:right}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Content .VtlsCarouselList .VtlsProductCard__TopContainer .VtlsProductTextContainer .vtl-pr-review-stars-snippet-container{display:var(--prReviewStarsSnippetContainerDisplay)}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Content .VtlsCarouselList .VtlsProductCard__ButtonContainer{padding:0 0 var(--vtl-space-16) 0}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Content .VtlsCarouselList .VtlsProductCard__ButtonContainer .product-form .product-form__buttons{max-width:100%}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Content .VtlsCarouselList .VtlsProductCard__ButtonContainer .VtlsAddToCartButton{display:block;padding:var(--vtl-space-6) var(--vtl-space-12);background-color:rgba(0,0,0,0);border:var(--vtl-border-width-1) solid var(--addToCartButtonColor);color:var(--addToCartButtonColor);text-decoration:var(--vtl-text-decoration-none);border-radius:var(--addToCartButtonCornerRadius);font-size:var(--vtl-font-size-14);line-height:19.6px;text-align:center;width:100%;font-family:var(--font-body-family),serif;margin-bottom:0;letter-spacing:.06rem;min-height:auto}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Content .VtlsCarouselList .VtlsProductCard__ButtonContainer .VtlsAddToCartButton:hover{opacity:.8;cursor:pointer}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Content .VtlsCarouselList .VtlsProductCard__ButtonContainer .VtlsAddToCartButton:disabled{opacity:.5;cursor:not-allowed}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Content .VtlsCarouselList .VtlsProductCard__ButtonContainer .VtlsAddToCartButton:disabled:focus{outline:none}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Content .VtlsCarouselList .VtlsProductCard__ButtonContainer--filled .VtlsAddToCartButton{color:var(--addToCartButtonTextColor);background-color:var(--addToCartButtonColor)}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Content .VtlsCarouselList .VtlsProductCard__ButtonContainer .product-form .product-form__buttons .product-form__submit{display:block;padding:var(--vtl-space-6) var(--vtl-space-12);background-color:rgba(0,0,0,0);border:var(--vtl-border-width-1) solid var(--addToCartButtonColor);color:var(--addToCartButtonColor);text-decoration:var(--vtl-text-decoration-none);border-radius:var(--addToCartButtonCornerRadius);font-size:var(--vtl-font-size-14);line-height:19.6px;text-align:center;width:100%;font-family:var(--font-body-family),serif;margin-bottom:0;letter-spacing:.06rem;min-height:auto}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Content .VtlsCarouselList .VtlsProductCard__ButtonContainer .product-form .product-form__buttons .product-form__submit:not([disabled]):hover{opacity:.8;cursor:pointer}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Content .VtlsCarouselList .VtlsProductCard__ButtonContainer .product-form .product-form__buttons .product-form__submit:disabled{opacity:.5;cursor:not-allowed}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Content .VtlsCarouselList .VtlsProductCard__ButtonContainer .product-form .product-form__buttons .product-form__submit:disabled:focus{outline:none}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Content .VtlsCarouselList .VtlsProductCard__ButtonContainer .product-form .product-form__buttons .product-form__submit::after{box-shadow:none}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Content .VtlsCarouselList .VtlsProductCard__ButtonContainer .product-form .product-form__buttons .product-form__submit--filled{color:var(--addToCartButtonTextColor);background-color:var(--addToCartButtonColor)}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Content .VtlsCarouselList .VtlsProductCard__ButtonContainer--filled .product-form .product-form__buttons .product-form__submit{color:var(--addToCartButtonTextColor);background-color:var(--addToCartButtonColor)}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Content .VtlsCarouselList .VtlsProductCard--hasShadow{position:relative;overflow:visible}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Content .VtlsCarouselList .VtlsProductCard--hasShadow::after{position:absolute;top:0;left:0;right:0;bottom:0;content:"";box-shadow:0 0 var(--vtl-space-24) 0 var(--vtl-color-border-hover-on-dark)}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Content .VtlsCarouselList .VtlsProductCard--hasBorder{border:var(--productCardBorder)}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Content .VtlsCarouselList .VtlsProductCard--hasBackground .VtlsProductTextContainer,.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Content .VtlsCarouselList .VtlsProductCard--hasBorder .VtlsProductTextContainer,.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Content .VtlsCarouselList .VtlsProductCard--hasShadow .VtlsProductTextContainer{padding:var(--vtl-space-16)}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Content .VtlsCarouselList .VtlsProductCard--hasBackground .VtlsProductCard__ButtonContainer,.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Content .VtlsCarouselList .VtlsProductCard--hasBorder .VtlsProductCard__ButtonContainer,.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Content .VtlsCarouselList .VtlsProductCard--hasShadow .VtlsProductCard__ButtonContainer{padding:0 var(--vtl-space-16) var(--vtl-space-16) var(--vtl-space-16)}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Content .VtlsCarouselList .VtlsProductCard:hover .VtlsProductTextContainer .VtlsProductTextContainer__ProductTitle a{text-decoration:var(--vtl-text-decoration-underline)}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Navigation{display:flex;justify-content:space-between;column-gap:var(--vtl-space-40);align-items:center}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Navigation .VtlsProgressBarContainer{width:100%}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Navigation .VtlsProgressBarContainer .VtlsProgressBar{width:100%;height:var(--vtl-space-4);position:relative;overflow:hidden}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Navigation .VtlsProgressBarContainer .VtlsProgressBar__Track{width:100%;height:100%;position:absolute;top:0;left:0;background-color:var(--arrowsAndThumbProgressBarColor, var(--vtl-color-bg-fill-default-on-light));opacity:.3;border-radius:var(--vtl-border-radius-4)}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Navigation .VtlsProgressBarContainer .VtlsProgressBar__Thumb{height:100%;position:absolute;top:0;border-radius:var(--vtl-border-radius-4);background-color:var(--arrowsAndThumbProgressBarColor, var(--vtl-color-bg-fill-default-on-light));width:33.3333%;left:0}[dir=rtl] .Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Navigation .VtlsProgressBarContainer .VtlsProgressBar__Thumb,html[dir=rtl] .Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Navigation .VtlsProgressBarContainer .VtlsProgressBar__Thumb,body[dir=rtl] .Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Navigation .VtlsProgressBarContainer .VtlsProgressBar__Thumb,html[style*="direction: rtl"] .Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Navigation .VtlsProgressBarContainer .VtlsProgressBar__Thumb,body[style*="direction: rtl"] .Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Navigation .VtlsProgressBarContainer .VtlsProgressBar__Thumb{left:auto;right:0}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Navigation .VtlsNavigationButtons{display:flex;gap:var(--vtl-space-16)}@media(max-width: 480px){.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Navigation .VtlsNavigationButtons{display:none !important}}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Navigation .VtlsNavigationButtons__Button{background-color:rgba(0,0,0,0);color:var(--vtl-color-text-on-bg-fill-on-light);border-radius:50%;border:var(--vtl-border-width-1) solid var(--arrowsAndThumbProgressBarColor, var(--vtl-color-bg-fill-default-on-light));width:var(--vtl-space-40);height:var(--vtl-space-40);display:flex;align-items:center;justify-content:center;cursor:pointer}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Navigation .VtlsNavigationButtons__Button:hover{opacity:.5}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Navigation .VtlsNavigationButtons__Button:focus-visible{outline:var(--vtl-space-2) solid var(--vtl-color-border-focus-on-light);outline-offset:var(--vtl-space-2)}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Navigation .VtlsNavigationButtons__Button--disabled{cursor:default;opacity:.3}.Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Navigation .VtlsNavigationButtons__Button--disabled:focus{outline:none}[dir=rtl] .Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Navigation .VtlsNavigationButtons__Button svg,html[dir=rtl] .Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Navigation .VtlsNavigationButtons__Button svg,body[dir=rtl] .Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Navigation .VtlsNavigationButtons__Button svg,html[style*="direction: rtl"] .Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Navigation .VtlsNavigationButtons__Button svg,body[style*="direction: rtl"] .Vtls-{{ section.id | handle }} .VtlsCarouselContainer .VtlsCarousel__Navigation .VtlsNavigationButtons__Button svg{transform:scaleX(-1)}
+
+{% endstyle %}
+
+<script>
+	(function (options) {
+		const PARTIAL_VISIBLE_ITEM_SIZE = 0.333;
+		const lastRenderedResolution = { width: window.innerWidth, height: window.innerHeight };
+
+		const {
+			structure: {
+				cardHasBorder,
+				columnGap,
+				containerId,
+				imageAspectRatio,
+				showPortionOfLastImage,
+				slideBySet,
+				visibleItemsDesktop,
+				visibleItemsMobile,
+			},
+			navigation: {
+				progressBar: { showProgressBarWhenAllItemsAreVisible },
+			},
+		} = options;
+		const containerElement = document.querySelector(containerId);
+
+		if (!containerElement) {
+			// perhaps is not created or it exists, but does not have products associated with it
+			return;
+		}
+
+		const carouselElement = containerElement.querySelector('.VtlsCarousel');
+		const listContainerElement = carouselElement.querySelector('.VtlsCarouselList');
+		const contentElement = carouselElement.querySelector('.VtlsCarousel__Content');
+		const progressBarThumbElement = carouselElement.querySelector('.VtlsProgressBar__Thumb');
+		const leftButtonElement = carouselElement.querySelector('.VtlsNavigationButtons__Button.left-chevron');
+		const rightButtonElement = carouselElement.querySelector('.VtlsNavigationButtons__Button.right-chevron');
+		const listItems = listContainerElement.querySelectorAll('.VtlsProductCard');
+		const navigationElement = carouselElement.querySelector('.VtlsCarousel__Navigation');
+		const itemsLength = listItems.length;
+		
+		// Check if the page is in RTL mode
+		const isRTL = document.dir === 'rtl' || 
+			document.documentElement.dir === 'rtl' || 
+			document.body.dir === 'rtl' ||
+			window.getComputedStyle(document.documentElement).direction === 'rtl' ||
+			window.getComputedStyle(document.body).direction === 'rtl';
+
+		const getVisibleItems = () => {
+			if (window.innerWidth >= window.vtlsBreakpoints.desktop.minWidth) {
+				return visibleItemsDesktop;
+			}
+
+			if (
+				window.innerWidth <= window.vtlsBreakpoints.tablet.maxWidth &&
+				window.innerWidth >= window.vtlsBreakpoints.tablet.minWidth &&
+				visibleItemsDesktop > 2
+			) {
+				return 2;
+			}
+
+			if (window.innerWidth <= window.vtlsBreakpoints.mobile.maxWidth) {
+				return visibleItemsMobile;
+			}
+		};
+
+		const getElementWidth = () => {
+			const carouselWidth = getCarouselWidth();
+			const visibleItems = getVisibleItems();
+			const columnsToShow =
+				visibleItems + (showPortionOfLastImage && itemsLength > visibleItems ? PARTIAL_VISIBLE_ITEM_SIZE : 0);
+
+			return Math.floor((carouselWidth - columnGap * visibleItems) / columnsToShow);
+		};
+
+		const getNavigationScreensNumber = () => {
+			const visibleItems = getVisibleItems();
+
+			return Math.ceil((itemsLength - visibleItems) / getSlideBy(slideBySet) + 1);
+		};
+
+		const debounceFn = (func, delay) => {
+			let timeoutId;
+
+			return function (...args) {
+				clearTimeout(timeoutId);
+				timeoutId = setTimeout(() => func.apply(this, args), delay);
+			};
+		};
+
+		const getCarouselWidth = () => parseInt(window.getComputedStyle(carouselElement).width);
+
+		const getSlideBy = (slideBySet) => {
+			return window.innerWidth <= window.vtlsBreakpoints.mobile.maxWidth ? 1 : slideBySet;
+		};
+
+		let position = 0;
+
+		const resizeElements = () => {
+			const elementWidth = getElementWidth();
+
+			listItems.forEach((item) => {
+				const imageContainerElement = item.querySelector('.VtlsProductImageContainer');
+
+				item.style.minWidth = `${elementWidth}px`;
+				item.style.maxWidth = `${elementWidth}px`;
+
+				const containerWidth = elementWidth - (cardHasBorder ? 2 : 0);
+				imageContainerElement.style.width = `${containerWidth}px`;
+
+				if (imageAspectRatio === 'original') {
+					// make it square
+					imageContainerElement.style.height = `${containerWidth}px`;
+					imageContainerElement.style.minHeight = `${containerWidth}px`;
+				}
+			});
+		};
+
+		resizeElements();
+
+		leftButtonElement.addEventListener('click', () => navigate('left'));
+		rightButtonElement.addEventListener('click', () => navigate('right'));
+
+		// Add keyboard navigation support
+		leftButtonElement.addEventListener('keydown', (e) => {
+			if (e.key === 'Enter' || e.key === ' ') {
+				e.preventDefault();
+				navigate('left');
+			}
+		});
+		
+		rightButtonElement.addEventListener('keydown', (e) => {
+			if (e.key === 'Enter' || e.key === ' ') {
+				e.preventDefault();
+				navigate('right');
+			}
+		});
+		
+		// Add keyboard navigation to carousel container
+		carouselElement.addEventListener('keydown', (e) => {
+			if (e.key === 'ArrowLeft') {
+				e.preventDefault();
+				navigate('left');
+			} else if (e.key === 'ArrowRight') {
+				e.preventDefault();
+				navigate('right');
+			}
+		});
+
+		/**
+		 *  Updates the progress bar visual state and accessibility attributes
+		 * @param {number} newPosition - Position percentage (0-100)
+		 */
+		let cachedThumbPercentage = 100 / getNavigationScreensNumber();
+
+		const updateThumbWidth = () => {
+			cachedThumbPercentage = 100 / getNavigationScreensNumber();
+			progressBarThumbElement.style.width = `${cachedThumbPercentage}%`;
+		};
+
+		const updateProgress = (newPosition) => {
+			const clampedPosition = Math.max(0, Math.min(newPosition, 100));
+			const leftPosition = (clampedPosition / 100) * (100 - cachedThumbPercentage);
+			
+			// Update aria-valuenow for accessibility
+			const progressBarElement = carouselElement.querySelector('.VtlsProgressBar');
+			if (progressBarElement) {
+				progressBarElement.setAttribute('aria-valuenow', Math.round(clampedPosition));
+			}
+			
+		// Optimized progress bar logic: RTL uses right, LTR uses left
+		progressBarThumbElement.style.left = isRTL ? 'auto' : `${leftPosition}%`;
+		progressBarThumbElement.style.right = isRTL ? `${leftPosition}%` : 'auto';
+		};
+
+		/**
+		 * Updates the disabled state of navigation buttons
+		 * This function manages both the disabled attribute and aria-disabled for accessibility
+		 */
+		const updateButtonsState = () => {
+			const screensNumber = getNavigationScreensNumber();
+
+			// Update left button - disabled when at the beginning
+			const isLeftDisabled = position === 0;
+			leftButtonElement.classList.toggle('VtlsNavigationButtons__Button--disabled', isLeftDisabled);
+			leftButtonElement.setAttribute('aria-disabled', isLeftDisabled.toString());
+			leftButtonElement.disabled = isLeftDisabled;
+
+			// Update right button - disabled when at the end
+			const isRightDisabled = position === screensNumber - 1;
+			rightButtonElement.classList.toggle('VtlsNavigationButtons__Button--disabled', isRightDisabled);
+			rightButtonElement.setAttribute('aria-disabled', isRightDisabled.toString());
+			rightButtonElement.disabled = isRightDisabled;
+		};
+
+		const updateAddToCartButtonsState = () => {
+			const addToCartButtons = listContainerElement.querySelectorAll('.VtlsAddToCartButton');
+			
+			addToCartButtons.forEach(button => {
+				// Check if button is a sample product button (already disabled)
+				const buttonAriaLabel = button.getAttribute('aria-label');
+				if (button.hasAttribute('disabled') && buttonAriaLabel && buttonAriaLabel.includes('sample')) {
+					return; // Skip sample buttons, they should remain disabled
+				}
+				
+				// Find the product card that contains this button
+				const productCard = button.closest('.VtlsProductCard');
+				if (!productCard) return;
+				
+				// Check if this is a real product or sample
+				const productAriaLabel = productCard.getAttribute('aria-label');
+				const isSampleProduct = productAriaLabel && productAriaLabel.includes('Sample product');
+				if (isSampleProduct) {
+					button.disabled = true;
+					button.setAttribute('aria-disabled', 'true');
+					return;
+				}
+				const shouldBeDisabled = false;
+				
+				button.disabled = shouldBeDisabled;
+				button.setAttribute('aria-disabled', shouldBeDisabled.toString());
+			});
+		};
+
+		const navigate = (direction) => {
+			const screensNumber = getNavigationScreensNumber();
+
+			if (direction === 'left' && position > 0) {
+				position--;
+			} else if (direction === 'right' && position < screensNumber - 1) {
+				position++;
+			} else {
+				return;
+			}
+
+			const elementWidth = getElementWidth();
+			const carouselList = contentElement.firstElementChild;
+			let shift = -(position * (elementWidth + columnGap) * getSlideBy(slideBySet));
+
+			if (position === screensNumber - 1) {
+				shift += elementWidth * PARTIAL_VISIBLE_ITEM_SIZE + columnGap;
+			}
+
+			// Optimized margin logic: RTL uses marginRight, LTR uses marginLeft
+			carouselList.style.marginLeft = isRTL ? '0' : `${shift}px`;
+			carouselList.style.marginRight = isRTL ? `${shift}px` : '0';
+
+			updateProgress(position * (100 / (screensNumber - 1)));
+			updateButtonsState();
+		};
+
+		const resizeCarousel = () => {
+			if (window.innerWidth !== lastRenderedResolution.width) {
+				position = 0;
+
+				resizeElements();
+				updateThumbWidth();
+
+				const screensNumber = getNavigationScreensNumber();
+
+			updateProgress(position * (100 / (screensNumber - 1)));
+			// Reset margin and scroll position
+			const carouselList = contentElement.firstElementChild;
+			carouselList.style.marginLeft = '0';
+			carouselList.style.marginRight = '0';
+			contentElement.scrollLeft = 0;
+			updateButtonsState();
+			updateAddToCartButtonsState();
+				updateNavigationVisibility();
+
+				lastRenderedResolution.width = window.innerWidth;
+				lastRenderedResolution.height = window.innerHeight;
+			}
+		};
+
+		const updateNavigationVisibility = () => {
+			if (!showProgressBarWhenAllItemsAreVisible) {
+				const elementWidth = getElementWidth();
+				const contentWidth = elementWidth * itemsLength + columnGap * (itemsLength - 1);
+				const needsNavigationVisible = contentWidth > carouselElement.offsetWidth;
+
+				navigationElement.style.display = needsNavigationVisible ? 'flex' : 'none';
+			}
+		};
+
+		updateThumbWidth();
+		updateButtonsState();
+		updateAddToCartButtonsState();
+		updateNavigationVisibility();
+
+		window.addEventListener('resize', debounceFn(resizeCarousel, 300));
+
+		// Mobile: native scroll with progress bar update
+		// Desktop/tablet: touch-based navigation with snap behavior
+		const isMobileView = () => window.innerWidth <= window.vtlsBreakpoints.mobile.maxWidth;
+
+		let scrollRAF = null;
+		const handleScrollProgress = () => {
+			if (!isMobileView()) return;
+			if (scrollRAF) return;
+			scrollRAF = requestAnimationFrame(() => {
+				const scrollLeft = contentElement.scrollLeft;
+				const maxScroll = contentElement.scrollWidth - contentElement.clientWidth;
+
+				if (maxScroll > 0) {
+					const progress = isRTL
+						? (Math.abs(scrollLeft) / maxScroll) * 100
+						: (scrollLeft / maxScroll) * 100;
+					updateProgress(Math.min(Math.max(progress, 0), 100));
+				}
+				scrollRAF = null;
+			});
+		};
+
+		contentElement.addEventListener('scroll', handleScrollProgress);
+
+		// touch functionality {
+		let xTouchDown = null;
+		let yTouchDown = null;
+
+		const getTouches = (evt) => {
+			return evt.touches || evt.originalEvent.touches;
+		};
+
+		const handleTouchStart = (evt) => {
+			if (isMobileView()) return;
+			const firstTouch = getTouches(evt)[0];
+			xTouchDown = firstTouch.clientX;
+			yTouchDown = firstTouch.clientY;
+		};
+
+		const handleTouchMove = (evt) => {
+			if (!xTouchDown) {
+				return;
+			}
+
+			const xUp = evt.touches[0].clientX;
+			const yUp = evt.touches[0].clientY;
+			const xDiff = xTouchDown - xUp;
+			const yDiff = yTouchDown - yUp;
+
+			if (Math.abs(xDiff) > Math.abs(yDiff)) {
+				// Optimized swipe logic: RTL reverses direction
+				const direction = (xDiff > 0) === isRTL ? 'left' : 'right';
+				navigate(direction);
+			}
+
+			xTouchDown = null;
+			yTouchDown = null;
+		};
+
+		contentElement.addEventListener('touchstart', handleTouchStart, false);
+		contentElement.addEventListener('touchmove', handleTouchMove, false);
+		// touch functionality }
+	})({
+		structure: {
+			containerId: '.Vtls-{{ section.id | handle }} .VtlsCarouselContainer',
+			showPortionOfLastImage: true,
+			visibleItemsDesktop: parseInt('{{ section.settings.visibleItemsDesktop }}'),
+			visibleItemsMobile: parseInt('{{ section.settings.visibleItemsMobile }}'),
+			columnGap: parseInt('{{ section.settings.productCardGapSize }}'),
+			slideBySet: 1,
+			cardHasBorder: '{{ card_has_border_color }}' === 'true',
+			imageAspectRatio: '{{ section.settings.imageAspectRatio }}',
+		},
+		navigation: {
+			progressBar: {
+				showProgressBarWhenAllItemsAreVisible: false,
+			},
+		},
+	});
+</script>
+
+<script>
+	(function () {
+		const uninstallMessage = 'Displaying this section requires an active Square: Theme Sections & AI Pages subscription. Reinstall the <a href="https://apps.shopify.com/theme-sections-ai-page-builder" target="_blank">Square: Theme Sections & AI Pages app</a> to activate it or consider removing the section.';
+		const downgradeMessage = 'You downgraded to a free plan. You need to upgrade your <a href="https://apps.shopify.com/theme-sections-ai-page-builder" target="_blank">Square: Theme Sections & AI Pages app</a> plan to activate it or consider removing the section.';
+		const projectId = '5';
+		const sectionsSelector = '.shopify-section';
+		const apps = {
+			'1': {
+				prefix: 'vitals',
+				hostname: 'https://appsolve.io'
+			},
+			'5': {
+				prefix: 'tsapb',
+				hostname: 'https://theme-sections.sqa-api.com'
+			}
+		};
+
+		const cacheKeysMetaFields = '{{ shop.metafields.vitals.tsck }}';
+		const shopId = '{{ shop.id }}';
+
+		const getHostname = () => {
+			if (apps[projectId].hostname) {
+				return apps[projectId].hostname;
+			}
+
+			console.error(`hostname for appId ${projectId} cannot be determined.`);
+			return undefined;
+		}
+
+		const disableSection = (message, selector) => {
+			const mainContainer = document.querySelector(selector);
+			const contentContainer = document.querySelector(`${selector} > section`);
+
+			if ('{{ request.design_mode }}' === 'true') {
+				contentContainer.innerHTML = `<h2 class="VtlsUninstallBG"><div class="VtlsUninstallBG__Text">${message}</div></h2>`;
+			} else {
+				mainContainer.style.display = 'none';
+				mainContainer.remove();
+			}
+		};
+
+		const getThemeSectionIdsByUUID = (installedThemeSections, uuid, appId) => {
+			const listIds = [];
+
+			installedThemeSections.forEach((installedThemeSection) => {
+				if (installedThemeSection.id.includes(`${apps[appId].prefix}_${uuid}`)) {
+					listIds.push(installedThemeSection.id);
+				}
+			})
+
+			return listIds;
+		}
+
+		const getThemeSectionsStatusList = (url) => fetch(url, {
+			method: 'GET',
+		}).then((response) => response.json());
+
+		const evaluateThemeSections = (url) => {
+			getThemeSectionsStatusList(url).then(response => {
+				const { data, f, i } = response;
+				const installedThemeSections = document.querySelectorAll(sectionsSelector);
+
+				data.forEach((themeSection) => {
+					const { e, u, a } = themeSection;
+
+					if (!e) {
+						const themeSectionsWithUUID = getThemeSectionIdsByUUID(installedThemeSections, u, a);
+						let message = '';
+
+						if (f) {
+							message = downgradeMessage;
+						}
+
+						if (!i) {
+							message = uninstallMessage;
+						}
+
+						themeSectionsWithUUID.forEach((themeSectionSelector) => {
+							disableSection(message, `#${themeSectionSelector}`);
+						})
+					}
+				});
+			})
+		}
+
+		if (shopId) {
+			if (window.vtlsSecurityCheckStarted === undefined) {
+				window.vtlsSecurityCheckStarted = true;
+
+				let url = '';
+				const hostname = getHostname();
+
+				if (!hostname) {
+					return;
+				}
+
+				const baseUrl = `${hostname}/bundle/api/v2/sf/ts`;
+
+				if (cacheKeysMetaFields) {
+					url = `${baseUrl}/${shopId}/${cacheKeysMetaFields}.json`;
+				} else {
+					const timestamp = Math.round(new Date().getTime() / 1000 / 10000) * 10000;
+					url = `${baseUrl}/${shopId}/${timestamp}.json`;
+				}
+
+				evaluateThemeSections(url);
+			}
+		}
+	})();
+</script>
+
+{% style %}
+	
+
+.VtlsUninstallBG{background-color:var(--vtl-color-bg-fill-inverse-on-light);background-image:url("data:image/avif;base64,iVBORw0KGgoAAAANSUhEUgAABOcAAABkCAQAAABnAJxfAAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAACYktHRAD/h4/MvwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB+gLFQgmAgUXFkMAAARaSURBVHja7daxbSRBEATB8ZzvKw0h1dcIlJS4jl25Azlavffn9/3v++e//+vvCwqFQqFQKBRKSklEUCgUCoVCoVAMOgqFQqFQKJSzSiKCQqFQKBQKhWLQUSgUCoVCoZxVEhEUCoVCoVAoFIOOQqFQKBQK5VOURASFQqFQKBQKZVUSERQKhUKhUCiUVUlEUCgUCoVCoVBWZbtOPoVCoVAoFArlovIKERQKhUKhUCiUVXmFCAqFQqFQKBTKqrxCBIVCoVAoFAplVV4hgkKhUCgUCoUyK4kICoVCoVAoFMqqJCIoFAqFQqFQKKuSiKBQKBQKhUKhrEoigkKhUCgUCoVi0FEoFAqFQqGcVRIRFAqFQqFQKBSDjkKhUCgUCuWskoigUCgUCoVCoRh0FAqFQqFQKGeVRASFQqFQKBQKxaCjUCgUCoVCOaskIigUCoVCoVAoBh2FQqFQKBTKWSURQaFQKBQKhUIx6CgUCoVCoVDOKokICoVCoVAoFIpBR6FQKBQKhXJWSURQKBQKhUKhUAw6CoVCoVAolLNKIoJCoVAoFAqFYtBRKBQKhUKhnFUSERQKhUKhUCgUg45CoVAoFArlrJKIoFAoFAqFQqEYdBQKhUKhUChnlUQEhUKhUCgUCsWgo1AoFAqFQvkUJRFBoVAoFAqFQlmVRASFQqFQKBQKZVUSERQKhUKhUCiUVdmuk0+hUCgUCoVCuai8QgSFQqFQKBQKZVVeIYJCoVAoFAqFsiqvEEGhUCgUCoVCWZVXiKBQKBQKhUKhzEoigkKhUCgUCoWyKokICoVCoVAoFMqqJCIoFAqFQqFQKKuSiKBQKBQKhUKhGHQUCoVCoVAoZ5VEBIVCoVAoFArFoKNQKBQKhUI5qyQiKBQKhUKhUCgGHYVCoVAoFMpZJRFBoVAoFAqFQjHoKBQKhUKhUM4qiQgKhUKhUCgUikFHoVAoFAqFclZJRFAoFAqFQqFQDDoKhUKhUCiUs0oigkKhUCgUCoVi0FEoFAqFQqGcVRIRFAqFQqFQKBSDjkKhUCgUCuWskoigUCgUCoVCoRh0FAqFQqFQKGeVRASFQqFQKBQKxaCjUCgUCoVCOaskIigUCoVCoVAoBh2FQqFQKBTKWSURQaFQKBQKhUIx6CgUCoVCoVA+RUlEUCgUCoVCoVBWJRFBoVAoFAqFQlmVRASFQqFQKBQKZVW26+RTKBQKhUKhUC4qrxBBoVAoFAqFQlmVV4igUCgUCoVCoazKK0RQKBQKhUKhUFblFSIoFAqFQqFQKLOSiKBQKBQKhUKhrEoigkKhUCgUCoWyKokICoVCoVAoFMqqJCIoFAqFQqFQKAYdhUKhUCgUylklEUGhUCgUCoVCMegoFAqFQqFQziqJCAqFQqFQKBSKQUehUCgUCoVyVklEUCgUCoVCoVAMOgqFQqFQKJSzSiKCQqFQKBQKhWLQUSgUCoVCoZxVEhEUCoVCoVAoFIOOQqFQKBQK5dOVX5nMB52iezhxAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDI0LTExLTIxVDA4OjM4OjAyKzAwOjAw30WrCwAAACV0RVh0ZGF0ZTptb2RpZnkAMjAyNC0xMS0yMVQwODozODowMiswMDowMK4YE7cAAAAodEVYdGRhdGU6dGltZXN0YW1wADIwMjQtMTEtMjFUMDg6Mzg6MDIrMDA6MDD5DTJoAAAAAElFTkSuQmCC");background-position:center;background-size:cover;text-align:center;padding:var(--vtl-space-32);margin:0}.VtlsUninstallBG__Text{color:var(--vtl-color-text-disable-on-light);font-family:Inter,sans-serif;font-size:var(--vtl-font-size-14);font-weight:var(--vtl-font-weight-400);line-height:var(--vtl-line-height-140);padding:var(--vtl-space-16) var(--vtl-space-16) var(--vtl-space-16) var(--vtl-space-40);background-color:var(--vtl-color-bg-fill-inverse-on-light);display:inline-block}.VtlsUninstallBG__Text::before{content:url("data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2220%22%20height%3D%2220%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%3E%0A%09%09%09%3Cpath%20d%3D%22M9.99994%206.75C10.4142%206.75%2010.7499%207.08579%2010.7499%207.5V11C10.7499%2011.4142%2010.4142%2011.75%209.99994%2011.75C9.58573%2011.75%209.24994%2011.4142%209.24994%2011V7.5C9.24994%207.08579%209.58573%206.75%209.99994%206.75Z%22%20fill%3D%22%23B28400%22%2F%3E%0A%09%09%09%3Cpath%20d%3D%22M11%2013.5C11%2014.0523%2010.5523%2014.5%2010%2014.5C9.44772%2014.5%209%2014.0523%209%2013.5C9%2012.9477%209.44772%2012.5%2010%2012.5C10.5523%2012.5%2011%2012.9477%2011%2013.5Z%22%20fill%3D%22%23B28400%22%2F%3E%0A%09%09%09%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M10%203.5C8.95471%203.5%208.21616%204.20232%207.84762%204.94672C7.65565%205.33448%206.75984%207.0441%205.84305%208.79353L5.81531%208.84646C4.9229%2010.5493%204.01714%2012.2777%203.80716%2012.702C3.4351%2013.4537%203.32931%2014.4519%203.89953%2015.316C4.46911%2016.1791%205.44222%2016.5%206.36356%2016.5L13.6364%2016.5C14.5577%2016.5%2015.5308%2016.1791%2016.1004%2015.316C16.6707%2014.4519%2016.5649%2013.4537%2016.1928%2012.702C15.9832%2012.2784%2015.08%2010.555%2014.1889%208.85476L14.1569%208.79352C13.24%207.044%2012.3443%205.33454%2012.1524%204.94693C11.784%204.20242%2011.0454%203.5%2010%203.5ZM9.1919%205.61225C9.59605%204.79592%2010.4041%204.79592%2010.8081%205.61225C11.0102%206.02061%2011.9201%207.75686%2012.8296%209.49243C13.7383%2011.2262%2014.6466%2012.9594%2014.8485%2013.3673C15.2525%2014.1837%2014.8485%2015%2013.6364%2015L6.36356%2015C5.1515%2015%204.74746%2014.1837%205.1515%2013.3673C5.35376%2012.9587%206.26468%2011.2205%207.1748%209.4838C8.08283%207.75111%208.99005%206.01994%209.1919%205.61225Z%22%20fill%3D%22%23B28400%22%2F%3E%0A%09%09%3C%2Fsvg%3E");position:absolute;width:var(--vtl-space-20);height:var(--vtl-space-20);margin-left:calc(-1*var(--vtl-space-24))}.VtlsUninstallBG__Text a{color:var(--vtl-color-text-disable-on-light)}.VtlsUninstallBG__Text a:hover{text-decoration:none}
+
+{% endstyle %}
+

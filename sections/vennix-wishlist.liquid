@@ -1,0 +1,108 @@
+{%- comment -%}
+  Vennix wishlist page (ported from the VENNIX storefront theme).
+
+  Saved handles are stored in the shopper's browser (localStorage), so no app,
+  account or backend is involved. Each saved product is rendered live from Shopify
+  via the `vennix-product-card` section, so prices and availability are always
+  current; deleted products drop out automatically.
+
+  Assign a page to the "page.wishlist" template (Online Store > Pages) and select
+  it under Theme settings > Wishlist.
+{%- endcomment -%}
+{{ 'template-collection.css' | asset_url | stylesheet_tag }}
+{{ 'component-card.css' | asset_url | stylesheet_tag }}
+{{ 'component-price.css' | asset_url | stylesheet_tag }}
+{{ 'quick-add.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'quick-add.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<div class="color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-padding">
+  <div class="page-width">
+    <header class="vx-wishlist__header">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="vx-section-eyebrow">
+          <span class="vx-section-eyebrow__mark" aria-hidden="true"></span>
+          {{ section.settings.eyebrow | escape }}
+        </p>
+      {%- endif -%}
+      {%- liquid
+        assign wishlist_heading = section.settings.heading | default: page.title
+        if wishlist_heading == blank
+          assign wishlist_heading = 'vennix.wishlist.title' | t
+        endif
+      -%}
+      <h1 class="h1">{{ wishlist_heading | escape }}</h1>
+    </header>
+
+    {%- if settings.enable_wishlist -%}
+      <vx-wishlist-grid class="vx-wishlist" data-limit="{{ section.settings.limit }}">
+        <div class="vx-wishlist__toolbar" data-vx-wishlist-toolbar hidden>
+          <p class="vx-wishlist__total" aria-live="polite">
+            <span data-vx-wishlist-total>0</span>
+            {{ 'vennix.wishlist.saved' | t }}
+          </p>
+          <button type="button" class="vx-wishlist__clear" data-vx-wishlist-clear>{{ 'vennix.wishlist.clear' | t }}</button>
+        </div>
+
+        <p class="vx-wishlist__loading" data-vx-wishlist-loading hidden>{{ 'vennix.wishlist.loading' | t }}</p>
+
+        <ul
+          class="grid product-grid grid--2-col-tablet-down grid--{{ section.settings.columns_desktop }}-col-desktop"
+          role="list"
+          data-vx-wishlist-list
+          hidden
+        ></ul>
+
+        <div class="vx-wishlist__empty" data-vx-wishlist-empty>
+          <h2 class="h3">{{ 'vennix.wishlist.empty_heading' | t }}</h2>
+          <p>{{ 'vennix.wishlist.empty_text' | t }}</p>
+          <a class="button" href="{{ section.settings.empty_link | default: routes.all_products_collection_url }}">
+            {{- 'vennix.wishlist.empty_cta' | t -}}
+          </a>
+        </div>
+
+        <noscript>
+          <p class="vx-editor-hint">{{ 'vennix.wishlist.storage_note' | t }}</p>
+        </noscript>
+      </vx-wishlist-grid>
+      <p class="vx-wishlist__note">{{ 'vennix.wishlist.storage_note' | t }}</p>
+    {%- elsif request.design_mode -%}
+      <p class="vx-editor-hint">{{ 'vennix.wishlist.editor_disabled' | t }}</p>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Vennix wishlist",
+  "tag": "section",
+  "class": "section section--vennix-wishlist",
+  "limit": 1,
+  "enabled_on": { "templates": ["page"] },
+  "settings": [
+    { "type": "paragraph", "content": "Turn the wishlist on under Theme settings > Wishlist." },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Saved for later" },
+    { "type": "text", "id": "heading", "label": "Heading", "info": "Defaults to the page title." },
+    { "type": "range", "id": "columns_desktop", "min": 2, "max": 5, "step": 1, "label": "Columns on desktop", "default": 4 },
+    { "type": "range", "id": "limit", "min": 12, "max": 60, "step": 12, "label": "Maximum products shown", "default": 48 },
+    { "type": "url", "id": "empty_link", "label": "Empty-state button link", "info": "Defaults to all products." },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Padding top", "default": 48 },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Padding bottom", "default": 64 }
+  ],
+  "presets": [{ "name": "Vennix wishlist" }]
+}
+{% endschema %}

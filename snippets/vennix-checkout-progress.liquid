@@ -1,0 +1,17 @@
+{% comment %}
+  Visual Cart → Shipping → Payment stepper for the cart (checkout step 1).
+  Hosted Shopify checkout cannot be restyled from the theme; this orients
+  the shopper before they leave the storefront.
+{% endcomment %}
+<ol class="vx-checkout-progress" aria-label="Checkout steps">
+  <li class="is-current">
+    <span class="vx-checkout-progress__dot" aria-hidden="true"></span>
+    <span>Cart</span>
+  </li>
+  <li>
+    <span>Shipping</span>
+  </li>
+  <li>
+    <span>Payment</span>
+  </li>
+</ol>

@@ -2,6 +2,7 @@
 {{ 'component-totals.css' | asset_url | stylesheet_tag }}
 {{ 'component-price.css' | asset_url | stylesheet_tag }}
 {{ 'component-discounts.css' | asset_url | stylesheet_tag }}
+{{ 'vennix-pdp-checkout.css' | asset_url | stylesheet_tag }}
 
 {%- style -%}
   .section-{{ section.id }}-padding {
@@ -24,17 +25,22 @@
 >
   <div class="page-width">
     <div class="cart__footer isolate section-{{ section.id }}-padding">
-      {%- if settings.show_cart_note -%}
-        <cart-note class="cart__note field">
-          <label for="Cart-note">{{ 'sections.cart.note' | t }}</label>
-          <textarea
-            class="text-area field__input"
-            name="note"
-            form="cart"
-            id="Cart-note"
-            placeholder="{{ 'sections.cart.note' | t }}"
-          >{{ cart.note }}</textarea>
-        </cart-note>
+      {%- if settings.show_cart_note or settings.cart_show_gift_note or settings.cart_show_discount_code -%}
+        <div class="vx-cart-footer__aside">
+          {%- if settings.show_cart_note -%}
+            <cart-note class="cart__note field">
+              <label for="Cart-note">{{ 'sections.cart.note' | t }}</label>
+              <textarea
+                class="text-area field__input"
+                name="note"
+                form="cart"
+                id="Cart-note"
+                placeholder="{{ 'sections.cart.note' | t }}"
+              >{{ cart.note }}</textarea>
+            </cart-note>
+          {%- endif -%}
+          {%- render 'vennix-cart-extras', context: 'page' -%}
+        </div>
       {%- endif -%}
 
       <div class="cart__blocks">
@@ -130,6 +136,10 @@
               {%- endif -%}
           {%- endcase -%}
         {% endfor %}
+
+        {%- unless cart == empty -%}
+          {%- render 'vennix-checkout-trust' -%}
+        {%- endunless -%}
 
         <div id="cart-errors"></div>
       </div>

@@ -21,7 +21,7 @@
         "padding_top": 80,
         "padding_bottom": 80,
         "enable_entrance_animation": true,
-        "motion_duration": 560,
+        "motion_duration": 550,
         "enable_parallax": true
       }
     },

@@ -1,14 +1,17 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main": {
       "type": "main-product",
       "blocks": {
-        "vendor": {
-          "type": "vennix_brand",
-          "settings": {
-            "text_style": "uppercase"
-          }
-        },
         "title": {
           "type": "title",
           "settings": {}
@@ -16,6 +19,14 @@
         "price": {
           "type": "price",
           "settings": {}
+        },
+        "inventory": {
+          "type": "inventory",
+          "settings": {
+            "text_style": "uppercase",
+            "inventory_threshold": 8,
+            "show_inventory_quantity": false
+          }
         },
         "variant_picker": {
           "type": "variant_picker",
@@ -28,7 +39,51 @@
           "type": "size_guide",
           "settings": {
             "text": "Size guide",
-            "page": ""
+            "page": "",
+            "size_option": ""
+          }
+        },
+        "size_finder": {
+          "type": "size_finder",
+          "settings": {
+            "label": "What's my size?",
+            "option_names": "Size",
+            "size_guide_page": ""
+          }
+        },
+        "monogram": {
+          "type": "monogram",
+          "settings": {
+            "product_tag": "monogram",
+            "label": "Monogramming",
+            "mode": "variant",
+            "max_characters": 3,
+            "placement": "Left cuff",
+            "placeholder": "ABC",
+            "intro": "Letters, stitched in our studio.",
+            "help": "Monogrammed pieces are personalised for you and cannot be returned."
+          }
+        },
+        "back_in_stock": {
+          "type": "back_in_stock",
+          "settings": {
+            "text": "Leave your email and we will let you know when it is back."
+          }
+        },
+        "wishlist": {
+          "type": "wishlist",
+          "settings": {}
+        },
+        "delivery_estimate": {
+          "type": "delivery_estimate",
+          "disabled": true,
+          "settings": {
+            "label": "Estimated delivery",
+            "min_days": 3,
+            "max_days": 6,
+            "skip_weekends": true,
+            "cutoff_hour": 0,
+            "fallback_text": "3–6 business days"
           }
         },
         "quantity_selector": {
@@ -42,60 +97,29 @@
             "show_gift_card_recipient": true
           }
         },
+        "complete_the_look": {
+          "type": "complementary",
+          "settings": {
+            "block_heading": "Complete the look",
+            "make_collapsible_row": true,
+            "icon": "price_tag",
+            "product_list_limit": 4,
+            "products_per_page": 2,
+            "pagination_style": "counter",
+            "image_ratio": "portrait",
+            "enable_quick_add": true
+          }
+        },
         "description": {
           "type": "description",
           "settings": {}
-        },
-        "share": {
-          "type": "share",
-          "settings": {
-            "share_label": "Share"
-          }
-        },
-        "metafields_guru_text_7kprja": {
-          "type": "shopify://apps/metafields-guru/blocks/text/79c9df68-85d5-4857-a386-0d96fc22b663",
-          "settings": {
-            "title": "",
-            "mn": "metafields_guru",
-            "mk": "text",
-            "from_shop": false,
-            "color": "",
-            "bg": "",
-            "text_style": "default",
-            "design": "ul",
-            "gap": 4,
-            "plv": 0,
-            "plh": 0,
-            "corner_radius": 0,
-            "border_size": 0,
-            "border_style": "solid",
-            "pf": "",
-            "sf": "",
-            "display_units": true,
-            "display_currency": false,
-            "pt": 0,
-            "pb": 0,
-            "cc": ""
-          }
-        },
-        "rating": {
-          "type": "rating",
-          "settings": {}
-        },
-        "inventory": {
-          "type": "inventory",
-          "settings": {
-            "text_style": "uppercase",
-            "inventory_threshold": 8,
-            "show_inventory_quantity": false
-          }
         },
         "shipping": {
           "type": "collapsible_tab",
           "settings": {
             "heading": "Shipping",
             "icon": "truck",
-            "content": "<p>Free shipping is available on orders over [threshold]. Other available shipping options are shown at checkout.</p>",
+            "content": "<p>Free shipping is available on orders over $50. Other available shipping options are shown at checkout.</p>",
             "page": ""
           }
         },
@@ -104,71 +128,51 @@
           "settings": {
             "heading": "Returns",
             "icon": "return",
-            "content": "<p>Review our refund policy for the return window, conditions, and return instructions.</p>",
+            "content": "<p>Eligible items can be returned within 30 days. Review our refund policy for conditions and return instructions.</p>",
             "page": ""
+          }
+        },
+        "share": {
+          "type": "share",
+          "settings": {
+            "share_label": "Share"
           }
         }
       },
       "block_order": [
-        "vendor",
         "title",
-        "rating",
         "price",
         "inventory",
         "variant_picker",
         "size_guide",
+        "size_finder",
+        "monogram",
         "quantity_selector",
         "buy_buttons",
+        "back_in_stock",
+        "wishlist",
+        "delivery_estimate",
         "description",
-        "metafields_guru_text_7kprja",
         "shipping",
         "returns",
-        "share"
+        "share",
+        "complete_the_look"
       ],
       "settings": {
         "enable_sticky_info": true,
+        "enable_sticky_atc": true,
         "color_scheme": "scheme-1",
         "media_size": "large",
-        "constrain_to_viewport": true,
-        "media_fit": "contain",
-        "gallery_layout": "thumbnail_slider",
-        "mobile_thumbnails": "show",
+        "constrain_to_viewport": false,
+        "media_fit": "cover",
+        "gallery_layout": "stacked",
+        "mobile_thumbnails": "hide",
         "media_position": "left",
         "image_zoom": "lightbox",
         "hide_variants": true,
         "enable_video_looping": false,
-        "padding_top": 52,
-        "padding_bottom": 40,
-        "enable_sticky_atc": true
-      }
-    },
-    "disclosures": {
-      "type": "disclosures",
-      "settings": {
-        "heading": "Disclosures",
-        "heading_size": "h2",
-        "open_by_default": false,
-        "color_scheme": "",
         "padding_top": 36,
-        "padding_bottom": 0
-      }
-    },
-    "related-products": {
-      "type": "related-products",
-      "settings": {
-        "heading": "You May Also Like",
-        "heading_size": "h2",
-        "products_to_show": 4,
-        "columns_desktop": 4,
-        "columns_mobile": "2",
-        "color_scheme": "scheme-1",
-        "image_ratio": "square",
-        "image_shape": "default",
-        "show_secondary_image": true,
-        "show_vendor": false,
-        "show_rating": true,
-        "padding_top": 64,
-        "padding_bottom": 72
+        "padding_bottom": 40
       }
     },
     "reviews": {
@@ -179,12 +183,51 @@
         "padding_top": 64,
         "padding_bottom": 64
       }
+    },
+    "disclosures": {
+      "type": "disclosures",
+      "settings": {
+        "heading": "Disclosures",
+        "heading_size": "h2",
+        "open_by_default": false,
+        "color_scheme": "scheme-1",
+        "padding_top": 36,
+        "padding_bottom": 0
+      }
+    },
+    "related-products": {
+      "type": "related-products",
+      "settings": {
+        "heading": "You May Also Like",
+        "heading_size": "h2",
+        "products_to_show": 4,
+        "columns_desktop": 6,
+        "columns_mobile": "2",
+        "color_scheme": "scheme-1",
+        "image_ratio": "adapt",
+        "image_shape": "default",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_rating": false,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "recently-viewed": {
+      "type": "vennix-recently-viewed",
+      "settings": {
+        "heading": "Recently viewed",
+        "color_scheme": "scheme-1",
+        "padding_top": 48,
+        "padding_bottom": 64
+      }
     }
   },
   "order": [
     "main",
     "reviews",
     "disclosures",
-    "related-products"
+    "related-products",
+    "recently-viewed"
   ]
 }

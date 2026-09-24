@@ -1,6 +1,7 @@
 {{ 'template-collection.css' | asset_url | stylesheet_tag }}
 {{ 'component-card.css' | asset_url | stylesheet_tag }}
 {{ 'component-price.css' | asset_url | stylesheet_tag }}
+{{ 'pro-layout.css' | asset_url | stylesheet_tag }}
 
 {% if section.settings.image_shape == 'blob' %}
   {{ 'mask-blobs.css' | asset_url | stylesheet_tag }}
@@ -104,6 +105,7 @@
       <div class="{% if section.settings.filter_type == 'vertical' %} facets-vertical page-width{% endif %}">
         {{ 'component-facets.css' | asset_url | stylesheet_tag }}
         <script src="{{ 'facets.js' | asset_url }}" defer="defer"></script>
+        <script src="{{ 'pro-layout.js' | asset_url }}" defer="defer"></script>
         {%- if section.settings.enable_filtering or section.settings.enable_sorting -%}
           <aside
             aria-labelledby="verticalTitle"
@@ -116,7 +118,9 @@
               enable_filtering: section.settings.enable_filtering,
               enable_sorting: section.settings.enable_sorting,
               filter_type: section.settings.filter_type,
-              paginate: paginate
+              paginate: paginate,
+              pro_toolbar: section.settings.enable_filtering,
+              pro_toolbar_sort: section.settings.enable_sorting
             %}
           </aside>
         {%- endif -%}
@@ -128,6 +132,145 @@
             data-cascade
           {% endif %}
         >
+          {%- comment -%}
+            Pro Layout mobile toolbar (Filter button + Sort select). Lives inside
+            #ProductGridContainer so facets.js AJAX refreshes keep the active
+            count and selected option in sync. Rendered only when filtering is
+            on; otherwise the stock drawer opener is kept (see facets.liquid).
+          {%- endcomment -%}
+          {%- if section.settings.enable_filtering -%}
+            {%- liquid
+              assign pro_active_count = 0
+              for pro_filter in collection.filters
+                assign pro_active_count = pro_active_count | plus: pro_filter.active_values.size
+                if pro_filter.type == 'price_range'
+                  if pro_filter.min_value.value != null or pro_filter.max_value.value != null
+                    assign pro_active_count = pro_active_count | plus: 1
+                  endif
+                endif
+              endfor
+              assign pro_sort_by = collection.sort_by | default: collection.default_sort_by
+            -%}
+            <div class="pro-filter-toolbar{% if section.settings.filter_type != 'vertical' %} page-width{% endif %} medium-hide large-up-hide">
+              <button
+                type="button"
+                class="button button--secondary pro-filter-toolbar__button"
+                data-pro-open-mobile-filters
+                aria-haspopup="dialog"
+              >
+                <span class="svg-wrapper">
+                  {{- 'icon-filter.svg' | inline_asset_content -}}
+                </span>
+                <span>
+                  {{- 'products.facets.filter_button' | t -}}
+                  {%- if pro_active_count > 0 %} ({{ pro_active_count }}){% endif -%}
+                </span>
+              </button>
+              {%- if section.settings.enable_sorting -%}
+                <facet-filters-form class="pro-filter-toolbar__sort">
+                  <form id="ProFacetSortForm" class="pro-filter-toolbar__sort-form">
+                    <div class="select">
+                      <select
+                        name="sort_by"
+                        id="ProSortBy"
+                        aria-label="{{ 'products.facets.sort_by_label' | t }}"
+                      >
+                        {%- for option in collection.sort_options -%}
+                          <option
+                            value="{{ option.value | escape }}"
+                            {% if option.value == pro_sort_by %}
+                              selected="selected"
+                            {% endif %}
+                          >
+                            {{ option.name | escape }}
+                          </option>
+                        {%- endfor -%}
+                      </select>
+                      <span class="svg-wrapper">
+                        {{- 'icon-caret.svg' | inline_asset_content -}}
+                      </span>
+                    </div>
+                  </form>
+                </facet-filters-form>
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+
+          {%- comment -%}
+            Pro Layout applied-filter chips above the grid. Stock Dawn already
+            renders these above the grid for horizontal/drawer filter layouts;
+            the vertical (sidebar) layout shows them inside the sidebar, so a
+            dedicated row is added here for that layout only. Plain
+            `active-facets` container classes are deliberately NOT reused so
+            facets.js renderActiveFacets() keeps targeting the sidebar pills;
+            this row refreshes via the #ProductGridContainer re-render instead.
+          {%- endcomment -%}
+          {%- if section.settings.filter_type == 'vertical' and section.settings.enable_filtering -%}
+            {%- liquid
+              assign pro_has_active_filters = false
+              for pro_filter in collection.filters
+                if pro_filter.active_values.size > 0
+                  assign pro_has_active_filters = true
+                  break
+                endif
+                if pro_filter.type == 'price_range'
+                  if pro_filter.min_value.value != null or pro_filter.max_value.value != null
+                    assign pro_has_active_filters = true
+                    break
+                  endif
+                endif
+              endfor
+            -%}
+            {%- if pro_has_active_filters -%}
+              <div class="pro-active-chips small-hide" role="status">
+                <span class="pro-active-chips__label">{{ 'products.facets.filter_by_label' | t }}</span>
+                {%- for filter in collection.filters -%}
+                  {%- for value in filter.active_values -%}
+                    <facet-remove>
+                      <a
+                        href="{{ value.url_to_remove }}"
+                        class="active-facets__button active-facets__button--light"
+                      >
+                        <span class="active-facets__button-inner button button--tertiary">
+                          {{ filter.label | escape }}: {{ value.label | escape }}
+                          <span class="svg-wrapper">
+                            {{- 'icon-close-small.svg' | inline_asset_content -}}
+                          </span>
+                          <span class="visually-hidden">{{ 'products.facets.clear_filter' | t }}</span>
+                        </span>
+                      </a>
+                    </facet-remove>
+                  {%- endfor -%}
+                  {% if filter.type == 'price_range' %}
+                    {% assign min = filter.min_value.value %}
+                    {% assign max = filter.max_value.value %}
+                    {%- if min != null or max != null -%}
+                      <facet-remove>
+                        <a
+                          href="{{ filter.url_to_remove }}"
+                          class="active-facets__button active-facets__button--light"
+                        >
+                          <span class="active-facets__button-inner button button--tertiary">
+                            {{ min | default: 0 | money }} - {{ max | default: filter.range_max | money }}
+                            <span class="svg-wrapper">
+                              {{- 'icon-close-small.svg' | inline_asset_content -}}
+                            </span>
+                            <span class="visually-hidden">{{ 'products.facets.clear_filter' | t }}</span>
+                          </span>
+                        </a>
+                      </facet-remove>
+                    {%- endif -%}
+                  {% endif %}
+                {%- endfor -%}
+                <facet-remove class="active-facets__button-wrapper">
+                  <a href="{{ collection.url }}" class="active-facets__button-remove underlined-link">
+                    <span>{{ 'products.facets.clear_all' | t }}</span>
+                  </a>
+                </facet-remove>
+              </div>
+            {%- endif -%}
+          {%- endif -%}
+
           {%- if collection.products.size == 0 -%}
             <div class="collection collection--empty page-width" id="product-grid" data-id="{{ section.id }}">
               <div class="loading-overlay gradient"></div>
@@ -154,6 +297,7 @@
                   grid product-grid grid--{{ section.settings.columns_mobile }}-col-tablet-down
                   grid--{{ section.settings.columns_desktop }}-col-desktop
                   {% if section.settings.quick_add == 'bulk' %} collection-quick-add-bulk{% endif %}
+                  {% if section.settings.deemphasize_sold_out %} product-grid--deemphasize-sold-out{% endif %}
                 "
               >
                 {% assign skip_card_product_styles = false %}
@@ -163,7 +307,7 @@
                     {%- assign lazy_load = true -%}
                   {%- endif -%}
                   <li
-                    class="grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+                    class="grid__item{% unless product.available %} product-grid__item--sold-out{% endunless %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
                     {% if settings.animations_reveal_on_scroll %}
                       data-cascade
                       style="--animation-order: {{ forloop.index }};"
@@ -188,12 +332,42 @@
               </ul>
 
               {%- if paginate.pages > 1 -%}
-                {% render 'pagination', paginate: paginate, anchor: '' %}
+                {%- if section.settings.pagination_type == 'load_more' -%}
+                  {%- comment -%}
+                    Load more (ported from the VENNIX storefront theme). The trigger is a
+                    real link to the next page, so crawlers and no-JS visitors paginate
+                    normally; vennix-storefront.js appends the next page in place.
+                  {%- endcomment -%}
+                  <vx-load-more
+                    class="vx-load-more"
+                    data-section-id="{{ section.id }}"
+                    data-grid-id="product-grid"
+                    data-total="{{ paginate.items }}"
+                  >
+                    {%- liquid
+                      assign vx_shown = paginate.current_offset | plus: paginate.page_size
+                      if vx_shown > paginate.items
+                        assign vx_shown = paginate.items
+                      endif
+                    -%}
+                    <p class="vx-load-more__status" data-vx-load-more-status aria-live="polite">
+                      {{ 'vennix.collection.showing' | t: shown: vx_shown, total: paginate.items }}
+                    </p>
+                    {%- if paginate.next -%}
+                      <a class="button button--secondary vx-load-more__button" href="{{ paginate.next.url }}" data-vx-load-more-trigger>
+                        {{- 'vennix.collection.load_more' | t -}}
+                      </a>
+                    {%- endif -%}
+                  </vx-load-more>
+                {%- else -%}
+                  {% render 'pagination', paginate: paginate, anchor: '' %}
+                {%- endif -%}
               {%- endif -%}
             </div>
           {%- endif -%}
         </div>
       </div>
+      {%- render 'vennix-collection-jsonld', collection: collection, products: collection.products -%}
     {%- endpaginate -%}
     {% if section.settings.image_shape == 'arch' %}
       {{ 'mask-arch.svg' | inline_asset_content }}
@@ -214,6 +388,23 @@
       "step": 4,
       "default": 16,
       "label": "t:sections.main-collection-product-grid.settings.products_per_page.label"
+    },
+    {
+      "type": "select",
+      "id": "pagination_type",
+      "label": "Pagination",
+      "options": [
+        {
+          "value": "numbered",
+          "label": "Numbered pages"
+        },
+        {
+          "value": "load_more",
+          "label": "Load more button"
+        }
+      ],
+      "default": "numbered",
+      "info": "Load more appends the next page in place. The next-page link stays crawlable."
     },
     {
       "type": "range",
@@ -355,6 +546,10 @@
       "content": "t:sections.main-collection-product-grid.settings.header__1.content"
     },
     {
+      "type": "paragraph",
+      "content": "Use Shopify Search & Discovery to publish Availability, Price, Product type, Size and Color filters. This section displays all filters enabled for the store."
+    },
+    {
       "type": "checkbox",
       "id": "enable_filtering",
       "default": true,
@@ -386,6 +581,13 @@
       "id": "enable_sorting",
       "default": true,
       "label": "t:sections.main-collection-product-grid.settings.enable_sorting.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "deemphasize_sold_out",
+      "default": true,
+      "label": "De-emphasize sold-out products",
+      "info": "Keeps sold-out products accessible to filters while visually prioritizing available items."
     },
     {
       "type": "header",

@@ -14,6 +14,8 @@
   %}
 {% endcomment %}
 
+{%- assign media_alt = media.alt | default: media.preview_image.alt | default: product.title | default: 'Product image' -%}
+
 {%- if media.media_type == 'image' -%}
   <img
     class="global-media-settings global-media-settings--no-shadow{% if variant_image %} product__media-item--variant{% endif %}"
@@ -30,7 +32,7 @@
     "
     sizes="(min-width: 750px) calc(100vw - 22rem), 1100px"
     src="{{ media.preview_image | image_url: width: 1445 }}"
-    alt="{{ media.alt | escape }}"
+    alt="{{ media_alt | escape }}"
     loading="lazy"
     width="1100"
     height="{{ 1100 | divided_by: media.preview_image.aspect_ratio | ceil }}"
@@ -72,7 +74,7 @@
       loading="lazy"
       width="576"
       height="{{ 576 | divided_by: media.preview_image.aspect_ratio }}"
-      alt="{{ media.preview_image.alt | escape }}"
+      alt="{{ media_alt | escape }}"
     >
   </button>
   <template>

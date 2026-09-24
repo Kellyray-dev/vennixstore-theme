@@ -1,9 +1,81 @@
 {%- liquid
   assign free_shipping_amount = settings.free_shipping_threshold | times: 100 | money_without_trailing_zeros
-  assign product_type = product.type | default: ''
-  assign is_apparel = false
-  if product_type contains "Women's" or product_type contains "Men's" or product_type contains 'Active'
-    assign is_apparel = true
+  assign product_context = product.type | append: ' ' | append: product.title | append: ' ' | append: product.tags | downcase
+
+  comment
+    Option names are merchant-controlled, so matching the single English word "size" hid
+    the guide from perfectly sized products labelled "Dimensions", "Talla", "Taille",
+    "Größe" or "Maat" — taking the opener AND its modal with it. Match common size labels
+    across languages instead, and let the block's own setting override the guess outright.
+  endcomment
+  assign size_option_labels = 'size,talla,taille,taglia,größe,groesse,maat,ukuran,tamanho,tamano,dimensions,dimension,размер,サイズ,尺寸,사이즈' | split: ','
+  assign size_guide_blocks = section.blocks | where: 'type', 'size_guide'
+  assign size_guide_block = size_guide_blocks | first
+  assign size_option_override = size_guide_block.settings.size_option | downcase | strip
+
+  assign has_size_option = false
+  for option in product.options_with_values
+    assign option_name = option.name | downcase | strip
+    if size_option_override != blank
+      if option_name == size_option_override
+        assign has_size_option = true
+        break
+      endif
+    else
+      for size_label in size_option_labels
+        if option_name contains size_label
+          assign has_size_option = true
+          break
+        endif
+      endfor
+      if has_size_option
+        break
+      endif
+    endif
+  endfor
+
+  comment
+    Pro Layout: a size guide must never render for jewelry or accessories, even
+    when such a product technically carries a size-like option (e.g. ring
+    size). Long markers are distinctive enough to match against type + title +
+    tags. Short words (ring/watch/charm) match as whole words against type +
+    tags only — never the title, so a "Charming Tee" keeps its guide — with
+    apparel exceptions so garment types like "Watch Cap" or "Ring Spun Tee"
+    are not mistaken for jewelry. Tags are appended one by one because
+    coercing the tags array to a string would glue adjacent tags together and
+    break the word boundaries.
+  endcomment
+  if has_size_option
+    assign jewelry_markers = 'jewelry,jewellery,jewelery,accessory,accessories,necklace,bracelet,earring,pendant,anklet,brooch,cufflink' | split: ','
+    for marker in jewelry_markers
+      if product_context contains marker
+        assign has_size_option = false
+        break
+      endif
+    endfor
+    if has_size_option
+      assign padded_type = ' ' | append: product.type | append: ' ' | downcase
+      assign type_tag_tokens = padded_type
+      for product_tag in product.tags
+        assign type_tag_tokens = type_tag_tokens | append: ' ' | append: product_tag | downcase | append: ' '
+      endfor
+      assign apparel_type_exception = false
+      if padded_type contains ' cap ' or padded_type contains ' beanie ' or padded_type contains ' hat ' or padded_type contains ' spun ' or padded_type contains ' tee ' or padded_type contains ' shirt ' or padded_type contains ' top ' or padded_type contains ' dress '
+        assign apparel_type_exception = true
+      endif
+      unless apparel_type_exception
+        if type_tag_tokens contains ' ring ' or type_tag_tokens contains ' rings ' or type_tag_tokens contains ' watch ' or type_tag_tokens contains ' watches ' or type_tag_tokens contains ' charm ' or type_tag_tokens contains ' charms '
+          assign has_size_option = false
+        endif
+      endunless
+    endif
+  endif
+
+  assign size_guide_audience = 'unisex'
+  if product_context contains 'women' or product_context contains 'female' or product_context contains 'ladies'
+    assign size_guide_audience = 'women'
+  elsif product_context contains "men's" or product_context contains ' men ' or product_context contains 'men ' or product_context contains ' mens ' or product_context contains 'mens ' or product_context contains 'male'
+    assign size_guide_audience = 'men'
   endif
 -%}
 
@@ -19,6 +91,8 @@
   {% endif %}
 >
   {{ 'section-main-product.css' | asset_url | stylesheet_tag }}
+{{ 'component-vennix-product-extras.css' | asset_url | stylesheet_tag }}
+  {{ 'pro-layout.css' | asset_url | stylesheet_tag }}
   {{ 'component-accordion.css' | asset_url | stylesheet_tag }}
   {{ 'component-price.css' | asset_url | stylesheet_tag }}
   {{ 'component-slider.css' | asset_url | stylesheet_tag }}
@@ -30,6 +104,7 @@
     {{ 'component-swatch-input.css' | asset_url | stylesheet_tag }}
     {{ 'component-swatch.css' | asset_url | stylesheet_tag }}
   {% endunless %}
+  {{ 'vennix-pdp-checkout.css' | asset_url | stylesheet_tag }}
   {%- if product.quantity_price_breaks_configured? -%}
     {{ 'component-volume-pricing.css' | asset_url | stylesheet_tag }}
   {%- endif -%}
@@ -265,8 +340,12 @@
                         {%- assign block_heading = block.settings.heading | downcase -%}
                         {%- if block_heading == 'shipping' -%}
                           <p>
-                            Free shipping is available on orders over {{ free_shipping_amount }}.
-                            Other available shipping options are shown at checkout.
+                            {%- if settings.free_shipping_enabled -%}
+                              {{ settings.free_shipping_message | escape | replace: '[threshold]', free_shipping_amount }}.
+                              Other available shipping options are shown at checkout.
+                            {%- else -%}
+                              Available shipping options are shown at checkout.
+                            {%- endif -%}
                           </p>
                           {%- if shop.shipping_policy.body != blank -%}
                             <p>{{ 'products.product.shipping_policy_html' | t: link: shop.shipping_policy.url }}</p>
@@ -531,7 +610,7 @@
                     </button>
                   </modal-opener>
                 {%- when 'size_guide' -%}
-                  {%- if is_apparel -%}
+                  {%- if has_size_option -%}
                     <modal-opener
                       class="product-popup-modal__opener quick-add-hidden vx-size-guide__opener"
                       data-modal="#PopupModal-{{ block.id }}"
@@ -560,11 +639,48 @@
                     </modal-opener>
                   {%- endif -%}
                 {%- when 'share' -%}
-                  {% liquid
-                    assign share_url = product.selected_variant.url | default: product.url | prepend: request.origin
-                    render 'share-button', block: block, share_link: share_url
-                  %}
+                  <div class="product__accordion accordion quick-add-hidden" {{ block.shopify_attributes }}>
+                    <details id="ShareAccordion-{{ block.id }}-{{ section.id }}">
+                      <summary>
+                        <div class="summary__title">
+                          {% render 'icon-accordion', icon: 'none' %}
+                          <h2 class="h4 accordion__title">
+                            {{ block.settings.share_label | default: 'Share' | escape }}
+                          </h2>
+                        </div>
+                        {{- 'icon-caret.svg' | inline_asset_content -}}
+                      </summary>
+                      <div class="accordion__content" id="ProductShare-{{ block.id }}-{{ section.id }}">
+                        {% liquid
+                          assign share_url = product.selected_variant.url | default: product.url | prepend: request.origin
+                          render 'share-button', block: block, share_link: share_url
+                        %}
+                      </div>
+                    </details>
+                  </div>
 
+                {%- when 'wishlist' -%}
+                  <div class="vx-product-wishlist" {{ block.shopify_attributes }}>
+                    {%- render 'vennix-wishlist-button', product: product, style: 'button' -%}
+                  </div>
+                {%- when 'size_finder' -%}
+                  <script src="{{ 'vennix-product-extras.js' | asset_url }}" defer="defer"></script>
+                  <div class="quick-add-hidden">
+                    {%- render 'vennix-size-finder', block: block, product: product, section_id: section.id -%}
+                  </div>
+                {%- when 'monogram' -%}
+                  <script src="{{ 'vennix-product-extras.js' | asset_url }}" defer="defer"></script>
+                  <div class="quick-add-hidden">
+                    {%- render 'vennix-monogram', block: block, product: product, product_form_id: product_form_id -%}
+                  </div>
+                {%- when 'delivery_estimate' -%}
+                  <div class="quick-add-hidden">
+                    {%- render 'vennix-delivery-estimate', block: block -%}
+                  </div>
+                {%- when 'back_in_stock' -%}
+                  <div class="quick-add-hidden">
+                    {%- render 'vennix-back-in-stock', block: block, product: product, product_form_id: product_form_id -%}
+                  </div>
                 {%- when 'disclosures' -%}
                   {%- render 'product-disclosures',
                     product: product,
@@ -578,12 +694,8 @@
                   {% render 'product-variant-picker',
                     product: product,
                     block: block,
-                    product_form_id: product_form_id,
-                    is_apparel: is_apparel
+                    product_form_id: product_form_id
                   %}
-                  {%- if is_apparel -%}
-                    {%- render 'vennix-size-guide', product: product -%}
-                  {%- endif -%}
                 {%- when 'buy_buttons' -%}
                   {%- render 'buy-buttons',
                     block: block,
@@ -594,7 +706,7 @@
                   -%}
                   {%- render 'vennix-product-assurances' -%}
                 {%- when 'rating' -%}
-                  {%- if product.metafields.reviews.rating.value != blank -%}
+                  {%- if product.metafields.reviews.rating.value != blank and product.metafields.reviews.rating_count > 0 -%}
                     <div class="rating-wrapper">
                       {% liquid
                         assign rating_decimal = 0
@@ -679,6 +791,7 @@
                             >
                               {% assign skip_card_product_styles = false %}
                               {%- for i in (1..number_of_slides) -%}
+                                {%- assign slide_offset = forloop.index0 | times: block.settings.products_per_page -%}
                                 <div
                                   id="Slide-{{ block.id }}-{{ forloop.index }}"
                                   class="complementary-slide complementary-slide--{{ settings.card_style }} grid__item slider__slide slideshow__slide"
@@ -692,7 +805,7 @@
                                   <ul class="list-unstyled" role="list">
                                     {%- for product in recommendations.products
                                       limit: block.settings.products_per_page
-                                      offset: continue
+                                      offset: slide_offset
                                     -%}
                                       <li>
                                         {%- if block.settings.enable_quick_add -%}
@@ -830,7 +943,7 @@
       {%- endfor -%}
 
       {% assign size_guides = section.blocks | where: 'type', 'size_guide' %}
-      {%- if is_apparel -%}
+      {%- if has_size_option -%}
         {%- for block in size_guides -%}
           <modal-dialog id="PopupModal-{{ block.id }}" class="product-popup-modal" {{ block.shopify_attributes }}>
             <div
@@ -849,7 +962,7 @@
                 {{- 'icon-close.svg' | inline_asset_content -}}
               </button>
               <div class="product-popup-modal__content-info">
-                {% render 'vennix-size-guide', block: block, product: product %}
+                {% render 'vennix-size-guide', block: block, product: product, audience: size_guide_audience %}
               </div>
             </div>
           </modal-dialog>
@@ -1411,6 +1524,12 @@
           "id": "page",
           "type": "page",
           "label": "Size chart page (optional)"
+        },
+        {
+          "type": "text",
+          "id": "size_option",
+          "label": "Size option name (optional)",
+          "info": "Show the guide only on products whose option is named exactly this, e.g. \"Dimensions\" or \"Talla\". Leave blank to auto-detect common size labels in any language."
         }
       ]
     },
@@ -2317,6 +2436,202 @@
           "default": "t:sections.main-product.blocks.icon_with_text.settings.heading_3.default",
           "label": "t:sections.main-product.blocks.icon_with_text.settings.heading_3.label",
           "info": "t:sections.main-product.blocks.icon_with_text.settings.heading.info"
+        }
+      ]
+    },
+    {
+      "type": "wishlist",
+      "name": "Wishlist button",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Save-for-later heart. Turn the wishlist on or off in Theme settings > Wishlist."
+        }
+      ]
+    },
+    {
+      "type": "size_finder",
+      "name": "Size finder",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Suggests a size from height, weight and fit preference, then selects it. Hidden on products without a size option."
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Link label",
+          "default": "What's my size?"
+        },
+        {
+          "type": "text",
+          "id": "option_names",
+          "label": "Size option names",
+          "default": "Size",
+          "info": "Comma-separated option names to treat as size, e.g. Size, Talla"
+        },
+        {
+          "type": "page",
+          "id": "size_guide_page",
+          "label": "Size guide page"
+        }
+      ]
+    },
+    {
+      "type": "monogram",
+      "name": "Monogramming",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Offer personalisation. Shopify only charges for variants: add a variant whose title contains \"Monogram\" to charge a fee; otherwise the letters are saved on the order as a free line item property."
+        },
+        {
+          "type": "text",
+          "id": "product_tag",
+          "label": "Only on products tagged",
+          "default": "monogram",
+          "info": "Leave blank to offer monogramming on every product."
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Add-on name",
+          "default": "Monogramming",
+          "info": "Also used as the line item property name on the order."
+        },
+        {
+          "type": "select",
+          "id": "mode",
+          "label": "How the add-on is charged",
+          "options": [
+            {
+              "value": "variant",
+              "label": "Monogrammed variant (charges the fee)"
+            },
+            {
+              "value": "property",
+              "label": "Free note on the line item"
+            }
+          ],
+          "default": "variant",
+          "info": "Variant mode falls back to a free note when the product has no Monogram variant."
+        },
+        {
+          "type": "text",
+          "id": "option_names",
+          "label": "Personalisation option names",
+          "default": "Monogram, Personalisation, Personalization, Engraving, Initials",
+          "info": "Comma-separated. Tells the theme which variant option holds the paid monogram, so an unrelated value that mentions it (a \"Monogram gold\" colour) cannot be mistaken for one."
+        },
+        {
+          "type": "range",
+          "id": "max_characters",
+          "label": "Maximum characters",
+          "min": 1,
+          "max": 12,
+          "step": 1,
+          "default": 3
+        },
+        {
+          "type": "text",
+          "id": "placement",
+          "label": "Placement",
+          "default": "Left cuff"
+        },
+        {
+          "type": "text",
+          "id": "placeholder",
+          "label": "Placeholder",
+          "default": "ABC"
+        },
+        {
+          "type": "text",
+          "id": "intro",
+          "label": "Intro line",
+          "default": "Letters, stitched in our studio."
+        },
+        {
+          "type": "text",
+          "id": "help",
+          "label": "Small print",
+          "default": "Monogrammed pieces are personalised for you and cannot be returned."
+        }
+      ]
+    },
+    {
+      "type": "delivery_estimate",
+      "name": "Delivery estimate",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Shows an estimated delivery window. Set it to match your real shipping rates."
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Estimated delivery"
+        },
+        {
+          "type": "range",
+          "id": "min_days",
+          "label": "Earliest (business days)",
+          "min": 1,
+          "max": 30,
+          "step": 1,
+          "default": 3
+        },
+        {
+          "type": "range",
+          "id": "max_days",
+          "label": "Latest (business days)",
+          "min": 1,
+          "max": 40,
+          "step": 1,
+          "default": 6
+        },
+        {
+          "type": "checkbox",
+          "id": "skip_weekends",
+          "label": "Skip weekends",
+          "default": true
+        },
+        {
+          "type": "range",
+          "id": "cutoff_hour",
+          "label": "Same-day dispatch cut-off (hour, 0 = off)",
+          "min": 0,
+          "max": 23,
+          "step": 1,
+          "default": 0,
+          "info": "Uses the shopper's local time."
+        },
+        {
+          "type": "text",
+          "id": "fallback_text",
+          "label": "Text before dates load",
+          "default": "3–6 business days"
+        }
+      ]
+    },
+    {
+      "type": "back_in_stock",
+      "name": "Back-in-stock request",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Shown only while the selected option is sold out. Requests arrive as contact-form emails tagged back-in-stock."
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "Leave your email and we will let you know when it is back."
         }
       ]
     }

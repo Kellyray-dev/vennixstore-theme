@@ -1,7 +1,7 @@
 [
   {
     "name": "theme_info",
-    "theme_name": "VennixStore — Modern Clothing & Active Essentials",
+    "theme_name": "VENNIX Modern Apparel",
     "theme_version": "2.0.0",
     "theme_author": "Kelly Ray",
     "theme_documentation_url": "https://help.shopify.com/manual/online-store/themes",
@@ -123,7 +123,7 @@
       {
         "type": "font_picker",
         "id": "type_header_font",
-        "default": "assistant_n4",
+        "default": "playfair_display_n4",
         "label": "t:settings_schema.typography.settings.type_header_font.label"
       },
       {
@@ -143,7 +143,7 @@
       {
         "type": "font_picker",
         "id": "type_body_font",
-        "default": "assistant_n4",
+        "default": "inter_n4",
         "label": "t:settings_schema.typography.settings.type_body_font.label"
       },
       {
@@ -240,6 +240,13 @@
         "default": "default",
         "label": "t:settings_schema.animations.settings.animations_hover_elements.label",
         "info": "t:settings_schema.animations.settings.animations_hover_elements.info"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_scroll_progress",
+        "label": "Show scroll progress line",
+        "default": true,
+        "info": "A thin accent line at the top of the page that tracks scroll position and shows while the next page loads. Hidden for visitors who prefer reduced motion."
       }
     ]
   },
@@ -628,6 +635,13 @@
         "unit": "px",
         "label": "t:settings_schema.global.settings.blur.label",
         "default": 0
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_color_swatches_on_cards",
+        "label": "Show color swatches on product cards",
+        "info": "Shows variant color swatches under the card price when a product has a Color option.",
+        "default": true
       }
     ]
   },
@@ -1275,6 +1289,16 @@
         "id": "sold_out_badge_color_scheme",
         "label": "t:settings_schema.badges.settings.sold_out_badge_color_scheme.label",
         "default": "scheme-3"
+      },
+      {
+        "type": "range",
+        "id": "product_card_low_stock_threshold",
+        "min": 0,
+        "max": 20,
+        "step": 1,
+        "label": "Product-card low-stock threshold",
+        "default": 5,
+        "info": "Show a Low stock badge when every inventory-tracked variant is at or below this quantity. Never shown if any variant is untracked or allows overselling. Set to 0 to disable."
       }
     ]
   },
@@ -1385,6 +1409,12 @@
         "id": "social_vimeo_link",
         "label": "t:settings_schema.social-media.settings.social_vimeo_link.label",
         "placeholder": "t:settings_schema.social-media.settings.social_vimeo_link.info"
+      },
+      {
+        "type": "text",
+        "id": "social_linkedin_link",
+        "label": "LinkedIn",
+        "placeholder": "https://www.linkedin.com/company/vennixstore"
       }
     ]
   },
@@ -1429,6 +1459,39 @@
     ]
   },
   {
+    "name": "Wishlist",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "Shoppers can save products with the heart button. Saved items are kept in the shopper's browser (no account needed) and shown on the page that uses the \"page.wishlist\" template."
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_wishlist",
+        "label": "Enable wishlist",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "card_show_wishlist",
+        "label": "Show heart button on product cards",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "header_show_wishlist",
+        "label": "Show wishlist icon in header",
+        "default": true
+      },
+      {
+        "type": "page",
+        "id": "wishlist_page",
+        "label": "Wishlist page",
+        "info": "Create a page in Online Store > Pages, assign it the \"wishlist\" template, and select it here. Defaults to /pages/wishlist."
+      }
+    ]
+  },
+  {
     "name": "t:settings_schema.cart.name",
     "settings": [
       {
@@ -1459,6 +1522,17 @@
         "info": "Uses Shopify's own recommendation engine, seeded from the first item in the cart. No products are hardcoded."
       },
       {
+        "type": "header",
+        "content": "Shipping and purchase promises"
+      },
+      {
+        "type": "checkbox",
+        "id": "free_shipping_enabled",
+        "label": "Promote free shipping",
+        "default": true,
+        "info": "Enable only when a matching free-shipping rate is active in Shopify admin."
+      },
+      {
         "type": "checkbox",
         "id": "free_shipping_progress_enabled",
         "label": "Show free-shipping progress in cart drawer",
@@ -1476,6 +1550,37 @@
         "info": "Must match the free-shipping rate configured for the store currency."
       },
       {
+        "type": "text",
+        "id": "free_shipping_message",
+        "label": "Free-shipping message",
+        "default": "Free shipping on orders over [threshold]",
+        "info": "Use [threshold] to insert the amount above."
+      },
+      {
+        "type": "text",
+        "id": "returns_message",
+        "label": "Returns message",
+        "default": "30-day returns"
+      },
+      {
+        "type": "text",
+        "id": "returns_detail",
+        "label": "Returns detail",
+        "default": "Simple and straightforward"
+      },
+      {
+        "type": "text",
+        "id": "secure_checkout_message",
+        "label": "Secure-checkout message",
+        "default": "Secure checkout"
+      },
+      {
+        "type": "text",
+        "id": "secure_checkout_detail",
+        "label": "Secure-checkout detail",
+        "default": "Payments processed by Shopify"
+      },
+      {
         "type": "checkbox",
         "id": "show_vendor",
         "label": "t:settings_schema.cart.settings.show_vendor.label",
@@ -1486,6 +1591,20 @@
         "id": "show_cart_note",
         "label": "t:settings_schema.cart.settings.show_cart_note.label",
         "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "cart_show_gift_note",
+        "label": "Show gift message field",
+        "default": true,
+        "info": "Saved to the order as the cart attribute \"Gift message\" so it appears on the order and packing slip."
+      },
+      {
+        "type": "checkbox",
+        "id": "cart_show_discount_code",
+        "label": "Show discount code field",
+        "default": true,
+        "info": "Applies a Shopify discount code before checkout. Codes are validated by Shopify; invalid codes are ignored at checkout."
       },
       {
         "type": "header",

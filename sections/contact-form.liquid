@@ -130,6 +130,22 @@
                 <span class="visually-hidden">({{ 'templates.contact.form.optional' | t }})</span>
               </label>
             </div>
+            {%- if section.settings.show_order_number -%}
+              <div class="field">
+                <input
+                  type="text"
+                  id="ContactForm-order"
+                  class="field__input"
+                  autocomplete="off"
+                  name="contact[{{ 'vennix.contact.order_number' | t }}]"
+                  placeholder="{{ 'vennix.contact.order_number' | t }}"
+                >
+                <label class="field__label" for="ContactForm-order">
+                  {{- 'vennix.contact.order_number' | t }}
+                  <span class="visually-hidden">({{ 'templates.contact.form.optional' | t }})</span>
+                </label>
+              </div>
+            {%- endif -%}
             <div class="field">
               <textarea
                 rows="6"
@@ -152,7 +168,7 @@
           {%- endform -%}
         </div>
 
-        {%- if shop.email != blank or shop.phone != blank -%}
+        {%- if shop.email != blank or shop.phone != blank or section.settings.address != blank or section.settings.hours != blank -%}
           <aside class="contact__info-column" aria-label="{{ 'templates.contact.info_label' | t }}">
             <h3 class="contact__info-heading">{{ 'templates.contact.info_heading' | t }}</h3>
             <p class="contact__info-text">{{ 'templates.contact.info_text' | t }}</p>
@@ -167,6 +183,18 @@
                 <li class="contact__info-item">
                   <span class="contact__info-label">{{ 'templates.contact.phone_label' | t }}</span>
                   <a href="tel:{{ shop.phone | strip_html }}" class="link">{{ shop.phone }}</a>
+                </li>
+              {%- endif -%}
+              {%- if section.settings.hours != blank -%}
+                <li class="contact__info-item">
+                  <span class="contact__info-label">{{ 'vennix.contact.hours' | t }}</span>
+                  <span>{{ section.settings.hours | escape | newline_to_br }}</span>
+                </li>
+              {%- endif -%}
+              {%- if section.settings.address != blank -%}
+                <li class="contact__info-item">
+                  <span class="contact__info-label">{{ 'vennix.contact.address' | t }}</span>
+                  <address class="contact__address">{{ section.settings.address | escape | newline_to_br }}</address>
                 </li>
               {%- endif -%}
             </ul>
@@ -225,6 +253,23 @@
       ],
       "default": "h1",
       "label": "t:sections.all.heading_size.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_order_number",
+      "label": "Show order number field",
+      "default": true
+    },
+    {
+      "type": "textarea",
+      "id": "hours",
+      "label": "Support hours",
+      "info": "Shown next to the form with your store email and phone (Settings > Store details)."
+    },
+    {
+      "type": "textarea",
+      "id": "address",
+      "label": "Address"
     },
     {
       "type": "color_scheme",

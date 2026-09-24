@@ -1,0 +1,219 @@
+/* ==========================================================================
+   Pro Layout v1 — header, collection (PLP) and product (PDP) upgrades.
+   Loaded by: sections/header.liquid, sections/main-collection-product-grid.liquid,
+   sections/main-product.liquid. All rules are scoped with `pro-` classes or
+   narrowly-targeted overrides so stock Dawn behavior is preserved elsewhere.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   A) Header — centered nav with left logo (desktop, middle-left layout)
+   -------------------------------------------------------------------------- */
+@media screen and (min-width: 990px) {
+  .header--middle-left:not(.drawer-menu) {
+    /* 1fr/auto/1fr keeps the logo left and icons right while the nav sits
+       optically centered — stock Dawn uses auto/auto/1fr (nav hugs logo). */
+    grid-template-columns: 1fr auto 1fr;
+  }
+
+  .header--middle-left:not(.drawer-menu) nav.header__inline-menu {
+    justify-self: center;
+  }
+}
+
+/* Compact search field (header_search_style = compact).
+   Visible on desktop only; the icon modal remains the search UI < 990px. */
+.header__search-compact {
+  position: relative;
+  margin-right: 0.4rem;
+}
+
+.header__search-compact predictive-search,
+.header__search-compact search-form {
+  display: block;
+  width: 100%;
+}
+
+.header__search-compact-form {
+  width: 22rem;
+  max-width: 24vw;
+  margin: 0;
+}
+
+.header__search-compact .field {
+  margin: 0;
+}
+
+.header__search-compact .search__input {
+  height: 4.4rem;
+  min-height: 4.4rem;
+  padding-right: 4.4rem;
+  font-size: 1.3rem;
+}
+
+/* Keep the compact dropdown anchored to the field and readable. */
+.header__search-compact .predictive-search {
+  left: auto;
+  right: 0;
+  width: min(42rem, calc(100vw - 4rem));
+  min-width: min(32rem, calc(100vw - 4rem));
+  max-height: 70vh;
+}
+
+/* Hide the modal toggle on desktop when the compact field replaces it. */
+@media screen and (min-width: 990px) {
+  .header__search--compact-mode {
+    display: none;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   B) Collection (PLP) — responsive product grid
+   Product grids are CSS Grid (see vennix-brand-2.css). Do not reapply Dawn
+   flex percentage widths here — they shrink cards inside each track and
+   were collapsing collection pages to two columns on desktop.
+   -------------------------------------------------------------------------- */
+
+/* --------------------------------------------------------------------------
+   B) Collection (PLP) — mobile Filter + Sort toolbar
+   Rendered inside #ProductGridContainer so facet AJAX re-renders keep the
+   active-filter count and selected sort option fresh.
+   -------------------------------------------------------------------------- */
+.pro-filter-toolbar {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin: 0 0 2rem;
+  padding: 0;
+}
+
+.pro-filter-toolbar__button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  min-height: 4.5rem;
+  margin: 0;
+}
+
+.pro-filter-toolbar__button .svg-wrapper {
+  width: 1.8rem;
+  height: 1.8rem;
+}
+
+.pro-filter-toolbar__sort {
+  display: flex;
+  min-width: 0;
+}
+
+.pro-filter-toolbar__sort-form,
+.pro-filter-toolbar__sort .select {
+  width: 100%;
+}
+
+.pro-filter-toolbar__sort .select__select {
+  min-height: 4.5rem;
+  margin: 0;
+}
+
+/* When the pro toolbar owns mobile filtering, hide the stock drawer opener
+   and the in-drawer sort section (sort lives in the toolbar instead). The
+   drawer itself is untouched, so focus trap + ESC keep working natively. */
+@media screen and (max-width: 749px) {
+  .mobile-facets__wrapper--pro-toolbar .mobile-facets__open-wrapper {
+    display: none;
+  }
+
+  .mobile-facets__wrapper--pro-toolbar.mobile-facets__wrapper--pro-sort
+    [id^='Details-Mobile-SortBy-'] {
+    display: none;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   B) Collection (PLP) — applied-filter chips above the grid
+   Only rendered for the vertical (sidebar) filter layout, where stock Dawn
+   shows chips inside the sidebar instead of above the grid. Pill styling is
+   inherited from component-facets.css via the shared active-facets classes.
+   -------------------------------------------------------------------------- */
+.pro-active-chips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+  margin: 0 0 2rem;
+}
+
+.pro-active-chips__label {
+  font-size: 1.2rem;
+  letter-spacing: 0.06rem;
+  text-transform: uppercase;
+  color: rgba(var(--color-foreground), 0.7);
+}
+
+/* Mobile drawer polish: clearer section separation + elevated sticky footer
+   (the footer is already position: sticky in component-facets.css). */
+.mobile-facets__details {
+  border-bottom: 0.1rem solid rgba(var(--color-foreground), 0.08);
+}
+
+.mobile-facets__footer {
+  box-shadow: 0 -0.8rem 2rem rgba(var(--color-foreground), 0.08);
+}
+
+/* --------------------------------------------------------------------------
+   B) Product cards — color swatches (visual only, card links to the PDP)
+   -------------------------------------------------------------------------- */
+.card-swatches {
+  --swatch-input--size: 2rem;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin: 1rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.card-swatches__item {
+  display: flex;
+  line-height: 0;
+}
+
+.card-swatches__swatch {
+  display: block;
+  line-height: 0;
+}
+
+.card-swatches .swatch {
+  width: var(--swatch-input--size);
+  max-width: var(--swatch-input--size);
+}
+
+.card-swatches__more {
+  font-size: 1.1rem;
+  line-height: 1;
+  color: rgba(var(--color-foreground), 0.7);
+}
+
+/* --------------------------------------------------------------------------
+   C) Product (PDP) — sticky buy box offset + fit line
+   -------------------------------------------------------------------------- */
+@media screen and (min-width: 750px) {
+  .product__column-sticky {
+    /* Clear the sticky header (sticky-header.js publishes --header-height)
+       instead of using a fixed offset that slides under it. */
+    top: calc(var(--header-height, 30px) + 1.6rem);
+  }
+}
+
+.product__fit-line {
+  margin: 0 0 1.5rem;
+  font-size: 1.3rem;
+  line-height: 1.5;
+  color: rgba(var(--color-foreground), 0.75);
+}
+
+/* Keep the size-guide link visually attached to the variant selectors. */
+.vx-size-guide__opener {
+  margin-top: -0.5rem;
+}

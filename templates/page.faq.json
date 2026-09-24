@@ -1,0 +1,62 @@
+{
+  "sections": {
+    "faq": {
+      "type": "faq",
+      "blocks": {
+        "faq_shipping": {
+          "type": "faq_item",
+          "settings": {
+            "question": "How long does shipping take?",
+            "answer": "<p>Delivery times depend on your address and the shipping method you choose at checkout, where you will see the options available to you. Full details are in our <a href=\"/policies/shipping-policy\" title=\"Shipping policy\">shipping policy</a>.</p>"
+          }
+        },
+        "faq_returns": {
+          "type": "faq_item",
+          "settings": {
+            "question": "What is your return policy?",
+            "answer": "<p>Unworn pieces with tags attached can be returned within 30 days. Personalised (monogrammed) items are made for you and cannot be returned. See our <a href=\"/policies/refund-policy\" title=\"Refund policy\">refund policy</a> for the full terms.</p>"
+          }
+        },
+        "faq_sizing": {
+          "type": "faq_item",
+          "settings": {
+            "question": "How do I find my size?",
+            "answer": "<p>Every product page has a size guide, and many pieces include a \"What's my size?\" finder that suggests a size from your height, weight and preferred fit. If you are between sizes, the fit notes on the product page tell you which way to go.</p>"
+          }
+        },
+        "faq_monogram": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Can I personalise my order?",
+            "answer": "<p>Selected pieces can be monogrammed. Look for the monogramming option on the product page, enter your letters, and they are recorded on your order.</p>"
+          }
+        },
+        "faq_wishlist": {
+          "type": "faq_item",
+          "settings": {
+            "question": "How does the wishlist work?",
+            "answer": "<p>Tap the heart on any product to save it. Saved pieces are kept in this browser, so there is no account needed. Clearing your browser data will clear the list.</p>"
+          }
+        },
+        "faq_contact": {
+          "type": "faq_item",
+          "settings": {
+            "question": "How can I contact you?",
+            "answer": "<p>Send us a message through our <a href=\"/pages/contact\" title=\"Contact\">contact page</a> and include your order number if you have one.</p>"
+          }
+        }
+      },
+      "block_order": ["faq_shipping", "faq_returns", "faq_sizing", "faq_monogram", "faq_wishlist", "faq_contact"],
+      "settings": {
+        "title": "Frequently asked questions",
+        "description": "<p>Quick answers on shipping, returns, sizing and your order.</p>",
+        "heading_size": "h1",
+        "heading_alignment": "left",
+        "color_scheme": "scheme-1",
+        "padding_top": 52,
+        "padding_bottom": 64
+      }
+    }
+  },
+  "order": ["faq"]
+}

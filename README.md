@@ -78,26 +78,37 @@ Centralized in `assets/vennix-brand-2.css`:
 
 | Order | Section ID | Section type | Purpose |
 |---|---|---|---|
-| 1 | `vennix_hero` | `vennix-hero` | Editorial hero with desktop/mobile imagery, overlay, CTAs |
-| 2 | `brand_intro` | `rich-text` | Brand introduction |
-| 3 | `vennix_trust` | `vennix-trust-bar` | Shipping, returns, secure checkout, quality |
-| 4 | `new_arrivals` | `featured-collection` | New Arrivals grid |
-| 5 | `featured_collection` | `featured-collection` | Best Sellers grid |
-| 6 | `editorial_image_text` | `image-with-text` | Active Essentials editorial block |
-| 7 | `collection_list` | `collection-list` | Shop by category (Women's, Men's, Activewear, Essentials) |
-| 8 | `social_proof` | `multicolumn` | Why VennixStore (modern design, built for movement, quality) |
-| 9 | `vennix_newsletter` | `vennix-newsletter` | Email signup |
+| 1 | `vennix_hero` | `vennix-hero` | Editorial hero: desktop/mobile imagery, optional background video, CTAs |
+| 2 | `vennix_trust` | `vennix-trust-bar` | Free shipping, 30-day returns, secure checkout |
+| 3 | `editorial_banner` | `vennix-editorial-banner` | Editorial campaign banner |
+| 4 | `shop_by_category` | `vennix-category-grid` | Shop by category |
+| 5 | `vennix_showcase` | `vennix-product-showcase` | Slide-style best-seller rail with editorial copy |
+| 6 | `brand_story` | `vennix-brand-story` | Brand story with optional count-up stats |
+| 7 | `vennix_store_pulse` | `vennix-store-pulse` | "Honest numbers" band — live product/collection counts, free-shipping threshold |
+| 8 | `new_in_apparel` | `featured-collection` | New in Apparel product grid |
+| 9 | `vennix_testimonials` | `vennix-testimonials` | Merchant-entered customer quotes (hidden until a quote is added) |
+| 10 | `vennix_journal` | `vennix-journal` | Latest blog posts (hidden when the blog is empty) |
+| 11 | `vennix_lookbook` | `vennix-lookbook` | "Worn in the wild" social/UGC grid (hidden until images are added) |
+| 12 | `vennix_newsletter` | `vennix-newsletter` | Email signup with optional segment tag |
+
+The header group (`sections/header-group.json`) additionally carries a store-wide
+`vennix-product-rail` — an off-canvas best-seller panel docked to the left edge of every
+template.
 
 ### Custom theme components
 
 **Sections**
 
 - `vennix-hero.liquid` — editorial hero (desktop/mobile image, focus, overlay, scroll cue, benefits)
+- `vennix-product-rail.liquid` — store-wide left-edge off-canvas best-seller rail (header group)
+- `vennix-product-showcase.liquid` — two-column best-seller showcase, slide rail on the left
 - `vennix-trust-bar.liquid` — trust/value bar
 - `vennix-announcement-bar.liquid` — rotating announcement bar
 - `vennix-newsletter.liquid` — newsletter signup
 - `vennix-why-us.liquid` — values/why-us section
 - `faq.liquid` — accordion FAQ with `FAQPage` structured data
+- `vennix-store-pulse.liquid`, `vennix-testimonials.liquid`, `vennix-journal.liquid`, `vennix-lookbook.liquid` — editorial homepage sections (`section-vennix-editorial.css`)
+- `vennix-wishlist.liquid` — wishlist page (`templates/page.wishlist.json`); `vennix-product-card.liquid` is its Section Rendering endpoint
 
 **Snippets**
 
@@ -107,6 +118,10 @@ Centralized in `assets/vennix-brand-2.css`:
 - `vennix-shipping-progress.liquid` — free-shipping progress
 - `vennix-sticky-atc.liquid` — mobile sticky Add to Cart
 - `dark-mode-toggle.liquid` — header sun/moon button for the dark theme override
+- `vennix-wishlist-button.liquid` — heart toggle for cards, PDP and quick add
+- `vennix-monogram.liquid`, `vennix-size-finder.liquid`, `vennix-delivery-estimate.liquid`, `vennix-back-in-stock.liquid` — product page blocks
+- `vennix-cart-extras.liquid` — gift message + discount code (drawer and cart page)
+- `vennix-collection-jsonld.liquid` — `CollectionPage` / `ItemList` structured data
 
 ### Commerce & UX features
 
@@ -122,6 +137,16 @@ Centralized in `assets/vennix-brand-2.css`:
 - Storefront events support for app/agent/AI cart interactions (see `release-notes.md`)
 - Mega menu with hover-intent opening and automatic collection imagery (collection image → first product image → bundled lifestyle photo matched on the link title)
 - Site-wide dark mode: follows the visitor's OS preference, overridable with the header toggle and remembered per visitor (`dark-mode.css`, `dark-mode.js`, `header-menu-hover.js`)
+- Wishlist (browser-stored, no app/account) with header count, card hearts and a wishlist page
+- Product page blocks: monogramming (variant or line-item-property mode), size finder, delivery estimate, back-in-stock request
+- Collection "Load more" pagination option, cart gift message and discount code, scroll progress line, dismissible rotating announcement bar
+- See `docs/VENNIX-STOREFRONT-MIGRATION.md` for the full migration notes and merchant setup
+- Slide-style product showcase in two forms: a store-wide off-canvas rail docked to the left edge, and a two-column homepage section with the rail on the left (`vennix-product-rail.liquid`, `vennix-product-showcase.liquid`, `vennix-product-rail.js`)
+
+> **Best-seller ordering:** both showcase surfaces default to `sort_by: collection_default`, which
+> keeps whatever order the Shopify admin set on the source collection. The Liquid `sort` filter
+> cannot sort by sales volume — products expose no units-sold property — so for true best sellers
+> set **Collections → [collection] → Sort order → Best selling** in the admin.
 
 ## Repository Structure
 
@@ -137,7 +162,9 @@ Centralized in `assets/vennix-brand-2.css`:
 | `catalog/` | Catalog audit, recommendations, and the cleaned product CSV |
 | `docs/` | Product/catalog SEO guide, admin and security checklists |
 | `deliverables/` | Implementation report and deployment/import checklist |
-| `scripts/` | Catalog-cleaning helper script |
+| `scripts/` | Catalog-cleaning helpers, `validate_theme.py` (template JSON + section-schema drift), and `test_validate_theme.py` (its regression suite — `python3 scripts/test_validate_theme.py`) |
+| `ci/` | The `Theme Check` GitHub Actions workflow, parked here until it can be moved into `.github/workflows/` — see the install note at the top of the file |
+| `reports/` | Alt-text/SEO audit exports and `reports/audits/` theme audit write-ups |
 | `.github/` | Contribution guidance, issue/PR templates, and dependabot |
 
 ## Catalog & Merchant Guidance

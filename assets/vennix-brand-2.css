@@ -346,10 +346,61 @@ h1, h2, h3, h4, h5, h6 {
    COLLECTION GRID
    ============================================================ */
 
-.product-grid {
+/*
+  Dawn still sizes .grid__item with flex percentages. This theme switches
+  product grids to CSS Grid, but the previous `auto-fill / minmax(28rem)`
+  track list collapsed collection, search, and related-product grids to
+  two columns on typical laptop widths (the 28rem minimum could not fit
+  3–4 tracks next to the filter sidebar). Homepage featured collections
+  already opted out via `.featured-collection-grid`. Honor the section
+  column settings instead, and zero out leftover flex widths so cards
+  fill their tracks.
+*/
+.product-grid:not(.slider) {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 28rem), 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 2.4rem;
+}
+
+.product-grid.grid--1-col-tablet-down:not(.slider) {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+@media screen and (min-width: 750px) {
+  .product-grid.grid--3-col-desktop:not(.slider),
+  .product-grid.grid--4-col-desktop:not(.slider),
+  .product-grid.grid--5-col-desktop:not(.slider),
+  .product-grid.grid--6-col-desktop:not(.slider) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media screen and (min-width: 990px) {
+  .product-grid.grid--2-col-desktop:not(.slider) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .product-grid.grid--3-col-desktop:not(.slider) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .product-grid.grid--4-col-desktop:not(.slider) {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .product-grid.grid--5-col-desktop:not(.slider) {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+
+  .product-grid.grid--6-col-desktop:not(.slider) {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+}
+
+.product-grid:not(.slider) .grid__item {
+  width: 100%;
+  max-width: none;
+  min-width: 0;
 }
 
 /* ============================================================

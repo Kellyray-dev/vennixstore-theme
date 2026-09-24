@@ -1,0 +1,140 @@
+{%- comment -%}
+  Vennix testimonials (ported from the VENNIX storefront theme's `testimonials`).
+
+  Merchant-curated customer quotes. The source theme shipped sample quotes as
+  defaults; they are intentionally NOT carried over, because publishing invented
+  reviews is misleading to shoppers. Blocks without a quote never render, and the
+  whole section stays hidden on the storefront until at least one real quote is
+  added. Setup guidance is shown only in the theme editor.
+
+  For product reviews collected by an app, use the "Vennix product reviews" section.
+{%- endcomment -%}
+{{ 'section-vennix-editorial.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'vennix-motion.js' | asset_url }}" defer="defer"></script>
+
+{%- liquid
+  assign quote_count = 0
+  for block in section.blocks
+    if block.settings.quote != blank
+      assign quote_count = quote_count | plus: 1
+    endif
+  endfor
+-%}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+{%- if quote_count > 0 or request.design_mode -%}
+  <div
+    class="vx-testimonials color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-padding"
+    data-vx-motion="{{ section.settings.enable_entrance_animation }}"
+  >
+    <div class="page-width">
+      <header class="vx-editorial-head vx-editorial-head--center vx-rise">
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="vx-section-eyebrow">
+            <span class="vx-section-eyebrow__mark" aria-hidden="true"></span>
+            {{ section.settings.eyebrow | escape }}
+          </p>
+        {%- endif -%}
+        {%- if section.settings.heading != blank -%}
+          <h2 class="vx-editorial-head__title h1">{{ section.settings.heading | escape }}</h2>
+        {%- endif -%}
+      </header>
+
+      {%- if quote_count > 0 -%}
+        <ul class="vx-testimonials__list" role="list">
+          {%- for block in section.blocks -%}
+            {%- if block.settings.quote != blank -%}
+              <li class="vx-testimonial vx-rise" style="--vx-index: {{ forloop.index0 }}" {{ block.shopify_attributes }}>
+                <figure class="vx-testimonial__figure">
+                  {%- if block.settings.rating > 0 -%}
+                    <p class="vx-testimonial__stars" role="img" aria-label="{{ block.settings.rating }} / 5">
+                      {%- for i in (1..5) -%}
+                        <span class="vx-testimonial__star{% if i <= block.settings.rating %} is-on{% endif %}" aria-hidden="true">★</span>
+                      {%- endfor -%}
+                    </p>
+                  {%- endif -%}
+                  <blockquote class="vx-testimonial__quote">
+                    <p>{{ block.settings.quote | escape | newline_to_br }}</p>
+                  </blockquote>
+                  <figcaption class="vx-testimonial__meta">
+                    {%- if block.settings.author != blank -%}
+                      <strong>{{ block.settings.author | escape }}</strong>
+                    {%- endif -%}
+                    {%- if block.settings.product != blank -%}
+                      <a class="vx-testimonial__product link" href="{{ block.settings.product.url }}">{{ block.settings.product.title | escape }}</a>
+                    {%- elsif block.settings.detail != blank -%}
+                      <span>{{ block.settings.detail | escape }}</span>
+                    {%- endif -%}
+                    {%- if block.settings.verified -%}
+                      <span class="vx-testimonial__verified">
+                        <span class="svg-wrapper" aria-hidden="true">{{- 'icon-checkmark.svg' | inline_asset_content -}}</span>
+                        {{ 'vennix.testimonials.verified' | t }}
+                      </span>
+                    {%- endif -%}
+                  </figcaption>
+                </figure>
+              </li>
+            {%- elsif request.design_mode -%}
+              <li class="vx-testimonial vx-testimonial--empty" {{ block.shopify_attributes }}>
+                <p class="vx-editor-hint">{{ 'vennix.testimonials.editor_empty' | t }}</p>
+              </li>
+            {%- endif -%}
+          {%- endfor -%}
+        </ul>
+      {%- else -%}
+        <p class="vx-editor-hint">{{ 'vennix.testimonials.editor_empty' | t }}</p>
+      {%- endif -%}
+    </div>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Vennix testimonials",
+  "tag": "section",
+  "class": "section section--vennix-testimonials",
+  "disabled_on": { "groups": ["header", "footer"] },
+  "settings": [
+    { "type": "paragraph", "content": "Add real customer quotes only. Empty testimonials are never shown, and the section stays hidden until it has at least one quote." },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Reviews" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "What customers actually say" },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-2" },
+    { "type": "checkbox", "id": "enable_entrance_animation", "label": "Animate on scroll", "default": true },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Padding top", "default": 64 },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Padding bottom", "default": 64 }
+  ],
+  "blocks": [
+    {
+      "type": "quote",
+      "name": "Testimonial",
+      "settings": [
+        { "type": "range", "id": "rating", "min": 0, "max": 5, "step": 1, "label": "Star rating (0 hides stars)", "default": 5 },
+        { "type": "textarea", "id": "quote", "label": "Quote", "info": "Paste the customer's words exactly as written." },
+        { "type": "text", "id": "author", "label": "Customer name", "info": "First name and last initial, with permission." },
+        { "type": "product", "id": "product", "label": "Product reviewed" },
+        { "type": "text", "id": "detail", "label": "Detail", "info": "Shown when no product is selected, e.g. \"Hoodie, Fog / M\"." },
+        { "type": "checkbox", "id": "verified", "label": "Verified purchase", "default": false, "info": "Only tick when you have confirmed the order." }
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [
+    {
+      "name": "Vennix testimonials",
+      "blocks": [{ "type": "quote" }, { "type": "quote" }, { "type": "quote" }]
+    }
+  ]
+}
+{% endschema %}

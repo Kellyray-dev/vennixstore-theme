@@ -2,8 +2,21 @@
 
 {%- liquid
   assign free_shipping_amount = settings.free_shipping_threshold | times: 100 | money_without_trailing_zeros
+
+  comment
+    A badge bound to the global free-shipping message disappears when the merchant turns
+    the promotion off, so count what will actually render before emitting the section
+    shell — otherwise an all-shipping trust bar leaves an empty full-width band behind.
+  endcomment
+  assign visible_badges = 0
+  for block in section.blocks
+    if block.settings.use_free_shipping_message == false or settings.free_shipping_enabled != false
+      assign visible_badges = visible_badges | plus: 1
+    endif
+  endfor
 -%}
 
+{%- if visible_badges > 0 -%}
 <section
   class="vx-trust color-{{ section.settings.color_scheme }} gradient"
   aria-label="Shopping benefits"
@@ -12,6 +25,7 @@
 >
   <ul class="vx-trust__grid page-width" role="list">
     {%- for block in section.blocks -%}
+      {%- unless block.settings.use_free_shipping_message and settings.free_shipping_enabled == false -%}
       <li
         class="vx-trust__item vx-rise"
         style="--vx-index: {{ forloop.index0 }}"
@@ -30,13 +44,21 @@
           {%- endcase -%}
         </span>
         <span class="vx-trust__copy">
-          <strong>{{ block.settings.title | escape | replace: '[threshold]', free_shipping_amount }}</strong>
+          <strong>
+            {%- if block.settings.use_free_shipping_message -%}
+              {{ settings.free_shipping_message | escape | replace: '[threshold]', free_shipping_amount }}
+            {%- else -%}
+              {{ block.settings.title | escape | replace: '[threshold]', free_shipping_amount }}
+            {%- endif -%}
+          </strong>
           {%- if block.settings.description != blank -%}<small>{{ block.settings.description | escape | replace: '[threshold]', free_shipping_amount }}</small>{%- endif -%}
         </span>
       </li>
+      {%- endunless -%}
     {%- endfor -%}
   </ul>
 </section>
+{%- endif -%}
 
 {% schema %}
 {
@@ -70,7 +92,7 @@
       "step": 50,
       "unit": "ms",
       "label": "Animation duration",
-      "default": 560
+      "default": 550
     }
   ],
   "blocks": [
@@ -98,6 +120,12 @@
           "default": "Secure checkout",
           "info": "Use [threshold] to insert the free-shipping threshold from Theme settings > Cart."
         },
+        {
+          "type": "checkbox",
+          "id": "use_free_shipping_message",
+          "label": "Use global free-shipping message",
+          "default": false
+        },
         { "type": "text", "id": "description", "label": "Description" }
       ]
     }
@@ -106,7 +134,7 @@
     {
       "name": "Vennix trust bar",
       "blocks": [
-        { "type": "badge", "settings": { "icon": "delivery", "title": "Free shipping", "description": "On orders over [threshold]" } },
+        { "type": "badge", "settings": { "icon": "delivery", "title": "Free shipping on orders over [threshold]", "use_free_shipping_message": true, "description": "" } },
         { "type": "badge", "settings": { "icon": "returns", "title": "30-day returns", "description": "Clear return window" } },
         { "type": "badge", "settings": { "icon": "secure", "title": "Secure checkout", "description": "Protected payments" } }
       ]

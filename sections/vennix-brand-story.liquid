@@ -14,26 +14,21 @@
   }
 
   /* ---- Editorial brand story ---------------------------------------------
-     Asymmetric 60/40 composition on desktop: image left, copy pulled
-     off-axis on the right; clean single column on mobile. */
+     Naadam-style centered values block: a portrait editorial image centered
+     above the serif headline, copy and a single quiet text link. */
   .vx-story__grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: clamp(2.8rem, 5vw, 4.8rem);
-  }
-
-  @media screen and (min-width: 990px) {
-    .vx-story__grid {
-      grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
-      gap: clamp(5rem, 8vw, 9.6rem);
-      align-items: start;
-    }
+    justify-items: center;
+    gap: clamp(3.2rem, 5vw, 5rem);
   }
 
   .vx-story__media {
     position: relative;
     display: block;
-    aspect-ratio: 4 / 3;
+    width: 100%;
+    max-width: 48rem;
+    aspect-ratio: 4 / 5;
     overflow: hidden;
     background: var(--v-neutral-warm);
   }
@@ -46,31 +41,18 @@
     object-position: center;
   }
 
-  /* Content column offset below the image top edge — quiet asymmetry. */
   .vx-story__content {
-    max-width: 50rem;
-  }
-
-  @media screen and (min-width: 990px) {
-    .vx-story__content {
-      padding-top: clamp(3rem, 6vh, 6.5rem);
-    }
-  }
-
-  .vx-story__eyebrow {
-    margin: 0 0 1.6rem;
-    color: #765b2a;
-    font-size: 1.05rem;
-    font-weight: 700;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
+    max-width: 64rem;
+    margin-inline: auto;
+    text-align: center;
   }
 
   .vx-story__heading {
-    margin: 0;
+    max-width: 22ch;
+    margin: 0 auto;
     color: rgb(var(--color-foreground));
     font-family: var(--font-heading-family);
-    font-size: clamp(3.2rem, 4.2vw, 5.2rem);
+    font-size: clamp(3rem, 4vw, 5rem);
     font-weight: 400;
     letter-spacing: -0.035em;
     line-height: 1.04;
@@ -78,7 +60,8 @@
   }
 
   .vx-story__text {
-    margin: 2.2rem 0 0;
+    max-width: 54rem;
+    margin: 2.2rem auto 0;
     color: rgba(var(--color-foreground), 0.68);
     font-size: var(--vennix-type-lead, 1.6rem);
     line-height: 1.7;
@@ -93,45 +76,81 @@
     margin-bottom: 0;
   }
 
-  .vx-story__button {
+  .vx-story__cta {
+    position: relative;
     display: inline-flex;
-    align-items: center;
-    gap: 1rem;
-    min-height: 5rem;
+    align-items: baseline;
     margin-top: 3.2rem;
+    padding-block: 0.6rem;
+    color: rgb(var(--color-foreground));
+    font-size: 1.2rem;
+    font-weight: 650;
+    letter-spacing: 0.2em;
+    line-height: 1.2;
+    text-decoration: none;
+    text-transform: uppercase;
   }
 
-  .vx-story__button svg {
-    width: 1.6rem;
-    height: 1.6rem;
+  .vx-story__cta::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 1px;
+    background: currentColor;
+    transform: scaleX(0.35);
+    transform-origin: center;
     transition: transform var(--vennix-motion-duration-fast, 240ms) var(--vennix-motion-ease, cubic-bezier(0.22, 0.61, 0.36, 1));
   }
 
-  .vx-story__button:hover svg,
-  .vx-story__button:focus-visible svg {
-    transform: translateX(4px);
+  .vx-story__cta:hover::after,
+  .vx-story__cta:focus-visible::after {
+    transform: scaleX(1);
   }
 
-  @media screen and (max-width: 989px) {
-    .vx-story__media {
-      order: -1;
-    }
+  /* Optional stat row (ported from the VENNIX storefront brand story). */
+  .vx-story__stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+    gap: 2.4rem;
+    margin: 4rem auto 0;
+    padding: 2.8rem 0 0;
+    border-top: 1px solid rgba(var(--color-foreground), 0.14);
+    list-style: none;
+  }
+
+  .vx-story__stat {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .vx-story__stat-value {
+    font-family: var(--font-heading-family);
+    font-size: clamp(2.8rem, 3.4vw, 4rem);
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    color: rgb(var(--color-foreground));
+  }
+
+  .vx-story__stat-label {
+    font-size: 1.1rem;
+    font-weight: 650;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(var(--color-foreground), 0.68);
   }
 
   @media screen and (max-width: 749px) {
     .vx-story__grid {
       gap: 3rem;
     }
-
-    .vx-story__button {
-      width: 100%;
-    }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .vx-story__button svg {
+    .vx-story__cta::after {
       transition: none;
-      transform: none;
     }
   }
 {%- endstyle -%}
@@ -155,7 +174,7 @@
               | image_url: width: 1600
               | image_tag:
                 widths: '500, 800, 1100, 1600',
-                sizes: '(min-width: 990px) calc((100vw - 16rem) * 0.53), 100vw',
+                sizes: '(min-width: 990px) 48rem, 100vw',
                 loading: 'lazy',
                 alt: section.settings.image.alt | default: section.settings.heading | escape
             }}
@@ -164,8 +183,8 @@
               src="{{ section.settings.image_asset | asset_url }}"
               alt="{{ section.settings.heading | escape }}"
               loading="lazy"
-              width="1408"
-              height="768"
+              width="928"
+              height="1152"
             >
           {%- else -%}
             {{ 'collection-apparel-2' | placeholder_svg_tag: 'placeholder-svg' }}
@@ -190,15 +209,51 @@
         {%- endif -%}
         {%- if section.settings.button_label != blank -%}
           <a
-            class="button button--primary vx-story__button vx-rise"
+            class="vx-story__cta vx-rise"
             style="--vx-index: 3"
             href="{{ section.settings.button_link | default: routes.all_products_collection_url }}"
           >
-            <span>{{ section.settings.button_label | escape }}</span>
-            <svg aria-hidden="true" viewBox="0 0 20 20" fill="none">
-              <path d="M4 10h11M11 6l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
+            {{ section.settings.button_label | escape }}
           </a>
+        {%- endif -%}
+        {%- capture story_stats -%}
+          {%- for block in section.blocks -%}
+            {%- if block.settings.value != blank -%}
+              {%- liquid
+                assign stat_raw = block.settings.value | strip
+                assign stat_clean = stat_raw | remove: ','
+                assign stat_number = stat_clean | plus: 0
+                assign stat_check = stat_number | append: ''
+                assign stat_decimals = 0
+                if stat_clean contains '.'
+                  assign stat_decimals = stat_clean | split: '.' | last | size
+                endif
+              -%}
+              <li class="vx-story__stat" {{ block.shopify_attributes }}>
+                <span
+                  class="vx-story__stat-value"
+                  {% if stat_check == stat_clean %}
+                    data-vx-count-to="{{ stat_number }}"
+                    data-vx-count-decimals="{{ stat_decimals }}"
+                    data-vx-count-prefix="{{ block.settings.prefix | escape }}"
+                    data-vx-count-suffix="{{ block.settings.suffix | escape }}"
+                  {% endif %}
+                >
+                  {{- block.settings.prefix | escape -}}
+                  {{- stat_raw | escape -}}
+                  {{- block.settings.suffix | escape -}}
+                </span>
+                {%- if block.settings.label != blank -%}
+                  <span class="vx-story__stat-label">{{ block.settings.label | escape }}</span>
+                {%- endif -%}
+              </li>
+            {%- endif -%}
+          {%- endfor -%}
+        {%- endcapture -%}
+        {%- if story_stats != blank -%}
+          <ul class="vx-story__stats vx-rise" style="--vx-index: 4" role="list">
+            {{- story_stats -}}
+          </ul>
         {%- endif -%}
       </div>
     </div>
@@ -222,7 +277,7 @@
       "type": "text",
       "id": "image_asset",
       "label": "Bundled image",
-      "default": "activewear.jpg",
+      "default": "vennix-product-fallback.jpg",
       "info": "Used when no image is selected. Enter an asset filename from the theme's assets folder. Placeholder — replace with your own photography."
     },
     { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "The Vennix difference" },
@@ -289,6 +344,19 @@
       "default": 80
     }
   ],
+  "blocks": [
+    {
+      "type": "stat",
+      "name": "Stat",
+      "settings": [
+        { "type": "text", "id": "value", "label": "Value", "info": "Numbers count up on scroll, e.g. 2019 or 4.8. Leave empty to hide." },
+        { "type": "text", "id": "prefix", "label": "Prefix" },
+        { "type": "text", "id": "suffix", "label": "Suffix", "info": "e.g. + or %" },
+        { "type": "text", "id": "label", "label": "Label" }
+      ]
+    }
+  ],
+  "max_blocks": 4,
   "presets": [
     {
       "name": "Vennix brand story"
