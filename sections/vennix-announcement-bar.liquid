@@ -1,8 +1,13 @@
 {%- liquid
   assign free_shipping_amount = settings.free_shipping_threshold | times: 100 | money_without_trailing_zeros
-  assign announcement_fingerprint = ''
+
+  # The dismissal key covers every value the shopper can read — each
+  # announcement's wording, link and global-message switch, plus the global
+  # free-shipping message and the threshold it prints — so editing any of them
+  # reveals a bar that was dismissed, as the setting's info text promises.
+  assign announcement_fingerprint = settings.free_shipping_message | append: '|' | append: free_shipping_amount | append: '|' | append: settings.free_shipping_enabled
   for block in section.blocks
-    assign announcement_fingerprint = announcement_fingerprint | append: block.settings.text | append: block.settings.use_free_shipping_message
+    assign announcement_fingerprint = announcement_fingerprint | append: block.settings.text | append: '|' | append: block.settings.link | append: '|' | append: block.settings.use_free_shipping_message
   endfor
   assign announcement_fingerprint = announcement_fingerprint | md5 | slice: 0, 10
 -%}

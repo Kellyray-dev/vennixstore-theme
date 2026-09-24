@@ -51,6 +51,7 @@
     data-product-url="{{ value.product_url }}"
     data-option-value-id="{{ value.id }}"
     data-option-name="{{ option.name | escape }}"
+    data-option-available="{% if option_disabled %}false{% else %}true{% endif %}"
   {%- endcapture -%}
 
   {%- capture label_unavailable -%}

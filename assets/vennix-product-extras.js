@@ -52,7 +52,16 @@
   }
 
   /* ================================================================ monogram */
+  // The paid value names the feature ("Monogram", "Monogram - gold"), but a
+  // plain value may name it too ("No Monogram", "Without monogram"), so a
+  // negated value never counts as personalisation.
   var MONOGRAM_RE = /monogram/i;
+  var MONOGRAM_NEGATED_RE = /^\s*(?:no|none|non|not|without)\b/i;
+
+  function isMonogramValue(value) {
+    var text = String(value == null ? '' : value);
+    return MONOGRAM_RE.test(text) && !MONOGRAM_NEGATED_RE.test(text);
+  }
 
   class VxMonogram extends HTMLElement {
     connectedCallback() {
@@ -111,15 +120,43 @@
     }
 
     isMonogramVariant(id) {
-      var v = this.findVariant(id);
-      return !!v && MONOGRAM_RE.test(v.title);
+      return this.variantHasMonogram(this.findVariant(id));
     }
 
-    /** Options that are not the personalisation option itself. */
+    /**
+     * Position of the personalisation option, read from the variants' option
+     * values. The title cannot be used for this: a plain value can name the
+     * feature as well ("No Monogram"), and then both values would look alike.
+     */
+    monogramOptionIndex() {
+      if (this.monoOptionIndex !== undefined) return this.monoOptionIndex;
+      var index = -1;
+      this.variants.forEach(function (variant) {
+        if (index !== -1) return;
+        var at = (variant.options || []).findIndex(isMonogramValue);
+        if (at !== -1) index = at;
+      });
+      this.monoOptionIndex = index;
+      return index;
+    }
+
+    /** Whether a variant opts into personalisation — its value at that option. */
+    variantHasMonogram(variant) {
+      var index = this.monogramOptionIndex();
+      return !!variant && index !== -1 && isMonogramValue((variant.options || [])[index]);
+    }
+
+    /**
+     * Options that are not the personalisation option itself. The position comes
+     * from the values, so a base variant whose value reads "None" rather than
+     * "No monogram" still lines up with its monogrammed twin.
+     */
     plainOptions(variant) {
-      return (variant.options || []).filter(function (o) { return !MONOGRAM_RE.test(o); });
+      var skip = this.monogramOptionIndex();
+      return (variant.options || []).filter(function (o, i) { return i !== skip; });
     }
 
+    /** Compare two variants option by option, ignoring the personalisation one. */
     sameOptions(a, b) {
       var pa = this.plainOptions(a);
       var pb = this.plainOptions(b);
@@ -128,15 +165,18 @@
 
     baseFor(monoVariant) {
       if (!monoVariant) return null;
-      return this.variants.find((v) => !MONOGRAM_RE.test(v.title) && this.sameOptions(v, monoVariant)) || null;
+      return this.variants.find((v) => !this.variantHasMonogram(v) && this.sameOptions(v, monoVariant)) || null;
     }
 
     monogramFor(baseId) {
       var base = this.findVariant(baseId);
-      var monos = this.variants.filter(function (v) { return MONOGRAM_RE.test(v.title); });
+      var monos = this.variants.filter((v) => this.variantHasMonogram(v));
       if (!monos.length) return null;
       if (!base) return null;
-      return monos.find((v) => this.sameOptions(v, base)) || (monos.length === 1 ? monos[0] : null);
+      // Only swap in a monogram variant whose other options match the shopper's
+      // selection. Falling back to a lone monogram variant would submit it for
+      // whatever size it was built for — the wrong item at the wrong price.
+      return monos.find((v) => this.sameOptions(v, base)) || null;
     }
 
     clean(value) {
@@ -371,6 +411,20 @@
       return match || size;
     }
 
+    /**
+     * Whether the picker marks this value as unavailable. Dawn uses the
+     * `disabled` class for buttons and `visually-disabled` for swatches; every
+     * value also carries `data-option-available` (product-variant-options.liquid),
+     * which is the only signal a dropdown option offers.
+     */
+    isUnavailable(el) {
+      if (!el) return true;
+      if (el.disabled) return true;
+      if (el.getAttribute('aria-disabled') === 'true') return true;
+      if (el.classList.contains('disabled') || el.classList.contains('visually-disabled')) return true;
+      return el.getAttribute('data-option-available') === 'false';
+    }
+
     apply(size) {
       var picker = document.getElementById('variant-selects-' + this.sectionId);
       if (!picker) return;
@@ -380,7 +434,7 @@
       ).filter((el) => el.dataset.optionName === this.optionName && (el.value === label || normal(el.value) === size));
       var el = candidates[0];
       if (!el) return;
-      if (el.classList.contains('disabled')) {
+      if (this.isUnavailable(el)) {
         toast(this.t.unavailable || '');
         return;
       }

@@ -86,22 +86,37 @@
   /* --------------------------------------------------------------- wishlist */
   var WISHLIST_KEY = 'vennix:wishlist';
 
+  function cleanWishlist(items) {
+    return Array.isArray(items) ? items.filter(function (h) { return typeof h === 'string' && h; }) : [];
+  }
+
+  // Mirrors storage so the wishlist keeps working when a write fails: with
+  // storage blocked or full, every later read would otherwise fall back to the
+  // stale saved list and the heart/count would snap back to it.
+  var wishlistCache = null;
+
+  function readWishlist() {
+    try {
+      wishlistCache = cleanWishlist(JSON.parse(localStorage.getItem(WISHLIST_KEY) || '[]'));
+    } catch (e) {
+      /* storage unavailable: whatever is already in memory is all we have */
+      if (!wishlistCache) wishlistCache = [];
+    }
+    return wishlistCache;
+  }
+
   var Wishlist = {
     list: function () {
-      try {
-        var items = JSON.parse(localStorage.getItem(WISHLIST_KEY) || '[]');
-        return Array.isArray(items) ? items.filter(function (h) { return typeof h === 'string' && h; }) : [];
-      } catch (e) {
-        return [];
-      }
+      return (wishlistCache || readWishlist()).slice();
     },
     save: function (items) {
+      wishlistCache = cleanWishlist(items);
       try {
-        localStorage.setItem(WISHLIST_KEY, JSON.stringify(items));
+        localStorage.setItem(WISHLIST_KEY, JSON.stringify(wishlistCache));
       } catch (e) {
-        /* storage full or blocked: keep working in-memory for this page */
+        /* storage full or blocked: the in-memory list drives the rest of the page */
       }
-      document.dispatchEvent(new CustomEvent('vennix:wishlist-change', { detail: { items: items } }));
+      document.dispatchEvent(new CustomEvent('vennix:wishlist-change', { detail: { items: wishlistCache.slice() } }));
     },
     has: function (handle) {
       return this.list().indexOf(handle) > -1;
@@ -127,6 +142,7 @@
   // Keep several open tabs in step.
   window.addEventListener('storage', function (event) {
     if (event.key === WISHLIST_KEY) {
+      wishlistCache = null; // re-read what the other tab saved
       document.dispatchEvent(new CustomEvent('vennix:wishlist-change', { detail: { items: Wishlist.list() } }));
     }
   });
@@ -197,6 +213,13 @@
    */
   class VxWishlistGrid extends HTMLElement {
     connectedCallback() {
+      if (this.ready) {
+        // Moved rather than recreated: the grid is still bound, and the cards and
+        // their dialogs are still ours.
+        this.render();
+        return;
+      }
+      this.ready = true;
       this.list = this.querySelector('[data-vx-wishlist-list]');
       this.empty = this.querySelector('[data-vx-wishlist-empty]');
       this.loading = this.querySelector('[data-vx-wishlist-loading]');
@@ -204,6 +227,9 @@
       this.countEl = this.querySelector('[data-vx-wishlist-total]');
       this.clearBtn = this.querySelector('[data-vx-wishlist-clear]');
       this.limit = parseInt(this.dataset.limit, 10) || 48;
+      // Dawn's quick-add dialogs reparent themselves to <body> when they connect,
+      // so a dialog outlives its card. Remember the dialogs each card owns.
+      this.modals = Object.create(null);
       this.render = debounce(this.render.bind(this), 60);
       document.addEventListener('vennix:wishlist-change', this.render);
       if (this.clearBtn) {
@@ -216,12 +242,41 @@
 
     disconnectedCallback() {
       document.removeEventListener('vennix:wishlist-change', this.render);
+      // The section is being re-rendered and this grid is not coming back, so
+      // its dialogs must not outlive it in <body>. The check is deferred because
+      // a moved element disconnects and reconnects in the same task.
+      var self = this;
+      setTimeout(function () {
+        if (self.isConnected) return;
+        Object.keys(self.modals).forEach(function (handle) {
+          self.releaseModals(handle);
+        });
+      }, 0);
+    }
+
+    /**
+     * Remove the quick-add dialogs a card left in <body> once its card is gone.
+     * Left behind they pile up, hold duplicate ids, and `ModalOpener` resolves
+     * `#QuickAdd-<id>` to the first match — a dialog whose card no longer exists.
+     */
+    releaseModals(handle) {
+      var modals = this.modals[handle];
+      delete this.modals[handle];
+      if (!modals) return;
+      modals.forEach(function (modal) {
+        modal.remove();
+      });
     }
 
     render() {
       var self = this;
       var handles = Wishlist.list().slice(0, this.limit);
       var token = (this.token = {});
+
+      // Saved items that are no longer in the grid take their dialogs with them.
+      Object.keys(this.modals).forEach(function (handle) {
+        if (handles.indexOf(handle) === -1) self.releaseModals(handle);
+      });
 
       if (!handles.length) {
         this.list.innerHTML = '';
@@ -252,7 +307,11 @@
               li.className = 'grid__item vx-wishlist__item';
               li.dataset.handle = handle;
               li.innerHTML = card.innerHTML;
-              return { handle: handle, node: li };
+              // The dialogs are still inside this detached card, so these are
+              // exactly its own: keep the elements themselves, because a reference
+              // survives the move to <body> and an id lookup does not.
+              var modals = Array.prototype.slice.call(li.querySelectorAll('quick-add-modal'));
+              return { handle: handle, node: li, modals: modals };
             })
             .catch(function (error) {
               // A deleted or unpublished product: drop it so the list self-heals.
@@ -264,7 +323,9 @@
         if (token !== self.token) return;
         var fragment = document.createDocumentFragment();
         results.forEach(function (r) {
-          if (r) fragment.appendChild(r.node);
+          if (!r) return;
+          if (r.modals && r.modals.length) self.modals[r.handle] = r.modals;
+          fragment.appendChild(r.node);
         });
         self.list.innerHTML = '';
         self.list.appendChild(fragment);
@@ -557,7 +618,10 @@
           } else {
             this.trigger.remove();
           }
-          history.replaceState(history.state, '', next);
+          // The address bar keeps the collection's first-page URL: the appended
+          // cards are a progressive enhancement of it, and the later page's URL
+          // only ever renders that later page — rewriting it would point a
+          // refresh, a share or a Back press at a view the shopper never saw.
           // Move focus to the first new product for keyboard and screen reader users.
           var focusTarget = firstNew && firstNew.querySelector('a[href]');
           if (focusTarget) focusTarget.focus({ preventScroll: true });
@@ -589,25 +653,71 @@
   });
 
   /* ---------------------------------------------- cart: attribute (gift note) */
+  // The latest value typed anywhere on the page, kept outside the element: Dawn
+  // re-renders the cart drawer footer — and with it this component — whenever the
+  // cart changes, and a message typed moments earlier must survive that swap.
+  var cartAttributeDrafts = Object.create(null);
+
   class VxCartAttribute extends HTMLElement {
     connectedCallback() {
       this.field = this.querySelector('textarea, input');
       if (!this.field) return;
-      this.onInput = debounce(this.save.bind(this), 400);
+      this.key = this.dataset.attribute || 'Gift message';
+      this.sent = this.field.value; // the value the markup was rendered with
+      this.onInput = this.queue.bind(this);
       this.field.addEventListener('input', this.onInput);
+
+      // The refresh may have been rendered from markup fetched before the last
+      // keystrokes reached the cart, so put the shopper's text back.
+      var draft = cartAttributeDrafts[this.key];
+      if (draft != null && draft !== this.field.value) {
+        this.field.value = draft;
+        var panel = this.closest('details');
+        if (panel) panel.open = true;
+        this.save();
+      }
+    }
+
+    disconnectedCallback() {
+      if (this.field) this.field.removeEventListener('input', this.onInput);
+      // The footer is being replaced: save now rather than waiting out the
+      // debounce, which would be dropped along with the element.
+      clearTimeout(this.timer);
+      this.timer = null;
+      if (this.field && this.field.value !== this.sent) this.save();
+    }
+
+    queue() {
+      // Remember the draft as it is typed, not when it is saved: the cart refresh
+      // can replace this element before the debounce — or even this element's
+      // own removal callback — runs.
+      cartAttributeDrafts[this.key] = this.field.value;
+      clearTimeout(this.timer);
+      this.timer = setTimeout(this.save.bind(this), 400);
     }
 
     save() {
+      clearTimeout(this.timer);
+      this.timer = null;
+      var value = this.field.value;
+      this.sent = value;
+      cartAttributeDrafts[this.key] = value;
       var body = {};
-      body[this.dataset.attribute || 'Gift message'] = this.field.value;
+      body[this.key] = value;
       var url = (window.routes && window.routes.cart_update_url) || root + 'cart/update';
-      fetch(url + '.js', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({ attributes: body }),
-      }).catch(function () {
-        /* the value is re-sent on the next keystroke */
-      });
+      // Writes are serialised so an earlier, slower request cannot land after a
+      // newer message and overwrite it.
+      this.writes = (this.writes || Promise.resolve())
+        .then(function () {
+          return fetch(url + '.js', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+            body: JSON.stringify({ attributes: body }),
+          });
+        })
+        .catch(function () {
+          /* the value is re-sent on the next keystroke */
+        });
     }
   }
   define('vx-cart-attribute', VxCartAttribute);
